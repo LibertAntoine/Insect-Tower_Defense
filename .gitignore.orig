@@ -1,0 +1,7 @@
+<<<<<<< HEAD
+/place-map/prog
+=======
+/place-map/prog
+*.swp
+/load-ppm/prog
+>>>>>>> PPM image loading
