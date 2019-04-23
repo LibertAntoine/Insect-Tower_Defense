@@ -171,7 +171,7 @@ int itd_getEnergyValue(FILE* file, MapData* mapData)
 }
 
 /**
- * Verify wether it is a keyword, if so, checks it's value
+ * Verify whether it is a keyword, if so, check it's value
  * The function sets the cursor back in it's original position if the line is invalid
  * In case it's of another type
  * param[in] file
