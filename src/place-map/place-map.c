@@ -1,4 +1,4 @@
-#include <SDL/SDL.h>
+#include <SDL2/SDL.h>
 #include <GL/gl.h>
 #include <GL/glu.h>
 #include <stdlib.h>
@@ -13,7 +13,7 @@ extern int Ysplit;
 /* Dimensions initiales et titre de la fenetre */
 static const unsigned int WINDOW_WIDTH = 800;
 static const unsigned int WINDOW_HEIGHT = 600;
-static const char WINDOW_TITLE[] = "";
+static const char WINDOW_TITLE[] = "test";
 
 /* Espace fenetre virtuelle */
 static const float GL_VIEW_WIDTH = 200.;
@@ -25,8 +25,8 @@ static const unsigned int BIT_PER_PIXEL = 32;
 /* Nombre minimal de millisecondes separant le rendu de deux images */
 static const Uint32 FRAMERATE_MILLISECONDS = 1000 / 60;
 
-void reshape(SDL_Surface** surface, unsigned int width, unsigned int height) {
-  SDL_Surface* surface_temp = SDL_SetVideoMode(width, height, BIT_PER_PIXEL, SDL_OPENGL | SDL_GL_DOUBLEBUFFER | SDL_RESIZABLE);
+void reshape(SDL_Window** surface, SDL_GLContext *GLcontext, unsigned int width, unsigned int height) {
+  SDL_Window* surface_temp = SDL_CreateWindow(WINDOW_TITLE, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, width, height, SDL_WINDOW_SHOWN | SDL_WINDOW_OPENGL);
   if(NULL == surface_temp) 
   {
     fprintf( stderr, "Erreur lors du redimensionnement de la fenetre.\n");
@@ -34,7 +34,15 @@ void reshape(SDL_Surface** surface, unsigned int width, unsigned int height) {
   }
   *surface = surface_temp;
 
-  glViewport(0, 0, (*surface)->w, (*surface)->h);
+  int window_width, window_height;
+  SDL_GetWindowSize(*surface, &window_width, &window_height);
+
+  if (*GLcontext == NULL) {
+    *GLcontext = SDL_GL_CreateContext(*surface);
+  }
+
+  glViewport(0, 0, window_width, window_height);
+  //glViewport(0, -window_height, window_width, window_height);
   glMatrixMode(GL_PROJECTION);
   glLoadIdentity();
   gluOrtho2D(0, Xsplit, Ysplit, 0);
@@ -44,18 +52,16 @@ void reshape(SDL_Surface** surface, unsigned int width, unsigned int height) {
 int main(int argc, char** argv) 
 {
   /* Initialisation de la SDL */
-  if(-1 == SDL_Init(SDL_INIT_VIDEO)) 
+  if(SDL_Init(SDL_INIT_VIDEO) < 0) 
   {
     fprintf( stderr, "Impossible d'initialiser la SDL. Fin du programme.\n");
     exit(EXIT_FAILURE);
   }
 
   /* Ouverture d'une fenetre et creation d'un contexte OpenGL */
-  SDL_Surface* surface;
-  reshape(&surface, WINDOW_WIDTH, WINDOW_HEIGHT);
-
-  /* Initialisation du titre de la fenetre */
-  SDL_WM_SetCaption(WINDOW_TITLE, NULL);
+  SDL_Window* surface;
+  SDL_GLContext GLcontext = NULL;
+  reshape(&surface, &GLcontext, WINDOW_WIDTH, WINDOW_HEIGHT);
 
   int mouse[2];
   SDL_GetMouseState(mouse, mouse+1);
@@ -68,6 +74,8 @@ int main(int argc, char** argv)
   for (int i=0; i<Xsplit*Ysplit; i++) {
     cases[i] = 0;
   }
+
+  SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 0);
 
   /* Boucle principale */
   int loop = 1;
@@ -85,10 +93,10 @@ int main(int argc, char** argv)
     int caseMouseX;
     int caseMouseY;
     case_getCaseCoordFromPixels(mouse[0], mouse[1], &caseMouseX, &caseMouseY, WINDOW_WIDTH, WINDOW_HEIGHT);
-    //display_drawSingleTower(caseMouseX, caseMouseY, HALF);
+    display_drawSingleTower(caseMouseX, caseMouseY, CENTRALE);
 
     /* Echange du front et du back buffer : mise a jour de la fenetre */
-    SDL_GL_SwapBuffers();
+    SDL_GL_SwapWindow(surface);
 
     /* Boucle traitant les evenements */
     SDL_Event e;
@@ -107,7 +115,6 @@ int main(int argc, char** argv)
         break;
       }
 
-      /* Quelques exemples de traitement d'evenements : */
       switch(e.type) 
       {
         case SDL_MOUSEBUTTONDOWN:
@@ -132,9 +139,10 @@ int main(int argc, char** argv)
 
           break;
 
-        /* Redimensionnement fenetre */
-        case SDL_VIDEORESIZE:
-          reshape(&surface, e.resize.w, e.resize.h);
+        case SDL_WINDOWEVENT:
+          if (e.window.event == SDL_WINDOWEVENT_RESIZED) {
+            reshape(&surface, &GLcontext, e.window.data1, e.window.data2);
+          }
           break;
 
         default:
