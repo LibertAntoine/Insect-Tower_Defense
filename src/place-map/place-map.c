@@ -123,7 +123,6 @@ int main(int argc, char** argv)
             }
             int central_range = 2;
             case_activateAllTowers(cases, central_range);
-
           }
           break;
 
