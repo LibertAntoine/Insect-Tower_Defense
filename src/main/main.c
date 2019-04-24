@@ -1,10 +1,11 @@
 #ifdef WIN32
     #include <GL/glew.h>
 #else
+    #include <GL/gl.h>
     #include <GL/glu.h>
 #endif
-#include <SDL.h>
-#include <SDL_image.h>
+#include <SDL/SDL.h>
+#include <SDL/SDL_image.h>
 
 #include <stdlib.h>
 #include <stdio.h>

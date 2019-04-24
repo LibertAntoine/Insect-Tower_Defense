@@ -1,6 +1,6 @@
 #include "draw.h"
 #include <GL/glew.h>
-#include <SDL.h>
+#include <SDL/SDL.h>
 #include <stdlib.h>
 #include <stdio.h>
 #define _USE_MATH_DEFINES
