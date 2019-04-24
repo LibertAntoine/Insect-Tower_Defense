@@ -2,3 +2,5 @@
 *.swp
 /load-ppm/prog
 /build
+/bin
+/.vscode
