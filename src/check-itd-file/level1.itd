@@ -8,5 +8,8 @@ chemin 125 112 0
 noeud 125 112 0
 in 125 112 0
 out 125 88 0
-# construct 125 68 0
+construct 125 68 0
 # Data characterized by a keyword can be placed in any order
+infosNoeud 2
+1 1 1 1 2 3
+4 4 4 4 5 6
