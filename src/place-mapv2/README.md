@@ -31,15 +31,15 @@ Buildings
 
 ## KEYBOARD CONTROLS
 Selecting construction types
-r - radar
-c - central
-a - armement
-m - munition
+* r - radar
+* c - central
+* a - armement
+* m - munition
 
-1 - laser
-2 - missile
+* 1 - laser
+* 2 - missile
 
 Changing mode
-p - add
-x - remove
-i - get info
+* p - add
+* x - remove
+* i - get info
