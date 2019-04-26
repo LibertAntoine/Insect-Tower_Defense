@@ -8,10 +8,6 @@
     #include <GL/glu.h>
 #endif
 
-#include <stdio.h>
-#include "itd-file.h"
-#include "ppm-loader.h"
-
 typedef enum TypeCase {
   LASER = 0,
   MISSILE,
@@ -31,15 +27,20 @@ typedef struct Plateau {
   int Xsplit;
   int Ysplit;
   TypeCase *cases;
+  int nbEntree; 
 } Plateau;
 
-int case_initPlateau(Plateau* plateau, MapData* mapdata);
+#include <stdio.h>
+#include "itd-file.h"
+#include "ppm-loader.h"
+
+int case_initPlateau(MapData* mapdata);
 int case_RGBCompare(RGBcolor color1, RGBcolor color2);
 
-int case_getCaseIndex(Plateau *plateau, int caseX, int caseY);
-int case_getType(Plateau *plateau, int caseX, int caseY);
-int case_getCaseCoordFromPixels(Plateau *plateau, int positionX, int positionY, int *caseX, int *caseY, int px_width, int px_height);
-int case_isEmpty(Plateau *plateau, int caseX, int caseY);
+int case_getCaseIndex(int caseX, int caseY);
+int case_getType(int caseX, int caseY);
+int case_getCaseCoordFromPixels(int positionX, int positionY, int *caseX, int *caseY, int px_width, int px_height);
+int case_isEmpty(int caseX, int caseY);
 
 #endif //CASES_H_
 

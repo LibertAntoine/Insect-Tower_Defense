@@ -1,5 +1,6 @@
 #include "ppm-loader.h"
 
+
 int ppm_checkValidType(char buffer[])
 {
   //printf("buffer : %s %c%c%d\n", buffer, buffer[0], buffer[1], buffer[2]);
@@ -36,7 +37,7 @@ void ppm_handleComments(FILE *image)
   }
 }
 
-char* ppm_loadImage(char path[], int* Xcases, int* Ycases)
+char* ppm_loadImage(char path[])
 {
 
   int width, height, color_value;
@@ -76,8 +77,10 @@ char* ppm_loadImage(char path[], int* Xcases, int* Ycases)
   ppm_gotoEndOfLine(image);
 
   fread(pixel_data, 3*width, height, image);
-  *Xcases = width;
-  *Ycases = height;
+  
+  plateau->Xsplit = width;
+  plateau->Ysplit = height;
+
   return pixel_data;
 
 }
