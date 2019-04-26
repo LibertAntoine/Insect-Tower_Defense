@@ -5,26 +5,19 @@
 
 #include "cases.h"
 
-typedef struct ConstructionData {
-  TypeCase type;
-  int degats;
-  int alimentation;
-  int cadence;
-  int portee;
-  int valeur_achat;
-  int valeur_revente;
-} ConstructionData;
 
-
-typedef struct Tour {
-  TypeCase type;
-  int degats;
-  int alimentation;
-  int cadence;
-  int portee;
-} Tour;
-
-
-int tour_getPrix(TypeCase type);
+// Functions
+void tour_initConstructionData();
+int tour_getDegats(TypeCase type);
+int tour_getAlimentation(TypeCase type);
+int tour_getCadence(TypeCase type);
+int tour_getRange(TypeCase type);
+int tour_getPortee(TypeCase type);
+int tour_getPrixAchat(TypeCase type);
+int tour_getPrixRevente(TypeCase type);
+Tour *tour_create(TypeCase type);
+int tour_countBatiments(TypeCase type, int index_case);
+void tour_completeInfo(TypeCase type, int index_case);
+void tour_add(TypeCase type, int index_case);
 
 #endif //TOUR_H_

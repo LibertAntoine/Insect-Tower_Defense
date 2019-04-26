@@ -10,8 +10,8 @@ int case_getCaseIndex(int caseX, int caseY)
 
 int case_getCaseCoordFromPixels(int positionX, int positionY, int *caseX, int *caseY, int px_width, int px_height)
 {
-  int case_width = px_width / Xsplit;
-  int case_height = px_height / Ysplit;
+  int case_width = px_width / plateau->Xsplit;
+  int case_height = px_height / plateau->Ysplit;
 
   if (positionX >= 0 && positionX < px_width && positionY >= 0 && positionY < px_height) {
     *caseX = positionX / case_width;
@@ -23,10 +23,10 @@ int case_getCaseCoordFromPixels(int positionX, int positionY, int *caseX, int *c
   }
 }
 
-int case_isEmpty(int caseX, int caseY, int cases[])
+int case_isConstructible(int caseX, int caseY)
 {
   int index_position = case_getCaseIndex(caseX, caseY);
-  if (cases[index_position]) {
+  if (plateau->cases[index_position] != TERRAIN) {
     return 0;
   }
   else {

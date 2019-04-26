@@ -7,25 +7,13 @@
 #include "tour.h"
 #include "cases.h"
 
-enum Action {
-  ADD,
-  GETINFO,
-  REMOVE
-};
-
-typedef struct Etat {
-  enum TypeCase type;
-  enum Action action;
-  int argent;
-} Etat;
 
 
 
 // Functions
-void player_afficherAction(Etat *joueur);
-
-void player_afficherEtat(Etat *joueur);
-
-int player_acheteTour(Etat *joueur, TypeCase type);
+void player_init();
+void player_afficherAction();
+void player_afficherEtat();
+int player_acheteConstruction(int caseX, int caseY);
 
 #endif //PLAYER_H_

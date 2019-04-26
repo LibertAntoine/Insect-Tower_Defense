@@ -6,10 +6,12 @@
 #include <math.h>
 
 // Custom header files
-#include "player.h"
 #include "cases.h"
+#include "player.h"
 #include "display.h"
 #include "tour.h"
+
+Plateau *plateau = NULL;
 
 static const unsigned int WINDOW_WIDTH = 800;
 static const unsigned int WINDOW_HEIGHT = 600;
@@ -20,7 +22,7 @@ static const unsigned int BIT_PER_PIXEL = 32;
 static const Uint32 FRAMERATE_MILLISECONDS = 1000 / 60;
 
 
-void reshape(Plateau *plateau, SDL_Window** surface, SDL_GLContext *GLcontext, unsigned int width, unsigned int height) {
+void reshape(SDL_Window** surface, SDL_GLContext *GLcontext, unsigned int width, unsigned int height) {
   SDL_Window* surface_temp = SDL_CreateWindow(WINDOW_TITLE, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, width, height, SDL_WINDOW_SHOWN | SDL_WINDOW_OPENGL);
   if(NULL == surface_temp) 
   {
@@ -54,30 +56,17 @@ int main(int argc, char** argv)
   int tmp_casesX = 10;
   int tmp_casesY = 10;
 
-  Plateau plateau;
-  case_initPlateau(&plateau, tmp_casesX, tmp_casesY);
+  case_initPlateau(tmp_casesX, tmp_casesY);
 
   /* Ouverture d'une fenetre et creation d'un contexte OpenGL */
   SDL_Window* surface;
   SDL_GLContext GLcontext = NULL;
-  reshape(&plateau, &surface, &GLcontext, WINDOW_WIDTH, WINDOW_HEIGHT);
+  reshape(&surface, &GLcontext, WINDOW_WIDTH, WINDOW_HEIGHT);
   SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 0);
 
-
-
   GLuint idGrid = glGenLists(1);
-  display_gridList(&plateau, idGrid);
+  display_gridList(idGrid);
 
-  int total_cases = plateau.Xsplit * plateau.Ysplit;
-  int *tours = calloc(total_cases, sizeof(Tour*));
-  // NOTE: Verify that allocation worked
-
-
-
-  Etat joueur;
-  joueur.argent = 1000;
-  joueur.action = ADD;
-  joueur.type = LASER;
 
 
   int pixelMouseX;
@@ -94,7 +83,7 @@ int main(int argc, char** argv)
 
     glClear(GL_COLOR_BUFFER_BIT);
 
-    display_drawAllTowers(&plateau);
+    display_drawBoard();
     glCallList(idGrid);
 
 
@@ -118,82 +107,111 @@ int main(int argc, char** argv)
         break;
       }
 
+      Etat *joueur = &(plateau->joueur);
+      TypeCase type = joueur->type;
+      Action action = joueur->action;
+
       switch(e.type) 
       {
         case SDL_MOUSEBUTTONDOWN:
           SDL_GetMouseState(&pixelMouseX, &pixelMouseY);
-          case_getCaseCoordFromPixels(&plateau, pixelMouseX, pixelMouseY, &caseMouseX, &caseMouseY, WINDOW_WIDTH, WINDOW_HEIGHT);
+          case_getCaseCoordFromPixels(pixelMouseX, pixelMouseY, &caseMouseX, &caseMouseY, WINDOW_WIDTH, WINDOW_HEIGHT);
           printf("\n\nmouse X -> %d\nmouse Y -> %d\n", caseMouseX, caseMouseY);
 
-          switch(joueur.action) {
+          switch(plateau->joueur.action) {
             case ADD:
-              if(case_isEmpty(&plateau, caseMouseX, caseMouseY)) {
-                int case_type = case_getType(&plateau, caseMouseX, caseMouseY);
-                if(player_acheteTour(&joueur, case_type)) {
-                  printf("Ajout de tour avec succes\n");
+              printf("invoking add\n");
+              if(case_isConstructible(caseMouseX, caseMouseY)) {
+                //int case_type = case_getType(caseMouseX, caseMouseY);
+                printf("Porte monaie : %d \n", plateau->joueur.argent);
+                if (player_acheteConstruction(caseMouseX, caseMouseY)) {
+                  printf("Ajout de tour avec succes, -%d\n", tour_getPrixAchat(case_getType(caseMouseX, caseMouseY)));
+                  printf("Porte monaie : %d \n", plateau->joueur.argent);
                 }
                 else {
                   printf("Vous n'avez pas assez\n");
                 }
               }
-              printf("invoking add\n");
+              else {
+                printf("This place is not available\n");
+              }
               break;
+
+
             case GETINFO:
-              printf("invoking info\n");
+              case_printInfos(caseMouseX, caseMouseY);
               break;
+
+
             case REMOVE:
               printf("invoking remove\n");
+
+              if (case_isUserPlaced(caseMouseX, caseMouseY)) {
+                printf("Suppression de tour avec succes, +%d\n", tour_getPrixRevente(case_getType(caseMouseX, caseMouseY)));
+                case_removeConstruction(caseMouseX, caseMouseY);
+                printf("Porte monaie : %d \n", plateau->joueur.argent);
+              }
+              else {
+                printf("You can only remove your buildings\n");
+              }
               break;
           }
-          break;
+      break;
 
         case SDL_WINDOWEVENT:
           if (e.window.event == SDL_WINDOWEVENT_RESIZED) {
-            reshape(&plateau, &surface, &GLcontext, e.window.data1, e.window.data2);
+            reshape(&surface, &GLcontext, e.window.data1, e.window.data2);
           }
           break;
 
         case SDL_KEYDOWN:
-          printf("Current ");
-          player_afficherEtat(&joueur);
-          printf(" // ");
-          player_afficherAction(&joueur);
-          printf("   --->    ");
           switch(e.key.keysym.sym) {
             case 'r':
-              joueur.type = RADAR;
+              type = RADAR;
               break;
             case 'a':
-              joueur.type = ARMEMENT;
+              type = ARMEMENT;
               break;
             case 'c':
-              joueur.type = CENTRALE;
+              type = CENTRALE;
               break;
             case 'm':
-              joueur.type = MUNITION;
+              type = MUNITION;
               break;
 
             case '1':
-              joueur.type = LASER;
+              type = LASER;
               break;
             case '2':
-              joueur.type = MISSILE;
+              type = MISSILE;
               break;
 
             case 'p':
-              joueur.action = ADD;
+              action = ADD;
               break;
             case 'i':
-              joueur.action = GETINFO;
+              action = GETINFO;
               break;
             case 'x':
-              joueur.action = REMOVE;
+              action = REMOVE;
               break;
           }
-          player_afficherEtat(&joueur);
-          printf(" // ");
-          player_afficherAction(&joueur);
-          printf("\n");
+          if (action != joueur->action) {
+            printf("Changing action ");
+            player_afficherAction();
+            printf(" --> ");
+            joueur->action = action;
+            player_afficherAction();
+            printf("\n");
+          }
+          if (type != joueur->type) {
+            printf("Changing tower type ");
+            player_afficherEtat();
+            printf(" --> ");
+            joueur->type = type;
+            player_afficherEtat();
+            printf("\n");
+          }
 
           break;
 

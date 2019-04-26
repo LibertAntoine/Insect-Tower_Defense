@@ -1,7 +1,16 @@
 #include "player.h"
 
-void player_afficherAction(Etat *joueur)
+void player_init()
 {
+  plateau->joueur.argent = 10000;
+  plateau->joueur.action = ADD;
+  plateau->joueur.type = LASER;
+
+}
+
+void player_afficherAction()
+{
+  Etat *joueur = &(plateau->joueur);
   char mode[20];
   switch(joueur->action) {
     case ADD:
@@ -17,8 +26,9 @@ void player_afficherAction(Etat *joueur)
   printf("%s", mode);
 }
 
-void player_afficherEtat(Etat *joueur)
+void player_afficherEtat()
 {
+  Etat *joueur = &(plateau->joueur);
   char mode[20];
   switch(joueur->type) {
     case RADAR:
@@ -44,14 +54,17 @@ void player_afficherEtat(Etat *joueur)
   printf("%s", mode);
 }
 
-int player_acheteTour(Etat *joueur, TypeCase type)
+int player_acheteConstruction(int caseX, int caseY)
 {
-  int prix = tour_getPrix(type);
+  Etat *joueur = &(plateau->joueur);
+
+  int prix = tour_getPrixAchat(joueur->type);
   if (joueur->argent < prix) {
     return 0;
   }
   else {
     joueur->argent -= prix;
+    case_addConstruction(caseX, caseY);
     return 1;
   }
 }
