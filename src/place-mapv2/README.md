@@ -35,7 +35,6 @@ Selecting construction types
 * c - central
 * a - armement
 * m - munition
-
 * 1 - laser
 * 2 - missile
 
