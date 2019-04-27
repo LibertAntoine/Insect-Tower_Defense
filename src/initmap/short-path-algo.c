@@ -2,38 +2,42 @@
 
 
 
-int getShortPath(MapData* mapdata, int* distances, Node* previous, int idOut) {
-    if (idOut > mapdata->nbNoeud -1 || idOut <= 0) {
+int getShortPath(InfosNodes* infosNodes) {
+    
+    
+    if (infosNodes->idOut > infosNodes->nbNoeud -1 || infosNodes->idOut <= 0) {
         return 0;
     }
-    int* idVisited = malloc(sizeof(int)*mapdata->nbNoeud);
-    fill(idVisited, mapdata->nbNoeud, 0);
-    fill(distances, mapdata->nbNoeud, plateau->Xsplit*plateau->Ysplit);
-    distances[idOut] = 0;
-    int i = idOut;
+    int* idVisited = malloc(sizeof(int)*infosNodes->nbNoeud);
+    fill(idVisited, infosNodes->nbNoeud, 0);
+    int* distances = malloc(sizeof(int)*infosNodes->nbNoeud);
+    fill(distances, infosNodes->nbNoeud, plateau->Xsplit*plateau->Ysplit);
+    distances[infosNodes->idOut] = 0;
+    Node* previous = malloc(sizeof(Node)*infosNodes->nbNoeud);
+    int i = infosNodes->idOut;
     int dis;
     while (i != -1) {
         idVisited[i] = 1;
         for(int j = 0; j < 4; j++)
         {   
 
-            if(mapdata->nodes[i].link[j] == -1) {break;}
-            else if (distances[i] + distanceNodes(mapdata->nodes[i], mapdata->nodes[mapdata->nodes[i].link[j]]) < distances[mapdata->nodes[i].link[j]]) { 
-                distances[mapdata->nodes[i].link[j]] = distances[i] + distanceNodes(mapdata->nodes[i], mapdata->nodes[mapdata->nodes[i].link[j]]);
-                previous[mapdata->nodes[i].link[j]] = mapdata->nodes[i];
+            if(infosNodes->nodes[i].link[j] == -1) {break;}
+            else if (distances[i] + distanceNodes(infosNodes->nodes[i], infosNodes->nodes[infosNodes->nodes[i].link[j]]) < distances[infosNodes->nodes[i].link[j]]) { 
+                distances[infosNodes->nodes[i].link[j]] = distances[i] + distanceNodes(infosNodes->nodes[i], infosNodes->nodes[infosNodes->nodes[i].link[j]]);
+                previous[infosNodes->nodes[i].link[j]] = infosNodes->nodes[i];
             }
         }
         i = -1;
         dis = plateau->Xsplit*plateau->Ysplit;
-        for(int k = 0; k < mapdata->nbNoeud; k++) {
+        for(int k = 0; k < infosNodes->nbNoeud; k++) {
             
             if(!idVisited[k] && dis >= distances[k]) { 
                 dis = distances[k];     
                 i = k;   
             }
         }
-        
     }
+    infosNodes->shortPaths = previous;
 }
 
 
@@ -52,27 +56,4 @@ double distanceNodes(Node StartNode, Node ArrivedNode) {
         return 0;
     }
 }
-int getIdEntrees(MapData* mapData, int* idEntrees) {
-    int j = 0;
-    for (int i = 0; i < mapData->nbNoeud; i++)
-    {
-        if(mapData->nodes[i].type == 2) {
-            idEntrees[j] = mapData->nodes[i].id;
-            j++;
-        }
-    }
-    if (plateau->nbEntree != j) {
-        return 0;
-    } else {
-        return 1;
-    }
-}
 
-int getIdOut(MapData* mapData) {
-    for (int i = 0; i < mapData->nbNoeud; i++)
-    {
-        if(mapData->nodes[i].type == 3) {
-            return mapData->nodes[i].id;
-        }
-    }
-}

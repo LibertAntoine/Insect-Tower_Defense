@@ -7,11 +7,8 @@
 
 extern Plateau* plateau;
 
-int getShortPath(MapData* mapdata, int* distances, Node* previous, int idIn);
+int getShortPath(InfosNodes* infosNodes);
 void fill(int* array, int size, int value);
 double distanceNodes(Node StartNode, Node ArrivedNode);
-int getIdEntrees(MapData* mapData, int* idEntrees);
-int getIdOut(MapData* mapData);
-
 
 #endif //SHORT_PATH_ALGO_H_
