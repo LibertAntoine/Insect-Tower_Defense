@@ -27,7 +27,6 @@ typedef struct Plateau {
   int Xsplit;
   int Ysplit;
   TypeCase *cases;
-  int nbEntree; 
 } Plateau;
 
 #include <stdio.h>

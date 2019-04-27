@@ -22,17 +22,25 @@ typedef struct Node {
   int link[4];
 } Node;
 
+typedef struct InfosNodes {
+  int nbNoeud;
+  int nbEntrees;
+  int idOut;
+  int* idEntrees;
+  Node* nodes;
+  Node* shortPaths;
+} InfosNodes;
+
 typedef struct MapData {
   char* mapFile;
   int energy;
-  int nbNoeud;
   RGBcolor pathCol;
   RGBcolor nodeCol;
   RGBcolor buildingCol;
   RGBcolor inCol;
   RGBcolor outCol;
   unsigned char contentState; 
-  Node* nodes;
+  InfosNodes* infosNodes;
 } MapData;
 
 /**
@@ -90,6 +98,8 @@ int itd_getColor(FILE* file, RGBcolor* RGBColor);
  * param[in] * MapData MapData 
  */
 int itd_getInfosNodes(FILE* file, MapData* MapData);
+
+int getIdEntrees(MapData* mapdata);
 
 /**
  * Verify whether it is a keyword, if so, check it's value

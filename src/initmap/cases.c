@@ -15,7 +15,6 @@ int case_initPlateau(MapData* mapdata)
     
   TypeCase* cases = malloc(sizeof(int)*mapdata->energy);
   RGBcolor* pixel_ppm = malloc(sizeof(RGBcolor));
-  plateau->nbEntree = 0;
   int nbSortie = 0;
   
   for(int i = 0; i < plateau->Xsplit*plateau->Ysplit; i++) {
@@ -30,7 +29,6 @@ int case_initPlateau(MapData* mapdata)
         cases[i] = TERRAIN;
     } else if (case_RGBCompare(*pixel_ppm, mapdata->inCol)) {
         cases[i] = ENTREE;
-        plateau->nbEntree++;
     } else if (case_RGBCompare(*pixel_ppm, mapdata->outCol)) {
         cases[i] = SORTIE;
         nbSortie++;
@@ -38,9 +36,6 @@ int case_initPlateau(MapData* mapdata)
       return 0;
     }
     //printf("%d ", cases[i]);
-  }
-  if(plateau->nbEntree == 0 ||  plateau->nbEntree > mapdata->nbNoeud) {
-    return 0;
   }
   if(nbSortie != 1) {
     return 0;

@@ -133,7 +133,7 @@ int itd_getInfosNodes(FILE* file, MapData* MapData) {
         nodes[i].link[0] = connect[0];
         nodes[i].link[1] = connect[1];
         nodes[i].link[2] = connect[2];
-        nodes[i].link[3] = connect[3];
+        nodes[i].link[3] = connect[3]; 
       } else {
         return CHK_ERROR_FILE;
       }

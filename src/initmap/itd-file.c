@@ -114,9 +114,10 @@ int itd_getInfosNodes(FILE* file, MapData* MapData) {
     return CHK_ERROR_FILE;
   }
   else {
-    MapData->nbNoeud = nbNoeud;
     itd_gotoEndOfLine(file);
     Node* nodes = malloc(sizeof(Node)*nbNoeud);
+    int nbEntree = 0;
+    int idOut = -1;
     for (int i = 0; i < nbNoeud; i++)
     {
       int id, type, x, y;
@@ -134,18 +135,56 @@ int itd_getInfosNodes(FILE* file, MapData* MapData) {
         nodes[i].link[1] = connect[1];
         nodes[i].link[2] = connect[2];
         nodes[i].link[3] = connect[3];
-
-        
+        if(type == 2) {
+          nbEntree++;
+        } else if (type == 3) {
+            if (idOut == -1) {
+              idOut = id;
+            } else {
+              return CHK_ERROR_FILE;
+            }
+        }
       } else {
         return CHK_ERROR_FILE;
       }
     }
-    MapData->nodes = nodes;
     
+    if (nbEntree <= 0 || nbEntree > nbNoeud - 1) {
+      
+      return CHK_ERROR_FILE;
+    }
+    if (idOut == -1) {
+      
+      return CHK_ERROR_FILE;
+    }
+    InfosNodes* infosNodes = malloc(sizeof(infosNodes));
+    infosNodes->nbNoeud = nbNoeud;
+    infosNodes->nodes = nodes;
+    infosNodes->nbEntrees = nbEntree;
+    infosNodes->idOut = idOut;
+    MapData->infosNodes = infosNodes;
+    getIdEntrees(MapData);
     return CHK_SUCCESS;
   }
 }
 
+int getIdEntrees(MapData* mapdata) {
+    int* idEntrees = malloc(sizeof(int)*mapdata->infosNodes->nbEntrees);
+    int j = 0;
+    for (int i = 0; i < mapdata->infosNodes->nbNoeud; i++)
+    {
+        if(mapdata->infosNodes->nodes[i].type == 2) {
+            idEntrees[j] = mapdata->infosNodes->nodes[i].id;
+            j++;
+        }
+    }
+    if (mapdata->infosNodes->nbEntrees != j) {
+        return CHK_ERROR_FILE;
+    } else {
+        mapdata->infosNodes->idEntrees = idEntrees;
+        return CHK_SUCCESS;
+    }
+}
 
 int itd_getImageFilePath(FILE* file, MapData* mapData)
 {

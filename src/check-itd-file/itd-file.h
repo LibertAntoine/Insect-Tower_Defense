@@ -9,9 +9,9 @@
 #define FIRST_PARAMETER_ARG 1
 
 typedef struct RGBcolor {
-  char red;
-  char green;
-  char blue;
+  unsigned char red;
+  unsigned char green;
+  unsigned char blue;
 } RGBcolor;
 
 typedef struct Node {
