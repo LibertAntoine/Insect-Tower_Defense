@@ -8,6 +8,9 @@
     #include <GL/glu.h>
 #endif
 
+
+
+
 typedef enum GeneralType {
   TOUR = 1,
   BATIMENT = 2,

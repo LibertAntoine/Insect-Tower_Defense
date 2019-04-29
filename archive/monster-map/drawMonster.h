@@ -4,7 +4,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "cases.h"
-#include "monster.h"
 
 #ifdef _WIN32
     #include <GL/glew.h>
@@ -13,7 +12,12 @@
     #include <GL/glu.h>
 #endif
 
-void display_drawSingleMonster(Monster* monster);
-int display_drawMonsters(ListMonsters* listmonsters);
+typedef enum TypeMonster {
+  SOLDER,
+  FIRST_SOLDER,
+  GENERAL
+} TypeCase;
+
+void display_drawSingleMonster(int X, int Y, TypeCase type);
 
 #endif //DRAW_MONSTER_H_

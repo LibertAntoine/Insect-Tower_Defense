@@ -1,8 +1,12 @@
 #ifndef DISPLAY_H_
 #define DISPLAY_H_
 
-#include <GL/gl.h>
-#include <GL/glu.h>
+#ifdef _WIN32
+    #include <GL/glew.h>
+#else
+    #include <GL/gl.h>
+    #include <GL/glu.h>
+#endif
 
 #include "cases.h"
 

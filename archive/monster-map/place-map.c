@@ -1,11 +1,21 @@
 #include <SDL2/SDL.h>
-#include <GL/gl.h>
-#include <GL/glu.h>
+
+#ifdef _WIN32
+    #include <GL/glew.h>
+#else
+    #include <GL/gl.h>
+    #include <GL/glu.h>
+#endif
+
 #include <stdlib.h>
 #include <stdio.h>
+
 #include <math.h>
+
 #include "cases.h"
 #include "display.h"
+#include "monster.h"
+#include "drawMonster.h"
 
 extern int Xsplit;
 extern int Ysplit;
@@ -58,6 +68,14 @@ int main(int argc, char** argv)
     exit(EXIT_FAILURE);
   }
 
+  #ifdef _WIN32 
+  if(glewInit() == 0)
+  {
+    fprintf( stderr, "Impossible d'initialiser Glew. Fin du programme.\n");
+    exit(EXIT_FAILURE);
+  }
+  #endif
+
   /* Ouverture d'une fenetre et creation d'un contexte OpenGL */
   SDL_Window* surface;
   SDL_GLContext GLcontext = NULL;
@@ -66,11 +84,11 @@ int main(int argc, char** argv)
   int mouse[2];
   SDL_GetMouseState(mouse, mouse+1);
 
-  GLuint idGrid = glGenLists(1);
+  int idGrid = glGenLists(1);
   display_gridList(idGrid);
 
   int total_cases = Xsplit*Ysplit;
-  int cases[total_cases];
+  int cases[100];
   for (int i=0; i<Xsplit*Ysplit; i++) {
     cases[i] = 0;
   }
@@ -93,7 +111,7 @@ int main(int argc, char** argv)
     int caseMouseX;
     int caseMouseY;
     case_getCaseCoordFromPixels(mouse[0], mouse[1], &caseMouseX, &caseMouseY, WINDOW_WIDTH, WINDOW_HEIGHT);
-    display_drawSingleTower(caseMouseX, caseMouseY, CENTRALE);
+    display_drawSingleMonster(caseMouseX, caseMouseY, SOLDER);
 
     /* Echange du front et du back buffer : mise a jour de la fenetre */
     SDL_GL_SwapWindow(surface);

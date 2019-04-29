@@ -1,11 +1,12 @@
 #include "monster.h"
 
 
-Monster* createMonster(int PDV, int strength) 
+Monster* createMonster(int PDV, int strength, int speed) 
 {
     Monster* monster = (Monster*) malloc(sizeof(Monster)); 
     monster->PDV = PDV;
     monster->strength = strength;
+    monster->speed = speed;
     return monster;
 }
 
@@ -20,5 +21,4 @@ void attackMonster(Monster* monster, int domage)
 void killMonster(Monster* monster) 
 {
     free(monster);
-    printf("kill");
 }

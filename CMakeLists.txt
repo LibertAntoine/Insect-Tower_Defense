@@ -6,19 +6,19 @@ project(opengl2)
 file(
     GLOB_RECURSE
     MY_SOURCES
-    src/main/*.c
+    src/initmap/*.c
 ) # To update depending on the ex wanted
 
 # Linker
 find_package(OpenGL REQUIRED)
 
 include_directories( # Search directories for .h files
-    src
+    src/initmap
     ${OPENGL_INCLUDE_DIR}
 )
 include_directories( # Search directories for .h files
-windows/dependencies/SDL2-2.0.9/include
-windows/dependencies/glew-2.1.0/include
+    windows/dependencies/SDL2-2.0.9/include
+    windows/dependencies/glew-2.1.0/include
 )
 
 
@@ -31,7 +31,6 @@ add_executable(${PROJECT_NAME} ${MY_SOURCES})
         ${OPENGL_LIBRARIES}
     )  
 if(WIN32)
-
     target_link_libraries(
         ${PROJECT_NAME}
         ${CMAKE_SOURCE_DIR}/windows/dependencies/SDL2-2.0.9/lib/x86/SDL2.lib

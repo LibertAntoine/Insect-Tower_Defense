@@ -1,4 +1,4 @@
-#include "short-path-algo.h"
+#include "itineraire.h"
 
 int getShortPath(InfosNodes* infosNodes) {
     

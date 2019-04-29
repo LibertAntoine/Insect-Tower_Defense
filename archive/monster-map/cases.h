@@ -1,9 +1,14 @@
 #ifndef CASES_H_
 #define CASES_H_
 
+#ifdef _WIN32
+    #include <GL/glew.h>
+#else
+    #include <GL/gl.h>
+    #include <GL/glu.h>
+#endif
+
 #include <stdio.h>
-#include <GL/gl.h>
-#include <GL/glu.h>
 
 int Xsplit;
 int Ysplit;

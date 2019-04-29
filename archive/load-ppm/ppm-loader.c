@@ -27,7 +27,7 @@ void ppm_handleComments(FILE *image)
   fscanf(image, "%s", buffer);
   //printf("comment character :%c\n", buffer[0]);
   if (buffer[0] == '#') {
-    printf("skipping one comment\n");
+    //printf("skipping one comment\n");
     ppm_gotoEndOfLine(image);
     ppm_handleComments(image);
   }
@@ -36,11 +36,13 @@ void ppm_handleComments(FILE *image)
   }
 }
 
-int ppm_loadImage(char path[])
+char* ppm_loadImage(char path[], int* Xcases, int* Ycases)
 {
+
   int width, height, color_value;
 
   FILE* image = fopen(path, "rb");
+  
   if (!image) {
     printf("Image couldn't be loaded, interupting program\n");
     return EXIT_FAILURE;
@@ -65,7 +67,7 @@ int ppm_loadImage(char path[])
   ppm_handleComments(image);
 
   //Read actual image data
-  unsigned char *pixel_data = malloc(sizeof(unsigned char)*3*width*height);
+  unsigned char* pixel_data = malloc(sizeof(unsigned char)*3*width*height);
   if (!pixel_data) {
     printf("Couldn't initialize array of pixels\n");
     return EXIT_FAILURE;
@@ -73,9 +75,9 @@ int ppm_loadImage(char path[])
 
   ppm_gotoEndOfLine(image);
 
-  // Insert data in array pixel_data
-  // TODO: process data according to ITD file
   fread(pixel_data, 3*width, height, image);
-  return 1;
+  *Xcases = width;
+  *Ycases = height;
+  return pixel_data;
 
 }

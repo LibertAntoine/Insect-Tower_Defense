@@ -1,4 +1,4 @@
-#ifdef WIN32
+#ifdef _WIN32
     #include <GL/glew.h>
 #else
     #include <GL/gl.h>
@@ -18,7 +18,7 @@
 /* Dimensions initiales et titre de la fenetre */
 static const unsigned int WINDOW_WIDTH = 600;
 static const unsigned int WINDOW_HEIGHT = 600;
-static const char WINDOW_TITLE[] = "TD04";
+static const char WINDOW_TITLE[] = "Main";
 
 /* Espace fenetre virtuelle */
 static const float GL_VIEW_WIDTH = 200.;
@@ -51,7 +51,6 @@ int main(int argc, char** argv) {
     SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
     SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
 
-    float pi = M_PI;
 
 	surface = SDL_CreateWindow(WINDOW_TITLE, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, WINDOW_WIDTH, WINDOW_HEIGHT, SDL_WINDOW_SHOWN | SDL_WINDOW_OPENGL);
 	if (NULL == surface) {
@@ -63,8 +62,9 @@ int main(int argc, char** argv) {
 
 	SDL_GLContext contexteOpenGL = SDL_GL_CreateContext(surface);
 
-
-glewInit();
+    #ifdef _WIN32 
+    glewInit();
+    #endif
 
     GLuint idLogo = glGenLists(1);
     glNewList(idLogo, GL_COMPILE);

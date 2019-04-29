@@ -152,21 +152,6 @@ void display_drawRanges()
   }
 }
 
-/*
-void display_drawAllTowers()
-{
-  int total_cases = plateau->Xsplit * plateau->Ysplit;
-
-  for (int i=0; i < total_cases; i++) {
-    int Y = i / plateau->Xsplit;
-    int X = i % plateau->Xsplit;
-
-    TypeCase towerType = plateau->cases[i];
-    display_drawSingleTower(X, Y, towerType);
-  }
-}
-*/
-
 void display_drawBoard()
 {
   int total_cases = plateau->Xsplit * plateau->Ysplit;
