@@ -9,7 +9,7 @@ int case_initPlateau(MapData* mapdata)
   pixel_data = ppm_loadImage(mapdata->mapFile);
    
   if(plateau->Xsplit*plateau->Ysplit != mapdata->energy) {
-    printf("LOL");
+
     return 0;
   }     
     
