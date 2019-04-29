@@ -19,6 +19,7 @@
 #include "waves.h"
 #include "player.h"
 #include "tour.h"
+#include "itineraire.h"
 
 
 extern Plateau* plateau;
@@ -39,26 +40,9 @@ static const unsigned int BIT_PER_PIXEL = 32;
 static const Uint32 FRAMERATE_MILLISECONDS = 1000 / 60;
 
 void reshape(SDL_Window** surface, SDL_GLContext *GLcontext, unsigned int width, unsigned int height) {
-  SDL_Window* surface_temp = SDL_CreateWindow(WINDOW_TITLE, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, width, height, SDL_WINDOW_SHOWN | SDL_WINDOW_OPENGL);
-  if(NULL == surface_temp) 
-  { 
-    fprintf( stderr, "Erreur lors du redimensionnement de la fenetre.\n");
-    exit(EXIT_FAILURE);
-  }
-  *surface = surface_temp;
 
-  int window_width, window_height;
-  SDL_GetWindowSize(*surface, &window_width, &window_height);
 
-  if (*GLcontext == NULL) {
-    *GLcontext = SDL_GL_CreateContext(*surface);
-  }
 
-  glViewport(0, 0, window_width, window_height);
-  //glViewport(0, -window_height, window_width, window_height);
-  glMatrixMode(GL_PROJECTION);
-  glLoadIdentity();
-  gluOrtho2D(1, plateau->Xsplit +1 , plateau->Ysplit +1, 1);
 }
 
 int main(int argc, char *argv[])
@@ -67,13 +51,14 @@ int main(int argc, char *argv[])
     MapData* mapData = itd_initMapData();
     
     idt_load("level2.itd", mapData);
+    
     case_initPlateau(mapData);
+    
     getShortPath(mapData->infosNodes);
+    
     ListMonsters* listMonsters = initListMonsters();
 
-    createMonster(listMonsters, mapData->infosNodes, SOLDER, 2);
-  Uint32 beginMomentLevel = SDL_GetTicks();
-
+  
 
     if(SDL_Init(SDL_INIT_VIDEO) < 0) 
   {
@@ -81,18 +66,37 @@ int main(int argc, char *argv[])
     exit(EXIT_FAILURE);
   }
 
+
+
+ /* Ouverture d'une fenetre et creation d'un contexte OpenGL */
+      SDL_Window* surface = SDL_CreateWindow(WINDOW_TITLE, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, WINDOW_WIDTH, WINDOW_HEIGHT, SDL_WINDOW_SHOWN | SDL_WINDOW_OPENGL);
+  if(NULL == surface) 
+  { 
+    fprintf( stderr, "Erreur lors du redimensionnement de la fenetre.\n");
+    exit(EXIT_FAILURE);
+  }
+
+  SDL_GLContext GLcontext = SDL_GL_CreateContext(surface);
+
   #ifdef _WIN32 
-  if(glewInit() == 0)
+  if(glewInit() != 0)
   {
     fprintf( stderr, "Impossible d'initialiser Glew. Fin du programme.\n");
     exit(EXIT_FAILURE);
   }
   #endif
 
- /* Ouverture d'une fenetre et creation d'un contexte OpenGL */
-  SDL_Window* surface;
-  SDL_GLContext GLcontext = NULL;
-  reshape(&surface, &GLcontext, WINDOW_WIDTH, WINDOW_HEIGHT);
+  glViewport(0, 0, WINDOW_WIDTH , WINDOW_HEIGHT);
+  glMatrixMode(GL_PROJECTION);
+  glLoadIdentity();
+  gluOrtho2D(1, plateau->Xsplit+1, plateau->Ysplit+1, 1);
+
+
+
+
+
+
+
 
   SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 0);
 
@@ -104,6 +108,9 @@ int main(int argc, char *argv[])
 
   int caseMouseX;
   int caseMouseY;
+
+Uint32 beginMomentLevel = SDL_GetTicks();
+
 
 /* Boucle principale */
   int loop = 1;
@@ -123,6 +130,7 @@ int main(int argc, char *argv[])
     moveAllMonster(listMonsters);
     
     display_drawAllMonsters(listMonsters);
+    
     /* Echange du front et du back buffer : mise a jour de la fenetre */
     SDL_GL_SwapWindow(surface);
 
@@ -253,6 +261,7 @@ switch(e.type)
         default:
           break;
       }
+      
     }
 
     

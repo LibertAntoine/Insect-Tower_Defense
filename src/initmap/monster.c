@@ -10,7 +10,7 @@ ListMonsters* initListMonsters()
 
     dataMonsters->PDV = malloc(sizeof(int)*4);
     dataMonsters->strength = malloc(sizeof(int)*4);
-    dataMonsters->mass = malloc(sizeof(int)*4);
+    dataMonsters->mass = malloc(sizeof(double)*4);
 
     dataMonsters->PDV[SOLDER] = 1;
     dataMonsters->strength[SOLDER] = 1;
@@ -29,7 +29,6 @@ ListMonsters* initListMonsters()
     dataMonsters->mass[BOSS] = 1.0;
     
     listMonsters->dataMonsters = dataMonsters;
-
     
     return listMonsters;
 }

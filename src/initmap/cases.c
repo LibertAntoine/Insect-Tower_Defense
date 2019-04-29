@@ -73,7 +73,7 @@ int case_RGBCompare(RGBcolor color1, RGBcolor color2) {
 
 int case_getCaseIndex(int caseX, int caseY)
 {
-  return (caseY) * plateau->Xsplit + (caseX);
+  return caseY*plateau->Xsplit + caseX;
 }
 
 void case_getCasePosition(int caseIndex, int* caseX, int* caseY)
@@ -84,7 +84,7 @@ void case_getCasePosition(int caseIndex, int* caseX, int* caseY)
 
 int case_getType(int caseX, int caseY)
 {
-  int index_case = case_getCaseIndex(plateau, caseX, caseY);
+  int index_case = case_getCaseIndex(caseX, caseY);
   return plateau->cases[index_case];
 }
 
