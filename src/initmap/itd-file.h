@@ -8,6 +8,13 @@
 
 #define FIRST_PARAMETER_ARG 1
 
+typedef enum TypeMonster {
+  SOLDER,
+  HUGE_SOLDER,
+  GERERAL,
+  BOSS
+} TypeMonster;
+
 typedef struct RGBcolor {
   unsigned char red;
   unsigned char green;
@@ -17,8 +24,8 @@ typedef struct RGBcolor {
 typedef struct Node {
   int id;
   int type;
-  int x;
-  int y;
+  double x;
+  double y;
   int link[4];
 } Node;
 
@@ -28,8 +35,25 @@ typedef struct InfosNodes {
   int idOut;
   int* idEntrees;
   Node* nodes;
-  Node* shortPaths;
+  Node** shortPaths;
 } InfosNodes;
+
+typedef struct Wave Wave;
+struct Wave {
+  int nbWave;
+  float timeBegin;
+  float freq;
+  float random;
+  float nextMonster;
+  int nbMonster;
+  int* monsters;
+  Wave* next;
+};
+
+typedef struct ListWaves {
+  int nbWaves;
+  Wave* next;
+} ListWaves;
 
 typedef struct MapData {
   char* mapFile;
@@ -39,8 +63,9 @@ typedef struct MapData {
   RGBcolor buildingCol;
   RGBcolor inCol;
   RGBcolor outCol;
-  unsigned char contentState; 
+  unsigned int contentState; 
   InfosNodes* infosNodes;
+  ListWaves* listWaves;
 } MapData;
 
 /**
@@ -101,6 +126,8 @@ int itd_getInfosNodes(FILE* file, MapData* MapData);
 
 int getIdEntrees(MapData* mapdata);
 
+int itd_getInfosWaves(FILE* file, MapData* MapData);
+int addToWaves(ListWaves* listWaves, Wave* wave);
 /**
  * Verify whether it is a keyword, if so, check it's value
  * The function sets the cursor back in it's original position if the line is invalid

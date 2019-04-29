@@ -8,7 +8,8 @@ enum MapDataContent {
   MDATA_PATH = 16,
   MDATA_CONSTRUCT = 32,
   MDATA_NODE = 64,
-  MDATA_INFOSNODE = 128
+  MDATA_INFOSNODE = 128,
+  MDATA_WAVES = 256
 };
 
 enum Operations {
@@ -110,7 +111,7 @@ int itd_getColor(FILE* file, RGBcolor* RGBColor) {
 int itd_getInfosNodes(FILE* file, MapData* MapData) {
   int nbNoeud;
   int noOfNoeud = fscanf_s(file, "%d", &nbNoeud);
-  if (noOfNoeud != 1 || nbNoeud < 0) {
+  if (noOfNoeud != 1 || nbNoeud <= 0) {
     return CHK_ERROR_FILE;
   }
   else {
@@ -120,12 +121,13 @@ int itd_getInfosNodes(FILE* file, MapData* MapData) {
     int idOut = -1;
     for (int i = 0; i < nbNoeud; i++)
     {
-      int id, type, x, y;
+      int id, type;
+      double x, y;
       int connect[4] = {-1, -1, -1, -1};
       itd_checkComment(file);
       char line[100];
-      fgets (line, 100 ,file);
-      if(sscanf(line, "%d %d %d %d %d %d %d %d", &id, &type, &x, &y, 
+      fgets(line, 100 ,file);
+      if(sscanf(line, "%d %d %lf %lf %d %d %d %d", &id, &type, &x, &y, 
       &connect[0], &connect[1], &connect[2], &connect[3])) {
         nodes[i].id = id;
         nodes[i].type = type;
@@ -157,7 +159,7 @@ int itd_getInfosNodes(FILE* file, MapData* MapData) {
       
       return CHK_ERROR_FILE;
     }
-    InfosNodes* infosNodes = malloc(sizeof(infosNodes));
+    InfosNodes* infosNodes = malloc(sizeof(InfosNodes));
     infosNodes->nbNoeud = nbNoeud;
     infosNodes->nodes = nodes;
     infosNodes->nbEntrees = nbEntree;
@@ -185,6 +187,99 @@ int getIdEntrees(MapData* mapdata) {
         return CHK_SUCCESS;
     }
 }
+
+int itd_getInfosWaves(FILE* file, MapData* MapData) {
+  int nbWaves;
+  int noOfNoeud = fscanf_s(file, "%d", &nbWaves);
+  if (noOfNoeud != 1 || nbWaves <= 0) {
+    return CHK_ERROR_FILE;
+  } else {
+    itd_gotoEndOfLine(file);
+    ListWaves* listWaves = malloc(sizeof(ListWaves));
+    listWaves->nbWaves = nbWaves;
+    listWaves->next = NULL;
+    
+    for (int k = 0; k < nbWaves; k++)
+    {
+      Wave* wave = NULL;
+      wave = malloc(sizeof(Wave));
+      if (!wave) {
+        printf("ERROR ALLOC : mapData");
+      }   
+      int nbWave;
+      float timeBegin, freq, random;
+      int nbSolder, nbHugeSolder, nbGeneral, nbBoss;
+      itd_checkComment(file);
+      
+      char line[100];
+      fgets (line, 100 ,file);
+      
+      if(sscanf(line, "%d %f %f %f %d %d %d %d", &nbWave, &timeBegin, &freq, &random, 
+      &nbSolder, &nbHugeSolder, &nbGeneral, &nbBoss)) {
+        
+        wave->nbWave = nbWave;
+        wave->timeBegin = timeBegin;
+        wave->freq = freq;
+        wave->nextMonster = freq;
+        wave->random = random;
+        wave->nbMonster = nbSolder + nbHugeSolder + nbGeneral + nbBoss;
+        wave->next = NULL;
+        int* monsters = malloc(sizeof(int)*wave->nbMonster);
+        
+        int i = 0;
+        for (i ; i < nbSolder ; i++) {
+
+            monsters[i] = SOLDER;
+        }
+        
+        int j = i + nbHugeSolder;
+        for (i ; i < j ; i++) {
+            monsters[i] = HUGE_SOLDER;
+        }
+        j = i + nbGeneral;
+        for (i ; i < j ; i++) {
+            monsters[i] = GERERAL;
+        }
+        j = i + nbBoss;
+        for (i ; i < j ; i++) {
+            monsters[i] = BOSS;
+        }
+        
+        if(i != wave->nbMonster) {
+          
+          return CHK_ERROR_FILE;
+        }
+        
+        wave->monsters = monsters;
+        
+        addToWaves(listWaves, wave);
+
+      }
+    }
+    MapData->listWaves = listWaves;
+    return CHK_SUCCESS;
+  }  
+}
+
+
+int addToWaves(ListWaves* listWaves, Wave* wave) {
+  
+    if(listWaves->next == NULL) {
+        listWaves->next = wave;
+        return 0;
+    }
+    
+    Wave* currentWave = listWaves->next;
+    while (currentWave->next != NULL)
+        {  
+            currentWave = currentWave->next;
+        }
+    currentWave->next = wave;
+    return 0;
+}
+
+
+
 
 int itd_getImageFilePath(FILE* file, MapData* mapData)
 {
@@ -240,7 +335,7 @@ int itd_checkForMapData(FILE* file, MapData* mapData)
   char label[15];
   
   if (fscanf_s(file, "%s", label, _countof(label))) {
-    RGBcolor* RGBcolor = malloc(sizeof(RGBcolor));
+    RGBcolor* color = malloc(sizeof(RGBcolor));
     if (strcmp("carte", label) == 0) {
       if (itd_getImageFilePath(file, mapData) == CHK_SUCCESS) {
         mapData->contentState |= MDATA_IMG;
@@ -266,8 +361,8 @@ int itd_checkForMapData(FILE* file, MapData* mapData)
     }
 
     if (strcmp("chemin", label) == 0) {
-      if (itd_getColor(file, RGBcolor) == CHK_SUCCESS) {
-        mapData->pathCol = *RGBcolor;
+      if (itd_getColor(file, color) == CHK_SUCCESS) {
+        mapData->pathCol = *color;
         mapData->contentState |= MDATA_PATH;
         return CHK_SUCCESS;
       }
@@ -279,8 +374,8 @@ int itd_checkForMapData(FILE* file, MapData* mapData)
     }
 
     if (strcmp("noeud", label) == 0) {
-      if (itd_getColor(file, RGBcolor) == CHK_SUCCESS) {
-        mapData->nodeCol = *RGBcolor;
+      if (itd_getColor(file, color) == CHK_SUCCESS) {
+        mapData->nodeCol = *color;
         mapData->contentState |= MDATA_NODE;
         return CHK_SUCCESS;
       }
@@ -291,8 +386,8 @@ int itd_checkForMapData(FILE* file, MapData* mapData)
       }
     }
     if (strcmp("construct", label) == 0) {
-      if (itd_getColor(file, RGBcolor) == CHK_SUCCESS) {
-        mapData->buildingCol = *RGBcolor;
+      if (itd_getColor(file, color) == CHK_SUCCESS) {
+        mapData->buildingCol = *color;
         mapData->contentState |= MDATA_CONSTRUCT;
         return CHK_SUCCESS;
       }
@@ -304,8 +399,8 @@ int itd_checkForMapData(FILE* file, MapData* mapData)
     }
 
     if (strcmp("in", label) == 0) {
-      if (itd_getColor(file, RGBcolor) == CHK_SUCCESS) {
-        mapData->inCol = *RGBcolor;
+      if (itd_getColor(file, color) == CHK_SUCCESS) {
+        mapData->inCol = *color;
         mapData->contentState |= MDATA_IN;
         return CHK_SUCCESS;
       }
@@ -317,8 +412,8 @@ int itd_checkForMapData(FILE* file, MapData* mapData)
     }
 
     if (strcmp("out", label) == 0) {
-      if (itd_getColor(file, RGBcolor) == CHK_SUCCESS) {
-        mapData->outCol = *RGBcolor;
+      if (itd_getColor(file, color) == CHK_SUCCESS) {
+        mapData->outCol = *color;
         mapData->contentState |= MDATA_OUT;
         return CHK_SUCCESS;
       }
@@ -332,6 +427,18 @@ int itd_checkForMapData(FILE* file, MapData* mapData)
     if (strcmp("infosNodes", label) == 0) {
       if (itd_getInfosNodes(file, mapData) == CHK_SUCCESS) {
         mapData->contentState |= MDATA_INFOSNODE;
+        return CHK_SUCCESS;
+      }
+      else {
+        fseek(file, originalPosition, SEEK_SET);
+        return CHK_ERROR_FILE;
+      }
+    }
+
+    if (strcmp("aves", label) == 0) {
+      
+      if (itd_getInfosWaves(file, mapData) == CHK_SUCCESS) {
+        mapData->contentState |= MDATA_WAVES;
         return CHK_SUCCESS;
       }
 
@@ -375,7 +482,8 @@ void idt_load(char* itdFile, MapData* mapData)
       //printf("pos : %ld %c\n", ftell(file), fgetc(file));
     }
 
-    int allFlags = (MDATA_IMG | MDATA_ENERGY | MDATA_IN | MDATA_OUT | MDATA_PATH | MDATA_NODE | MDATA_CONSTRUCT | MDATA_INFOSNODE);
+
+    int allFlags = (MDATA_IMG | MDATA_ENERGY | MDATA_IN | MDATA_OUT | MDATA_PATH | MDATA_NODE | MDATA_CONSTRUCT | MDATA_INFOSNODE | MDATA_WAVES);
     if (mapData->contentState == allFlags) {
       printf("file is valid\n");
     }
