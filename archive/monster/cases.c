@@ -4,10 +4,12 @@ int case_initPlateau(Plateau* plateau, MapData* mapdata)
 {
   unsigned char* pixel_data;
   pixel_data = ppm_loadImage(mapdata->mapFile, &plateau->Xsplit, &plateau->Ysplit);
+  /* NOTE: Energy correspond aux unités d'énergies produites par les centrales. ;-)
   if(plateau->Xsplit*plateau->Ysplit != mapdata->energy) {
     return 0;
   } 
-  TypeCase* cases = malloc(sizeof(int)*mapdata->energy);
+  */
+  TypeCase* cases = malloc(sizeof(int)*plateau->Xsplit*plateau->Ysplit);
   RGBcolor* pixel_ppm = malloc(sizeof(RGBcolor));
   for(int i = 0; i < plateau->Xsplit*plateau->Ysplit; i++) {
     pixel_ppm->red = (char) pixel_data[i*3];
@@ -15,13 +17,13 @@ int case_initPlateau(Plateau* plateau, MapData* mapdata)
     pixel_ppm->blue = (char) pixel_data[i*3+2];
     if(case_RGBCompare(*pixel_ppm, mapdata->pathCol)) {
         cases[i] = CHEMIN;
-    } else if (case_RGBCompare(*pixel_ppm, mapdata->nodeCol)) {
-        cases[i] = NOEUD;   
-    } else if (case_RGBCompare(*pixel_ppm, mapdata->buildingCol)) {
+    } else if (case_RGBCompare(pixel_ppm, &mapdata->nodeCol)) {
+        cases[i] = NOEUD;
+    } else if (case_RGBCompare(pixel_ppm, &mapdata->buildingCol)) {
         cases[i] = TERRAIN;
-    } else if (case_RGBCompare(*pixel_ppm, mapdata->inCol)) {
+    } else if (case_RGBCompare(pixel_ppm, &mapdata->inCol)) {
         cases[i] = ENTREE;
-    } else if (case_RGBCompare(*pixel_ppm, mapdata->outCol)) {
+    } else if (case_RGBCompare(pixel_ppm, &mapdata->outCol)) {
         cases[i] = SORTIE;
     } else {
       return 0;
@@ -32,12 +34,12 @@ int case_initPlateau(Plateau* plateau, MapData* mapdata)
   return 1;
 }
 
-int case_RGBCompare(RGBcolor color1, RGBcolor color2) {
-  if(color1.green != color2.green) {
+int case_RGBCompare(RGBcolor *color1, RGBcolor *color2) {
+  if(color1->green != color2->green) {
     return 0;
-  } else if (color1.red != color2.red) {
+  } else if (color1->red != color2->red) {
     return 0;
-  } else if (color1.blue != color2.blue) {
+  } else if (color1->blue != color2->blue) {
     return 0;
   } else {
     return 1;

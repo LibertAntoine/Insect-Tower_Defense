@@ -339,6 +339,3 @@ void idt_load(char* itdFile, MapData* mapData)
     }
   }
 }
-
-
-

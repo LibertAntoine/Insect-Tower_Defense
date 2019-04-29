@@ -1,10 +1,10 @@
 #include <SDL2/SDL.h>
 
 #ifdef _WIN32
-    #include <GL/glew.h>
+  #include <GL/glew.h>
 #else
-    #include <GL/gl.h>
-    #include <GL/glu.h>
+  #include <GL/gl.h>
+  #include <GL/glu.h>
 #endif
 
 #include <stdio.h>
@@ -48,19 +48,20 @@ void reshape(SDL_Window** surface, SDL_GLContext *GLcontext, unsigned int width,
 int main(int argc, char *argv[])
 {
 
-    MapData* mapData = itd_initMapData();
-    
-    idt_load("level2.itd", mapData);
-    
-    case_initPlateau(mapData);
-    
-    getShortPath(mapData->infosNodes);
-    
-    ListMonsters* listMonsters = initListMonsters();
+  MapData* mapData = itd_initMapData();
 
-  
+  idt_load("level2.itd", mapData);
 
-    if(SDL_Init(SDL_INIT_VIDEO) < 0) 
+  // NOTE: Pourquoi on envoie que mapData alors que case_initPlateau(Plateau* plateau, MapData* mapdata) 
+  case_initPlateau(mapData);
+
+  getShortPath(mapData->infosNodes);
+
+  ListMonsters* listMonsters = initListMonsters();
+
+
+
+  if(SDL_Init(SDL_INIT_VIDEO) < 0) 
   {
     fprintf( stderr, "Impossible d'initialiser la SDL. Fin du programme.\n");
     exit(EXIT_FAILURE);
@@ -68,8 +69,8 @@ int main(int argc, char *argv[])
 
 
 
- /* Ouverture d'une fenetre et creation d'un contexte OpenGL */
-      SDL_Window* surface = SDL_CreateWindow(WINDOW_TITLE, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, WINDOW_WIDTH, WINDOW_HEIGHT, SDL_WINDOW_SHOWN | SDL_WINDOW_OPENGL);
+  /* Ouverture d'une fenetre et creation d'un contexte OpenGL */
+  SDL_Window* surface = SDL_CreateWindow(WINDOW_TITLE, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, WINDOW_WIDTH, WINDOW_HEIGHT, SDL_WINDOW_SHOWN | SDL_WINDOW_OPENGL);
   if(NULL == surface) 
   { 
     fprintf( stderr, "Erreur lors du redimensionnement de la fenetre.\n");
@@ -78,13 +79,13 @@ int main(int argc, char *argv[])
 
   SDL_GLContext GLcontext = SDL_GL_CreateContext(surface);
 
-  #ifdef _WIN32 
+#ifdef _WIN32 
   if(glewInit() != 0)
   {
     fprintf( stderr, "Impossible d'initialiser Glew. Fin du programme.\n");
     exit(EXIT_FAILURE);
   }
-  #endif
+#endif
 
   glViewport(0, 0, WINDOW_WIDTH , WINDOW_HEIGHT);
   glMatrixMode(GL_PROJECTION);
@@ -109,10 +110,10 @@ int main(int argc, char *argv[])
   int caseMouseX;
   int caseMouseY;
 
-Uint32 beginMomentLevel = SDL_GetTicks();
+  Uint32 beginMomentLevel = SDL_GetTicks();
 
 
-/* Boucle principale */
+  /* Boucle principale */
   int loop = 1;
   while(loop) 
   {
@@ -122,19 +123,19 @@ Uint32 beginMomentLevel = SDL_GetTicks();
     /* Placer ici le code de dessin */
     glClear(GL_COLOR_BUFFER_BIT);
 
-   display_drawBoard();
+    display_drawBoard();
     glCallList(idGrid);
 
     launchWaves(listMonsters, mapData, mapData->listWaves->next, (SDL_GetTicks() - beginMomentLevel));
 
     moveAllMonster(listMonsters);
-    
+
     display_drawAllMonsters(listMonsters);
-    
+
     /* Echange du front et du back buffer : mise a jour de la fenetre */
     SDL_GL_SwapWindow(surface);
 
-  SDL_Event e;
+    SDL_Event e;
     while(SDL_PollEvent(&e)) 
     {
       /* L'utilisateur ferme la fenetre : */
@@ -154,7 +155,7 @@ Uint32 beginMomentLevel = SDL_GetTicks();
       TypeCase type = joueur->type;
       Action action = joueur->action;
 
-switch(e.type) 
+      switch(e.type) 
       {
         case SDL_MOUSEBUTTONDOWN:
           SDL_GetMouseState(&pixelMouseX, &pixelMouseY);
@@ -199,7 +200,7 @@ switch(e.type)
               }
               break;
           }
-      break;
+          break;
 
         case SDL_WINDOWEVENT:
           if (e.window.event == SDL_WINDOWEVENT_RESIZED) {
@@ -261,10 +262,10 @@ switch(e.type)
         default:
           break;
       }
-      
+
     }
 
-    
+
     /* Calcul du temps ecoule */
     Uint32 elapsedTime = SDL_GetTicks() - startTime;
     /* Si trop peu de temps s'est ecoule, on met en pause le programme */
