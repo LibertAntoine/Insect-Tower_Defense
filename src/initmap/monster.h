@@ -4,7 +4,6 @@
 #include <stdio.h>
 #include "cases.h"
 
-
 typedef enum Orientation {
    HAUT,
    BAS,

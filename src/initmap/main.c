@@ -12,13 +12,13 @@
 #include <math.h>
 #include <time.h>
 
-#include "short-path-algo.h"
 #include "cases.h"
-#include "ppm-loader.h"
 #include "itd-file.h"
-#include "drawMonster.h"
 #include "monster.h"
-
+#include "display.h"
+#include "waves.h"
+#include "player.h"
+#include "tour.h"
 
 
 extern Plateau* plateau;
@@ -37,65 +37,6 @@ static const unsigned int BIT_PER_PIXEL = 32;
 
 /* Nombre minimal de millisecondes separant le rendu de deux images */
 static const Uint32 FRAMERATE_MILLISECONDS = 1000 / 60;
-
-int deleteInArray(int* t, int monster, int nbMonster) {
-  int i = 0;
-  int j = 0;
-    for(i=0; i<5; i++ ) {
-      if( t[i]==monster) {
-        for(j=i; j < nbMonster; j++) {
-          if( j < nbMonster-1) {
-            t[j] = t[j+1];
-          } else {
-            t[j] = 0;
-          }
-        }
-      }
-    }
-    return 0;
-}
-
-int moveWave(ListMonsters* listMonsters, MapData* mapdata, Wave* currentWave) {
-  srand(time(NULL));
-  
-  if(currentWave->nbMonster == 0) {
-    return 0;
-  } else if (currentWave->nextMonster+(sin(rand())*currentWave->random) > 0 ) {
-    currentWave->nextMonster = currentWave->nextMonster - 1.0/60.0;
-    return 0;
-  } else {
-    int selectMonster = rand()%(currentWave->nbMonster);
-    int selectIn = rand()%(mapdata->infosNodes->nbEntrees);
-    int selectIdIn = mapdata->infosNodes->idEntrees[selectIn];
-    int selectType = currentWave->monsters[selectMonster];
-    deleteInArray(currentWave->monsters, selectMonster, currentWave->nbMonster);
-    currentWave->nbMonster--;
-    createMonster(listMonsters, mapdata->infosNodes, selectType, selectIdIn);
-    currentWave->nextMonster = currentWave->freq;
-    return 0;
-  }
-}
-
-int launchWaves(ListMonsters* listMonsters, MapData* mapdata, Wave* currentWave, float timer) {
-  int restMonster = 0;
-  while(currentWave->next != NULL) {
-    
-    restMonster = restMonster + currentWave->nbMonster;
-    if(currentWave->timeBegin*1000 < timer) {
-      moveWave(listMonsters, mapdata, currentWave);
-    }
-    currentWave = currentWave->next;
-  }
-  if(restMonster == 0) {
-    return 1;
-  }
-  return 0;
-}
-
-
-
-
-
 
 void reshape(SDL_Window** surface, SDL_GLContext *GLcontext, unsigned int width, unsigned int height) {
   SDL_Window* surface_temp = SDL_CreateWindow(WINDOW_TITLE, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, width, height, SDL_WINDOW_SHOWN | SDL_WINDOW_OPENGL);
@@ -131,8 +72,6 @@ int main(int argc, char *argv[])
     ListMonsters* listMonsters = initListMonsters();
 
     createMonster(listMonsters, mapData->infosNodes, SOLDER, 2);
-
-
   Uint32 beginMomentLevel = SDL_GetTicks();
 
 
@@ -157,6 +96,14 @@ int main(int argc, char *argv[])
 
   SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 0);
 
+  GLuint idGrid = glGenLists(1);
+  display_gridList(idGrid);
+
+  int pixelMouseX;
+  int pixelMouseY;
+
+  int caseMouseX;
+  int caseMouseY;
 
 /* Boucle principale */
   int loop = 1;
@@ -168,10 +115,14 @@ int main(int argc, char *argv[])
     /* Placer ici le code de dessin */
     glClear(GL_COLOR_BUFFER_BIT);
 
+   display_drawBoard();
+    glCallList(idGrid);
+
     launchWaves(listMonsters, mapData, mapData->listWaves->next, (SDL_GetTicks() - beginMomentLevel));
 
     moveAllMonster(listMonsters);
-    display_drawMonsters(listMonsters);
+    
+    display_drawAllMonsters(listMonsters);
     /* Echange du front et du back buffer : mise a jour de la fenetre */
     SDL_GL_SwapWindow(surface);
 
@@ -191,7 +142,119 @@ int main(int argc, char *argv[])
         break;
       }
 
+      Etat *joueur = &(plateau->joueur);
+      TypeCase type = joueur->type;
+      Action action = joueur->action;
+
+switch(e.type) 
+      {
+        case SDL_MOUSEBUTTONDOWN:
+          SDL_GetMouseState(&pixelMouseX, &pixelMouseY);
+          case_getCaseCoordFromPixels(pixelMouseX, pixelMouseY, &caseMouseX, &caseMouseY, WINDOW_WIDTH, WINDOW_HEIGHT);
+          printf("\n\nmouse X -> %d\nmouse Y -> %d\n", caseMouseX, caseMouseY);
+
+          switch(plateau->joueur.action) {
+            case ADD:
+              printf("invoking add\n");
+              if(case_isConstructible(caseMouseX, caseMouseY)) {
+                //int case_type = case_getType(caseMouseX, caseMouseY);
+                printf("Porte monaie : %d \n", plateau->joueur.argent);
+                if (player_acheteConstruction(caseMouseX, caseMouseY)) {
+                  printf("Ajout de tour avec succes, -%d\n", tour_getPrixAchat(case_getType(caseMouseX, caseMouseY)));
+                  printf("Porte monaie : %d \n", plateau->joueur.argent);
+                }
+                else {
+                  printf("Vous n'avez pas assez\n");
+                }
+              }
+              else {
+                printf("This place is not available\n");
+              }
+              break;
+
+
+            case GETINFO:
+              case_printInfos(caseMouseX, caseMouseY);
+              break;
+
+
+            case REMOVE:
+              printf("invoking remove\n");
+
+              if (case_isUserPlaced(caseMouseX, caseMouseY)) {
+                printf("Suppression de tour avec succes, +%d\n", tour_getPrixRevente(case_getType(caseMouseX, caseMouseY)));
+                case_removeConstruction(caseMouseX, caseMouseY);
+                printf("Porte monaie : %d \n", plateau->joueur.argent);
+              }
+              else {
+                printf("You can only remove your buildings\n");
+              }
+              break;
+          }
+      break;
+
+        case SDL_WINDOWEVENT:
+          if (e.window.event == SDL_WINDOWEVENT_RESIZED) {
+            reshape(&surface, &GLcontext, e.window.data1, e.window.data2);
+          }
+          break;
+
+        case SDL_KEYDOWN:
+          switch(e.key.keysym.sym) {
+            case 'r':
+              type = RADAR;
+              break;
+            case 'a':
+              type = ARMEMENT;
+              break;
+            case 'c':
+              type = CENTRALE;
+              break;
+            case 'm':
+              type = MUNITION;
+              break;
+
+            case '1':
+              type = LASER;
+              break;
+            case '2':
+              type = MISSILE;
+              break;
+
+            case 'p':
+              action = ADD;
+              break;
+            case 'i':
+              action = GETINFO;
+              break;
+            case 'x':
+              action = REMOVE;
+              break;
+          }
+          if (action != joueur->action) {
+            printf("Changing action ");
+            player_afficherAction();
+            printf(" --> ");
+            joueur->action = action;
+            player_afficherAction();
+            printf("\n");
+          }
+          if (type != joueur->type) {
+            printf("Changing tower type ");
+            player_afficherEtat();
+            printf(" --> ");
+            joueur->type = type;
+            player_afficherEtat();
+            printf("\n");
+          }
+
+          break;
+
+        default:
+          break;
+      }
     }
+
     
     /* Calcul du temps ecoule */
     Uint32 elapsedTime = SDL_GetTicks() - startTime;

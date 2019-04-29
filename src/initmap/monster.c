@@ -52,6 +52,7 @@ int addToList(ListMonsters* listmonsters, Monster* monster) {
 
 int createMonster(ListMonsters* listmonsters, InfosNodes* InfosNodes, int type, int idIn) 
 {
+    
     Monster* monster = malloc(sizeof(Monster)); 
     monster->PDV = listmonsters->dataMonsters->PDV[type];
     monster->strength = listmonsters->dataMonsters->strength[type];

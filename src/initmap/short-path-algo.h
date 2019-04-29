@@ -2,7 +2,6 @@
 #define SHORT_PATH_ALGO_H_
 
 #include <stdio.h>
-#include "cases.h"
 #include "itd-file.h"
 #include "monster.h"
 #include <math.h>
