@@ -5,9 +5,10 @@
 #include <math.h>
 #include "cases.h"
 #include "tour.h"
-
+#include "projectile.h"
 
 typedef struct Tour Tour;
+typedef struct Projectile Projectile;
 
 typedef enum Orientation {
    HAUT,
@@ -63,7 +64,8 @@ typedef struct ListMonsters {
 int initListMonsters();
 int addToList(Monster* monster);
 int createMonster(InfosNodes* InfosNodes, int type, int idIN);
-void attackMonster(Monster* monster, int damage);
+void attackMonster(Projectile* projectile);
+int deleteToList(Monster* monster);
 void killMonster(Monster* monster);
 int moveMonster(Monster* monster);
 int moveAllMonster();

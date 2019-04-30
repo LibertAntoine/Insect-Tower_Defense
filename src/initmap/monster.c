@@ -69,18 +69,36 @@ int createMonster(InfosNodes* InfosNodes, int type, int idIn)
     return 0;
 }
 
-void attackMonster(Monster* monster, int damage) 
+void attackMonster(Projectile* projectile) 
 {
-    monster->PDV = monster->PDV - damage;
-    if(monster->PDV <= 0) {
-        killMonster(monster);
+    projectile->cible->PDV = projectile->cible->PDV - projectile->damage;
+    if(projectile->cible->PDV <= 0) {
+        killMonster(projectile->cible);
     }
 }
 
 void killMonster(Monster* monster) 
 {
-    free(monster);
+    monster->status = DEAD;
+    deleteToList(monster);
 }
+
+int deleteToList(Monster* monster) {
+    printf("kill");
+    if(plateau->listMonsters->firstMonster == monster) {
+        plateau->listMonsters->firstMonster = plateau->listMonsters->firstMonster->next;
+    } else { 
+        Monster* currentMonster = plateau->listMonsters->firstMonster;
+        while (currentMonster->next != monster)
+        {  
+            currentMonster = currentMonster->next; 
+        }
+        currentMonster->next = currentMonster->next->next;
+    }
+    return 0;
+}
+
+
 
 void get_itineraire(Monster* monster) 
 {
@@ -92,13 +110,14 @@ int moveMonster(Monster* monster) {
         return 0;
     }
     
-    if(monster->itineraire->next->node->x - monster->x > 0.01 || monster->itineraire->next->node->x-monster->x < -0.01) {
+    if(monster->itineraire->next->node->x - monster->x > 0.01 || monster->itineraire->next->node->x - monster->x < -0.01) {
         if(monster->itineraire->next->node->x - monster->x < 0) {
             monster->x = monster->x - 0.01/monster->mass;
-            monster->orientation = DROITE;
+            monster->orientation = GAUCHE;
         } else {
             monster->x = monster->x + 0.01/monster->mass;
-        }   monster->orientation = GAUCHE;
+            monster->orientation = DROITE;
+        }   
     } else if (monster->itineraire->next->node->y - monster->y > 0.01 || monster->itineraire->next->node->y - monster->y < -0.01) {
         if(monster->itineraire->next->node->y - monster->y < 0) {
             monster->y = monster->y - 0.01/monster->mass;
@@ -157,7 +176,7 @@ int findMonster(Tour* tour) {
 
 int refindMonster(Tour* tour) {
     double distance = 0;
-    if(tour->lastMonster->status == DEAD && sqrt(pow(abs(tour->x - tour->lastMonster->x), 2) + pow(abs(tour->y - tour->lastMonster->y), 2)) > tour->radar) {
+    if(tour->lastMonster->status == DEAD || sqrt(pow(abs(tour->x - tour->lastMonster->x), 2) + pow(abs(tour->y - tour->lastMonster->y), 2)) > tour->radar) {
         tour->lastMonster = NULL;
     }
     return 0;
