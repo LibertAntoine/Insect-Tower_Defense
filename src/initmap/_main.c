@@ -1,10 +1,10 @@
 #include <SDL2/SDL.h>
 
 #ifdef _WIN32
-    #include <GL/glew.h>
+  #include <GL/glew.h>
 #else
-    #include <GL/gl.h>
-    #include <GL/glu.h>
+  #include <GL/gl.h>
+  #include <GL/glu.h>
 #endif
 
 
@@ -54,7 +54,7 @@ int main(int argc, char *argv[])
 Uint32 beginMomentLevel = SDL_GetTicks();
 
 
-/* Boucle principale */
+  /* Boucle principale */
   int loop = 1;
   while(loop) 
   {
@@ -64,7 +64,7 @@ Uint32 beginMomentLevel = SDL_GetTicks();
     /* Placer ici le code de dessin */
     glClear(GL_COLOR_BUFFER_BIT);
 
-   display_drawBoard();
+    display_drawBoard();
     glCallList(idGrid);
 
     launchWaves(mapData, (SDL_GetTicks() - beginMomentLevel));
@@ -76,7 +76,7 @@ Uint32 beginMomentLevel = SDL_GetTicks();
     /* Echange du front et du back buffer : mise a jour de la fenetre */
     SDL_GL_SwapWindow(surface);
 
-  SDL_Event e;
+    SDL_Event e;
     while(SDL_PollEvent(&e)) 
     {
       /* L'utilisateur ferme la fenetre : */
@@ -96,7 +96,7 @@ Uint32 beginMomentLevel = SDL_GetTicks();
       TypeCase type = joueur->type;
       Action action = joueur->action;
 
-switch(e.type) 
+      switch(e.type) 
       {
         case SDL_MOUSEBUTTONDOWN:
           SDL_GetMouseState(&pixelMouseX, &pixelMouseY);
@@ -141,7 +141,7 @@ switch(e.type)
               }
               break;
           }
-      break;
+          break;
 
         case SDL_WINDOWEVENT:
           if (e.window.event == SDL_WINDOWEVENT_RESIZED) {
@@ -203,10 +203,10 @@ switch(e.type)
         default:
           break;
       }
-      
+
     }
 
-    
+
     /* Calcul du temps ecoule */
     Uint32 elapsedTime = SDL_GetTicks() - startTime;
     /* Si trop peu de temps s'est ecoule, on met en pause le programme */

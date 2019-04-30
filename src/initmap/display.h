@@ -22,7 +22,7 @@
 
 
 void display_drawCircle(int fillMode);
-void display_drawRange(int caseX, int caseY, int range);
+void display_drawTargetRange(int caseX, int caseY, int range);
 void display_drawSquare(int fillMode);
 void display_gridList(GLuint id);
 void display_drawSingleMonster(Monster* monster);
@@ -30,6 +30,6 @@ int display_drawAllMonsters();
 void display_drawSingleTower(int X, int Y, TypeCase type);
 void display_drawAllTowers();
 void display_drawBoard();
-void display_drawRanges();
+void display_drawAllTargetRanges();
 
 #endif //DRAW_MONSTER_H_

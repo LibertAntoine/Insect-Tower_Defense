@@ -17,6 +17,7 @@ int deleteInArray(int* t, int monster, int nbMonster) {
     return 0;
 }
 
+// NOTE: (Nicolas) Essayer de comprendre cette fonction.
 int moveWave(MapData* mapdata, Wave* currentWave) {
   srand(time(NULL));
    
@@ -38,7 +39,7 @@ int moveWave(MapData* mapdata, Wave* currentWave) {
   }
 }
 
-int launchWaves(MapData* mapdata, float timer) {
+int launchWaves(ListMonsters* listMonsters, MapData* mapdata, Wave* currentWave, float timer) {
   int restMonster = 0;
   Wave* currentWave = malloc(sizeof(Wave));
   currentWave = mapdata->listWaves->next;

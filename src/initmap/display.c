@@ -28,7 +28,7 @@ void display_drawSquare(int fillMode)
     glEnd();
 }
 
-void display_drawRange(int caseX, int caseY, int range)
+void display_drawTargetRange(int caseX, int caseY, int range)
 {
   glPushMatrix();
   glTranslatef(caseX, caseY, 0);
@@ -37,7 +37,6 @@ void display_drawRange(int caseX, int caseY, int range)
   glScalef(range, range, 1);
   glColor3f(1,1,1);
   display_drawCircle(GL_LINE);
-  //display_drawCircle(GL_FILL);
   glPopMatrix();
 }
 
@@ -188,7 +187,7 @@ void display_drawAllTowers()
 }
 */
 
-void display_drawRanges()
+void display_drawAllTargetRanges()
 {
   int total_cases = plateau->Xsplit * plateau->Ysplit;
 
@@ -208,11 +207,11 @@ void display_drawRanges()
         range = tour_getRange(type);
         break;
       case TOUR:
-        // TODO: Make range being longer depending on connctions to radars
+        // TODO: Faire en sorte d'allonger la portée grâce au nombre de radars connectés 
         range = tour_getPortee(type);
         break;
     }
-    display_drawRange(caseX, caseY, range);
+    display_drawTargetRange(caseX, caseY, range);
     glPopMatrix();
 
   }
@@ -225,10 +224,9 @@ void display_drawBoard()
   for (int index_case=0; index_case < total_cases; index_case++) {
     int caseY, caseX;
     case_getCasePosition(index_case, &caseX, &caseY);
-
     TypeCase type = plateau->cases[index_case];
 
     display_drawSingleTower(caseX, caseY, type);
   }
-  display_drawRanges();
+  display_drawAllTargetRanges();
 }
