@@ -1,7 +1,7 @@
 #include "monster.h"
 
 
-ListMonsters* initListMonsters()
+int initListMonsters()
 {
     ListMonsters* listMonsters = malloc(sizeof(ListMonsters));
     DataMonsters* dataMonsters = malloc(sizeof(DataMonsters));
@@ -30,16 +30,16 @@ ListMonsters* initListMonsters()
     
     listMonsters->dataMonsters = dataMonsters;
     
-    return listMonsters;
+    plateau->listMonsters = listMonsters;
 }
 
-int addToList(ListMonsters* listmonsters, Monster* monster) {
+int addToList(Monster* monster) {
     
-    if(listmonsters->firstMonster == NULL) {
-        listmonsters->firstMonster = monster;
+    if(plateau->listMonsters->firstMonster == NULL) {
+        plateau->listMonsters->firstMonster = monster;
         return 0;
     }
-    Monster* currentMonster = listmonsters->firstMonster;
+    Monster* currentMonster = plateau->listMonsters->firstMonster;
     while (currentMonster->next != NULL)
         {  
             currentMonster = currentMonster->next;
@@ -49,13 +49,13 @@ int addToList(ListMonsters* listmonsters, Monster* monster) {
 }
 
 
-int createMonster(ListMonsters* listmonsters, InfosNodes* InfosNodes, int type, int idIn) 
+int createMonster(InfosNodes* InfosNodes, int type, int idIn) 
 {
     
     Monster* monster = malloc(sizeof(Monster)); 
-    monster->PDV = listmonsters->dataMonsters->PDV[type];
-    monster->strength = listmonsters->dataMonsters->strength[type];
-    monster->mass = listmonsters->dataMonsters->mass[type];
+    monster->PDV = plateau->listMonsters->dataMonsters->PDV[type];
+    monster->strength = plateau->listMonsters->dataMonsters->strength[type];
+    monster->mass = plateau->listMonsters->dataMonsters->mass[type];
     monster->next = NULL;
     monster->idIn = idIn;
     monster->type = type;
@@ -63,8 +63,8 @@ int createMonster(ListMonsters* listmonsters, InfosNodes* InfosNodes, int type, 
     monster->x = InfosNodes->nodes[idIn].x;
     monster->y = InfosNodes->nodes[idIn].y;
     initItineraire(monster, InfosNodes);
-    addToList(listmonsters, monster);
-    listmonsters->nbMonsters++;
+    addToList(monster);
+    plateau->listMonsters->nbMonsters++;
     return 0;
 }
 
@@ -115,12 +115,12 @@ int moveMonster(Monster* monster) {
     return 0;
 }
 
-int moveAllMonster(ListMonsters* listmonsters) {
+int moveAllMonster() {
     
-    if(listmonsters->firstMonster == NULL) {
+    if(plateau->listMonsters->firstMonster == NULL) {
         return 0;
     }
-    Monster* currentMonster = listmonsters->firstMonster;
+    Monster* currentMonster = plateau->listMonsters->firstMonster;
     while (currentMonster != NULL)
     {  
         moveMonster(currentMonster);

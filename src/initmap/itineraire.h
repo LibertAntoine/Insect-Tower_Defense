@@ -1,12 +1,13 @@
 #ifndef SHORT_PATH_ALGO_H_
 #define SHORT_PATH_ALGO_H_
+#pragma once
 
+#include "struct.h"
 #include <stdio.h>
 #include "itd-file.h"
-#include "monster.h"
+#include "cases.h"
 #include <math.h>
 
-extern Plateau* plateau;
 
 int getShortPath(InfosNodes* infosNodes);
 void fill(int* array, int size, int value);

@@ -1,15 +1,23 @@
 #ifndef CASES_H_
 #define CASES_H_
 
-#ifdef WIN32
+#ifdef _WIN32
     #include <GL/glew.h>
 #else
     #include <GL/gl.h>
     #include <GL/glu.h>
 #endif
 
+#include <stdio.h>
+#include "itd-file.h"
+#include "ppm-loader.h"
+#include "tour.h"
+#include "player.h"
+#include "monster.h"
 
-
+typedef struct ListTours ListTours;
+typedef struct ListMonsters ListMonsters;
+typedef struct Tour Tour;
 
 typedef enum GeneralType {
   TOUR = 1,
@@ -31,7 +39,6 @@ typedef enum TypeCase {
   SORTIE
 } TypeCase;
 
-
 typedef enum Action {
   ADD,
   GETINFO,
@@ -49,15 +56,6 @@ typedef struct ConstructionData {
   int valeur_revente;
 } ConstructionData;
 
-typedef struct Tour {
-  TypeCase type;
-  int armement;
-  int centrale;
-  int munition;
-  int radar;
-} Tour;
-
-
 typedef struct Etat {
   TypeCase type;
   Action action;
@@ -69,15 +67,13 @@ typedef struct Plateau {
   int Ysplit;
   Etat joueur;
   ConstructionData constructionData[6];
+  ListTours* listTours;
+  ListMonsters* listMonsters;
   Tour **tours;
   TypeCase *cases;
 } Plateau;
 
-#include <stdio.h>
-#include "itd-file.h"
-#include "ppm-loader.h"
-#include "tour.h"
-#include "player.h"
+extern Plateau *plateau;
 
 int case_initPlateau(MapData* mapdata);
 int case_RGBCompare(RGBcolor color1, RGBcolor color2);

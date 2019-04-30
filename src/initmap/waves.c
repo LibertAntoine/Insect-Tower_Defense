@@ -17,7 +17,7 @@ int deleteInArray(int* t, int monster, int nbMonster) {
     return 0;
 }
 
-int moveWave(ListMonsters* listMonsters, MapData* mapdata, Wave* currentWave) {
+int moveWave(MapData* mapdata, Wave* currentWave) {
   srand(time(NULL));
    
   if(currentWave->nbMonster == 0) {
@@ -26,26 +26,26 @@ int moveWave(ListMonsters* listMonsters, MapData* mapdata, Wave* currentWave) {
     currentWave->nextMonster = currentWave->nextMonster - 1.0/60.0;
     return 0;
   } else {
-     
     int selectMonster = rand()%(currentWave->nbMonster);
     int selectIn = rand()%(mapdata->infosNodes->nbEntrees);
     int selectIdIn = mapdata->infosNodes->idEntrees[selectIn];
     int selectType = currentWave->monsters[selectMonster];
     deleteInArray(currentWave->monsters, selectMonster, currentWave->nbMonster);
     currentWave->nbMonster--;
-    createMonster(listMonsters, mapdata->infosNodes, selectType, selectIdIn);
+    createMonster(mapdata->infosNodes, selectType, selectIdIn);
     currentWave->nextMonster = currentWave->freq;
     return 0;
   }
 }
 
-int launchWaves(ListMonsters* listMonsters, MapData* mapdata, Wave* currentWave, float timer) {
+int launchWaves(MapData* mapdata, float timer) {
   int restMonster = 0;
-  while(currentWave->next != NULL) {
-    
+  Wave* currentWave = malloc(sizeof(Wave));
+  currentWave = mapdata->listWaves->next;
+  while(currentWave != NULL) {
     restMonster = restMonster + currentWave->nbMonster;
     if(currentWave->timeBegin*1000 < timer) {
-      moveWave(listMonsters, mapdata, currentWave);
+      moveWave(mapdata, currentWave);
     }
     currentWave = currentWave->next;
   }

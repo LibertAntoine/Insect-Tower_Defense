@@ -7,8 +7,10 @@
     #include <GL/glu.h>
 #endif
 
-#include <stdio.h>
+
+
 #include <stdlib.h>
+#include <stdio.h>
 #include <math.h>
 #include <time.h>
 
@@ -20,94 +22,34 @@
 #include "player.h"
 #include "tour.h"
 #include "itineraire.h"
+#include "SDLConfig.h"
 
-
-extern Plateau* plateau;
-
-/* Dimensions initiales et titre de la fenetre */
-static const unsigned int WINDOW_WIDTH = 800;
-static const unsigned int WINDOW_HEIGHT = 600;
-static const char WINDOW_TITLE[] = "test";
-
-/* Espace fenetre virtuelle */
-static const float GL_VIEW_WIDTH = 200.;
-static const float GL_VIEW_HEIGHT = 150.;
-
-/* Nombre de bits par pixel de la fenetre */
-static const unsigned int BIT_PER_PIXEL = 32;
-
-/* Nombre minimal de millisecondes separant le rendu de deux images */
-static const Uint32 FRAMERATE_MILLISECONDS = 1000 / 60;
-
-void reshape(SDL_Window** surface, SDL_GLContext *GLcontext, unsigned int width, unsigned int height) {
-
-
-
-}
+Plateau *plateau = NULL;
 
 int main(int argc, char *argv[])
 {
-
-    MapData* mapData = itd_initMapData();
-    
-    idt_load("level2.itd", mapData);
-    
-    case_initPlateau(mapData);
-    
-    getShortPath(mapData->infosNodes);
-    
-    ListMonsters* listMonsters = initListMonsters();
-
+  /* Récuperation des informations idt/ppm */
+  MapData* mapData = itd_initMapData();
+  idt_load("level2.itd", mapData);
   
+  /* Création du plateau */
+  case_initPlateau(mapData);
 
-    if(SDL_Init(SDL_INIT_VIDEO) < 0) 
-  {
-    fprintf( stderr, "Impossible d'initialiser la SDL. Fin du programme.\n");
-    exit(EXIT_FAILURE);
-  }
+  /* Calcul des chemins les plus courts */
+  getShortPath(mapData->infosNodes);
 
-
-
- /* Ouverture d'une fenetre et creation d'un contexte OpenGL */
-      SDL_Window* surface = SDL_CreateWindow(WINDOW_TITLE, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, WINDOW_WIDTH, WINDOW_HEIGHT, SDL_WINDOW_SHOWN | SDL_WINDOW_OPENGL);
-  if(NULL == surface) 
-  { 
-    fprintf( stderr, "Erreur lors du redimensionnement de la fenetre.\n");
-    exit(EXIT_FAILURE);
-  }
-
-  SDL_GLContext GLcontext = SDL_GL_CreateContext(surface);
-
-  #ifdef _WIN32 
-  if(glewInit() != 0)
-  {
-    fprintf( stderr, "Impossible d'initialiser Glew. Fin du programme.\n");
-    exit(EXIT_FAILURE);
-  }
-  #endif
-
-  glViewport(0, 0, WINDOW_WIDTH , WINDOW_HEIGHT);
-  glMatrixMode(GL_PROJECTION);
-  glLoadIdentity();
-  gluOrtho2D(1, plateau->Xsplit+1, plateau->Ysplit+1, 1);
-
-
-
-
-
-
-
+  /* Définition de l'environnement SDL*/
+  initSDL();
+  SDL_Window* surface;
+  SDL_GLContext GLcontext = NULL;
+  reshape(&surface, &GLcontext, WINDOW_WIDTH, WINDOW_HEIGHT);
 
   SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 0);
 
   GLuint idGrid = glGenLists(1);
   display_gridList(idGrid);
 
-  int pixelMouseX;
-  int pixelMouseY;
-
-  int caseMouseX;
-  int caseMouseY;
+  int pixelMouseX, pixelMouseY, caseMouseX, caseMouseY;
 
 Uint32 beginMomentLevel = SDL_GetTicks();
 
@@ -125,11 +67,11 @@ Uint32 beginMomentLevel = SDL_GetTicks();
    display_drawBoard();
     glCallList(idGrid);
 
-    launchWaves(listMonsters, mapData, mapData->listWaves->next, (SDL_GetTicks() - beginMomentLevel));
+    launchWaves(mapData, (SDL_GetTicks() - beginMomentLevel));
 
-    moveAllMonster(listMonsters);
+    moveAllMonster();
     
-    display_drawAllMonsters(listMonsters);
+    display_drawAllMonsters();
     
     /* Echange du front et du back buffer : mise a jour de la fenetre */
     SDL_GL_SwapWindow(surface);

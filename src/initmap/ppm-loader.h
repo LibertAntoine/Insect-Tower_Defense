@@ -1,11 +1,11 @@
 #ifndef PPM_LOADER_H_
 #define PPM_LOADER_H_
+#pragma once
+
 
 #include <stdlib.h>
 #include <stdio.h>
 #include "cases.h"
-
-extern Plateau* plateau;
 
 char* ppm_loadImage(char path[]);
 void ppm_handleComments(FILE *image);

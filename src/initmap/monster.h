@@ -4,13 +4,13 @@
 #include <stdio.h>
 #include "cases.h"
 
+
 typedef enum Orientation {
    HAUT,
    BAS,
    GAUCHE,
    DROITE
-} TypeMonster;
-
+} Orientation;
 
 typedef struct Etape Etape;
 struct Etape {
@@ -50,11 +50,15 @@ typedef struct ListMonsters {
    DataMonsters* dataMonsters;
 } ListMonsters;
 
-ListMonsters* initListMonsters();
-int addToList(ListMonsters* listmonsters, Monster* monster);
-int createMonster(ListMonsters* listmonster, InfosNodes* InfosNodes, int type, int idIN);
+
+
+
+
+int initListMonsters();
+int addToList(Monster* monster);
+int createMonster(InfosNodes* InfosNodes, int type, int idIN);
 void attackMonster(Monster* monster, int damage);
 void killMonster(Monster* monster);
 int moveMonster(Monster* monster);
-int moveAllMonster(ListMonsters* listmonsters);
+int moveAllMonster();
 #endif //MONSTER_H_

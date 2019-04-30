@@ -1,7 +1,5 @@
 #include "cases.h"
 
-Plateau* plateau = 0;
-
 int case_initPlateau(MapData* mapdata)
 {
   plateau = malloc(sizeof(Plateau));
@@ -11,6 +9,7 @@ int case_initPlateau(MapData* mapdata)
 
   player_init();
   tour_initConstructionData();
+  initListMonsters();
 
   unsigned char* pixel_data;
   pixel_data = ppm_loadImage(mapdata->mapFile);
@@ -49,7 +48,9 @@ int case_initPlateau(MapData* mapdata)
     return 0;
   }
   plateau->cases = cases;
-
+  plateau->listTours = malloc(sizeof(ListTours));
+  plateau->listTours->nbTours = 0;
+  plateau->listTours->next = NULL;
   plateau->tours = calloc(nbTerrain, sizeof(Tour*));
   if (!plateau->tours) {
     return EXIT_FAILURE;

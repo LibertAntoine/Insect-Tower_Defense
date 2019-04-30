@@ -96,9 +96,33 @@ Tour *tour_create(TypeCase type)
   new->centrale = 0;
   new->radar = 0;
   new->munition = 0;
+  new->rechargement = 0;
+  new->next = NULL;
+  new->lastMonster = NULL;
 
+  if (type == LASER || type == MISSILE) {
+    addToListTour(new);
+  }
   return new;
 }
+
+
+int addToListTour(Tour* tour)
+{
+    if(plateau->listTours->next == NULL) {
+        plateau->listTours->next = tour;
+        return 0;
+    }
+    Tour* currentTour = plateau->listTours->next;
+    while (currentTour->next != NULL)
+        {  
+            currentTour = currentTour->next;
+        }
+    currentTour->next = tour;
+    return 0;
+}
+
+
 
 /**
  * Retourne le nombre de batiments d'un certain type autour d'une tour spécifique
@@ -159,4 +183,28 @@ void tour_add(TypeCase type, int index_case)
   tour_completeInfo(CENTRALE, index_case);
   tour_completeInfo(ARMEMENT, index_case);
   tour_completeInfo(MUNITION, index_case);
+}
+
+int attackAllTower() {
+    Tour* currentTour = plateau->listTours->next;
+    while (currentTour == NULL)
+        {  
+          attackTour(currentTour);
+          currentTour = currentTour->next;
+        }
+    return 0;
+}
+
+
+int attackTour(Tour* tour) {
+  if(tour->lastMonster == NULL) {
+    //tour->lastMonster = findMonster();
+  }
+  
+  if(tour->rechargement <= 0) {
+    //createProjectile(tour);
+    tour->rechargement = 2/tour->munition;
+  } else {
+    tour->rechargement = tour->rechargement - 1.0/60.0;
+  }
 }

@@ -43,6 +43,7 @@ void display_drawRange(int caseX, int caseY, int range)
 
 void display_drawSingleMonster(Monster* monster)
 {
+  
   if (monster->type = SOLDER) {
     glColor3d(0,0,255);
   } else if (monster->type = HUGE_SOLDER) {
@@ -75,11 +76,12 @@ void display_drawSingleMonster(Monster* monster)
   
 }
 
-int display_drawAllMonsters(ListMonsters* listmonsters) {
-    if(listmonsters->firstMonster == NULL) {
+int display_drawAllMonsters() {
+    if(plateau->listMonsters->firstMonster == NULL) {
         return 0;
     }
-    Monster* currentMonster = listmonsters->firstMonster;
+    Monster* currentMonster = plateau->listMonsters->firstMonster;
+    glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
     while (currentMonster != NULL)
     {  
         display_drawSingleMonster(currentMonster);

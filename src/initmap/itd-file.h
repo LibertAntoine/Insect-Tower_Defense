@@ -8,12 +8,31 @@
 
 #define FIRST_PARAMETER_ARG 1
 
+
 typedef enum TypeMonster {
   SOLDER,
   HUGE_SOLDER,
   GERERAL,
   BOSS
 } TypeMonster;
+
+typedef struct Wave Wave;
+struct Wave {
+  int nbWave;
+  float timeBegin;
+  float freq;
+  float random;
+  float nextMonster;
+  int nbMonster;
+  int* monsters;
+  Wave* next;
+};
+
+typedef struct ListWaves {
+  int nbWaves;
+  Wave* next;
+} ListWaves;
+
 
 typedef struct RGBcolor {
   unsigned char red;
@@ -38,22 +57,6 @@ typedef struct InfosNodes {
   Node** shortPaths;
 } InfosNodes;
 
-typedef struct Wave Wave;
-struct Wave {
-  int nbWave;
-  float timeBegin;
-  float freq;
-  float random;
-  float nextMonster;
-  int nbMonster;
-  int* monsters;
-  Wave* next;
-};
-
-typedef struct ListWaves {
-  int nbWaves;
-  Wave* next;
-} ListWaves;
 
 typedef struct MapData {
   char* mapFile;

@@ -1,5 +1,6 @@
 #ifndef DRAW_MONSTER_H_
 #define DRAW_MONSTER_H_
+#pragma once
 
 #ifdef _WIN32
     #include <GL/glew.h>
@@ -25,7 +26,7 @@ void display_drawRange(int caseX, int caseY, int range);
 void display_drawSquare(int fillMode);
 void display_gridList(GLuint id);
 void display_drawSingleMonster(Monster* monster);
-int display_drawAllMonsters(ListMonsters* listmonsters);
+int display_drawAllMonsters();
 void display_drawSingleTower(int X, int Y, TypeCase type);
 void display_drawAllTowers();
 void display_drawBoard();
