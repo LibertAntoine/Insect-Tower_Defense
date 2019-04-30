@@ -2,8 +2,12 @@
 #define MONSTER_H_
 
 #include <stdio.h>
+#include <math.h>
 #include "cases.h"
+#include "tour.h"
 
+
+typedef struct Tour Tour;
 
 typedef enum Orientation {
    HAUT,
@@ -11,6 +15,11 @@ typedef enum Orientation {
    GAUCHE,
    DROITE
 } Orientation;
+
+typedef enum Statut {
+   ALIVE,
+   DEAD
+} Statut;
 
 typedef struct Etape Etape;
 struct Etape {
@@ -30,8 +39,9 @@ struct Monster {
    int strength;
    double mass;
    int idIn;
-   int type;
-   int orientation;
+   TypeMonster type;
+   Statut status;
+   Orientation orientation;
    double x;
    double y;
    Itineraire* itineraire;
@@ -50,10 +60,6 @@ typedef struct ListMonsters {
    DataMonsters* dataMonsters;
 } ListMonsters;
 
-
-
-
-
 int initListMonsters();
 int addToList(Monster* monster);
 int createMonster(InfosNodes* InfosNodes, int type, int idIN);
@@ -61,4 +67,6 @@ void attackMonster(Monster* monster, int damage);
 void killMonster(Monster* monster);
 int moveMonster(Monster* monster);
 int moveAllMonster();
+int findMonster(Tour* tour);
+int refindMonster(Tour* tour);
 #endif //MONSTER_H_

@@ -5,7 +5,6 @@ void player_init()
   plateau->joueur.argent = 10000;
   plateau->joueur.action = ADD;
   plateau->joueur.type = LASER;
-
 }
 
 void player_afficherAction()

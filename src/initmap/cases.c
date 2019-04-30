@@ -22,7 +22,6 @@ int case_initPlateau(MapData* mapdata)
   TypeCase* cases = malloc(sizeof(int)*mapdata->energy);
   RGBcolor* pixel_ppm = malloc(sizeof(RGBcolor));
   int nbSortie = 0;
-  int nbTerrain = 0;
   for(int i = 0; i < plateau->Xsplit*plateau->Ysplit; i++) {
     pixel_ppm->red = (char) pixel_data[i*3];
     pixel_ppm->green = (char) pixel_data[i*3+1];
@@ -33,7 +32,6 @@ int case_initPlateau(MapData* mapdata)
         cases[i] = NOEUD;   
     } else if (case_RGBCompare(*pixel_ppm, mapdata->buildingCol)) {
         cases[i] = TERRAIN;
-        nbTerrain++;
     } else if (case_RGBCompare(*pixel_ppm, mapdata->inCol)) {
         cases[i] = ENTREE;
     } else if (case_RGBCompare(*pixel_ppm, mapdata->outCol)) {
@@ -51,7 +49,7 @@ int case_initPlateau(MapData* mapdata)
   plateau->listTours = malloc(sizeof(ListTours));
   plateau->listTours->nbTours = 0;
   plateau->listTours->next = NULL;
-  plateau->tours = calloc(nbTerrain, sizeof(Tour*));
+  plateau->tours = calloc(plateau->Xsplit*plateau->Ysplit, sizeof(Tour*));
   if (!plateau->tours) {
     return EXIT_FAILURE;
   }
@@ -95,8 +93,8 @@ int case_getCaseCoordFromPixels(int positionX, int positionY, int *caseX, int *c
   int case_height = px_height / plateau->Ysplit;
 
   if (positionX >= 0 && positionX < px_width && positionY >= 0 && positionY < px_height) {
-    *caseX = positionX / case_width;
-    *caseY = positionY / case_height;
+    *caseX = (positionX / case_width);
+    *caseY = (positionY / case_height);
     return 1;
   }
   else {
@@ -157,6 +155,7 @@ void case_addConstruction(int caseX, int caseY)
     tour_add(type, index_case);
   }
   else if (generalType == BATIMENT) {
+    updateAllTower();
     printf("adding building\n");
     // Fonction de placement de batiment
   }

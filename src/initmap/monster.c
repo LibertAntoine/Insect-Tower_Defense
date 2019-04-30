@@ -59,6 +59,7 @@ int createMonster(InfosNodes* InfosNodes, int type, int idIn)
     monster->next = NULL;
     monster->idIn = idIn;
     monster->type = type;
+    monster->status = ALIVE;
     monster->orientation = HAUT;
     monster->x = InfosNodes->nodes[idIn].x;
     monster->y = InfosNodes->nodes[idIn].y;
@@ -126,6 +127,38 @@ int moveAllMonster() {
         moveMonster(currentMonster);
         currentMonster = currentMonster->next;
         
+    }
+    return 0;
+}
+
+int findMonster(Tour* tour) {
+    
+    if(plateau->listMonsters->firstMonster == NULL) {
+        tour->lastMonster = NULL;
+        return 0;
+    }
+    
+    Monster* currentMonster = plateau->listMonsters->firstMonster;
+    double distance = 0;
+    double distanceMin = plateau->Xsplit*plateau->Ysplit;
+    while (currentMonster != NULL)
+    {  
+        distance = sqrt(pow(abs(tour->x - currentMonster->x), 2) + pow(abs(tour->y - currentMonster->y), 2));
+        //printf("%lf -- ", distance);
+        //printf("%d -- ", tour->radar);
+        if(distance < distanceMin && distance <= tour->radar) {
+            distanceMin = distance;
+            tour->lastMonster = currentMonster;
+        }
+        currentMonster = currentMonster->next;   
+    }
+    return 0;
+}
+
+int refindMonster(Tour* tour) {
+    double distance = 0;
+    if(tour->lastMonster->status == DEAD && sqrt(pow(abs(tour->x - tour->lastMonster->x), 2) + pow(abs(tour->y - tour->lastMonster->y), 2)) > tour->radar) {
+        tour->lastMonster = NULL;
     }
     return 0;
 }

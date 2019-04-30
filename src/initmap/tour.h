@@ -14,8 +14,10 @@ struct Tour {
   int armement;
   int centrale;
   int munition;
-  int rechargement;
+  float rechargement;
   int radar;
+  double x;
+  double y;
   Monster* lastMonster;
   Tour* next;
 };
@@ -34,11 +36,12 @@ int tour_getRange(TypeCase type);
 int tour_getPortee(TypeCase type);
 int tour_getPrixAchat(TypeCase type);
 int tour_getPrixRevente(TypeCase type);
-Tour *tour_create(TypeCase type);
+Tour *tour_create(TypeCase type, int index_case);
 int tour_countBatiments(TypeCase type, int index_case);
 void tour_completeInfo(TypeCase type, int index_case);
 void tour_add(TypeCase type, int index_case);
 int addToListTour(Tour* tour);
 int attackTour(Tour* tour);
+int updateAllTower();
 
 #endif //TOUR_H_

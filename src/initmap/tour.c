@@ -84,12 +84,14 @@ int tour_getPrixRevente(TypeCase type)
   return plateau->constructionData[type].valeur_revente;
 }
 
-Tour *tour_create(TypeCase type)
+Tour *tour_create(TypeCase type, int index_case)
 {
   Tour *new = malloc(sizeof(Tour));
   if (!new) {
     // TODO: Throw allocation error
   }
+  int caseX, caseY;
+  case_getCasePosition(index_case, &caseX, &caseY);
 
   new->type = type;
   new->armement = 0;
@@ -99,10 +101,14 @@ Tour *tour_create(TypeCase type)
   new->rechargement = 0;
   new->next = NULL;
   new->lastMonster = NULL;
+  new->x = caseX + 0.5;
+  new->y = caseY + 0.5;
 
   if (type == LASER || type == MISSILE) {
     addToListTour(new);
+    plateau->listTours->nbTours++;
   }
+
   return new;
 }
 
@@ -158,7 +164,7 @@ void tour_completeInfo(TypeCase type, int index_case)
 {
   int counter_batiment = tour_countBatiments(type, index_case);
   Tour *tour = plateau->tours[index_case];
-
+  
   switch (type) {
     case ARMEMENT:
       tour->armement = counter_batiment;
@@ -177,17 +183,31 @@ void tour_completeInfo(TypeCase type, int index_case)
 
 void tour_add(TypeCase type, int index_case)
 {
-  plateau->tours[index_case] = tour_create(type);
-
-  tour_completeInfo(RADAR, index_case);
-  tour_completeInfo(CENTRALE, index_case);
-  tour_completeInfo(ARMEMENT, index_case);
-  tour_completeInfo(MUNITION, index_case);
+  plateau->tours[index_case] = tour_create(type, index_case);
+  printf("%p", plateau->tours[index_case]);
+  updateAllTower();
 }
+
+int updateAllTower() {
+    Tour* currentTour = plateau->listTours->next;
+    int index_case = -1; 
+    while (currentTour != NULL)
+        { 
+          index_case = case_getCaseIndex(currentTour->x - 1.5, currentTour->y - 1.5);
+          tour_completeInfo(RADAR, index_case);
+          tour_completeInfo(CENTRALE, index_case);
+          tour_completeInfo(ARMEMENT, index_case);
+          tour_completeInfo(MUNITION, index_case);
+          currentTour = currentTour->next;
+        }
+    return 0;
+}
+
+
 
 int attackAllTower() {
     Tour* currentTour = plateau->listTours->next;
-    while (currentTour == NULL)
+    while (currentTour != NULL)
         {  
           attackTour(currentTour);
           currentTour = currentTour->next;
@@ -197,14 +217,20 @@ int attackAllTower() {
 
 
 int attackTour(Tour* tour) {
-  if(tour->lastMonster == NULL) {
-    //tour->lastMonster = findMonster();
+  if(tour->lastMonster != NULL) {
+    refindMonster(tour);
+  } else {
+    findMonster(tour);
   }
   
-  if(tour->rechargement <= 0) {
+  if((tour->rechargement < 0 && tour->lastMonster != NULL) && tour->munition != 0) {
+    printf("lol");
     //createProjectile(tour);
     tour->rechargement = 2/tour->munition;
   } else {
-    tour->rechargement = tour->rechargement - 1.0/60.0;
+    if (tour->rechargement >= 0) {
+      tour->rechargement = tour->rechargement - 1.0/60.0;
+    }
+    
   }
 }

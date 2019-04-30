@@ -51,7 +51,7 @@ int main(int argc, char *argv[])
 
   int pixelMouseX, pixelMouseY, caseMouseX, caseMouseY;
 
-Uint32 beginMomentLevel = SDL_GetTicks();
+  Uint32 beginMomentLevel = SDL_GetTicks();
 
 
   /* Boucle principale */
@@ -70,7 +70,7 @@ Uint32 beginMomentLevel = SDL_GetTicks();
     launchWaves(mapData, (SDL_GetTicks() - beginMomentLevel));
 
     moveAllMonster();
-    
+    attackAllTower();
     display_drawAllMonsters();
     
     /* Echange du front et du back buffer : mise a jour de la fenetre */
