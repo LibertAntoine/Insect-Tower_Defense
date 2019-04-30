@@ -65,7 +65,6 @@ char* ppm_loadImage(char path[])
   fscanf(image, "%d", &height);
   ppm_handleComments(image);
   fscanf(image, "%d", &color_value);
-  ppm_handleComments(image);
 
   //Read actual image data
   unsigned char* pixel_data = malloc(sizeof(unsigned char)*3*width*height);
