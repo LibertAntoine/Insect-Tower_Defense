@@ -4,6 +4,7 @@
 
 #include <stdlib.h>
 #include "cases.h"
+#include "projectile.h"
 
 typedef enum TypeCase TypeCase;
 typedef struct Monster Monster;

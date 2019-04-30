@@ -222,15 +222,16 @@ int attackTour(Tour* tour) {
   } else {
     findMonster(tour);
   }
-  
-  if((tour->rechargement < 0 && tour->lastMonster != NULL) && tour->munition != 0) {
-    printf("lol");
-    //createProjectile(tour);
-    tour->rechargement = 2/tour->munition;
-  } else {
-    if (tour->rechargement >= 0) {
-      tour->rechargement = tour->rechargement - 1.0/60.0;
+  if (tour->munition != 0 && tour->armement != 0) {
+    if(tour->rechargement < 0 && tour->lastMonster != NULL) {
+      printf("lol");
+      create_projectile(tour, tour->lastMonster);
+      tour->rechargement = 2/tour->munition;
+    } else {
+      if (tour->rechargement >= 0) {
+        tour->rechargement = tour->rechargement - 1.0/60.0;
+      }
     }
-    
   }
+
 }
