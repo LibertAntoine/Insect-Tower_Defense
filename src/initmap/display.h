@@ -17,6 +17,7 @@
 #include "cases.h"
 #include "monster.h"
 #include "tour.h"
+#include "projectile.h"
 
 
 
@@ -31,5 +32,7 @@ void display_drawSingleTower(int X, int Y, TypeCase type);
 void display_drawAllTowers();
 void display_drawBoard();
 void display_drawAllTargetRanges();
+int display_drawAllProjectiles();
+void display_drawSingleProjectile(Projectile* projectile);
 
 #endif //DRAW_MONSTER_H_

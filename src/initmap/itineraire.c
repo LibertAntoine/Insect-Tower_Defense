@@ -3,7 +3,7 @@
 int getShortPath(InfosNodes* infosNodes) {
     
     
-    if (infosNodes->idOut > infosNodes->nbNoeud -1 || infosNodes->idOut <= 0) {
+    if (infosNodes->idOut > infosNodes->nbNoeud -1 || infosNodes->idOut < 0) {
         return 0;
     }
     int* idVisited = malloc(sizeof(int)*infosNodes->nbNoeud);

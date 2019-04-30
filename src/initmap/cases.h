@@ -15,9 +15,11 @@
 #include "player.h"
 #include "monster.h"
 
+
 typedef struct ListTours ListTours;
 typedef struct ListMonsters ListMonsters;
 typedef struct Tour Tour;
+typedef struct ListProjectiles ListProjectiles;
 
 typedef enum GeneralType {
   TOUR = 1,
@@ -69,6 +71,7 @@ typedef struct Plateau {
   ConstructionData constructionData[6];
   ListTours* listTours;
   ListMonsters* listMonsters;
+  ListProjectiles* listProjectiles;
   Tour **tours;
   TypeCase *cases;
 } Plateau;

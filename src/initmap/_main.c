@@ -7,8 +7,6 @@
   #include <GL/glu.h>
 #endif
 
-
-
 #include <stdlib.h>
 #include <stdio.h>
 #include <math.h>
@@ -23,6 +21,7 @@
 #include "tour.h"
 #include "itineraire.h"
 #include "SDLConfig.h"
+#include "projectile.h"
 
 Plateau *plateau = NULL;
 
@@ -30,7 +29,7 @@ int main(int argc, char *argv[])
 {
   /* Récuperation des informations idt/ppm */
   MapData* mapData = itd_initMapData();
-  idt_load("level2.itd", mapData);
+  idt_load("level3.itd", mapData);
   
   /* Création du plateau */
   case_initPlateau(mapData);
@@ -71,7 +70,9 @@ int main(int argc, char *argv[])
 
     moveAllMonster();
     attackAllTower();
+    moveAllProjectiles();
     display_drawAllMonsters();
+    display_drawAllProjectiles();
     
     /* Echange du front et du back buffer : mise a jour de la fenetre */
     SDL_GL_SwapWindow(surface);
@@ -102,6 +103,7 @@ int main(int argc, char *argv[])
           SDL_GetMouseState(&pixelMouseX, &pixelMouseY);
           case_getCaseCoordFromPixels(pixelMouseX, pixelMouseY, &caseMouseX, &caseMouseY, WINDOW_WIDTH, WINDOW_HEIGHT);
           printf("\n\nmouse X -> %d\nmouse Y -> %d\n", caseMouseX, caseMouseY);
+
 
           switch(plateau->joueur.action) {
             case ADD:

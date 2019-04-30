@@ -91,6 +91,36 @@ int display_drawAllMonsters() {
 
 }
 
+
+int display_drawAllProjectiles() {
+    if(plateau->listProjectiles->next == NULL) {
+        return 0;
+    }
+    Projectile* currentProjectile = plateau->listProjectiles->next;
+    glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+     printf("flora ");
+    while (currentProjectile != NULL)
+    {  
+        display_drawSingleProjectile(currentProjectile);
+        currentProjectile = currentProjectile->next;
+        
+    }
+    return 0;
+}
+
+void display_drawSingleProjectile(Projectile* projectile) {
+  glColor3d(0,255,255);
+
+  glBegin(GL_TRIANGLES);
+      glVertex2f(projectile->x, projectile->y-0.1);
+      glVertex2f(projectile->x+0.1, projectile->y+0.1);
+      glVertex2f(projectile->x-0.1, projectile->y+0.1); 
+  glEnd();
+
+}
+
+
+
 void display_gridList(GLuint id)
 {
   glNewList(id, GL_COMPILE);

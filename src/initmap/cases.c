@@ -49,6 +49,10 @@ int case_initPlateau(MapData* mapdata)
   plateau->listTours = malloc(sizeof(ListTours));
   plateau->listTours->nbTours = 0;
   plateau->listTours->next = NULL;
+  plateau->listProjectiles = malloc(sizeof(ListProjectiles));
+  plateau->listProjectiles->nbProjectile = 0;
+  plateau->listProjectiles->next = NULL;
+
   plateau->tours = calloc(plateau->Xsplit*plateau->Ysplit, sizeof(Tour*));
   if (!plateau->tours) {
     return EXIT_FAILURE;
@@ -72,7 +76,7 @@ int case_RGBCompare(RGBcolor color1, RGBcolor color2) {
 
 int case_getCaseIndex(int caseX, int caseY)
 {
-  return caseY*plateau->Xsplit + caseX;
+  return (caseY)*plateau->Xsplit + (caseX);
 }
 
 void case_getCasePosition(int caseIndex, int* caseX, int* caseY)
