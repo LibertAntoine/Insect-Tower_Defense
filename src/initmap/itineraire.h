@@ -2,7 +2,6 @@
 #define SHORT_PATH_ALGO_H_
 #pragma once
 
-#include "struct.h"
 #include <stdio.h>
 #include "itd-file.h"
 #include "cases.h"

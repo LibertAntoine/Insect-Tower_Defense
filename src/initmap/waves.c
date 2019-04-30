@@ -39,7 +39,7 @@ int moveWave(MapData* mapdata, Wave* currentWave) {
   }
 }
 
-int launchWaves(ListMonsters* listMonsters, MapData* mapdata, Wave* currentWave, float timer) {
+int launchWaves(MapData* mapdata, float timer) {
   int restMonster = 0;
   Wave* currentWave = malloc(sizeof(Wave));
   currentWave = mapdata->listWaves->next;
