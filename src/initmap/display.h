@@ -30,6 +30,10 @@ void display_drawSingleMonster(Monster* monster);
 int display_drawAllMonsters();
 void display_drawSingleTower(int X, int Y, TypeCase type);
 void display_drawAllTowers();
+
+/**
+ * @brief Affichage des tours sur le plateau.
+ */
 void display_drawBoard();
 void display_drawAllTargetRanges();
 int display_drawAllProjectiles();

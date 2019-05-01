@@ -7,6 +7,8 @@
 #include "cases.h"
 #include <math.h>
 
+// TODO: convention de nommage des fonctions
+// NOTE: le but est de facilement trouver ce qu'elles font et où les trouver
 
 int getShortPath(InfosNodes* infosNodes);
 void fill(int* array, int size, int value);

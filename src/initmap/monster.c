@@ -105,7 +105,10 @@ void get_itineraire(Monster* monster)
     free(monster);
 }
 
+// NOTE: (Nicolas) Comprendre le fonctionnement.
 int moveMonster(Monster* monster) {
+
+  // NOTE: (Nicolas) interpretation de la condition suivante.
     if (monster->itineraire->next == NULL) {
         return 0;
     }
@@ -137,15 +140,16 @@ int moveMonster(Monster* monster) {
 
 int moveAllMonster() {
     
+  // NOTE: (Nicolas) interpretation de la condition suivante.
     if(plateau->listMonsters->firstMonster == NULL) {
         return 0;
     }
+
     Monster* currentMonster = plateau->listMonsters->firstMonster;
     while (currentMonster != NULL)
     {  
         moveMonster(currentMonster);
         currentMonster = currentMonster->next;
-        
     }
     return 0;
 }

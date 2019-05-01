@@ -68,6 +68,10 @@ void attackMonster(Projectile* projectile);
 int deleteToList(Monster* monster);
 void killMonster(Monster* monster);
 int moveMonster(Monster* monster);
+
+/**
+ * @brief Parcours la liste de montre afin d'en demander le déplacement.
+ */
 int moveAllMonster();
 int findMonster(Tour* tour);
 int refindMonster(Tour* tour);

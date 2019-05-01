@@ -78,6 +78,10 @@ typedef struct Plateau {
 
 extern Plateau *plateau;
 
+/** 
+ * @brief Remplis les informations de cases de la structure plateau.
+ * @param[in] mapData données du fichier .itd.
+ */
 int case_initPlateau(MapData* mapdata);
 int case_RGBCompare(RGBcolor color1, RGBcolor color2);
 

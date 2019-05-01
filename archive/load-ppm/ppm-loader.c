@@ -25,9 +25,7 @@ void ppm_handleComments(FILE *image)
   int current_position = ftell(image);
 
   fscanf(image, "%s", buffer);
-  //printf("comment character :%c\n", buffer[0]);
   if (buffer[0] == '#') {
-    //printf("skipping one comment\n");
     ppm_gotoEndOfLine(image);
     ppm_handleComments(image);
   }

@@ -3,32 +3,37 @@
 void display_gridList(GLuint id)
 {
   glNewList(id, GL_COMPILE);
+  // ---
+
   glColor3d(0,255,0);
   glLineWidth(3);
 
-  for (int i=0; i<Xsplit; i++) {
+  for (int column=0; column<Xsplit; column++) {
     glBegin(GL_LINES);
-    glVertex2d(i, 0);
-    glVertex2d(i, Ysplit);
+    glVertex2d(column, 0);
+    glVertex2d(column, Ysplit);
     glEnd();
   }
   glColor3d(255,255,0);
-  for (int i=0; i<Ysplit; i++) {
+  for (int line=0; line<Ysplit; line++) {
     glBegin(GL_LINES);
-    glVertex2d(0, i);
-    glVertex2d(Xsplit, i);
+    glVertex2d(0, line);
+    glVertex2d(Xsplit, line);
     glEnd();
   }
 
+  /* Déssine les points au centre des cases */
   glColor3d(255,0,255);
   glPointSize(5);
   glBegin(GL_POINTS);
-  for (int i=0; i<Xsplit*Ysplit; i++) {
-    float centerY = i / Xsplit + 0.5;
-    float centerX = i % Xsplit + 0.5;
+  for (int index_case=0; index_case<Xsplit*Ysplit; index_case++) {
+    float centerY = index_case / Xsplit + 0.5;
+    float centerX = index_case % Xsplit + 0.5;
     glVertex2f(centerX, centerY);
   }
   glEnd();
+
+  // ---
   glEndList();
 }
 

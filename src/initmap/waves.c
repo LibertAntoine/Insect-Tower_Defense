@@ -41,8 +41,11 @@ int moveWave(MapData* mapdata, Wave* currentWave) {
 
 int launchWaves(MapData* mapdata, float timer) {
   int restMonster = 0;
+
+  // TODO: Vérifier l'allocation.
   Wave* currentWave = malloc(sizeof(Wave));
   currentWave = mapdata->listWaves->next;
+
   while(currentWave != NULL) {
     restMonster = restMonster + currentWave->nbMonster;
     if(currentWave->timeBegin*1000 < timer) {

@@ -52,7 +52,6 @@ void reshape(SDL_Window** surface, SDL_GLContext *GLcontext, unsigned int width,
   }
 
   glViewport(0, 0, window_width, window_height);
-  //glViewport(0, -window_height, window_width, window_height);
   glMatrixMode(GL_PROJECTION);
   glLoadIdentity();
   gluOrtho2D(0, Xsplit, Ysplit, 0);

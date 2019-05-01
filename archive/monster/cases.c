@@ -28,8 +28,8 @@ int case_initPlateau(Plateau* plateau, MapData* mapdata)
     } else {
       return 0;
     }
-    //printf("%d ", cases[i]);
   }
+  // TODO: Vérifier que les cases du .ppm correspondent aux noeuds de l'.itd.
   plateau->cases = cases;
   return 1;
 }

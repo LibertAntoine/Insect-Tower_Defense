@@ -29,7 +29,7 @@ MapData* itd_initMapData()
   if (!mapData) {
     printf("ERROR ALLOC : mapData");
   } else {
-  mapData->contentState = 0;
+  mapData->contentState = 0; // NOTE: check ce qui est remplis correctement (Bit Field)
   return mapData;
   }
 }
@@ -107,6 +107,7 @@ int itd_getColor(FILE* file, RGBcolor* RGBColor) {
   }
 }
 
+// TODO: voir TODO dans int itd_checkForMapData(FILE* file, MapData* mapData)
 int itd_getInfosNodes(FILE* file, MapData* MapData) {
   int nbNoeud;
   int noOfNoeud = fscanf_s(file, "%d", &nbNoeud);
@@ -124,6 +125,7 @@ int itd_getInfosNodes(FILE* file, MapData* MapData) {
       itd_checkComment(file);
       char line[100];
       fgets (line, 100 ,file);
+      // TODO: vérifier la validité des positions avec le PPM
       if(sscanf(line, "%d %d %d %d %d %d %d %d", &id, &type, &x, &y, 
       &connect[0], &connect[1], &connect[2], &connect[3])) {
         nodes[i].id = id;
@@ -287,6 +289,9 @@ int itd_checkForMapData(FILE* file, MapData* mapData)
       }
     }
 
+    // TODO: Passer à une version sans "infosNodes" dans l'.itd afin de respecter le cahier des charges
+    // NOTE: Si on renconctre un chiffre seul, interpreter comme nombre de noeuds.
+    // Puis activer la lecture des noeuds en mode state machine lire_node = true;
     if (strcmp("infosNodes", label) == 0) {
       if (itd_getInfosNodes(file, mapData) == CHK_SUCCESS) {
         mapData->contentState |= MDATA_INFOSNODE;
@@ -312,30 +317,30 @@ void idt_load(char* itdFile, MapData* mapData)
 {
     FILE* file = fopen(itdFile, "r");
     if (!file) {
-    printf("Cound't open the file %s\n", itdFile);
-    } else {
-    fseek(file, 0, SEEK_END);
-    int totalSizeofFile = ftell(file);
-    // printf("size of file = %d\n", totalSizeofFile);
-    fseek(file, 0, SEEK_SET);
-
-    if(itd_checkCode(file)) {
-      // ERROR file code doesn't match ITD
+      printf("Cound't open the file %s\n", itdFile);
     }
     else {
-      printf("correct file ITD\n");
-      itd_gotoEndOfLine(file);
-    }
+      fseek(file, 0, SEEK_END);
+      int totalSizeofFile = ftell(file);
+      fseek(file, 0, SEEK_SET);
 
-    while (fgetc(file) != EOF) {
-      itd_checkComment(file);
-      itd_checkForMapData(file, mapData);
-      //printf("pos : %ld %c\n", ftell(file), fgetc(file));
-    }
+      if(itd_checkCode(file)) {
+        // TODO: ERROR file code doesn't match ITD
+      }
+      else {
+        printf("ITD: format correct.\n");
+        itd_gotoEndOfLine(file);
+      }
 
-    int allFlags = (MDATA_IMG | MDATA_ENERGY | MDATA_IN | MDATA_OUT | MDATA_PATH | MDATA_NODE | MDATA_CONSTRUCT | MDATA_INFOSNODE);
-    if (mapData->contentState == allFlags) {
-      printf("file is valid\n");
+      // NOTE: Boucle de parcours du fichier .itd
+      while (fgetc(file) != EOF) {
+        itd_checkComment(file);
+        itd_checkForMapData(file, mapData);
+      }
+
+      int allFlags = (MDATA_IMG | MDATA_ENERGY | MDATA_IN | MDATA_OUT | MDATA_PATH | MDATA_NODE | MDATA_CONSTRUCT | MDATA_INFOSNODE);
+      if (mapData->contentState == allFlags) {
+        printf("file is valid\n");
+      }
     }
-  }
 }

@@ -48,6 +48,7 @@ int main(int argc, char *argv[])
   GLuint idGrid = glGenLists(1);
   display_gridList(idGrid);
 
+  // Position X, Y en pixel ET en indice de case de la souris
   int pixelMouseX, pixelMouseY, caseMouseX, caseMouseY;
 
   Uint32 beginMomentLevel = SDL_GetTicks();
@@ -61,9 +62,13 @@ int main(int argc, char *argv[])
     Uint32 startTime = SDL_GetTicks();
 
     /* Placer ici le code de dessin */
+
     glClear(GL_COLOR_BUFFER_BIT);
 
+    /* Affichage des tours */
     display_drawBoard();
+
+    /* Affichage de la grille du plateau */
     glCallList(idGrid);
 
     launchWaves(mapData, (SDL_GetTicks() - beginMomentLevel));

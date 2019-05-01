@@ -10,6 +10,10 @@
 
 #include "cases.h"
 
+/**
+ * @brief Génère la grille visuelle du plateau (séparations et centres ce chaque case)
+ * @param[out] Liste d'affichage OpenGL.
+ */
 void display_gridList(GLuint id);
 void display_drawSingleTower(int X, int Y, TypeCase type);
 void display_drawAllTowers(int cases[]);

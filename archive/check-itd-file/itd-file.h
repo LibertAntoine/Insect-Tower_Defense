@@ -36,26 +36,26 @@ typedef struct MapData {
 } MapData;
 
 /**
- * Create a MapData of an empty state
- * param[out] MapData 
+ * @brief Initialise la structure de données qui contient le niveau actuel
+ * @return MapData*
  */
 MapData* itd_initMapData();
 
 /**
- * Move specific file cursor to the end of the current line
- * @param[in] file
+ * @brief Avance le curseur de lecture du fichier à la fin de la ligne actuelle.
+ * @param[in] file fichier .itd.
  */
 void itd_gotoEndOfLine(FILE* file);
 
 /**
- * Pass commented lines that use '#' sign
- * param[in]
+ * @brief Si on rencontre le carractère '#', passer à la ligne suivante.
+ * @param[in] file fichier .itd.
  */
 void itd_checkComment(FILE* file);
 
 /**
- * Treats .itd files code @ITD {num}
- * @param[in] file
+ * @brief Vérifie le code de fichier @ITD {{num}}.
+ * @param[in] file fichier .itd.
  */
 int itd_checkCode(FILE* file);
 
@@ -92,15 +92,18 @@ int itd_getColor(FILE* file, RGBcolor* RGBColor);
 int itd_getInfosNodes(FILE* file, MapData* MapData);
 
 /**
- * Verify whether it is a keyword, if so, check it's value
- * The function sets the cursor back in it's original position if the line is invalid
- * In case it's of another type
- * param[in] file
- * param[in] * MapData
- * param[out] * MapData updated if the line is valid
+ * @brief Lis la ligne en cours et remplis la structure MapData avec les données rencontrées.
+ * Vérifie la validité de la ligne, si OK remet le curseur en position et commence le remplissage.
+ * Sinon remet le curseur en position initiale.
+ * @param[in] file fichier .itd.
+ * param[in] mapData
+ * param[out] mapData mis à jour si la ligne est bien valide
  */
 int itd_checkForMapData(FILE* file, MapData* mapData);
 
+/**
+ * @brief Vérifie la validité du fichier .itd et parcours le fichier
+ */
 void idt_load(char* itdFile, MapData* mapData);
 
 #endif //PPM_LOADER_H_
