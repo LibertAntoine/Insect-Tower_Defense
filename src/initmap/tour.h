@@ -7,10 +7,12 @@
 #include "projectile.h"
 
 typedef enum TypeCase TypeCase;
+typedef struct Tour Tour;
+
+/*
 typedef struct Monster Monster;
 
-typedef struct Tour Tour;
-struct Tour {
+typedef struct Tour {
   TypeCase type;
   int armement;
   int centrale;
@@ -20,8 +22,9 @@ struct Tour {
   double x;
   double y;
   Monster* lastMonster;
-  Tour* next;
-};
+  struct Tour* next;
+} Tour;
+*/
 
 typedef struct ListTours {
   int nbTours;
@@ -44,5 +47,6 @@ void tour_add(TypeCase type, int index_case);
 int addToListTour(Tour* tour);
 int attackTour(Tour* tour);
 int updateAllTower();
+int attackAllTower();
 
 #endif //TOUR_H_

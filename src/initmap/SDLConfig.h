@@ -30,7 +30,7 @@ static const unsigned int BIT_PER_PIXEL = 32;
 /* Nombre minimal de millisecondes separant le rendu de deux images */
 static const Uint32 FRAMERATE_MILLISECONDS = 1000 / 60;
 
-void initSDL();
-void reshape(SDL_Window** surface, SDL_GLContext *GLcontext, unsigned int width, unsigned int height);
+void sdlConfig_initSDL();
+void sdlConfig_reshape(SDL_Window** surface, SDL_GLContext *GLcontext, unsigned int width, unsigned int height);
 
 #endif //SDLCONFIG_H_

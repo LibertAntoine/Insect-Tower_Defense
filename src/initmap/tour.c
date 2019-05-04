@@ -205,7 +205,8 @@ int updateAllTower() {
 
 
 
-int attackAllTower() {
+int attackAllTower()
+{
     Tour* currentTour = plateau->listTours->next;
     while (currentTour != NULL)
         {  

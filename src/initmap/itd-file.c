@@ -30,8 +30,8 @@ MapData* itd_initMapData()
   if (!mapData) {
     printf("ERROR ALLOC : mapData");
   } else {
-  mapData->contentState = 0;
-  return mapData;
+    mapData->contentState = 0;
+    return mapData;
   }
 }
 
@@ -48,6 +48,7 @@ void itd_checkComment(FILE* file)
   char crtChar = fgetc(file);
   if (crtChar == '#') {
     itd_gotoEndOfLine(file);
+    itd_checkComment(file);
   }
   else {
     fseek(file, -1, SEEK_CUR);
@@ -62,13 +63,13 @@ int itd_checkCode(FILE* file)
 
   char itd[] = "ITD";
   char name[4];
-  fscanf_s(file, "%s", name, _countof(name));
+  fscanf(file, "%s", name);
   if (strcmp(name, itd)) {
     return CHK_ERROR_FILE;
   } 
 
   int version;
-  fscanf_s(file, "%d", &version);
+  fscanf(file, "%d", &version);
   switch(version) {
     case 1:
       printf("v1\n");
@@ -84,7 +85,7 @@ int itd_getColor(FILE* file, RGBcolor* RGBColor) {
   int red;
   int green;
   int blue;
-  int noOfColors = fscanf_s(file, "%d %d %d", &red, &green, &blue);
+  int noOfColors = fscanf(file, "%d %d %d", &red, &green, &blue);
   if (noOfColors != 3) {
     return CHK_ERROR_FILE;
   }
@@ -110,14 +111,15 @@ int itd_getColor(FILE* file, RGBcolor* RGBColor) {
 
 int itd_getInfosNodes(FILE* file, MapData* MapData) {
   int nbNoeud;
-  int noOfNoeud = fscanf_s(file, "%d", &nbNoeud);
+  int noOfNoeud = fscanf(file, "%d", &nbNoeud);
   if (noOfNoeud != 1 || nbNoeud <= 0) {
     return CHK_ERROR_FILE;
   }
   else {
     itd_gotoEndOfLine(file);
     Node* nodes = malloc(sizeof(Node)*nbNoeud);
-    int nbEntree = 0;
+    // TODO: Checker l'allocation.
+    int entrance_total = 0;
     int idOut = -1;
     for (int i = 0; i < nbNoeud; i++)
     {
@@ -126,9 +128,9 @@ int itd_getInfosNodes(FILE* file, MapData* MapData) {
       int connect[4] = {-1, -1, -1, -1};
       itd_checkComment(file);
       char line[100];
-      fgets(line, 100 ,file);
+      fgets(line, 100, file);
       if(sscanf(line, "%d %d %lf %lf %d %d %d %d", &id, &type, &x, &y, 
-      &connect[0], &connect[1], &connect[2], &connect[3])) {
+            &connect[0], &connect[1], &connect[2], &connect[3])) {
         nodes[i].id = id;
         nodes[i].type = type;
         nodes[i].x = x;
@@ -138,144 +140,162 @@ int itd_getInfosNodes(FILE* file, MapData* MapData) {
         nodes[i].link[2] = connect[2];
         nodes[i].link[3] = connect[3];
         if(type == 2) {
-          nbEntree++;
-        } else if (type == 3) {
-            if (idOut == -1) {
-              idOut = id;
-            } else {
-              return CHK_ERROR_FILE;
-            }
+          entrance_total++;
         }
-      } else {
+        else if (type == 3) {
+          if (idOut == -1) {
+            idOut = id;
+          } else {
+            return CHK_ERROR_FILE;
+          }
+        }
+      }
+      else {
         return CHK_ERROR_FILE;
       }
     }
-    
-    if (nbEntree <= 0 || nbEntree > nbNoeud - 1) {
-      
+
+    if (entrance_total <= 0 || entrance_total > nbNoeud - 1) {
+
       return CHK_ERROR_FILE;
     }
     if (idOut == -1) {
-      
+
       return CHK_ERROR_FILE;
     }
     InfosNodes* infosNodes = malloc(sizeof(InfosNodes));
+    //TODO: Checker allocation.
+
     infosNodes->nbNoeud = nbNoeud;
     infosNodes->nodes = nodes;
-    infosNodes->nbEntrees = nbEntree;
+    infosNodes->entrance_total = entrance_total;
     infosNodes->idOut = idOut;
     MapData->infosNodes = infosNodes;
+
     getIdEntrees(MapData);
+
+    fseek(file, -1, SEEK_CUR);
     return CHK_SUCCESS;
   }
 }
 
 int getIdEntrees(MapData* mapdata) {
-    int* idEntrees = malloc(sizeof(int)*mapdata->infosNodes->nbEntrees);
-    int j = 0;
-    for (int i = 0; i < mapdata->infosNodes->nbNoeud; i++)
-    {
-        if(mapdata->infosNodes->nodes[i].type == 2) {
-            idEntrees[j] = mapdata->infosNodes->nodes[i].id;
-            j++;
-        }
+  int* idEntrees = malloc(sizeof(int)*mapdata->infosNodes->entrance_total);
+  //TODO: Checker allocation.
+
+  int j = 0;
+  for (int i = 0; i < mapdata->infosNodes->nbNoeud; i++)
+  {
+    if(mapdata->infosNodes->nodes[i].type == 2) {
+      idEntrees[j] = mapdata->infosNodes->nodes[i].id;
+      j++;
     }
-    if (mapdata->infosNodes->nbEntrees != j) {
-        return CHK_ERROR_FILE;
-    } else {
-        mapdata->infosNodes->idEntrees = idEntrees;
-        return CHK_SUCCESS;
-    }
+  }
+  if (mapdata->infosNodes->entrance_total != j) {
+    return CHK_ERROR_FILE;
+  } else {
+    mapdata->infosNodes->idEntrees = idEntrees;
+    return CHK_SUCCESS;
+  }
 }
 
 int itd_getInfosWaves(FILE* file, MapData* MapData) {
-  int nbWaves;
-  int noOfNoeud = fscanf_s(file, "%d", &nbWaves);
-  if (noOfNoeud != 1 || nbWaves <= 0) {
+  int wave_total;
+  int noOfNoeud = fscanf(file, "%d", &wave_total);
+  if (noOfNoeud != 1 || wave_total <= 0) {
     return CHK_ERROR_FILE;
   } else {
     itd_gotoEndOfLine(file);
     ListWaves* listWaves = malloc(sizeof(ListWaves));
-    listWaves->nbWaves = nbWaves;
+    // TODO: Checker allocation.
+
+    listWaves->wave_total = wave_total;
     listWaves->next = NULL;
-    
-    for (int k = 0; k < nbWaves; k++)
-    {
+
+    for (int wave_id = 0; wave_id < wave_total; wave_id++) {
       Wave* wave = NULL;
       wave = malloc(sizeof(Wave));
       if (!wave) {
         printf("ERROR ALLOC : mapData");
       }   
-      int nbWave;
-      float timeBegin, freq, random;
+
+      int wave_id;
+      float timeBegin, freq_pop, random;
       int nbSolder, nbHugeSolder, nbGeneral, nbBoss;
       itd_checkComment(file);
-      
+
       char line[100];
-      fgets (line, 100 ,file);
-      
-      if(sscanf(line, "%d %f %f %f %d %d %d %d", &nbWave, &timeBegin, &freq, &random, 
-      &nbSolder, &nbHugeSolder, &nbGeneral, &nbBoss)) {
-        
-        wave->nbWave = nbWave;
+      // TODO: Vérifier à quoi sert la ligne suivante :
+
+      fgets(line, 100, file);
+      if(sscanf(line, "%d %f %f %f %d %d %d %d", &wave_id, &timeBegin, &freq_pop, &random, 
+            &nbSolder, &nbHugeSolder, &nbGeneral, &nbBoss)) {
+        wave->wave_id = wave_id;
         wave->timeBegin = timeBegin;
-        wave->freq = freq;
-        wave->nextMonster = freq;
+        wave->freq_pop = freq_pop;
+        wave->nextMonster_timer = freq_pop;
         wave->random = random;
-        wave->nbMonster = nbSolder + nbHugeSolder + nbGeneral + nbBoss;
+        wave->monster_total = nbSolder + nbHugeSolder + nbGeneral + nbBoss;
         wave->next = NULL;
-        int* monsters = malloc(sizeof(int)*wave->nbMonster);
-        
+        TypeMonster* monsters = malloc(sizeof(TypeMonster) * wave->monster_total);
+        // TODO: Checker allocation.
+
+
         int i = 0;
         for (i ; i < nbSolder ; i++) {
-
-            monsters[i] = SOLDER;
+          monsters[i] = SOLDER;
         }
-        
+
         int j = i + nbHugeSolder;
         for (i ; i < j ; i++) {
-            monsters[i] = HUGE_SOLDER;
+          monsters[i] = HUGE_SOLDER;
         }
+
         j = i + nbGeneral;
         for (i ; i < j ; i++) {
-            monsters[i] = GERERAL;
+          monsters[i] = GERERAL;
         }
+
         j = i + nbBoss;
         for (i ; i < j ; i++) {
-            monsters[i] = BOSS;
+          monsters[i] = BOSS;
         }
-        
-        if(i != wave->nbMonster) {
-          
-          return CHK_ERROR_FILE;
-        }
-        
+
+        // NOTE: cas impossible car monster_total = nbSolder + nbHugeSolder + ...;
+        /*
+           if(i != wave->monster_total) {
+
+           return CHK_ERROR_FILE;
+           }
+         */
+
         wave->monsters = monsters;
-        
+
         addToWaves(listWaves, wave);
 
       }
     }
+
     MapData->listWaves = listWaves;
     return CHK_SUCCESS;
   }  
 }
 
 
-int addToWaves(ListWaves* listWaves, Wave* wave) {
-  
-    if(listWaves->next == NULL) {
-        listWaves->next = wave;
-        return 0;
-    }
-    
-    Wave* currentWave = listWaves->next;
-    while (currentWave->next != NULL)
-        {  
-            currentWave = currentWave->next;
-        }
-    currentWave->next = wave;
+int addToWaves(ListWaves* listWaves, Wave* wave)
+{
+  if(listWaves->next == NULL) {
+    listWaves->next = wave;
     return 0;
+  }
+
+  Wave* currentWave = listWaves->next;
+  while (currentWave->next != NULL) {  
+    currentWave = currentWave->next;
+  }
+
+  currentWave->next = wave;
+  return 0;
 }
 
 
@@ -289,7 +309,7 @@ int itd_getImageFilePath(FILE* file, MapData* mapData)
     currentChar = fgetc(file);
   } while (currentChar == ' ');
 
-  fseek(file, -1, SEEK_CUR); // We're at the beginning of the 'supposed' file path
+  //fseek(file, -1, SEEK_CUR); // We're at the beginning of the 'supposed' file path
   int letterCount = 0;
   do {
     letterCount++;
@@ -307,7 +327,7 @@ int itd_getImageFilePath(FILE* file, MapData* mapData)
 
     int i;
     fseek(file, -letterCount -1, SEEK_CUR);
-    for (i=0; i<letterCount-1; i++) {
+    for (i=0; i<letterCount; i++) {
       currentChar = fgetc(file);
       filePath[i] = currentChar; 
     }
@@ -320,7 +340,7 @@ int itd_getImageFilePath(FILE* file, MapData* mapData)
 int itd_getEnergyValue(FILE* file, MapData* mapData)
 {
   int energy;
-  if(fscanf_s(file, "%d", &energy)) {
+  if(fscanf(file, "%d", &energy)) {
     mapData->energy = energy;
     return CHK_SUCCESS;
   }
@@ -333,8 +353,8 @@ int itd_checkForMapData(FILE* file, MapData* mapData)
 {
   int originalPosition = ftell(file);
   char label[15];
-  
-  if (fscanf_s(file, "%s", label, _countof(label))) {
+
+  if (fscanf(file, "%s", label)) {
     RGBcolor* color = malloc(sizeof(RGBcolor));
     if (strcmp("carte", label) == 0) {
       if (itd_getImageFilePath(file, mapData) == CHK_SUCCESS) {
@@ -435,8 +455,7 @@ int itd_checkForMapData(FILE* file, MapData* mapData)
       }
     }
 
-    if (strcmp("aves", label) == 0) {
-      
+    if (strcmp("waves", label) == 0) {
       if (itd_getInfosWaves(file, mapData) == CHK_SUCCESS) {
         mapData->contentState |= MDATA_WAVES;
         return CHK_SUCCESS;
@@ -459,10 +478,11 @@ int itd_checkForMapData(FILE* file, MapData* mapData)
 
 void idt_load(char* itdFile, MapData* mapData)
 {
-    FILE* file = fopen(itdFile, "r");
-    if (!file) {
+  FILE* file = fopen(itdFile, "r");
+
+  if (!file) {
     printf("Cound't open the file %s\n", itdFile);
-    } else {
+  } else {
     fseek(file, 0, SEEK_END);
     int totalSizeofFile = ftell(file);
     // printf("size of file = %d\n", totalSizeofFile);

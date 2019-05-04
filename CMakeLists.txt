@@ -44,5 +44,13 @@ if(WIN32)
     file(COPY windows/dependencies/glew-2.1.0/bin/Release/Win32/glew32.dll
     DESTINATION ${EXECUTABLE_OUTPUT_PATH}Debug
     )
+else()
+    target_link_libraries(
+        ${PROJECT_NAME}
+        m
+        SDL2
+        GL
+        GLU
+    )
 endif()
 

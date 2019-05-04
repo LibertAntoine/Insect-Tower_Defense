@@ -10,7 +10,7 @@
 // TODO: convention de nommage des fonctions
 // NOTE: le but est de facilement trouver ce qu'elles font et où les trouver
 
-int getShortPath(InfosNodes* infosNodes);
+int itineraire_findShortestPath(InfosNodes* infosNodes);
 void fill(int* array, int size, int value);
 double distanceNodes(Node StartNode, Node ArrivedNode);
 int initItineraire(Monster* monster, InfosNodes* infosNodes);

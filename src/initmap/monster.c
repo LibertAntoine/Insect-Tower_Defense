@@ -4,58 +4,74 @@
 int initListMonsters()
 {
     ListMonsters* listMonsters = malloc(sizeof(ListMonsters));
-    DataMonsters* dataMonsters = malloc(sizeof(DataMonsters));
-    listMonsters->nbMonsters = 0;
+    DataMonsters** dataMonsters = malloc(sizeof(DataMonsters*) * 4);
+
+    dataMonsters[SOLDER] = malloc(sizeof(DataMonsters));
+    dataMonsters[HUGE_SOLDER] = malloc(sizeof(DataMonsters));
+    dataMonsters[GERERAL] = malloc(sizeof(DataMonsters));
+    dataMonsters[BOSS] = malloc(sizeof(DataMonsters));
+    // TODO: Checker l'allocation
+
+    listMonsters->monster_total = 0;
     listMonsters->firstMonster = NULL;
 
-    dataMonsters->PDV = malloc(sizeof(int)*4);
-    dataMonsters->strength = malloc(sizeof(int)*4);
-    dataMonsters->mass = malloc(sizeof(double)*4);
+    // NOTE: Moins pratique le tableau de champs, mieux vaut faire des tableaux de structures
+    //dataMonsters->PDV = malloc(sizeof(int)*4);
+    //dataMonsters->strength = malloc(sizeof(int)*4);
+    //dataMonsters->mass = malloc(sizeof(double)*4);
 
-    dataMonsters->PDV[SOLDER] = 1;
-    dataMonsters->strength[SOLDER] = 1;
-    dataMonsters->mass[SOLDER] = 1.0;
+    dataMonsters[SOLDER]->PDV = 1;
+    dataMonsters[SOLDER]->strength = 1;
+    dataMonsters[SOLDER]->mass = 1.0;
+    dataMonsters[SOLDER]->value = 1.0;
 
-    dataMonsters->PDV[HUGE_SOLDER] = 2;
-    dataMonsters->strength[HUGE_SOLDER] = 2;
-    dataMonsters->mass[HUGE_SOLDER] = 2.0;
+    dataMonsters[HUGE_SOLDER]->PDV = 2;
+    dataMonsters[HUGE_SOLDER]->strength = 2;
+    dataMonsters[HUGE_SOLDER]->mass = 2.0;
+    dataMonsters[HUGE_SOLDER]->value = 2.0;
 
-    dataMonsters->PDV[GERERAL] = 1;
-    dataMonsters->strength[GERERAL] = 1;
-    dataMonsters->mass[GERERAL] = 1.0;
+    dataMonsters[GERERAL]->PDV = 1;
+    dataMonsters[GERERAL]->strength = 1;
+    dataMonsters[GERERAL]->mass = 1.0;
+    dataMonsters[GERERAL]->value = 1.0;
 
-    dataMonsters->PDV[BOSS] = 1;
-    dataMonsters->strength[BOSS] = 1;
-    dataMonsters->mass[BOSS] = 1.0;
+    dataMonsters[BOSS]->PDV = 1;
+    dataMonsters[BOSS]->strength = 1;
+    dataMonsters[BOSS]->mass = 1.0;
+    dataMonsters[BOSS]->value = 1.0;
     
     listMonsters->dataMonsters = dataMonsters;
     
     plateau->listMonsters = listMonsters;
 }
 
-int addToList(Monster* monster) {
-    
-    if(plateau->listMonsters->firstMonster == NULL) {
-        plateau->listMonsters->firstMonster = monster;
-        return 0;
-    }
-    Monster* currentMonster = plateau->listMonsters->firstMonster;
-    while (currentMonster->next != NULL)
-        {  
-            currentMonster = currentMonster->next;
-        }
-    currentMonster->next = monster;
+int addToList(Monster* monster)
+{
+  if(plateau->listMonsters->firstMonster == NULL) {
+    plateau->listMonsters->firstMonster = monster;
     return 0;
+  }
+
+  Monster* currentMonster = plateau->listMonsters->firstMonster;
+  while (currentMonster->next != NULL) {  
+    currentMonster = currentMonster->next;
+  }
+  currentMonster->next = monster;
+  return 0;
 }
 
 
-int createMonster(InfosNodes* InfosNodes, int type, int idIn) 
+int monster_popMonster(InfosNodes* InfosNodes, TypeMonster type, int idIn) 
 {
-    
+  // OPTIMIZE: Passer sur des pointeurs de données de DATAMONSTERS
     Monster* monster = malloc(sizeof(Monster)); 
-    monster->PDV = plateau->listMonsters->dataMonsters->PDV[type];
-    monster->strength = plateau->listMonsters->dataMonsters->strength[type];
-    monster->mass = plateau->listMonsters->dataMonsters->mass[type];
+    // TODO: Checker l'allocation
+
+    monster->PDV = plateau->listMonsters->dataMonsters[type]->PDV;
+    monster->strength = plateau->listMonsters->dataMonsters[type]->strength;
+    monster->mass = plateau->listMonsters->dataMonsters[type]->mass;
+    monster->value = plateau->listMonsters->dataMonsters[type]->value;
+
     monster->next = NULL;
     monster->idIn = idIn;
     monster->type = type;
@@ -64,8 +80,9 @@ int createMonster(InfosNodes* InfosNodes, int type, int idIn)
     monster->x = InfosNodes->nodes[idIn].x;
     monster->y = InfosNodes->nodes[idIn].y;
     initItineraire(monster, InfosNodes);
+
     addToList(monster);
-    plateau->listMonsters->nbMonsters++;
+    plateau->listMonsters->monster_total++;
     return 0;
 }
 
@@ -81,6 +98,7 @@ void killMonster(Monster* monster)
 {
     monster->status = DEAD;
     deleteToList(monster);
+    // TODO: Le joueur gagne datamonster[type].value en plus de son argent
 }
 
 int deleteToList(Monster* monster) {
@@ -105,14 +123,15 @@ void get_itineraire(Monster* monster)
     free(monster);
 }
 
-// NOTE: (Nicolas) Comprendre le fonctionnement.
 int moveMonster(Monster* monster) {
 
-  // NOTE: (Nicolas) interpretation de la condition suivante.
+  // NOTE: Le monstre a atteint l'arrivée.
     if (monster->itineraire->next == NULL) {
+      // TODO: La partie est terminée.
         return 0;
     }
     
+    /* Le monstre est sur un mouvement horizontal */
     if(monster->itineraire->next->node->x - monster->x > 0.01 || monster->itineraire->next->node->x - monster->x < -0.01) {
         if(monster->itineraire->next->node->x - monster->x < 0) {
             monster->x = monster->x - 0.01/monster->mass;
@@ -121,7 +140,10 @@ int moveMonster(Monster* monster) {
             monster->x = monster->x + 0.01/monster->mass;
             monster->orientation = DROITE;
         }   
-    } else if (monster->itineraire->next->node->y - monster->y > 0.01 || monster->itineraire->next->node->y - monster->y < -0.01) {
+    }
+
+    /* Le monstre est sur un mouvement vertical */
+   else if (monster->itineraire->next->node->y - monster->y > 0.01 || monster->itineraire->next->node->y - monster->y < -0.01) {
         if(monster->itineraire->next->node->y - monster->y < 0) {
             monster->y = monster->y - 0.01/monster->mass;
             monster->orientation = HAUT;
@@ -129,16 +151,21 @@ int moveMonster(Monster* monster) {
             monster->y = monster->y + 0.01/monster->mass;
             monster->orientation = BAS;
         }
-    } else {
+    }
+    
+    /* Le monstre est sur un noeud, il passe au suivant */
+    else {
         Etape* etape = monster->itineraire->next;
         monster->itineraire->next = monster->itineraire->next->next;
         free(etape);
         moveMonster(monster);   
     }
+
     return 0;
 }
 
-int moveAllMonster() {
+int moveAllMonster()
+{
     
   // NOTE: (Nicolas) interpretation de la condition suivante.
     if(plateau->listMonsters->firstMonster == NULL) {
@@ -146,8 +173,7 @@ int moveAllMonster() {
     }
 
     Monster* currentMonster = plateau->listMonsters->firstMonster;
-    while (currentMonster != NULL)
-    {  
+    while (currentMonster != NULL) {  
         moveMonster(currentMonster);
         currentMonster = currentMonster->next;
     }

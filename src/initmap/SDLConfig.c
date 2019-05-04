@@ -1,6 +1,6 @@
 #include "SDLConfig.h"
 
-void initSDL() {
+void sdlConfig_initSDL() {
     if(SDL_Init(SDL_INIT_VIDEO) < 0) 
   {
     fprintf( stderr, "Impossible d'initialiser la SDL. Fin du programme.\n");
@@ -8,8 +8,11 @@ void initSDL() {
   }
 }
 
-void reshape(SDL_Window** surface, SDL_GLContext *GLcontext, unsigned int width, unsigned int height) {
+void sdlConfig_reshape(SDL_Window** surface, SDL_GLContext *GLcontext, unsigned int width, unsigned int height)
+{
+
   SDL_Window* surface_temp = SDL_CreateWindow(WINDOW_TITLE, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, width, height, SDL_WINDOW_SHOWN | SDL_WINDOW_OPENGL);
+
   if(NULL == surface_temp) 
   {
     fprintf( stderr, "Erreur lors du redimensionnement de la fenetre.\n");

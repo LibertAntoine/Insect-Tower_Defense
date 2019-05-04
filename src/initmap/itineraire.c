@@ -1,27 +1,28 @@
 #include "itineraire.h"
 
-// TODO: Décrire le fonctionnement. Docummentation Doxygen
-// TODO: Préciser les variables magiques.
-int getShortPath(InfosNodes* infosNodes)
+// TODO: Décrire le fonctionnement. Docummentation Doxygen, essayer de simplifier la lecture de la fonction.
+int itineraire_findShortestPath(InfosNodes* infosNodes)
 {
   if (infosNodes->idOut > infosNodes->nbNoeud -1 || infosNodes->idOut < 0) {
     return 0;
   }
 
-  // TODO: Vérifier l'allocation dynamique
   int* idVisited = malloc(sizeof(int)*infosNodes->nbNoeud);
+  // TODO: Vérifier l'allocation dynamique
   fill(idVisited, infosNodes->nbNoeud, 0);
 
+  int* distances = malloc(sizeof(int) * infosNodes->nbNoeud);
   // TODO: Vérifier l'allocation dynamique
-  int* distances = malloc(sizeof(int)*infosNodes->nbNoeud);
-  fill(distances, infosNodes->nbNoeud, plateau->Xsplit*plateau->Ysplit);
+  int total_cases = plateau->Xsplit * plateau->Ysplit;
+
+  fill(distances, infosNodes->nbNoeud, total_cases);
 
   distances[infosNodes->idOut] = 0;
+  Node** previous = malloc(sizeof(Node*) * infosNodes->nbNoeud);
   // TODO: Vérifier l'allocation dynamique
-  Node** previous = malloc(sizeof(Node*)*infosNodes->nbNoeud);
 
   int i = infosNodes->idOut;
-  int dis;
+  int distance;
   while (i != -1) {
     idVisited[i] = 1;
 
@@ -36,11 +37,11 @@ int getShortPath(InfosNodes* infosNodes)
       }
     }
     i = -1;
-    dis = plateau->Xsplit*plateau->Ysplit;
+    distance = total_cases;
     for(int k = 0; k < infosNodes->nbNoeud; k++) {
 
-      if(!idVisited[k] && dis >= distances[k]) { 
-        dis = distances[k];     
+      if(!idVisited[k] && distance >= distances[k]) { 
+        distance = distances[k];     
         i = k;   
       }
     }
@@ -68,7 +69,8 @@ double distanceNodes(Node StartNode, Node ArrivedNode) {
 }
 
 
-int initItineraire(Monster* monster, InfosNodes* infosNodes) {
+int initItineraire(Monster* monster, InfosNodes* infosNodes)
+{
   Itineraire* itineraire = malloc(sizeof(Itineraire));
   itineraire->nbEtape = 0;
   itineraire->next = NULL;

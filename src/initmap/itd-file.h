@@ -18,18 +18,18 @@ typedef enum TypeMonster {
 
 typedef struct Wave Wave;
 struct Wave {
-  int nbWave;
+  int wave_id;
   float timeBegin;
-  float freq;
+  float freq_pop;
   float random;
-  float nextMonster;
-  int nbMonster;
-  int* monsters;
+  float nextMonster_timer;
+  int monster_total;
+  TypeMonster* monsters;
   Wave* next;
 };
 
 typedef struct ListWaves {
-  int nbWaves;
+  int wave_total;
   Wave* next;
 } ListWaves;
 
@@ -50,7 +50,7 @@ typedef struct Node {
 
 typedef struct InfosNodes {
   int nbNoeud;
-  int nbEntrees;
+  int entrance_total;
   int idOut;
   int* idEntrees;
   Node* nodes;

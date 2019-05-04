@@ -35,13 +35,13 @@ int main(int argc, char *argv[])
   case_initPlateau(mapData);
 
   /* Calcul des chemins les plus courts */
-  getShortPath(mapData->infosNodes);
+  itineraire_findShortestPath(mapData->infosNodes);
 
   /* Définition de l'environnement SDL*/
-  initSDL();
+  sdlConfig_initSDL();
   SDL_Window* surface;
   SDL_GLContext GLcontext = NULL;
-  reshape(&surface, &GLcontext, WINDOW_WIDTH, WINDOW_HEIGHT);
+  sdlConfig_reshape(&surface, &GLcontext, WINDOW_WIDTH, WINDOW_HEIGHT);
 
   SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 0);
 
@@ -152,7 +152,7 @@ int main(int argc, char *argv[])
 
         case SDL_WINDOWEVENT:
           if (e.window.event == SDL_WINDOWEVENT_RESIZED) {
-            reshape(&surface, &GLcontext, e.window.data1, e.window.data2);
+            sdlConfig_reshape(&surface, &GLcontext, e.window.data1, e.window.data2);
           }
           break;
 

@@ -41,6 +41,21 @@ typedef enum TypeCase {
   SORTIE
 } TypeCase;
 
+typedef struct Monster Monster;
+
+typedef struct Tour {
+  TypeCase type;
+  int armement;
+  int centrale;
+  int munition;
+  float rechargement;
+  int radar;
+  double x;
+  double y;
+  Monster* lastMonster;
+  struct Tour* next;
+} Tour;
+
 typedef enum Action {
   ADD,
   GETINFO,

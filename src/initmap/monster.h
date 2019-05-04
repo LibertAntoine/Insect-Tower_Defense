@@ -39,6 +39,7 @@ struct Monster {
    int PDV;
    int strength;
    double mass;
+   int value;
    int idIn;
    TypeMonster type;
    Statut status;
@@ -50,20 +51,22 @@ struct Monster {
 };
 
 typedef struct DataMonsters {
-   int* PDV;
-   int* strength;
-   double* mass;
+   int PDV;
+   int strength;
+   double mass;
+   int value;
 } DataMonsters;
 
 typedef struct ListMonsters {
-   int nbMonsters;
+   int monster_total;
    Monster* firstMonster;
-   DataMonsters* dataMonsters;
+   DataMonsters** dataMonsters;
 } ListMonsters;
 
 int initListMonsters();
 int addToList(Monster* monster);
-int createMonster(InfosNodes* InfosNodes, int type, int idIN);
+
+int monster_popMonster(InfosNodes* InfosNodes, TypeMonster type, int idIn);
 void attackMonster(Projectile* projectile);
 int deleteToList(Monster* monster);
 void killMonster(Monster* monster);
