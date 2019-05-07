@@ -85,7 +85,7 @@ void case_getCasePosition(int caseIndex, int* caseX, int* caseY)
   *caseX = caseIndex % plateau->Xsplit + 1;
 }
 
-int case_getType(int caseX, int caseY)
+TypeCase case_getType(int caseX, int caseY)
 {
   int index_case = case_getCaseIndex(caseX, caseY);
   return plateau->cases[index_case];

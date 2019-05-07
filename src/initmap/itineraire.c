@@ -7,17 +7,11 @@ int itineraire_findShortestPath(InfosNodes* infosNodes)
     return 0;
   }
 
-  int* idVisited = malloc(sizeof(int)*infosNodes->nbNoeud);
-  // TODO: Vérifier l'allocation dynamique
-  fill(idVisited, infosNodes->nbNoeud, 0);
-
-  int* distances = malloc(sizeof(int) * infosNodes->nbNoeud);
-  // TODO: Vérifier l'allocation dynamique
-  int total_cases = plateau->Xsplit * plateau->Ysplit;
-
-  fill(distances, infosNodes->nbNoeud, total_cases);
+  int *idVisited = itineraire_initVisitedArray(infosNodes->nbNoeud);
+  int *distances = itineraire_initDistanceArray(infosNodes->nbNoeud);
 
   distances[infosNodes->idOut] = 0;
+
   Node** previous = malloc(sizeof(Node*) * infosNodes->nbNoeud);
   // TODO: Vérifier l'allocation dynamique
 
@@ -26,22 +20,26 @@ int itineraire_findShortestPath(InfosNodes* infosNodes)
   while (i != -1) {
     idVisited[i] = 1;
 
-    for(int j = 0; j < 4; j++) {   
+    for(int link_id = 0; link_id < 4; link_id++) {   
       //printf("%d ", distanceNodes(infosNodes->nodes[i], infosNodes->nodes[infosNodes->nodes[i].link[j]]));
-      if(infosNodes->nodes[i].link[j] == -1) { break;}
-      else if (distances[i] + distanceNodes(infosNodes->nodes[i], infosNodes->nodes[infosNodes->nodes[i].link[j]]) < distances[infosNodes->nodes[i].link[j]]) { 
+      int next_id = infosNodes->nodes[i].link[link_id];
+      distance = distanceNodes(infosNodes->nodes[i], infosNodes->nodes[next_id]);
 
-        distances[infosNodes->nodes[i].link[j]] = distances[i] + distanceNodes(infosNodes->nodes[i], infosNodes->nodes[infosNodes->nodes[i].link[j]]); 
-        previous[infosNodes->nodes[i].link[j]] = infosNodes->nodes+i;
-
+#define NO_LINK -1
+      if(next_id == NO_LINK) {
+        break;
+      }
+      else if (distances[i] + distance < distances[next_id]) { 
+        distances[next_id] = distances[i] + distance; 
+        previous[next_id] = &infosNodes->nodes[i]; 
       }
     }
     i = -1;
-    distance = total_cases;
+    int distance_max = plateau->Xsplit * plateau->Ysplit;
     for(int k = 0; k < infosNodes->nbNoeud; k++) {
 
-      if(!idVisited[k] && distance >= distances[k]) { 
-        distance = distances[k];     
+      if(!idVisited[k] && distance_max >= distances[k]) { 
+        distance_max = distances[k];     
         i = k;   
       }
     }
@@ -49,16 +47,33 @@ int itineraire_findShortestPath(InfosNodes* infosNodes)
   infosNodes->shortPaths = previous;
 }
 
+int *itineraire_initVisitedArray(int size)
+{
+  int *array = malloc(sizeof(int) * size);
+  fill(array, size, 0);
 
-// TODO: Décrire le fonctionnement. Docummentation Doxygen
-// TODO: Préciser les variables magiques.
-void fill(int* array, int size, int value) {
+  return array;
+}
+
+int *itineraire_initDistanceArray(int size)
+{
+  int *array = malloc(sizeof(int) * size);
+  int total_cases = plateau->Xsplit * plateau->Ysplit;
+  fill(array, size, total_cases);
+
+  return array;
+}
+
+
+void fill(int* array, int size, int value)
+{
   for(int i = 0; i < size; i++) {
     array[i] = value;
   }
 }
 
-double distanceNodes(Node StartNode, Node ArrivedNode) {
+double distanceNodes(Node StartNode, Node ArrivedNode)
+{
   if (StartNode.x == ArrivedNode.x) {
     return fabs(StartNode.y - ArrivedNode.y);
   } else if (StartNode.y == ArrivedNode.y) {

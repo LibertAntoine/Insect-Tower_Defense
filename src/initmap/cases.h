@@ -102,7 +102,7 @@ int case_RGBCompare(RGBcolor color1, RGBcolor color2);
 
 int case_getCaseIndex(int caseX, int caseY);
 void case_getCasePosition(int caseIndex, int* caseX, int* caseY);
-int case_getType(int caseX, int caseY);
+TypeCase case_getType(int caseX, int caseY);
 int case_getCaseCoordFromPixels(int positionX, int positionY, int *caseX, int *caseY, int px_width, int px_height);
 GeneralType case_getGeneralConstructionType(TypeCase type);
 int case_isConstructible(int caseX, int caseY);

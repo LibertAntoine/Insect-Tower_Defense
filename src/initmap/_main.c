@@ -48,6 +48,8 @@ int main(int argc, char *argv[])
   GLuint idGrid = glGenLists(1);
   display_gridList(idGrid);
 
+  GLuint idMap = glGenLists(1);
+  display_mapList(idMap);
   // Position X, Y en pixel ET en indice de case de la souris
   int pixelMouseX, pixelMouseY, caseMouseX, caseMouseY;
 
@@ -65,11 +67,12 @@ int main(int argc, char *argv[])
 
     glClear(GL_COLOR_BUFFER_BIT);
 
+    /* Affichage de la grille du plateau */
+    glCallList(idMap);
+    glCallList(idGrid);
+
     /* Affichage des tours */
     display_drawBoard();
-
-    /* Affichage de la grille du plateau */
-    glCallList(idGrid);
 
     launchWaves(mapData, (SDL_GetTicks() - beginMomentLevel));
 

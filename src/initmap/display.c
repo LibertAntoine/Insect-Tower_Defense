@@ -119,7 +119,52 @@ void display_drawSingleProjectile(Projectile* projectile) {
 
 }
 
+void display_mapList(GLuint id)
+{
+  glNewList(id, GL_COMPILE);
 
+  /*
+  glPushMatrix();
+  glColor3f(1,0,1);
+  glTranslatef(1.5, 1.5, 0);
+  display_drawCircle(GL_FILL);
+  glPopMatrix();
+  */
+
+  for (int index_case=0; index_case < plateau->Xsplit*plateau->Ysplit; index_case++) {
+    int caseX;
+    int caseY;
+    case_getCasePosition(index_case, &caseX, &caseY);
+    TypeCase type = case_getType(caseX, caseY);
+
+    switch (type) {
+      case CHEMIN:
+        glColor3f(1,0,1);
+        break;
+      case NOEUD:
+        glColor3f(1,0,0);
+        break;
+      case ENTREE:
+        glColor3d(0,0,1);
+        break;
+      case SORTIE:
+        glColor3f(0,1,0);
+        break;
+      default:
+        glColor3f(0,0,0);
+        break;
+    }
+
+    glPushMatrix();
+    glTranslatef(caseX, caseY, 0);
+    glTranslatef(1.5, 1.5, 0);
+    display_drawSquare(GL_FILL);
+    glPopMatrix();
+
+  }
+
+  glEndList();
+}
 
 void display_gridList(GLuint id)
 {
@@ -162,11 +207,11 @@ void display_drawSingleTower(int caseX, int caseY, TypeCase type)
   GeneralType generalType = case_getGeneralConstructionType(type);
   if (type == CHEMIN) {
     glColor3d(0,0,0);
-    display_drawSquare(GL_FILL);
+    //display_drawSquare(GL_FILL);
   }
   else if (type == TERRAIN) {
     glColor3d(0,0,0);
-    display_drawSquare(GL_FILL);
+    //display_drawSquare(GL_FILL);
   }
   else {
     switch (type) {
