@@ -15,5 +15,6 @@ void player_init();
 void player_afficherAction();
 void player_afficherEtat();
 int player_acheteConstruction(int caseX, int caseY);
+void player_gagneArgent(int valeur);
 
 #endif //PLAYER_H_

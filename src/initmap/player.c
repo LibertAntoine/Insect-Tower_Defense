@@ -67,3 +67,10 @@ int player_acheteConstruction(int caseX, int caseY)
     return 1;
   }
 }
+
+void player_gagneArgent(int valeur)
+{
+  Etat *joueur = &(plateau->joueur);
+  joueur->argent += valeur;
+  printf("Player argent += %d\n", valeur);
+}

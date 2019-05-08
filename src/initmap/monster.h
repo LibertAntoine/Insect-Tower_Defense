@@ -14,7 +14,10 @@ typedef enum Orientation {
    HAUT,
    BAS,
    GAUCHE,
-   DROITE
+   DROITE,
+   VERTICAL,
+   HORIZONTAL,
+   IMMOBILE
 } Orientation;
 
 typedef enum Statut {
@@ -68,9 +71,10 @@ int addToList(Monster* monster);
 
 int monster_popMonster(InfosNodes* InfosNodes, TypeMonster type, int idIn);
 void attackMonster(Projectile* projectile);
-int deleteToList(Monster* monster);
-void killMonster(Monster* monster);
+int monster_removeFromList(Monster* monster);
+void monster_kill(Monster* monster);
 int moveMonster(Monster* monster);
+Orientation monster_moveDirection(Monster* monster);
 
 /**
  * @brief Parcours la liste de montre afin d'en demander le déplacement.

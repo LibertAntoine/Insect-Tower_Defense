@@ -25,8 +25,7 @@ int itineraire_findShortestPath(InfosNodes* infosNodes)
       int next_id = infosNodes->nodes[i].link[link_id];
       distance = distanceNodes(infosNodes->nodes[i], infosNodes->nodes[next_id]);
 
-#define NO_LINK -1
-      if(next_id == NO_LINK) {
+      if(next_id == -1) {
         break;
       }
       else if (distances[i] + distance < distances[next_id]) { 
@@ -37,7 +36,6 @@ int itineraire_findShortestPath(InfosNodes* infosNodes)
     i = -1;
     int distance_max = plateau->Xsplit * plateau->Ysplit;
     for(int k = 0; k < infosNodes->nbNoeud; k++) {
-
       if(!idVisited[k] && distance_max >= distances[k]) { 
         distance_max = distances[k];     
         i = k;   
@@ -84,7 +82,7 @@ double distanceNodes(Node StartNode, Node ArrivedNode)
 }
 
 
-int initItineraire(Monster* monster, InfosNodes* infosNodes)
+int itineraire_initMonster(Monster* monster, InfosNodes* infosNodes)
 {
   Itineraire* itineraire = malloc(sizeof(Itineraire));
   itineraire->nbEtape = 0;

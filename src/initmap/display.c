@@ -1,5 +1,6 @@
 #include "display.h"
 
+// TODO: fix circle range bugs.
 void display_drawCircle(int fillMode)
 {
   float angleStep = 2 * M_PI / 360;
