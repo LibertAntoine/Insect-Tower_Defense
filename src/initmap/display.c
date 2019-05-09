@@ -21,12 +21,23 @@ void display_drawSquare(int fillMode)
 {
   glPolygonMode(GL_FRONT_AND_BACK, fillMode);
 
-    glBegin(GL_QUADS);
-    glVertex2f(-0.5,0.5);
-    glVertex2f(0.5,0.5);
-    glVertex2f(0.5,-0.5);
-    glVertex2f(-0.5,-0.5);
-    glEnd();
+  glBegin(GL_QUADS);
+  glVertex2f(-0.5,0.5);
+  glVertex2f(0.5,0.5);
+  glVertex2f(0.5,-0.5);
+  glVertex2f(-0.5,-0.5);
+  glEnd();
+}
+
+void display_drawTriangle(int fillMode)
+{
+  glPolygonMode(GL_FRONT_AND_BACK, fillMode);
+
+  glBegin(GL_TRIANGLES);
+  glVertex2f(0, -0.3);
+  glVertex2f(0.3, 0.3);
+  glVertex2f(-0.3, 0.3); 
+  glEnd();
 }
 
 void display_drawTargetRange(int caseX, int caseY, int range)
@@ -43,79 +54,94 @@ void display_drawTargetRange(int caseX, int caseY, int range)
 
 void display_drawSingleMonster(Monster* monster)
 {
-  
   if (monster->type = SOLDER) {
-    glColor3d(0,0,255);
+    glColor3d(0,0,0.5);
   } else if (monster->type = HUGE_SOLDER) {
-    glColor3d(255,0,0);
+    glColor3d(0.5,0.2,0);
   } else if (monster->type = GERERAL) {
     glColor3d(0,255,0);
   } else if (monster->type = BOSS) {
-    glColor3d(0,255,255);
+    glColor3d(0,1,1);
   }
 
-  glBegin(GL_TRIANGLES);
+  float angle = 0;
   if (monster->orientation == HAUT) {
-      glVertex2f(monster->x, monster->y-0.3);
-      glVertex2f(monster->x+0.3, monster->y+0.3);
-      glVertex2f(monster->x-0.3, monster->y+0.3); 
+    angle = 0;
   } else if (monster->orientation == BAS) {
-      glVertex2f(monster->x, monster->y+0.3);
-      glVertex2f(monster->x-0.3, monster->y-0.3);
-      glVertex2f(monster->x+0.3, monster->y-0.3); 
+    angle = 180;
   } else if (monster->orientation == GAUCHE) {
-      glVertex2f(monster->x-0.3, monster->y);
-      glVertex2f(monster->x+0.3, monster->y+0.3);
-      glVertex2f(monster->x+0.3, monster->y-0.3); 
+    angle = -90;
   } else if (monster->orientation == DROITE) {
-      glVertex2f(monster->x+0.3, monster->y);
-      glVertex2f(monster->x-0.3, monster->y+0.3);
-      glVertex2f(monster->x-0.3, monster->y-0.3); 
+    angle = 90;
   }
-  glEnd();
-  
+  // TODO: Debug mauvais PDV.
+  float PDV = monster->PDV;
+  float maxPDV = plateau->listMonsters->dataMonsters[monster->type]->PDV;
+  float percentPDV = 1 / maxPDV * PDV;
+  glPushMatrix();
+  glTranslatef(monster->x, monster->y, 0);
+
+  glPushMatrix();
+  glScalef(0.8, 0.3, 1);
+  glTranslatef(0, 0.9, 0);
+  display_drawMonsterLife(percentPDV);
+  glPopMatrix();
+
+  glRotatef(angle, 0, 0, 1);
+  display_drawTriangle(GL_FILL);
+  glPopMatrix();
+
+}
+
+void display_drawMonsterLife(float PDV)
+{
+  glPushMatrix();
+  glScalef(1,0.5,1);
+  glColor3f(1,0,0);
+  display_drawSquare(GL_FILL);
+  glColor3f(0,1,0);
+  glTranslatef(-((1-PDV)/2),0,0);
+  glScalef(PDV,1,1);
+  display_drawSquare(GL_FILL);
+  glPopMatrix();
 }
 
 int display_drawAllMonsters() {
-    if(plateau->listMonsters->firstMonster == NULL) {
-        return 0;
-    }
-    Monster* currentMonster = plateau->listMonsters->firstMonster;
-    glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-    while (currentMonster != NULL)
-    {  
-        display_drawSingleMonster(currentMonster);
-        currentMonster = currentMonster->next;
-        
-    }
+  if(plateau->listMonsters->firstMonster == NULL) {
     return 0;
+  }
+
+  Monster* currentMonster = plateau->listMonsters->firstMonster;
+  while (currentMonster != NULL) {  
+    display_drawSingleMonster(currentMonster);
+    currentMonster = currentMonster->next;
+  }
+  return 0;
 
 }
 
 
 int display_drawAllProjectiles() {
-    if(plateau->listProjectiles->next == NULL) {
-        return 0;
-    }
-    Projectile* currentProjectile = plateau->listProjectiles->next;
-    glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-     printf("flora ");
-    while (currentProjectile != NULL)
-    {  
-        display_drawSingleProjectile(currentProjectile);
-        currentProjectile = currentProjectile->next;
-        
-    }
+  if(plateau->listProjectiles->next == NULL) {
     return 0;
+  }
+  Projectile* currentProjectile = plateau->listProjectiles->next;
+  glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+  while (currentProjectile != NULL) {  
+    display_drawSingleProjectile(currentProjectile);
+    currentProjectile = currentProjectile->next;
+
+  }
+  return 0;
 }
 
 void display_drawSingleProjectile(Projectile* projectile) {
   glColor3d(0,255,255);
 
   glBegin(GL_TRIANGLES);
-      glVertex2f(projectile->x, projectile->y-0.1);
-      glVertex2f(projectile->x+0.1, projectile->y+0.1);
-      glVertex2f(projectile->x-0.1, projectile->y+0.1); 
+  glVertex2f(projectile->x, projectile->y-0.1);
+  glVertex2f(projectile->x+0.1, projectile->y+0.1);
+  glVertex2f(projectile->x-0.1, projectile->y+0.1); 
   glEnd();
 
 }
@@ -125,12 +151,12 @@ void display_mapList(GLuint id)
   glNewList(id, GL_COMPILE);
 
   /*
-  glPushMatrix();
-  glColor3f(1,0,1);
-  glTranslatef(1.5, 1.5, 0);
-  display_drawCircle(GL_FILL);
-  glPopMatrix();
-  */
+     glPushMatrix();
+     glColor3f(1,0,1);
+     glTranslatef(1.5, 1.5, 0);
+     display_drawCircle(GL_FILL);
+     glPopMatrix();
+   */
 
   for (int index_case=0; index_case < plateau->Xsplit*plateau->Ysplit; index_case++) {
     int caseX;
@@ -249,19 +275,19 @@ void display_drawSingleTower(int caseX, int caseY, TypeCase type)
 }
 
 /*
-void display_drawAllTowers()
-{
-  int total_cases = plateau->Xsplit * plateau->Ysplit;
+   void display_drawAllTowers()
+   {
+   int total_cases = plateau->Xsplit * plateau->Ysplit;
 
-  for (int i=0; i < total_cases; i++) {
-    int Y = i / plateau->Xsplit;
-    int X = i % plateau->Xsplit;
+   for (int i=0; i < total_cases; i++) {
+   int Y = i / plateau->Xsplit;
+   int X = i % plateau->Xsplit;
 
-    TypeCase towerType = plateau->cases[i];
-    display_drawSingleTower(X, Y, towerType);
-  }
-}
-*/
+   TypeCase towerType = plateau->cases[i];
+   display_drawSingleTower(X, Y, towerType);
+   }
+   }
+ */
 
 void display_drawAllTargetRanges()
 {

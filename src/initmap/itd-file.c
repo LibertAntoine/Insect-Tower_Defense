@@ -1,29 +1,5 @@
 #include "itd-file.h"
 
-enum MapDataContent {
-  MDATA_IMG = 1,
-  MDATA_ENERGY = 2,
-  MDATA_IN = 4,
-  MDATA_OUT = 8,
-  MDATA_PATH = 16,
-  MDATA_CONSTRUCT = 32,
-  MDATA_NODE = 64,
-  MDATA_INFOSNODE = 128,
-  MDATA_WAVES = 256
-};
-
-enum Operations {
-  CHK_SUCCESS = 0,
-  CHK_NULL = 0,
-  CHK_ERROR_ALLOC = 1,
-  CHK_ERROR_FILE = 2
-} Operations;
-
-typedef enum Bool {
-  FALSE = 0,
-  TRUE = 1
-} Bool;
-
 MapData* itd_initMapData()
 {
   MapData* mapData = malloc(sizeof(MapData));

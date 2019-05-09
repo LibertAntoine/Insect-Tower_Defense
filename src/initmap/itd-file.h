@@ -6,70 +6,10 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "structures.h"
+
 #define FIRST_PARAMETER_ARG 1
 
-
-typedef enum TypeMonster {
-  SOLDER,
-  HUGE_SOLDER,
-  GERERAL,
-  BOSS
-} TypeMonster;
-
-typedef struct Wave Wave;
-struct Wave {
-  int wave_id;
-  float timeBegin;
-  float freq_pop;
-  float random;
-  float nextMonster_timer;
-  int monster_total;
-  TypeMonster* monsters;
-  Wave* next;
-};
-
-typedef struct ListWaves {
-  int wave_total;
-  Wave* next;
-} ListWaves;
-
-
-typedef struct RGBcolor {
-  unsigned char red;
-  unsigned char green;
-  unsigned char blue;
-} RGBcolor;
-
-typedef struct Node {
-  int id;
-  int type;
-  double x;
-  double y;
-  int link[4];
-} Node;
-
-typedef struct InfosNodes {
-  int nbNoeud;
-  int entrance_total;
-  int idOut;
-  int* idEntrees;
-  Node* nodes;
-  Node** shortPaths;
-} InfosNodes;
-
-
-typedef struct MapData {
-  char* mapFile;
-  int energy;
-  RGBcolor pathCol;
-  RGBcolor nodeCol;
-  RGBcolor buildingCol;
-  RGBcolor inCol;
-  RGBcolor outCol;
-  unsigned int contentState; 
-  InfosNodes* infosNodes;
-  ListWaves* listWaves;
-} MapData;
 
 /**
  * Create a MapData of an empty state

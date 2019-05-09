@@ -31,12 +31,12 @@ int initListMonsters()
   dataMonsters[HUGE_SOLDER]->mass = 2.0;
   dataMonsters[HUGE_SOLDER]->value = 2.0;
 
-  dataMonsters[GERERAL]->PDV = 1;
+  dataMonsters[GERERAL]->PDV = 3;
   dataMonsters[GERERAL]->strength = 1;
   dataMonsters[GERERAL]->mass = 1.0;
   dataMonsters[GERERAL]->value = 1.0;
 
-  dataMonsters[BOSS]->PDV = 1;
+  dataMonsters[BOSS]->PDV = 4;
   dataMonsters[BOSS]->strength = 1;
   dataMonsters[BOSS]->mass = 1.0;
   dataMonsters[BOSS]->value = 1.0;
@@ -64,7 +64,6 @@ int addToList(Monster* monster)
 
 int monster_popMonster(InfosNodes* InfosNodes, TypeMonster type, int idIn) 
 {
-  // OPTIMIZE: Passer sur des pointeurs de données de DATAMONSTERS
   Monster* monster = malloc(sizeof(Monster)); 
   // TODO: Checker l'allocation
 
@@ -87,8 +86,9 @@ int monster_popMonster(InfosNodes* InfosNodes, TypeMonster type, int idIn)
   return 0;
 }
 
-void attackMonster(Projectile* projectile) 
+void monster_attack(Projectile* projectile) 
 {
+  printf("attack\n\n");
   projectile->cible->PDV = projectile->cible->PDV - projectile->damage;
   if(projectile->cible->PDV <= 0) {
     monster_kill(projectile->cible);
@@ -97,26 +97,24 @@ void attackMonster(Projectile* projectile)
 
 void monster_kill(Monster* monster) 
 {
-  printf("Monster killed\n");
   monster->status = DEAD;
   player_gagneArgent(plateau->listMonsters->dataMonsters[monster->type]->value);
   monster_removeFromList(monster);
 }
 
-int monster_removeFromList(Monster* monster)
+void monster_removeFromList(Monster* monster)
 {
-  Monster* currentMonster = plateau->listMonsters->firstMonster;
+  Monster* monster_from_list = plateau->listMonsters->firstMonster;
+  if (monster_from_list == monster) {
+    plateau->listMonsters->firstMonster = monster_from_list->next;
+  }
 
-  if(currentMonster == monster) {
-    currentMonster = currentMonster->next;
-  }
-  else { 
-    while (currentMonster->next != monster) {  
-      currentMonster = currentMonster->next; 
+  else {
+    while (monster_from_list->next != monster) {
+      monster_from_list = monster_from_list->next;
     }
-    currentMonster->next = currentMonster->next->next;
+    monster_from_list->next = monster_from_list->next->next;
   }
-  return 0;
 }
 
 
@@ -191,40 +189,6 @@ int moveAllMonster()
   while (currentMonster != NULL) {  
     moveMonster(currentMonster);
     currentMonster = currentMonster->next;
-  }
-  return 0;
-}
-
-// TODO: Simplifier et passer sur des distances ².
-int findMonster(Tour* tour) {
-
-  if(plateau->listMonsters->firstMonster == NULL) {
-    tour->lastMonster = NULL;
-    return 0;
-  }
-
-  Monster* currentMonster = plateau->listMonsters->firstMonster;
-  double distance = 0;
-  double distanceMin = plateau->Xsplit*plateau->Ysplit;
-  while (currentMonster != NULL)
-  {  
-    distance = sqrt(pow(abs(tour->x - currentMonster->x), 2) + pow(abs(tour->y - currentMonster->y), 2));
-    //printf("%lf -- ", distance);
-    //printf("%d -- ", tour->radar);
-    if(distance < distanceMin && distance <= tour->radar) {
-      distanceMin = distance;
-      tour->lastMonster = currentMonster;
-    }
-    currentMonster = currentMonster->next;   
-  }
-  return 0;
-}
-
-int refindMonster(Tour* tour)
-{
-  double distance = 0;
-  if(tour->lastMonster->status == DEAD || sqrt(pow(abs(tour->x - tour->lastMonster->x), 2) + pow(abs(tour->y - tour->lastMonster->y), 2)) > tour->radar) {
-    tour->lastMonster = NULL;
   }
   return 0;
 }

@@ -2,34 +2,16 @@
 #define TOUR_H_
 #pragma once
 
+#include <math.h>
 #include <stdlib.h>
+#include <time.h>
+#include <SDL2/SDL.h>
+
+#include "structures.h"
+
 #include "cases.h"
 #include "projectile.h"
 
-typedef enum TypeCase TypeCase;
-typedef struct Tour Tour;
-
-/*
-typedef struct Monster Monster;
-
-typedef struct Tour {
-  TypeCase type;
-  int armement;
-  int centrale;
-  int munition;
-  float rechargement;
-  int radar;
-  double x;
-  double y;
-  Monster* lastMonster;
-  struct Tour* next;
-} Tour;
-*/
-
-typedef struct ListTours {
-  int nbTours;
-  Tour* next;
-} ListTours;
 
 // Functions
 void tour_initConstructionData();
@@ -45,8 +27,21 @@ int tour_countBatiments(TypeCase type, int index_case);
 void tour_completeInfo(TypeCase type, int index_case);
 void tour_add(TypeCase type, int index_case);
 int addToListTour(Tour* tour);
-int attackTour(Tour* tour);
 int updateAllTower();
 int attackAllTower();
+
+void tour_tire(Tour* tour);
+void tour_recharge(Tour* tour);
+Bool tour_checkAlimentation(Tour* tour);
+void tour_attaqueMonster(Tour* tour);
+Bool tour_lockTarget(Tour* tour);
+Bool tour_findTarget(Tour* tour);
+Bool tour_isLoaded(Tour* tour);
+Bool tour_targetStillInRange(Tour* tour);
+void tour_recharge(Tour* tour);
+
+float tour_calculCadence(Tour* tour);
+float tour_calculDegats(Tour* tour);
+float tour_calculPortee(Tour* tour);
 
 #endif //TOUR_H_

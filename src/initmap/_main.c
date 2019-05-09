@@ -12,6 +12,8 @@
 #include <math.h>
 #include <time.h>
 
+#include "structures.h"
+
 #include "cases.h"
 #include "itd-file.h"
 #include "monster.h"
@@ -57,6 +59,7 @@ int main(int argc, char *argv[])
 
 
   /* Boucle principale */
+  Bool play = TRUE;
   int loop = 1;
   while(loop) 
   {
@@ -76,9 +79,11 @@ int main(int argc, char *argv[])
 
     launchWaves(mapData, (SDL_GetTicks() - beginMomentLevel));
 
-    moveAllMonster();
-    attackAllTower();
-    moveAllProjectiles();
+    if (play == TRUE) {
+      moveAllMonster();
+      attackAllTower();
+      moveAllProjectiles();
+    }
     display_drawAllMonsters();
     display_drawAllProjectiles();
     
@@ -161,6 +166,9 @@ int main(int argc, char *argv[])
 
         case SDL_KEYDOWN:
           switch(e.key.keysym.sym) {
+            case ' ':
+              play = (play == TRUE) ? FALSE : TRUE;
+              break;
             case 'r':
               type = RADAR;
               break;

@@ -100,9 +100,10 @@ Tour *tour_create(TypeCase type, int index_case)
   new->munition = 0;
   new->rechargement = 0;
   new->next = NULL;
-  new->lastMonster = NULL;
+  new->targetMonster = NULL;
   new->x = caseX + 0.5;
   new->y = caseY + 0.5;
+  new->time_tir = SDL_GetTicks();
 
   if (type == LASER || type == MISSILE) {
     addToListTour(new);
@@ -207,32 +208,140 @@ int updateAllTower() {
 
 int attackAllTower()
 {
-    Tour* currentTour = plateau->listTours->next;
-    while (currentTour != NULL)
-        {  
-          attackTour(currentTour);
-          currentTour = currentTour->next;
-        }
-    return 0;
+  Tour* currentTour = plateau->listTours->next;
+  while (currentTour != NULL)
+  {  
+    tour_attaqueMonster(currentTour);
+    currentTour = currentTour->next;
+  }
+  return 0;
 }
 
+float tour_calculDegats(Tour* tour)
+{
+  float degats_normaux = tour_getDegats(tour->type);
+  int armements = tour->armement;
+  float degats = degats_normaux + armements*(degats_normaux/4);
 
-int attackTour(Tour* tour) {
-  if(tour->lastMonster != NULL) {
-    refindMonster(tour);
-  } else {
-    findMonster(tour);
+  return degats;
+}
+
+void tour_tire(Tour* tour)
+{
+  // TODO: Creer le projectile
+  float degats = tour_calculDegats(tour);
+  create_projectile(tour, tour->targetMonster, degats);
+
+  tour->rechargement = tour_getCadence(tour->type);
+  tour->time_tir = SDL_GetTicks();
+}
+
+float tour_calculCadence(Tour* tour)
+{
+  int entrepots = tour->munition;
+  float cadence_normale = 1000.0 / tour_getCadence(tour->type);
+  float cadence = cadence_normale + entrepots*(cadence_normale / 4);
+  return cadence;
+}
+
+/*
+void tour_recharge(Tour* tour)
+{
+  float cadence = tour_calculCadence(tour);
+  tour->rechargement -= 1;
+}
+*/
+
+Bool tour_checkAlimentation(Tour* tour)
+{
+  if (tour->centrale > 0) {
+    return TRUE;
   }
-  if (tour->munition != 0 && tour->armement != 0) {
-    if(tour->rechargement < 0 && tour->lastMonster != NULL) {
-      printf("lol");
-      create_projectile(tour, tour->lastMonster);
-      tour->rechargement = 2/tour->munition;
-    } else {
-      if (tour->rechargement >= 0) {
-        tour->rechargement = tour->rechargement - 1.0/60.0;
+  else return FALSE;
+}
+
+Bool tour_isLoaded(Tour* tour)
+{
+  Uint32 now = SDL_GetTicks();
+  float cadence = tour_calculCadence(tour);
+  if (now - tour->time_tir >= cadence) {
+    return TRUE;
+  }
+  else return FALSE;
+}
+
+void tour_attaqueMonster(Tour* tour)
+{
+  if (tour_checkAlimentation(tour) == TRUE) {
+    if (tour_isLoaded(tour) == TRUE) {
+      if (tour_lockTarget(tour) == TRUE) {
+        tour_tire(tour);
       }
     }
   }
+}
 
+Bool tour_lockTarget(Tour* tour)
+{
+  if (tour_targetStillInRange(tour) == FALSE) {
+    if(tour_findTarget(tour) == TRUE) return TRUE;
+    else return FALSE;
+  }
+  else {
+    return TRUE;
+  }
+}
+
+// TODO: Vérifier le bon fonctionnement
+float tour_calculPortee(Tour* tour)
+{
+  float normal_range = tour_getPortee(tour->type);
+  int radars = tour->radar;
+  float portee = normal_range + radars*(normal_range/4); // adding 25% de la portee normale
+  return portee;
+}
+
+Bool tour_findTarget(Tour* tour)
+{
+
+  tour->targetMonster = NULL;
+
+  if(plateau->listMonsters->firstMonster == NULL) {
+    return FALSE;
+  }
+
+  Monster* currentMonster = plateau->listMonsters->firstMonster;
+  float current_monster_distance = 0;
+  float portee = tour_calculPortee(tour);
+  float shortest_monster_distance = pow(plateau->Xsplit, 2) + pow(plateau->Ysplit, 2);
+  while (currentMonster != NULL)
+  {  
+    current_monster_distance = pow(abs(tour->x - currentMonster->x), 2) + pow(abs(tour->y - currentMonster->y), 2);
+
+    if (current_monster_distance <= portee) {
+      if(current_monster_distance < shortest_monster_distance) {
+        shortest_monster_distance = current_monster_distance;
+        tour->targetMonster = currentMonster;
+      }
+    }
+
+    currentMonster = currentMonster->next;   
+  }
+  if (tour->targetMonster != NULL) return TRUE;
+  else return FALSE;
+}
+
+Bool tour_targetStillInRange(Tour* tour)
+{
+  if (tour->targetMonster != NULL) {
+    double distance = pow(abs(tour->x - tour->targetMonster->x), 2) + pow(abs(tour->y - tour->targetMonster->y), 2);
+    double portee = tour_calculPortee(tour);
+
+    if(tour->targetMonster->status == DEAD || distance > portee) {
+      tour->targetMonster = NULL;
+      return FALSE;
+    }
+    else return TRUE;
+  }
+  else return FALSE;
 }

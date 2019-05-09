@@ -72,5 +72,4 @@ void player_gagneArgent(int valeur)
 {
   Etat *joueur = &(plateau->joueur);
   joueur->argent += valeur;
-  printf("Player argent += %d\n", valeur);
 }

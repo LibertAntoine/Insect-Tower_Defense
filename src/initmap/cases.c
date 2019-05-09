@@ -191,6 +191,15 @@ void case_removeConstruction(int caseX, int caseY)
   }
 }
 
+Tour* case_getTourPointer(int caseX, int caseY)
+{
+  int index_case = case_getCaseIndex(caseX, caseY);
+  Tour* tour = plateau->tours[index_case];
+  if (tour != NULL) {
+    return tour;
+  }
+}
+
 void case_printInfos(int caseX, int caseY)
 {
   int index_case = case_getCaseIndex(caseX, caseY);
@@ -253,19 +262,30 @@ void case_printInfos(int caseX, int caseY)
     printf("dégats : %d\n", degats);
     printf("Besoins en alimentation : %d\n", alimentation);
     printf("portee : %d\n", portee);
-    printf("cadence : %d\n", cadence);
+    printf("cadence : %f\n", 60.0 / (float) cadence);
     printf("Cout à l'achat : %d\n", valeur_achat);
     printf("Cout à la revente : %d\n", valeur_revente);
 
-    int armement_c = plateau->tours[index_case]->armement;
-    int centrale_c = plateau->tours[index_case]->centrale;
-    int munition_c = plateau->tours[index_case]->munition;
-    int radar_c = plateau->tours[index_case]->radar;
+    Tour* tour = plateau->tours[index_case];
+
+    int armement_c = tour->armement;
+    int centrale_c = tour->centrale;
+    int munition_c = tour->munition;
+    int radar_c = tour->radar;
+    printf("\n");
     printf("La toure est reliée à :\n");
     printf("Usines d'armement : %d\n", armement_c);
     printf("Radar : %d\n", radar_c);
     printf("Entrepot de munitions : %d\n", munition_c);
     printf("Centrales à énergie : %d\n", centrale_c);
+
+    float degats_calc = tour_calculDegats(tour);
+    float cadence_calc = tour_calculCadence(tour);
+    float portee_calc = tour_calculPortee(tour);
+    printf("\n");
+    printf("Portée calculée : %f\n", portee_calc);
+    printf("Cadence calculée : %f\n", cadence_calc);
+    printf("Degats calculés : %f\n", degats_calc);
   }
 }
 
