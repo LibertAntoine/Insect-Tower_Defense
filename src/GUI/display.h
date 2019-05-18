@@ -8,7 +8,6 @@
 #include "cases.h"
 #include "structures.h"
 
-extern GUI *bodyGUI;
 
 void display_boardGrid(int Xsplit, int Ysplit);
 void display_game(int Xsplit, int Ysplit);
