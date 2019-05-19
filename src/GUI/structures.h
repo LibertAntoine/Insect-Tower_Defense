@@ -10,7 +10,9 @@ typedef struct Div {
 } Div;
 
 typedef enum ButtonName {
-  TOUR
+  LASER,
+  PAUSE,
+  MISSILE
 } ButtonName;
 
 typedef enum Display {
@@ -46,5 +48,6 @@ typedef struct GUI {
 extern GUI *bodyGUI;
 extern GUI *plateauGUI;
 extern GUI *bottomGUI;
+extern GUI *topGUI;
 
 #endif //STRUCTURES_H_

@@ -19,6 +19,7 @@ int Ysplit = 5;
 GUI *bodyGUI; //variable globale de l'interface
 GUI *plateauGUI;
 GUI *bottomGUI;
+GUI *topGUI;
 
 int main()
 {
@@ -48,6 +49,7 @@ int main()
     interfaceBottom.y = 0;
     interfaceBottom.width = 800;
     interfaceBottom.height = 100;
+
     display_bottom();
 
     display_game(plateauGUI, Xsplit, Ysplit);

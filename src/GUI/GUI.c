@@ -38,7 +38,11 @@ void gui_init()
   bodyGUI->buttons = NULL;
 
   bottomGUI = gui_addChildren(FOOTER, 0, 500, 800, 100, bodyGUI);
-  gui_addButton(bottomGUI, 700, 50, 25, 35, TOUR, INACTIVE);
+  gui_addButton(bottomGUI, 700, 50, 25, 35, LASER, INACTIVE);
+  gui_addButton(bottomGUI, 600, 50, 25, 35, MISSILE, INACTIVE);
+
+  topGUI = gui_addChildren(HEADER, 0, 0, 800, 100, bodyGUI);
+  gui_addButton(topGUI, 600, 50, 45, 35, PAUSE, INACTIVE);
 
   plateauGUI = gui_addChildren(PLATEAU, 300, 100, 500, 400, bodyGUI);
 }
@@ -79,8 +83,6 @@ void gui_addButton(GUI *section, int x, int y, int width, int height, ButtonName
   new->name = name;
   new->display = display_mode;
   new->next = section->buttons;
-
-  new->next = NULL;
 
   section->buttons = new;
 }

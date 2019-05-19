@@ -44,6 +44,7 @@ void display_game(GUI *plateau, int Xsplit, int Ysplit)
   glMatrixMode(GL_MODELVIEW);
 }
 
+/*
 void display_top()
 {
   glColor3f(1,1,0);
@@ -55,6 +56,7 @@ void display_top()
   glVertex2f(800,0);
   glEnd();
 }
+*/
 
 void display_left()
 {
@@ -120,6 +122,12 @@ void display_drawSingleButton(Button *button)
   glEnd();
 
   glPopMatrix();
+}
+
+void display_top()
+{
+  glColor3f(1,1,0);
+  display_drawZoneBasedOnGUI(topGUI);
 }
 
 void display_bottom()

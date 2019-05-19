@@ -8,10 +8,9 @@
 #include "GUI.h"
 
 void mouse_handleClick();
-
 GUI *mouse_getSection();
 int mouse_isWithinSection(GUI *section);
-int mouse_GUIbutton(GUI *section);
+Button *mouse_GUIbutton(GUI *section);
 int mouse_isWithinButton(Button *button, GUI *section);
 
 

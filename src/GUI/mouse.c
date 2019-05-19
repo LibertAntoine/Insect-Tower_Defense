@@ -2,31 +2,34 @@
 
 void mouse_handleClick()
 {
-  int caseX, caseY;
 
   GUI *current_section = mouse_getSection();
 
   if (current_section->name == PLATEAU) {
+    int caseX, caseY;
     get_cases(&caseX, &caseY, plateauGUI->dimensions);
     printf("%d %d\n", caseX, caseY);
   }
   if (current_section->name == FOOTER) {
-    int buttonClicked = mouse_GUIbutton(current_section);
-    printf("%d\n", buttonClicked);
+    Button *buttonClicked = mouse_GUIbutton(current_section);
+    if (buttonClicked) printf("%d\n", buttonClicked->name +1);
+  }
+  if (current_section->name == HEADER) {
+    Button *buttonClicked = mouse_GUIbutton(current_section);
+    if (buttonClicked) printf("%d\n", buttonClicked->name +1);
   }
 }
 
-int mouse_GUIbutton(GUI *section)
+Button *mouse_GUIbutton(GUI *section)
 {
   Button *current_button = section->buttons;
   while (current_button) {
     if (mouse_isWithinButton(current_button, section)) {
-      // NOTE: We could return which button we're at
-      return 1;
+      return current_button;
     }
     else current_button = current_button->next;
   }
-  return 0;
+  return NULL;
 }
 
 GUI *mouse_getSection()
@@ -68,14 +71,15 @@ int mouse_isWithinArea(Div *dimensions)
 
 int mouse_isWithinButton(Button *button, GUI *section)
 {
-  Div button_div;
-  button_div.x = button->dimensions->x;
-  button_div.y = button->dimensions->y;
-  button_div.width = button->dimensions->width;
-  button_div.height = button->dimensions->height;
-  gui_getAbsoluteDimensionsButton(section, &button_div);
+  Div div;
+  div.x = button->dimensions->x;
+  div.y = button->dimensions->y;
+  div.width = button->dimensions->width;
+  div.height = button->dimensions->height;
 
-  return mouse_isWithinArea(&button_div);
+  gui_getAbsoluteDimensionsButton(section, &div);
+
+  return mouse_isWithinArea(&div);
 }
 
 int mouse_isWithinSection(GUI *section)
