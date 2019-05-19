@@ -28,8 +28,10 @@ typedef struct Button {
 } Button;
 
 typedef enum SectionName {
-  MAIN,
-  FOOTER
+  BODY,
+  FOOTER,
+  PLATEAU,
+  HEADER
 } SectionName;
 
 typedef struct GUI {
@@ -42,5 +44,7 @@ typedef struct GUI {
 } GUI;
 
 extern GUI *bodyGUI;
+extern GUI *plateauGUI;
+extern GUI *bottomGUI;
 
 #endif //STRUCTURES_H_

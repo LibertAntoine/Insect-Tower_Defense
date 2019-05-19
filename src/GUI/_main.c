@@ -11,11 +11,14 @@
 #include "display.h"
 #include "cases.h"
 #include "GUI.h"
+#include "mouse.h"
 
 int Xsplit = 6;
 int Ysplit = 5;
 
 GUI *bodyGUI; //variable globale de l'interface
+GUI *plateauGUI;
+GUI *bottomGUI;
 
 int main()
 {
@@ -45,9 +48,9 @@ int main()
     interfaceBottom.y = 0;
     interfaceBottom.width = 800;
     interfaceBottom.height = 100;
-    display_bottom(&interfaceBottom);
+    display_bottom();
 
-    display_game(Xsplit, Ysplit);
+    display_game(plateauGUI, Xsplit, Ysplit);
 
 
     SDL_GL_SwapWindow(surface);
@@ -64,23 +67,7 @@ int main()
         break;
       }
       if (e.type == SDL_MOUSEBUTTONDOWN) {
-        int mouseX, mouseY;
-        SDL_GetMouseState(&mouseX, &mouseY);
-        int caseX, caseY;
-
-        /*div plateau infos*/
-        Div interfacePlateau;
-        interfacePlateau.x = 300;
-        interfacePlateau.y = 100;
-        interfacePlateau.width = 500;
-        interfacePlateau.height = 400;
-
-        if (mouse_inPlateau(mouseX, mouseY, &interfacePlateau)) {
-          get_cases(&caseX, &caseY, mouseX, mouseY, &interfacePlateau);
-          printf("%d %d\n", caseX, caseY);
-        }
-
-        // TODO click BTN
+        mouse_handleClick();
       }
     }
 

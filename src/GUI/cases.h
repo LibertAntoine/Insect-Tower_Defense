@@ -11,7 +11,6 @@
 
 #include "structures.h"
 
-void get_cases(int *caseX, int *caseY, int mouseX, int mouseY, Div *plateau);
-int mouse_inPlateau(int mouseX, int mouseY, Div *plateau);
+void get_cases(int *caseX, int *caseY, Div *plateau);
 
 #endif //CASES_H_

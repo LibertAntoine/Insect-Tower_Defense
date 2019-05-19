@@ -15,7 +15,7 @@ void display_boardGrid(int Xsplit, int Ysplit)
   glEnd();
 }
 
-void display_game(int Xsplit, int Ysplit)
+void display_game(GUI *plateau, int Xsplit, int Ysplit)
 {
   // glViewport lowerleft corner from bottom left, + shift x , y
   glViewport(300, 100, 500, 400);
@@ -69,38 +69,9 @@ void display_left()
 
 }
 
-void display_towerbtns(Div *bottom)
-{
-  /* balancer dans une fonction */
-  glViewport(bottom->x, bottom->y, bottom->width, bottom->height);
-  glMatrixMode(GL_PROJECTION);
-  glLoadIdentity();
-  gluOrtho2D(0, bottom->width, bottom->height, 0);
-  glMatrixMode(GL_MODELVIEW);
-
-  glColor3f(1,0,0);
-  glPushMatrix();
-  glTranslatef(700, 50, 0);
-  glBegin(GL_QUADS);
-  glVertex2f(-25,-25);
-  glVertex2f(25,-25);
-  glVertex2f(25, 25);
-  glVertex2f(-25, 25);
-  glEnd();
-  glPopMatrix();
-
-
-  glViewport(0, 0, 800, 600);
-  glMatrixMode(GL_PROJECTION);
-  glLoadIdentity();
-  gluOrtho2D(0, 800, 600, 0);
-  glMatrixMode(GL_MODELVIEW);
-}
-
 void display_drawZoneBasedOnGUI(GUI *section)
 {
   display_setDrawingZone(section);
-
 
   glBegin(GL_QUADS);
   glVertex2f(0, 0);
@@ -121,11 +92,11 @@ void display_drawZoneBasedOnGUI(GUI *section)
 
 void display_setDrawingZone(GUI *section)
 {
-  int position_x = 0;
-  int position_y = 0;
-  gui_getAbsolutePosistionXY(section, &position_x, &position_y);
+  int X = 0;
+  int Y = 0;
+  gui_getAbsoluteCoordinates(section, &X, &Y);
 
-  glViewport(position_x, bodyGUI->dimensions->height - position_y - section->dimensions->height, section->dimensions->width, section->dimensions->height);
+  glViewport(X, bodyGUI->dimensions->height - Y - section->dimensions->height, section->dimensions->width, section->dimensions->height);
   glMatrixMode(GL_PROJECTION);
   glLoadIdentity();
 
@@ -151,11 +122,11 @@ void display_drawSingleButton(Button *button)
   glPopMatrix();
 }
 
-void display_bottom(Div *bottom)
+void display_bottom()
 {
   glColor3f(1,0,1);
 
-  display_drawZoneBasedOnGUI(bodyGUI->childen);
+  display_drawZoneBasedOnGUI(bottomGUI);
 
   /*
   glBegin(GL_QUADS);

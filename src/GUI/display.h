@@ -10,11 +10,10 @@
 
 
 void display_boardGrid(int Xsplit, int Ysplit);
-void display_game(int Xsplit, int Ysplit);
+void display_game(GUI *plateau, int Xsplit, int Ysplit);
 void display_top();
 void display_left();
-void display_towerbtns(Div *bottom);
-void display_bottom(Div *bottom);
+void display_bottom();
 void display_grid(int Xsplit, int Ysplit);
 
 void display_drawSingleButton(Button *button);
