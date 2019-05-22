@@ -35,6 +35,7 @@ SpriteTexture* animation_loadTexture(SpriteImage *sprite_data)
   glBindTexture(GL_TEXTURE_2D, new_sprite->texture_id);
 
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+  //glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_LOD, GL_LINEAR);
 
   glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, sprite_data->surface->w, sprite_data->surface->h, 0, GL_RGBA, GL_UNSIGNED_BYTE, sprite_data->surface->pixels);
 
@@ -54,7 +55,7 @@ void animation_displaySprite(SpriteTexture* sprite)
 
 
   //NOTE: Mettre du blanc sous l'image et activation de la texture
-  glColor3f(1, 1, 1);
+  glColor3f(0, 1, 0);
   glEnable(GL_TEXTURE_2D);
   glBindTexture(GL_TEXTURE_2D, sprite->texture_id);
 
@@ -68,6 +69,7 @@ void animation_displaySprite(SpriteTexture* sprite)
   float x_shift = 1. / sprite->sprite_totalX;
   float y_shift = 1. / sprite->sprite_totalY;
 
+  glColor4f(1,1,1,0.5);
   glBegin(GL_QUADS);
   glTexCoord2f(0, 0);
   glVertex2f(0, 0);
