@@ -94,8 +94,7 @@ int main(int argc, char *argv[])
     while(SDL_PollEvent(&e)) 
     {
       /* L'utilisateur ferme la fenetre : */
-      if(e.type == SDL_QUIT) 
-      {
+      if(e.type == SDL_QUIT) {
         loop = 0;
         break;
       }

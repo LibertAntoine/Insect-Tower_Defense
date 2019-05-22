@@ -79,7 +79,7 @@ double valueChemin(Node startNode, Node arrivedNode)
     distance = fabs(startNode.x - arrivedNode.x);
   } 
   Chemin* chemin = case_giveChemin(&startNode, &arrivedNode);
-  return distance + chemin->dead*10;
+  return distance + chemin->dead;
 }
 
 

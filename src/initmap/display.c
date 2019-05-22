@@ -134,6 +134,7 @@ int display_drawAllMonsters() {
   Monster* currentMonster = plateau->listMonsters->firstMonster;
   while (currentMonster != NULL) {  
       display_drawSingleMonster(currentMonster);
+      display_drawItineraire(currentMonster);
       currentMonster = currentMonster->next;
   }
   return 0;
@@ -351,4 +352,20 @@ void display_drawBoard()
     display_drawSingleTower(caseX, caseY, type);
   }
   display_drawAllTargetRanges();
+}
+
+void display_drawItineraire(Monster* monster)
+{
+  glColor3f(1,1,1);
+  glBegin(GL_LINES);
+  glVertex2f(monster->x, monster->y);
+  glVertex2f(monster->itineraire->next->next->node->x, monster->itineraire->next->next->node->y);
+
+  Etape* currentEtape = monster->itineraire->next->next;
+  while(currentEtape->next != NULL) {
+    glVertex2f(currentEtape->node->x, currentEtape->node->y);
+    glVertex2f(currentEtape->next->node->x, currentEtape->next->node->y);
+    currentEtape = currentEtape->next;
+  }
+  glEnd();
 }

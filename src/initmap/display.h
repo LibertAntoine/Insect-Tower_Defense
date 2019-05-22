@@ -38,5 +38,5 @@ void display_drawBoard();
 void display_drawAllTargetRanges();
 int display_drawAllProjectiles();
 void display_drawSingleProjectile(Projectile* projectile);
-
+void display_drawItineraire(Monster* monster);
 #endif //DRAW_MONSTER_H_
