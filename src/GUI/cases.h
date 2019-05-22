@@ -11,6 +11,7 @@
 
 #include "structures.h"
 
-void get_cases(int *caseX, int *caseY, Div *plateau);
+void get_casesi(int *caseX, int *caseY, Div *plateau);
+void get_casesf(float *caseX, float *caseY, Div *plateau);
 
 #endif //CASES_H_

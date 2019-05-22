@@ -1,7 +1,6 @@
 #ifndef STRUCTURES_H_
 #define STRUCTURES_H_
 
-
 typedef struct Div {
   int x;
   int y;

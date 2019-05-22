@@ -7,8 +7,11 @@ void mouse_handleClick()
 
   if (current_section->name == PLATEAU) {
     int caseX, caseY;
-    get_cases(&caseX, &caseY, plateauGUI->dimensions);
+    float caseX_f, caseY_f;
+    get_casesi(&caseX, &caseY, plateauGUI->dimensions);
+    get_casesf(&caseX_f, &caseY_f, plateauGUI->dimensions);
     printf("%d %d\n", caseX, caseY);
+    printf("%f %f\n", caseX_f, caseY_f);
   }
   if (current_section->name == FOOTER) {
     Button *buttonClicked = mouse_GUIbutton(current_section);

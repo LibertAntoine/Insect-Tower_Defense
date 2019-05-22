@@ -21,21 +21,24 @@ void display_game(GUI *plateau, int Xsplit, int Ysplit)
   glViewport(300, 100, 500, 400);
   glMatrixMode(GL_PROJECTION);
   glLoadIdentity();
-  gluOrtho2D(0, 6, 5, 0);
+  gluOrtho2D(1, 7, 6, 1);
   glMatrixMode(GL_MODELVIEW);
 
   glColor3f(1,1,1);
 
+  glPushMatrix();
+  glTranslatef(1, 1, 0);
 
   //FOND
   glBegin(GL_QUADS);
   glVertex2f(0, 0);
-  glVertex2f(0, 5);
-  glVertex2f(6, 5);
-  glVertex2f(6,0);
+  glVertex2f(0, 6);
+  glVertex2f(7, 6);
+  glVertex2f(7,0);
   glEnd();
 
   display_boardGrid(Xsplit, Ysplit);
+  glPopMatrix();
 
   glViewport(0, 0, 800, 600);
   glMatrixMode(GL_PROJECTION);

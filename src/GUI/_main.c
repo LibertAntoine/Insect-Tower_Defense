@@ -1,6 +1,12 @@
+
+#ifdef _WIN32
+  #include <GL/glew.h>
+#else
+  #include <GL/gl.h>
+  #include <GL/glu.h>
+#endif
+
 #include <SDL2/SDL.h>
-#include <GL/gl.h>
-#include <GL/glu.h>
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -42,13 +48,6 @@ int main()
 
     display_top();
     display_left();
-
-    /* Interface Bottom */
-    Div interfaceBottom;
-    interfaceBottom.x = 0;
-    interfaceBottom.y = 0;
-    interfaceBottom.width = 800;
-    interfaceBottom.height = 100;
 
     display_bottom();
 
