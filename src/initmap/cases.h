@@ -46,6 +46,7 @@ void case_checkExistChemin(ListChemins* listChemins, Node* firstNode, Node* seco
 void case_addChemin(ListChemins* listChemins, Node* firstNode, Node* secondNode);
 void case_addValueChemin(Monster* monster);
 void case_removeValueChemin(Monster* monster);
+Chemin* case_giveChemin(Node* firstNode, Node* secondNode);
 
 #endif //CASES_H_
 

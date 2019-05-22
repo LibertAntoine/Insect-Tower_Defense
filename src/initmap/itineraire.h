@@ -19,7 +19,8 @@ int *itineraire_initDistanceArray(int size);
 
 int itineraire_findShortestPath(InfosNodes* infosNodes);
 void fill(int* array, int size, int value);
-double distanceNodes(Node StartNode, Node ArrivedNode);
+double valueChemin(Node startNode, Node arrivedNode);
 int itineraire_initMonster(Monster* monster, InfosNodes* infosNodes);
 int addToItineraire(Itineraire* itineraire, Node* node);
+
 #endif //SHORT_PATH_ALGO_H_

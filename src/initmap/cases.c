@@ -382,35 +382,25 @@ void case_activateAllTowers(int cases[], int range)
 }
 */
 
-
-
 void case_addValueChemin(Monster* monster) {
-    Chemin* currentChemin = plateau->listChemins->next;
-    char exist = 0;
-    while(currentChemin != NULL) {
-      if(currentChemin->node1->id == monster->itineraire->next->next->node->id && currentChemin->node2->id == monster->itineraire->next->node->id) {
-        currentChemin->dead++;
-        break;
-      } else if (currentChemin->node1->id == monster->itineraire->next->node->id && currentChemin->node2->id == monster->itineraire->next->next->node->id) {
-        currentChemin->dead++;
-        break;
-      }
-      currentChemin = currentChemin->next;
-    }
+    Chemin* chemin = case_giveChemin(monster->itineraire->next->next->node, monster->itineraire->next->node);
+    chemin->dead++;
 }
 
 void case_removeValueChemin(Monster* monster) {
+    Chemin* chemin = case_giveChemin(monster->itineraire->next->next->node, monster->itineraire->next->node);
+    chemin->dead--;
+}
+
+Chemin* case_giveChemin(Node* firstNode, Node* secondNode) {
     Chemin* currentChemin = plateau->listChemins->next;
     char exist = 0;
     while(currentChemin != NULL) {
-      if(currentChemin->node1->id == monster->itineraire->next->next->node->id && currentChemin->node2->id == monster->itineraire->next->node->id) {
-        currentChemin->dead--;
-        break;
-      } else if (currentChemin->node1->id == monster->itineraire->next->node->id && currentChemin->node2->id == monster->itineraire->next->next->node->id) {
-        currentChemin->dead--;
-        break;
+      if(currentChemin->node1->id == firstNode && currentChemin->node2->id == secondNode) {
+        return currentChemin;
+      } else if (currentChemin->node1->id == secondNode && currentChemin->node2->id == firstNode) {
+        return currentChemin;
       }
       currentChemin = currentChemin->next;
     }
 }
-

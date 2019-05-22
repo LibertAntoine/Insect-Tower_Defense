@@ -62,6 +62,7 @@ int addToList(Monster* monster)
 
 int monster_popMonster(InfosNodes* InfosNodes, TypeMonster type, int idIn) 
 {
+  itineraire_findShortestPath(InfosNodes);
   Monster* monster = malloc(sizeof(Monster)); 
   // TODO: Checker l'allocation
 

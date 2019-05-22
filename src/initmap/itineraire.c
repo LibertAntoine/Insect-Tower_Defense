@@ -23,7 +23,7 @@ int itineraire_findShortestPath(InfosNodes* infosNodes)
     for(int link_id = 0; link_id < 4; link_id++) {   
       //printf("%d ", distanceNodes(infosNodes->nodes[i], infosNodes->nodes[infosNodes->nodes[i].link[j]]));
       int next_id = infosNodes->nodes[i].link[link_id];
-      distance = distanceNodes(infosNodes->nodes[i], infosNodes->nodes[next_id]);
+      distance = valueChemin(infosNodes->nodes[i], infosNodes->nodes[next_id]);
 
       if(next_id == -1) {
         break;
@@ -70,15 +70,16 @@ void fill(int* array, int size, int value)
   }
 }
 
-double distanceNodes(Node StartNode, Node ArrivedNode)
+double valueChemin(Node startNode, Node arrivedNode)
 {
-  if (StartNode.x == ArrivedNode.x) {
-    return fabs(StartNode.y - ArrivedNode.y);
-  } else if (StartNode.y == ArrivedNode.y) {
-    return fabs(StartNode.x - ArrivedNode.x);
-  } else {
-    return 0;
-  }
+  float distance = 0;
+  if (startNode.x == arrivedNode.x) {
+    distance = fabs(startNode.y - arrivedNode.y);
+  } else if (startNode.y == arrivedNode.y) {
+    distance = fabs(startNode.x - arrivedNode.x);
+  } 
+  Chemin* chemin = case_giveChemin(&startNode, &arrivedNode);
+  return distance + chemin->dead*10;
 }
 
 
