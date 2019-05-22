@@ -85,8 +85,9 @@ double distanceNodes(Node StartNode, Node ArrivedNode)
 int itineraire_initMonster(Monster* monster, InfosNodes* infosNodes)
 {
   Itineraire* itineraire = malloc(sizeof(Itineraire));
-  itineraire->nbEtape = 0;
   itineraire->next = NULL;
+  itineraire->nbEtape = 1;
+  addToItineraire(itineraire, &infosNodes->nodes[monster->idIn]);
 
   int idNode = monster->idIn;
   while(idNode != infosNodes->idOut) {  

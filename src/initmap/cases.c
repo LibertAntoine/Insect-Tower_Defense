@@ -57,6 +57,7 @@ int case_initPlateau(MapData* mapdata)
   if (!plateau->tours) {
     return EXIT_FAILURE;
   }
+  case_checkChemin(mapdata);
 
   return 1;
 }
@@ -70,6 +71,63 @@ int case_RGBCompare(RGBcolor color1, RGBcolor color2) {
     return 0;
   } else {
     return 1;
+  }
+}
+
+void case_checkChemin(MapData* mapData)
+{
+  ListChemins* listChemins = malloc(sizeof(listChemins));
+  listChemins->nbChemin = 0;
+  listChemins->next = NULL;
+  for(int i = 0; i < mapData->infosNodes->nbNoeud; i++) {
+    Node* node = &mapData->infosNodes->nodes[i];
+    for(int j = 0; node->link[j] != -1 && j < 5; j++) {
+      case_checkExistChemin(listChemins, node, &node->link[j]);
+    }
+  }
+  plateau->listChemins = listChemins;
+}
+
+void case_checkExistChemin(ListChemins* listChemins, Node* firstNode, Node* secondNode)
+{
+  if(listChemins->nbChemin == 0) {
+    case_addChemin(listChemins, firstNode, secondNode);
+  } else {
+    Chemin* currentChemin = listChemins->next;
+    char exist = 0;
+    while(currentChemin != NULL) {
+      if(currentChemin->node1->id == secondNode->id && currentChemin->node2->id == firstNode->id) {
+        exist = 1;
+        break;
+      } else if (currentChemin->node1->id == firstNode->id && currentChemin->node2->id == secondNode->id) {
+        exist = 1;
+        break;
+      }
+      currentChemin = currentChemin->next;
+    }
+    if(!exist) {
+      case_addChemin(listChemins, firstNode, secondNode);
+    }
+  }
+}
+
+void case_addChemin(ListChemins* listChemins, Node* firstNode, Node* secondNode)
+{
+  Chemin* new = malloc(sizeof(Chemin));
+  new->node1 = firstNode;
+  new->node2 = secondNode;
+  new->dead = 0;
+  new->next = NULL;
+  if(listChemins->next == NULL) {
+    listChemins->nbChemin++;
+    listChemins->next = new;
+  } else {
+    Chemin* currentChemin = listChemins->next; 
+    while(currentChemin->next != NULL) {
+      currentChemin = currentChemin->next;
+    }
+    listChemins->nbChemin++;
+    currentChemin->next = new;
   }
 }
 

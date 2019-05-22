@@ -82,6 +82,7 @@ typedef struct MapData {
   InfosNodes* infosNodes;
   ListWaves* listWaves;
 } MapData;
+
 typedef enum GeneralType {
   TOUR = 1,
   BATIMENT = 2,
@@ -185,6 +186,7 @@ typedef struct Monster {
    int idIn;
    TypeMonster type;
    Statut status;
+   float dying;
    Orientation orientation;
    double x;
    double y;
@@ -224,6 +226,18 @@ typedef struct ListMonsters {
    DataMonsters** dataMonsters;
 } ListMonsters;
 
+typedef struct Chemin {
+   Node* node1;
+   Node* node2;
+   int dead;
+   struct Chemin* next;
+} Chemin;
+
+typedef struct ListChemins {
+   int nbChemin;
+   Chemin* next;
+} ListChemins;
+
 typedef struct Plateau {
   int Xsplit;
   int Ysplit;
@@ -232,6 +246,7 @@ typedef struct Plateau {
   ListTours* listTours;
   ListMonsters* listMonsters;
   ListProjectiles* listProjectiles;
+  ListChemins* listChemins;
   Tour **tours;
   TypeCase *cases;
 } Plateau;

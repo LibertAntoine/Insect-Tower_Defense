@@ -1,7 +1,5 @@
 #include "monster.h"
 
-// TODO: fix bugs sur les balles qui ne tuent pas le monstre et le collent.
-
 int initListMonsters()
 {
   ListMonsters* listMonsters = malloc(sizeof(ListMonsters));
@@ -76,6 +74,7 @@ int monster_popMonster(InfosNodes* InfosNodes, TypeMonster type, int idIn)
   monster->idIn = idIn;
   monster->type = type;
   monster->status = ALIVE;
+  monster->dying = 10;
   monster->orientation = HAUT;
   monster->x = InfosNodes->nodes[idIn].x;
   monster->y = InfosNodes->nodes[idIn].y;
@@ -99,7 +98,13 @@ void monster_kill(Monster* monster)
 {
   monster->status = DEAD;
   player_gagneArgent(plateau->listMonsters->dataMonsters[monster->type]->value);
+  case_addValueChemin(monster);
+}
+
+void monster_delete(Monster* monster) 
+{
   monster_removeFromList(monster);
+  case_removeValueChemin(monster);
 }
 
 void monster_removeFromList(Monster* monster)
@@ -127,8 +132,8 @@ void get_itineraire(Monster* monster)
 
 Orientation monster_moveDirection(Monster* monster)
 {
-  float difference_x = fabs(monster->itineraire->next->node->x - monster->x); 
-  float difference_y = fabs(monster->itineraire->next->node->y - monster->y); 
+  float difference_x = fabs(monster->itineraire->next->next->node->x - monster->x); 
+  float difference_y = fabs(monster->itineraire->next->next->node->y - monster->y); 
 
   if (difference_x > 0.01) {
     return HORIZONTAL;
@@ -152,7 +157,7 @@ int moveMonster(Monster* monster)
 
   /* Le monstre est sur un mouvement horizontal */
   if(monster_moveDirection(monster) == HORIZONTAL) {
-    if(monster->itineraire->next->node->x - monster->x < 0) {
+    if(monster->itineraire->next->next->node->x - monster->x < 0) {
       monster->x = monster->x - 0.01/monster->mass;
       monster->orientation = GAUCHE;
     } else {
@@ -163,7 +168,7 @@ int moveMonster(Monster* monster)
 
   /* Le monstre est sur un mouvement vertical */
   else if (monster_moveDirection(monster) == VERTICAL) {
-    if(monster->itineraire->next->node->y - monster->y < 0) {
+    if(monster->itineraire->next->next->node->y - monster->y < 0) {
       monster->y = monster->y - 0.01/monster->mass;
       monster->orientation = HAUT;
     } else {
@@ -187,7 +192,14 @@ int moveAllMonster()
   Monster* currentMonster = plateau->listMonsters->firstMonster;
 
   while (currentMonster != NULL) {  
-    moveMonster(currentMonster);
+    if(currentMonster->status == DEAD) {
+      currentMonster->dying = currentMonster->dying - 1.0/60.0;
+    } else {
+      moveMonster(currentMonster);
+    }
+    if(currentMonster->dying < 0) {
+      monster_delete(currentMonster);
+    } 
     currentMonster = currentMonster->next;
   }
   return 0;

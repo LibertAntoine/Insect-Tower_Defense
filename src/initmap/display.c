@@ -54,15 +54,32 @@ void display_drawTargetRange(int caseX, int caseY, int range)
 
 void display_drawSingleMonster(Monster* monster)
 {
-  if (monster->type = SOLDER) {
-    glColor3d(0,0,0.5);
-  } else if (monster->type = HUGE_SOLDER) {
-    glColor3d(0.5,0.2,0);
-  } else if (monster->type = GERERAL) {
-    glColor3d(0,255,0);
-  } else if (monster->type = BOSS) {
-    glColor3d(0,1,1);
+  if (monster->type == SOLDER) {
+    if(monster->status == ALIVE) {
+      glColor3f(0,0,0.5);
+    } else {
+      glColor3f(0,0,0);
+    }
+  } else if (monster->type == HUGE_SOLDER) {
+    if(monster->status == ALIVE) {
+      glColor3f(1,1,1);
+    } else {
+      glColor3f(0,0,0);
+    }
+  } else if (monster->type == GERERAL) {
+    if(monster->status == ALIVE) {
+      glColor3f(0,1,0);
+    } else {
+      glColor3f(0,0,0);
+    }
+  } else if (monster->type == BOSS) {
+    if(monster->status == ALIVE) {
+      glColor3f(0,1,1);
+    } else {
+      glColor3f(0,0,0);
+    }
   }
+
 
   float angle = 0;
   if (monster->orientation == HAUT) {
@@ -82,15 +99,18 @@ void display_drawSingleMonster(Monster* monster)
   glTranslatef(monster->x, monster->y, 0);
 
   glPushMatrix();
-  glScalef(0.8, 0.3, 1);
-  glTranslatef(0, 0.9, 0);
-  display_drawMonsterLife(percentPDV);
-  glPopMatrix();
-
   glRotatef(angle, 0, 0, 1);
   display_drawTriangle(GL_FILL);
   glPopMatrix();
 
+  if(monster->status == ALIVE) {
+      glPushMatrix();
+      glScalef(0.8, 0.3, 1);
+      glTranslatef(0, 0.9, 0);
+      display_drawMonsterLife(percentPDV);
+      glPopMatrix();
+  }
+  glPopMatrix();
 }
 
 void display_drawMonsterLife(float PDV)
@@ -113,8 +133,8 @@ int display_drawAllMonsters() {
 
   Monster* currentMonster = plateau->listMonsters->firstMonster;
   while (currentMonster != NULL) {  
-    display_drawSingleMonster(currentMonster);
-    currentMonster = currentMonster->next;
+      display_drawSingleMonster(currentMonster);
+      currentMonster = currentMonster->next;
   }
   return 0;
 
@@ -136,7 +156,7 @@ int display_drawAllProjectiles() {
 }
 
 void display_drawSingleProjectile(Projectile* projectile) {
-  glColor3d(0,255,255);
+  glColor3d(255,0,255);
 
   glBegin(GL_TRIANGLES);
   glVertex2f(projectile->x, projectile->y-0.1);

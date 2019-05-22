@@ -41,5 +41,9 @@ void case_addConstruction(int caseX, int caseY);
 void case_printInfos(int caseX, int caseY);
 Tour* case_getTourPointer(int caseX, int caseY);
 
+void case_checkChemin(MapData* mapData);
+void case_checkExistChemin(ListChemins* listChemins, Node* firstNode, Node* secondNode);
+void case_addChemin(ListChemins* listChemins, Node* firstNode, Node* secondNode);
+
 #endif //CASES_H_
 

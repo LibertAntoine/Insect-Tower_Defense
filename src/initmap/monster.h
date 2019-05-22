@@ -19,6 +19,7 @@ void monster_attack(Projectile* projectile);
 void monster_removeFromList(Monster* monster);
 void monster_kill(Monster* monster);
 int moveMonster(Monster* monster);
+void monster_delete(Monster* monster);
 Orientation monster_moveDirection(Monster* monster);
 
 /**

@@ -43,9 +43,7 @@ int moveAllProjectiles() {
     if(currentProjectile->cible->status == DEAD) {
       currentProjectile = currentProjectile->next;
       deleteToProjectile(projectileDelete);
-    }
-
-    else {
+    } else {
       status = moveProjectile(currentProjectile);
       currentProjectile = currentProjectile->next;
       if(status == 1) {
@@ -58,25 +56,27 @@ int moveAllProjectiles() {
 }
 
 int moveProjectile(Projectile* projectile) {
-  if(projectile->cible->x - projectile->x > 0.01 || projectile->cible->x - projectile->x < -0.01) {
+  if(projectile->cible->x - projectile->x > 0.15 || projectile->cible->x - projectile->x < -0.15) {
     if(projectile->cible->x - projectile->x < 0) {
-      projectile->x = projectile->x - 0.2;
+      projectile->x = projectile->x - 0.15;
 
     } else {
-      projectile->x = projectile->x + 0.2;
+      projectile->x = projectile->x + 0.15;
     }   
   }
-  if (projectile->cible->y - projectile->y > 0.01 || projectile->cible->y - projectile->y < -0.01) {
+  if (projectile->cible->y - projectile->y > 0.15 || projectile->cible->y - projectile->y < -0.15) {
     if(projectile->cible->y - projectile->y < 0) {
-      projectile->y = projectile->y - 0.2;
+      projectile->y = projectile->y - 0.15;
     } else {
-      projectile->y = projectile->y + 0.2;
+      projectile->y = projectile->y + 0.15;
     }
   }
   
-  if (!(projectile->cible->x - projectile->x > 0.01 || projectile->cible->x - projectile->x < -0.01)) {
-    monster_attack(projectile);
-    return 1;
+  if (!(projectile->cible->x - projectile->x > 0.15 || projectile->cible->x - projectile->x < -0.15)) {
+    if (!(projectile->cible->y - projectile->y > 0.15 || projectile->cible->y - projectile->y < -0.15)) {
+      monster_attack(projectile);
+      return 1;
+    }
   }
   return 0;
 }
