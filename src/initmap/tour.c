@@ -316,16 +316,17 @@ Bool tour_findTarget(Tour* tour)
   float shortest_monster_distance = pow(plateau->Xsplit, 2) + pow(plateau->Ysplit, 2);
   while (currentMonster != NULL)
   {  
-    current_monster_distance = pow(abs(tour->x - currentMonster->x), 2) + pow(abs(tour->y - currentMonster->y), 2);
+    if(currentMonster->status == ALIVE) {
+      current_monster_distance = pow(abs(tour->x - currentMonster->x), 2) + pow(abs(tour->y - currentMonster->y), 2);
 
-    if (current_monster_distance <= portee) {
-      if(current_monster_distance < shortest_monster_distance) {
-        shortest_monster_distance = current_monster_distance;
-        tour->targetMonster = currentMonster;
+      if (current_monster_distance <= portee) {
+        if(current_monster_distance < shortest_monster_distance) {
+          shortest_monster_distance = current_monster_distance;
+          tour->targetMonster = currentMonster;
+        }
       }
-    }
-
-    currentMonster = currentMonster->next;   
+    }  
+    currentMonster = currentMonster->next;
   }
   if (tour->targetMonster != NULL) return TRUE;
   else return FALSE;

@@ -1,9 +1,17 @@
 #ifndef ANIMATION_H_
 #define ANIMATION_H_
 
-#include <GL/gl.h>
+#ifdef _WIN32
+  #include <GL/glew.h>
+#else
+  #include <GL/gl.h>
+  #include <GL/glu.h>
+#endif
+
 #include <stdlib.h>
 #include <SDL2/SDL_image.h>
+
+
 
 #include "structures.h"
 

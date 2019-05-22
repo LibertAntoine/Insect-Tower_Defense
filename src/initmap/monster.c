@@ -103,8 +103,8 @@ void monster_kill(Monster* monster)
 
 void monster_delete(Monster* monster) 
 {
-  monster_removeFromList(monster);
   case_removeValueChemin(monster);
+  monster_removeFromList(monster);
 }
 
 void monster_removeFromList(Monster* monster)
@@ -120,14 +120,6 @@ void monster_removeFromList(Monster* monster)
     }
     monster_from_list->next = monster_from_list->next->next;
   }
-}
-
-
-
-// TODO: Trouver à quoi sert cette fonction, semble inutilisée.
-void get_itineraire(Monster* monster) 
-{
-  free(monster);
 }
 
 Orientation monster_moveDirection(Monster* monster)
@@ -150,7 +142,7 @@ int moveMonster(Monster* monster)
 {
 
   // NOTE: Le monstre a atteint l'arrivée.
-  if (monster->itineraire->next == NULL) {
+  if (monster->itineraire->next->next == NULL) {
     // TODO: La partie est terminée.
     return 0;
   }
@@ -197,10 +189,15 @@ int moveAllMonster()
     } else {
       moveMonster(currentMonster);
     }
+
     if(currentMonster->dying < 0) {
-      monster_delete(currentMonster);
-    } 
-    currentMonster = currentMonster->next;
+      Monster* deadMonster = currentMonster;
+      currentMonster = currentMonster->next;
+      monster_delete(deadMonster);
+    } else {
+      currentMonster = currentMonster->next;
+    }
+    
   }
   return 0;
 }
