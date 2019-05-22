@@ -1,7 +1,12 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
-#include <GL/gl.h>
-#include <GL/glu.h>
+
+#ifdef _WIN32
+  #include <GL/glew.h>
+#else
+  #include <GL/gl.h>
+  #include <GL/glu.h>
+#endif
 
 #include <stdlib.h>
 #include <stdio.h>

@@ -382,3 +382,35 @@ void case_activateAllTowers(int cases[], int range)
 }
 */
 
+
+
+void case_addValueChemin(Monster* monster) {
+    Chemin* currentChemin = plateau->listChemins->next;
+    char exist = 0;
+    while(currentChemin != NULL) {
+      if(currentChemin->node1->id == monster->itineraire->next->next->node->id && currentChemin->node2->id == monster->itineraire->next->node->id) {
+        currentChemin->dead++;
+        break;
+      } else if (currentChemin->node1->id == monster->itineraire->next->node->id && currentChemin->node2->id == monster->itineraire->next->next->node->id) {
+        currentChemin->dead++;
+        break;
+      }
+      currentChemin = currentChemin->next;
+    }
+}
+
+void case_removeValueChemin(Monster* monster) {
+    Chemin* currentChemin = plateau->listChemins->next;
+    char exist = 0;
+    while(currentChemin != NULL) {
+      if(currentChemin->node1->id == monster->itineraire->next->next->node->id && currentChemin->node2->id == monster->itineraire->next->node->id) {
+        currentChemin->dead--;
+        break;
+      } else if (currentChemin->node1->id == monster->itineraire->next->node->id && currentChemin->node2->id == monster->itineraire->next->next->node->id) {
+        currentChemin->dead--;
+        break;
+      }
+      currentChemin = currentChemin->next;
+    }
+}
+

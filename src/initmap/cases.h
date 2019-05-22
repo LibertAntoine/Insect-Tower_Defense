@@ -44,6 +44,8 @@ Tour* case_getTourPointer(int caseX, int caseY);
 void case_checkChemin(MapData* mapData);
 void case_checkExistChemin(ListChemins* listChemins, Node* firstNode, Node* secondNode);
 void case_addChemin(ListChemins* listChemins, Node* firstNode, Node* secondNode);
+void case_addValueChemin(Monster* monster);
+void case_removeValueChemin(Monster* monster);
 
 #endif //CASES_H_
 
