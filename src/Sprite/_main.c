@@ -9,6 +9,7 @@
 
 #include "structures.h"
 #include "SDLConfig.h"
+#include "animation.h"
 
 int main()
 {
@@ -21,48 +22,18 @@ int main()
 
   Uint32 beginMomentLevel = SDL_GetTicks();
 
+  SpriteImage *skeleton_image = animation_loadSprite("sprite.png", 9, 4, 200);
 
-  SDL_Surface* sprite = IMG_Load("image.ppm");
-  GLuint sprite_texture;
-  glGenTextures(1, &sprite_texture);
-
-  glBindTexture(GL_TEXTURE_2D, sprite_texture);
-  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-  glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, sprite->w, sprite->h, 0, GL_RGB, GL_UNSIGNED_BYTE, sprite->pixels);
-  glBindTexture(GL_TEXTURE_2D, 0);
-
+  SpriteTexture* skeleton = animation_loadTexture(skeleton_image);
 
   int loop = 1;
   while(loop) {
     Uint32 startTime = SDL_GetTicks();
 
-    glClearColor(1,1,1,1);
+    glClearColor(1,0,1,1);
     glClear(GL_COLOR_BUFFER_BIT);
 
-    /* Allow alpha channel
-    glEnable(GL_BLEND);
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-    */
-
-    glColor4f(0,1,0, 0.5);
-    glEnable(GL_TEXTURE_2D);
-    glBindTexture(GL_TEXTURE_2D, sprite_texture);
-
-    glBegin(GL_QUADS);
-    glTexCoord2f(0, 0);
-    glVertex2f(0, 0);
-    glTexCoord2f(1, 0);
-    glVertex2f(400, 0);
-    glTexCoord2f(1, 1);
-    glVertex2f(400, 300);
-    glTexCoord2f(0, 1);
-    glVertex2f(0, 300);
-    glEnd();
-
-    //glDisable(GL_ALPHA_TEST);
-
-    glBindTexture(GL_TEXTURE_2D, 0);
-    glDisable(GL_TEXTURE_2D);
+    animation_displaySprite(skeleton);
 
     SDL_GL_SwapWindow(surface);
 
