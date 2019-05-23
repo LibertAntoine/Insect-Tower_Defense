@@ -1,4 +1,5 @@
 #include <SDL2/SDL.h>
+#include <SDL2/SDL_mixer.h>
 
 #ifdef _WIN32
   #include <GL/glew.h>
@@ -26,6 +27,7 @@
 #include "projectile.h"
 
 Plateau *plateau = NULL;
+Mix_Chunk** sound = NULL;
 
 int main(int argc, char *argv[])
 {
@@ -41,11 +43,14 @@ int main(int argc, char *argv[])
 
   /* Définition de l'environnement SDL*/
   sdlConfig_initSDL();
+  sdlConfig_initSon();
   SDL_Window* surface;
   SDL_GLContext GLcontext = NULL;
   sdlConfig_reshape(&surface, &GLcontext, WINDOW_WIDTH, WINDOW_HEIGHT);
 
   SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 0);
+
+
 
   GLuint idGrid = glGenLists(1);
   display_gridList(idGrid);
@@ -56,7 +61,7 @@ int main(int argc, char *argv[])
   int pixelMouseX, pixelMouseY, caseMouseX, caseMouseY;
 
   Uint32 beginMomentLevel = SDL_GetTicks();
-
+  Mix_PlayChannel(-1, sound[BEGINLEVEL], 0);
 
   /* Boucle principale */
   Bool play = TRUE;
@@ -234,8 +239,8 @@ int main(int argc, char *argv[])
   }
 
   /* Liberation des ressources associees a la SDL */ 
+  Mix_CloseAudio();
   SDL_Quit();
-
   return EXIT_SUCCESS;
 
 }

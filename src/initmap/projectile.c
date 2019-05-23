@@ -10,6 +10,7 @@ int create_projectile(Tour* tour, Monster* monster, float degats) {
   projectile->next = NULL;
 
   addToProjectiles(projectile);
+  Mix_PlayChannel(-1, sound[PROJECTILE], 0);
   plateau->listProjectiles->nbProjectile++;
 }
 

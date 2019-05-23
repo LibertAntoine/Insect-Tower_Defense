@@ -29,6 +29,16 @@ typedef enum TypeMonster {
   BOSS
 } TypeMonster;
 
+typedef enum Sound {
+  MUSIQUE,
+  TOWER,
+  PROJECTILE,
+  MONSTERKILL,
+  BEGINLEVEL,
+  LOSELEVEL,
+  WINLEVEL
+} Sound;
+
 typedef struct Wave {
   int wave_id;
   float timeBegin;

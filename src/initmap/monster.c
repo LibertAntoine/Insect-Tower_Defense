@@ -98,6 +98,7 @@ void monster_attack(Projectile* projectile)
 void monster_kill(Monster* monster) 
 {
   monster->status = DEAD;
+  Mix_PlayChannel(-1, sound[MONSTERKILL], 0);
   player_gagneArgent(plateau->listMonsters->dataMonsters[monster->type]->value);
   case_addValueChemin(monster);
 }
@@ -145,6 +146,7 @@ int moveMonster(Monster* monster)
   // NOTE: Le monstre a atteint l'arrivée.
   if (monster->itineraire->next->next == NULL) {
     // TODO: La partie est terminée.
+    Mix_PlayChannel(-1, sound[LOSELEVEL], 0);
     return 0;
   }
 

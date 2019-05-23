@@ -2,6 +2,7 @@
 #define TOUR_H_
 #pragma once
 
+#include <SDL2/SDL_mixer.h>
 #include <math.h>
 #include <stdlib.h>
 #include <time.h>
@@ -12,6 +13,7 @@
 #include "cases.h"
 #include "projectile.h"
 
+extern Mix_Chunk** sound;
 
 // Functions
 void tour_initConstructionData();

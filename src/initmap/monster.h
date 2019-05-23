@@ -3,6 +3,7 @@
 
 #include <stdio.h>
 #include <math.h>
+#include <SDL2/SDL_mixer.h>
 
 #include "structures.h"
 
@@ -10,6 +11,8 @@
 #include "tour.h"
 #include "projectile.h"
 #include "itineraire.h"
+
+extern Mix_Chunk** sound;
 
 int initListMonsters();
 int addToList(Monster* monster);
