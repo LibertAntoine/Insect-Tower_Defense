@@ -23,14 +23,16 @@ int itineraire_findShortestPath(InfosNodes* infosNodes)
     for(int link_id = 0; link_id < 4; link_id++) {   
       //printf("%d ", distanceNodes(infosNodes->nodes[i], infosNodes->nodes[infosNodes->nodes[i].link[j]]));
       int next_id = infosNodes->nodes[i].link[link_id];
-      distance = valueChemin(infosNodes->nodes[i], infosNodes->nodes[next_id]);
 
       if(next_id == -1) {
         break;
       }
-      else if (distances[i] + distance < distances[next_id]) { 
-        distances[next_id] = distances[i] + distance; 
-        previous[next_id] = &infosNodes->nodes[i]; 
+      else {
+        distance = valueChemin(infosNodes->nodes[i], infosNodes->nodes[next_id]);
+        if (distances[i] + distance < distances[next_id]) { 
+          distances[next_id] = distances[i] + distance; 
+          previous[next_id] = &infosNodes->nodes[i]; 
+        }
       }
     }
     i = -1;
