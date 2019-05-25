@@ -96,10 +96,10 @@ void case_checkExistChemin(ListChemins* listChemins, Node* firstNode, Node* seco
     Chemin* currentChemin = listChemins->next;
     char exist = 0;
     while(currentChemin != NULL) {
-      if(currentChemin->node1->id == secondNode->id && currentChemin->node2->id == firstNode->id) {
+      if(currentChemin->node_in->id == secondNode->id && currentChemin->node_out->id == firstNode->id) {
         exist = 1;
         break;
-      } else if (currentChemin->node1->id == firstNode->id && currentChemin->node2->id == secondNode->id) {
+      } else if (currentChemin->node_in->id == firstNode->id && currentChemin->node_out->id == secondNode->id) {
         exist = 1;
         break;
       }
@@ -114,8 +114,8 @@ void case_checkExistChemin(ListChemins* listChemins, Node* firstNode, Node* seco
 void case_addChemin(ListChemins* listChemins, Node* firstNode, Node* secondNode)
 {
   Chemin* new = malloc(sizeof(Chemin));
-  new->node1 = firstNode;
-  new->node2 = secondNode;
+  new->node_in = firstNode;
+  new->node_out = secondNode;
   new->dead_monsters = 0;
   new->next = NULL;
   if(listChemins->next == NULL) {
@@ -397,9 +397,9 @@ Chemin* case_giveChemin(Node* node_in, Node* node_out) {
     char exist = 0;
 
     while(currentChemin != NULL) {
-      if(currentChemin->node1->id == node_in && currentChemin->node2->id == node_out) {
+      if(currentChemin->node_in->id == node_in && currentChemin->node_out->id == node_out) {
         return currentChemin;
-      } else if (currentChemin->node1->id == node_out && currentChemin->node2->id == node_in) {
+      } else if (currentChemin->node_in->id == node_out && currentChemin->node_out->id == node_in) {
         return currentChemin;
       }
       currentChemin = currentChemin->next;

@@ -237,8 +237,8 @@ typedef struct ListMonsters {
 } ListMonsters;
 
 typedef struct Chemin {
-   Node* node1;
-   Node* node2;
+   Node* node_in;
+   Node* node_out;
    int dead_monsters;
    struct Chemin* next;
 } Chemin;
