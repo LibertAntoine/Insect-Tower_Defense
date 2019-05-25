@@ -33,7 +33,7 @@ int main(int argc, char *argv[])
 {
   /* Récuperation des informations idt/ppm */
   MapData* mapData = itd_initMapData();
-  idt_load("level3.itd", mapData);
+  idt_load("level/level3.itd", mapData);
   
   /* Création du plateau */
   case_initPlateau(mapData);

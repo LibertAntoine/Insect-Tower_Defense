@@ -296,14 +296,16 @@ int itd_getImageFilePath(FILE* file, MapData* mapData)
     return CHK_ERROR_FILE;
   }
   else {
-    char* filePath = malloc(sizeof(char) * letterCount);
+    // NOTE: ici le chiffre 6 correspond à la longueure de "level/"
+    char* filePath = malloc(sizeof(char) * (letterCount + 6));
     if (!filePath) {
       return CHK_ERROR_ALLOC;
     }
 
     int i;
     fseek(file, -letterCount -1, SEEK_CUR);
-    for (i=0; i<letterCount; i++) {
+    strcpy(filePath, "level/");
+    for (i=6; i<letterCount+6; i++) {
       currentChar = fgetc(file);
       filePath[i] = currentChar; 
     }
