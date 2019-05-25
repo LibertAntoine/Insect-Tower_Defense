@@ -116,7 +116,7 @@ void case_addChemin(ListChemins* listChemins, Node* firstNode, Node* secondNode)
   Chemin* new = malloc(sizeof(Chemin));
   new->node1 = firstNode;
   new->node2 = secondNode;
-  new->dead = 0;
+  new->dead_monsters = 0;
   new->next = NULL;
   if(listChemins->next == NULL) {
     listChemins->nbChemin++;
@@ -384,21 +384,22 @@ void case_activateAllTowers(int cases[], int range)
 
 void case_addValueChemin(Monster* monster) {
     Chemin* chemin = case_giveChemin(monster->itineraire->next->next->node, monster->itineraire->next->node);
-    chemin->dead++;
+    chemin->dead_monsters++;
 }
 
 void case_removeValueChemin(Monster* monster) {
     Chemin* chemin = case_giveChemin(monster->itineraire->next->next->node, monster->itineraire->next->node);
-    chemin->dead--;
+    chemin->dead_monsters--;
 }
 
-Chemin* case_giveChemin(Node* firstNode, Node* secondNode) {
+Chemin* case_giveChemin(Node* node_in, Node* node_out) {
     Chemin* currentChemin = plateau->listChemins->next;
     char exist = 0;
+
     while(currentChemin != NULL) {
-      if(currentChemin->node1->id == firstNode && currentChemin->node2->id == secondNode) {
+      if(currentChemin->node1->id == node_in && currentChemin->node2->id == node_out) {
         return currentChemin;
-      } else if (currentChemin->node1->id == secondNode && currentChemin->node2->id == firstNode) {
+      } else if (currentChemin->node1->id == node_out && currentChemin->node2->id == node_in) {
         return currentChemin;
       }
       currentChemin = currentChemin->next;

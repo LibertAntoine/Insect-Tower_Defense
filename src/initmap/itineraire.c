@@ -70,16 +70,16 @@ void fill(int* array, int size, int value)
   }
 }
 
-double valueChemin(Node startNode, Node arrivedNode)
+double valueChemin(Node node_in, Node node_out)
 {
   float distance = 0;
-  if (startNode.x == arrivedNode.x) {
-    distance = fabs(startNode.y - arrivedNode.y);
-  } else if (startNode.y == arrivedNode.y) {
-    distance = fabs(startNode.x - arrivedNode.x);
+  if (node_in.x == node_out.x) {
+    distance = fabs(node_in.y - node_out.y);
+  } else if (node_in.y == node_out.y) {
+    distance = fabs(node_in.x - node_out.x);
   } 
-  Chemin* chemin = case_giveChemin(&startNode, &arrivedNode);
-  return distance + chemin->dead;
+  Chemin* chemin = case_giveChemin(&node_in, &node_out);
+  return distance + chemin->dead_monsters;
 }
 
 

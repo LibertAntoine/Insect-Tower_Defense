@@ -75,7 +75,7 @@ int monster_popMonster(InfosNodes* InfosNodes, TypeMonster type, int idIn)
   monster->idIn = idIn;
   monster->type = type;
   monster->status = ALIVE;
-  monster->dying = 10;
+  monster->decomposition = 10;
   monster->orientation = HAUT;
   monster->x = InfosNodes->nodes[idIn].x;
   monster->y = InfosNodes->nodes[idIn].y;
@@ -188,12 +188,12 @@ int moveAllMonster()
 
   while (currentMonster != NULL) {  
     if(currentMonster->status == DEAD) {
-      currentMonster->dying = currentMonster->dying - 1.0/60.0;
+      currentMonster->decomposition -= 1.0/60.0;
     } else {
       moveMonster(currentMonster);
     }
 
-    if(currentMonster->dying < 0) {
+    if(currentMonster->decomposition < 0) {
       Monster* deadMonster = currentMonster;
       currentMonster = currentMonster->next;
       monster_delete(deadMonster);

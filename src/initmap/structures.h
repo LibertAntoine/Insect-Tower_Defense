@@ -196,7 +196,7 @@ typedef struct Monster {
    int idIn;
    TypeMonster type;
    Statut status;
-   float dying;
+   float decomposition;
    Orientation orientation;
    double x;
    double y;
@@ -239,7 +239,7 @@ typedef struct ListMonsters {
 typedef struct Chemin {
    Node* node1;
    Node* node2;
-   int dead;
+   int dead_monsters;
    struct Chemin* next;
 } Chemin;
 

@@ -91,7 +91,6 @@ void display_drawSingleMonster(Monster* monster)
   } else if (monster->orientation == DROITE) {
     angle = 90;
   }
-  // TODO: Debug mauvais PDV.
   float PDV = monster->PDV;
   float maxPDV = plateau->listMonsters->dataMonsters[monster->type]->PDV;
   float percentPDV = 1 / maxPDV * PDV;
@@ -103,7 +102,8 @@ void display_drawSingleMonster(Monster* monster)
   display_drawTriangle(GL_FILL);
   glPopMatrix();
 
-  if(monster->status == ALIVE) {
+  // NOTE: affiche la vie que si le monstre est vivant et qu'il a subi des dommages
+  if(monster->status == ALIVE && percentPDV < 1) {
       glPushMatrix();
       glScalef(0.8, 0.3, 1);
       glTranslatef(0, 0.9, 0);
@@ -126,7 +126,8 @@ void display_drawMonsterLife(float PDV)
   glPopMatrix();
 }
 
-int display_drawAllMonsters() {
+int display_drawAllMonsters()
+{
   if(plateau->listMonsters->firstMonster == NULL) {
     return 0;
   }
@@ -138,11 +139,11 @@ int display_drawAllMonsters() {
       currentMonster = currentMonster->next;
   }
   return 0;
-
 }
 
 
-int display_drawAllProjectiles() {
+int display_drawAllProjectiles()
+{
   if(plateau->listProjectiles->next == NULL) {
     return 0;
   }
@@ -156,7 +157,8 @@ int display_drawAllProjectiles() {
   return 0;
 }
 
-void display_drawSingleProjectile(Projectile* projectile) {
+void display_drawSingleProjectile(Projectile* projectile)
+{
   glColor3d(255,0,255);
 
   glBegin(GL_TRIANGLES);

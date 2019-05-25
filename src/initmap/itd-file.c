@@ -302,7 +302,7 @@ int itd_getImageFilePath(FILE* file, MapData* mapData)
     }
 
     int i;
-    fseek(file, -letterCount -2, SEEK_CUR);
+    fseek(file, -letterCount -1, SEEK_CUR);
     for (i=0; i<letterCount; i++) {
       currentChar = fgetc(file);
       filePath[i] = currentChar; 
