@@ -41,6 +41,11 @@ void gui_init()
   gui_addButton(bottomGUI, 700, 50, 25, 35, LASER_BTN, INACTIVE);
   gui_addButton(bottomGUI, 600, 50, 25, 35, MISSILE_BTN, INACTIVE);
 
+  gui_addButton(bottomGUI, 500, 50, 25, 35, ARMEMENT_BTN, INACTIVE);
+  gui_addButton(bottomGUI, 400, 50, 25, 35, MUNITION_BTN, INACTIVE);
+  gui_addButton(bottomGUI, 300, 50, 25, 35, RADAR_BTN, INACTIVE);
+  gui_addButton(bottomGUI, 200, 50, 25, 35, CENTRALE_BTN, INACTIVE);
+
   topGUI = gui_addChildren(HEADER, 0, 0, 800, 100, bodyGUI);
   gui_addButton(topGUI, 600, 50, 45, 35, PAUSE_BTN, INACTIVE);
 

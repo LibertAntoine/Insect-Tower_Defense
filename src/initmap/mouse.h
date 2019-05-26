@@ -13,5 +13,6 @@ int mouse_isWithinSection(GUI *section);
 Button *mouse_GUIbutton(GUI *section);
 int mouse_isWithinButton(Button *button, GUI *section);
 
+void mouse_handleButtonClick(ButtonName button_name);
 
 #endif //MOUSE_H_

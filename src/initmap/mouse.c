@@ -1,4 +1,55 @@
 #include "mouse.h"
+
+void mouse_handleButtonClick(ButtonName button_name)
+{
+  Etat *joueur = &(plateau->joueur);
+  TypeCase type = joueur->type;
+  Action action = joueur->action;
+
+  switch (button_name) {
+    case PAUSE_BTN:
+      plateau->play = (plateau->play == TRUE) ? FALSE : TRUE;
+      break;
+    case RADAR_BTN:
+      type = RADAR;
+      break;
+    case ARMEMENT_BTN:
+      type = ARMEMENT;
+      break;
+    case CENTRALE_BTN:
+      type = CENTRALE;
+      break;
+    case MUNITION_BTN:
+      type = MUNITION;
+      break;
+
+    case LASER_BTN:
+      type = LASER;
+      break;
+    case MISSILE_BTN:
+      type = MISSILE;
+      break;
+
+    case ADD_BTN:
+      action = ADD;
+      break;
+    case GETINFO_BTN:
+      action = GETINFO;
+      break;
+    case REMOVE_BTN:
+      action = REMOVE;
+      break;
+  }
+
+  if (action != joueur->action) {
+    player_switchAction(action);
+  }
+
+  if (type != joueur->type) {
+    player_switchTowerType(type);
+  }
+}
+
 void mouse_handleClick()
 {
   GUI *current_section = mouse_getSection();
@@ -12,14 +63,28 @@ void mouse_handleClick()
     printf("%f %f\n", caseX_f, caseY_f);
     case_handleAction(caseX, caseY);
   }
+  Button *buttonClicked = mouse_GUIbutton(current_section);
+  if (buttonClicked) {
+    mouse_handleButtonClick(buttonClicked->name);
+    printf("%d\n", buttonClicked->name +1);
+  }
+
+  /*
   if (current_section->name == FOOTER) {
     Button *buttonClicked = mouse_GUIbutton(current_section);
-    if (buttonClicked) printf("%d\n", buttonClicked->name +1);
+    if (buttonClicked) {
+      mouse_handleButtonClick(ButtonName buttonClicked->name);
+      printf("%d\n", buttonClicked->name +1);
+    }
   }
   if (current_section->name == HEADER) {
     Button *buttonClicked = mouse_GUIbutton(current_section);
-    if (buttonClicked) printf("%d\n", buttonClicked->name +1);
+    if (buttonClicked) {
+      mouse_handleButtonClick(ButtonName buttonClicked->name);
+      printf("%d\n", buttonClicked->name +1);
+    }
   }
+  */
 }
 
 Button *mouse_GUIbutton(GUI *section)

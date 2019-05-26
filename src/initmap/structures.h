@@ -277,6 +277,9 @@ typedef enum ButtonName {
   MUNITION_BTN,
   ARMEMENT_BTN,
   RADAR_BTN,
+  ADD_BTN,
+  REMOVE_BTN,
+  GETINFO_BTN,
 } ButtonName;
 
 typedef enum Display {
