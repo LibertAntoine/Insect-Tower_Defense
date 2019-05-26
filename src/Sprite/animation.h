@@ -17,9 +17,8 @@
 
 
 // NOTE: Un peu à part
-SpriteImage *animation_loadSprite(char image_path[], int total_splitX, int total_splitY, Uint32 loop_duration);
+SpriteTexture* animation_loadSprite(char image_path[], int total_splitX, int total_splitY, Uint32 loop_duration);
 
-SpriteTexture* animation_loadTexture(SpriteImage *sprite_data);
 void animation_displaySprite(SpriteTexture* sprite);
 void animation_updateSprite(SpriteTexture* sprite);
 void animation_translateTexture(SpriteTexture* sprite);

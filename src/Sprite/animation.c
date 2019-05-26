@@ -1,29 +1,18 @@
 #include "animation.h"
 
-SpriteImage *animation_loadSprite(char image_path[], int total_splitX, int total_splitY, Uint32 loop_duration)
+SpriteTexture* animation_loadSprite(char image_path[], int total_splitX, int total_splitY, Uint32 loop_duration)
 {
-  SpriteImage *new_image = calloc(1, sizeof(SpriteImage));
-  //TODO: check alloc
+  SDL_Surface* texture_surface = IMG_Load(image_path);
 
-  new_image->surface = IMG_Load(image_path);
-  new_image->sprite_totalX = total_splitX;
-  new_image->sprite_totalY = total_splitY;
-  new_image->loop_duration = loop_duration;
-
-  return new_image;
-}
-
-SpriteTexture* animation_loadTexture(SpriteImage *sprite_data)
-{
   SpriteTexture *new_sprite = calloc(1, sizeof(SpriteTexture));
   //TODO: check alloc
 
 
   //TODO: clarify magic variables
-  new_sprite->loop_duration = sprite_data->loop_duration;
+  new_sprite->loop_duration = loop_duration;
   new_sprite->last_frame = 0;
-  new_sprite->sprite_totalX = sprite_data->sprite_totalX;
-  new_sprite->sprite_totalY = sprite_data->sprite_totalY;
+  new_sprite->sprite_totalX = total_splitX;
+  new_sprite->sprite_totalY = total_splitY;
 
   new_sprite->sprite_numX = -1;
   new_sprite->sprite_numY = 0;
@@ -37,12 +26,10 @@ SpriteTexture* animation_loadTexture(SpriteImage *sprite_data)
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
   //glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_LOD, GL_LINEAR);
 
-  glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, sprite_data->surface->w, sprite_data->surface->h, 0, GL_RGBA, GL_UNSIGNED_BYTE, sprite_data->surface->pixels);
+  glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, texture_surface->w, texture_surface->h, 0, GL_RGBA, GL_UNSIGNED_BYTE, texture_surface->pixels);
 
   // NOTE: Unbinding
   glBindTexture(GL_TEXTURE_2D, 0);
-
-  free(sprite_data);
 
   return new_sprite;
 }

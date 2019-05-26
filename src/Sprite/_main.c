@@ -27,9 +27,7 @@ int main()
 
   Uint32 beginMomentLevel = SDL_GetTicks();
 
-  SpriteImage *skeleton_image = animation_loadSprite("sprite.png", 9, 4, 200);
-
-  SpriteTexture* skeleton = animation_loadTexture(skeleton_image);
+  SpriteTexture *skeleton = animation_loadSprite("sprite.png", 9, 4, 200);
 
   int loop = 1;
   while(loop) {

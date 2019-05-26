@@ -4,13 +4,6 @@
 #include <GL/gl.h>
 #include <SDL2/SDL.h>
 
-typedef struct SpriteImage {
-  SDL_Surface* surface;
-  Uint32 loop_duration;
-  int sprite_totalX;
-  int sprite_totalY;
-} SpriteImage;
-
 typedef struct SpriteTexture {
   //TODO: Bool loop;
   int sprite_totalX;
