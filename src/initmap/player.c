@@ -73,3 +73,25 @@ void player_gagneArgent(int valeur)
   Etat *joueur = &(plateau->joueur);
   joueur->argent += valeur;
 }
+
+void player_switchAction(Action action)
+{
+  Etat *joueur = &(plateau->joueur);
+  printf("Changing action ");
+  player_afficherAction();
+  printf(" --> ");
+  joueur->action = action;
+  player_afficherAction();
+  printf("\n");
+}
+
+void player_switchTowerType(TypeCase type)
+{
+  Etat *joueur = &(plateau->joueur);
+  printf("Changing tower type ");
+  player_afficherEtat();
+  printf(" --> ");
+  joueur->type = type;
+  player_afficherEtat();
+  printf("\n");
+}

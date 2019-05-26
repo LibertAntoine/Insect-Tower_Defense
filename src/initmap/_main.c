@@ -27,6 +27,7 @@
 #include "projectile.h"
 #include "gui.h"
 #include "mouse.h"
+#include "keyboard.h"
 
 Plateau *plateau = NULL;
 Mix_Chunk** sound = NULL;
@@ -71,7 +72,6 @@ int main(int argc, char *argv[])
   Mix_PlayChannel(-1, sound[BEGINLEVEL], 0);
 
   /* Boucle principale */
-  Bool play = TRUE;
   int loop = 1;
   while(loop) {
     /* Recuperation du temps au debut de la boucle */
@@ -91,7 +91,7 @@ int main(int argc, char *argv[])
 
     launchWaves(mapData, (SDL_GetTicks() - beginMomentLevel));
 
-    if (play == TRUE) {
+    if (plateau->play == TRUE) {
       moveAllMonster();
       attackAllTower();
       moveAllProjectiles();
@@ -138,58 +138,7 @@ int main(int argc, char *argv[])
           break;
 
         case SDL_KEYDOWN:
-          switch(e.key.keysym.sym) {
-            case ' ':
-              play = (play == TRUE) ? FALSE : TRUE;
-              break;
-            case 'r':
-              type = RADAR;
-              break;
-            case 'a':
-              type = ARMEMENT;
-              break;
-            case 'c':
-              type = CENTRALE;
-              break;
-            case 'm':
-              type = MUNITION;
-              break;
-
-            case '1':
-              type = LASER;
-              break;
-            case '2':
-              type = MISSILE;
-              break;
-
-            case 'p':
-              action = ADD;
-              break;
-            case 'i':
-              action = GETINFO;
-              break;
-            case 'x':
-              action = REMOVE;
-              break;
-          }
-          if (action != joueur->action) {
-            printf("Changing action ");
-            player_afficherAction();
-            printf(" --> ");
-            joueur->action = action;
-            player_afficherAction();
-            printf("\n");
-          }
-          if (type != joueur->type) {
-            printf("Changing tower type ");
-            player_afficherEtat();
-            printf(" --> ");
-            joueur->type = type;
-            player_afficherEtat();
-            printf("\n");
-          }
-
-          break;
+          keyboard_handleKeypress(&e);
 
         default:
           break;

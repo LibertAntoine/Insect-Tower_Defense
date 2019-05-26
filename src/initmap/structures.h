@@ -251,6 +251,7 @@ typedef struct ListChemins {
 typedef struct Plateau {
   int Xsplit;
   int Ysplit;
+  Bool play;
   Etat joueur;
   ConstructionData constructionData[6];
   ListTours* listTours;

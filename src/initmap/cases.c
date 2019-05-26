@@ -59,6 +59,7 @@ int case_initPlateau(MapData* mapdata)
   }
   itineraire_checkChemin(mapdata);
 
+  plateau->play = TRUE;
   return 1;
 }
 
