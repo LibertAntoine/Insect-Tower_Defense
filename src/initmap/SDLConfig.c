@@ -42,7 +42,8 @@ void sdlConfig_reshape(SDL_Window** surface, SDL_GLContext *GLcontext, unsigned 
 }
 
 
-void sdlConfig_initSon() {
+void sdlConfig_initSon()
+{
   if(Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, MIX_DEFAULT_CHANNELS, 1024) == -1) //Initialisation de l'API Mixer
   {
     printf("%s", Mix_GetError());
