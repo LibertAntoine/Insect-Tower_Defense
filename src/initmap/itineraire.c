@@ -28,13 +28,14 @@ int itineraire_findShortestPath(InfosNodes* infosNodes)
         break;
       }
       else {
-        distance = valueChemin(infosNodes->nodes[i], infosNodes->nodes[next_id]);
+        distance = (int) itineraire_getValueChemin(infosNodes->nodes[i], infosNodes->nodes[next_id]);
         if (distances[i] + distance < distances[next_id]) { 
           distances[next_id] = distances[i] + distance; 
           previous[next_id] = &infosNodes->nodes[i]; 
         }
       }
     }
+
     i = -1;
     int distance_max = plateau->Xsplit * plateau->Ysplit;
     for(int k = 0; k < infosNodes->nbNoeud; k++) {
@@ -50,7 +51,7 @@ int itineraire_findShortestPath(InfosNodes* infosNodes)
 int *itineraire_initVisitedArray(int size)
 {
   int *array = malloc(sizeof(int) * size);
-  fill(array, size, 0);
+  itineraire_fillArray(array, size, 0);
 
   return array;
 }
@@ -59,20 +60,20 @@ int *itineraire_initDistanceArray(int size)
 {
   int *array = malloc(sizeof(int) * size);
   int total_cases = plateau->Xsplit * plateau->Ysplit;
-  fill(array, size, total_cases);
+  itineraire_fillArray(array, size, total_cases);
 
   return array;
 }
 
 
-void fill(int* array, int size, int value)
+void itineraire_fillArray(int* array, int size, int value)
 {
   for(int i = 0; i < size; i++) {
     array[i] = value;
   }
 }
 
-double valueChemin(Node node_in, Node node_out)
+double itineraire_getValueChemin(Node node_in, Node node_out)
 {
   float distance = 0;
   if (node_in.x == node_out.x) {
@@ -80,7 +81,7 @@ double valueChemin(Node node_in, Node node_out)
   } else if (node_in.y == node_out.y) {
     distance = fabs(node_in.x - node_out.x);
   } 
-  Chemin* chemin = case_giveChemin(&node_in, &node_out);
+  Chemin* chemin = itineraire_getChemin(&node_in, &node_out);
   return distance + chemin->dead_monsters;
 }
 
@@ -90,18 +91,18 @@ int itineraire_initMonster(Monster* monster, InfosNodes* infosNodes)
   Itineraire* itineraire = malloc(sizeof(Itineraire));
   itineraire->next = NULL;
   itineraire->nbEtape = 1;
-  addToItineraire(itineraire, &infosNodes->nodes[monster->idIn]);
+  itineraire_addEtape(itineraire, &infosNodes->nodes[monster->idIn]);
 
   int idNode = monster->idIn;
   while(idNode != infosNodes->idOut) {  
-    addToItineraire(itineraire, infosNodes->shortPaths[idNode]);
+    itineraire_addEtape(itineraire, infosNodes->shortPaths[idNode]);
     itineraire->nbEtape++;  
     idNode = infosNodes->shortPaths[idNode]->id;
   }
   monster->itineraire = itineraire;
 }
 
-int addToItineraire(Itineraire* itineraire, Node* node) {
+void itineraire_addEtape(Itineraire* itineraire, Node* node) {
   Etape* etape = malloc(sizeof(Etape));
   etape->node = node;
   etape->next = NULL;
@@ -110,8 +111,7 @@ int addToItineraire(Itineraire* itineraire, Node* node) {
     return 0;
   }
   Etape* currentEtape = itineraire->next;
-  while (currentEtape->next != NULL)
-  {  
+  while (currentEtape->next != NULL) {  
     currentEtape = currentEtape->next;
   }
   currentEtape->next = etape;
@@ -119,4 +119,86 @@ int addToItineraire(Itineraire* itineraire, Node* node) {
   etape->next = itineraire->next;
   itineraire->next = etape;     
   return 0;
+}
+
+void itineraire_checkChemin(MapData* mapData)
+{
+  ListChemins* listChemins = malloc(sizeof(listChemins));
+  listChemins->nbChemin = 0;
+  listChemins->next = NULL;
+  for(int i = 0; i < mapData->infosNodes->nbNoeud; i++) {
+    Node* node = &mapData->infosNodes->nodes[i];
+    for(int j = 0; node->link[j] != -1 && j < 5; j++) {
+      itineraire_checkExistChemin(listChemins, node, &mapData->infosNodes->nodes[node->link[j]]);
+    }
+  }
+  plateau->listChemins = listChemins;
+}
+
+void itineraire_checkExistChemin(ListChemins* listChemins, Node* node_in, Node* node_out)
+{
+  if(listChemins->nbChemin == 0) {
+    itineraire_addChemin(listChemins, node_in, node_out);
+  } else {
+    Chemin* currentChemin = listChemins->next;
+    char exist = 0;
+    while(currentChemin != NULL) {
+      if(currentChemin->node_in->id == node_out->id && currentChemin->node_out->id == node_in->id) {
+        exist = 1;
+        break;
+      } else if (currentChemin->node_in->id == node_in->id && currentChemin->node_out->id == node_out->id) {
+        exist = 1;
+        break;
+      }
+      currentChemin = currentChemin->next;
+    }
+    if(!exist) {
+      itineraire_addChemin(listChemins, node_in, node_out);
+    }
+  }
+}
+
+void itineraire_addChemin(ListChemins* listChemins, Node* node_in, Node* node_out)
+{
+  Chemin* new_chemin = malloc(sizeof(Chemin));
+  new_chemin->node_in = node_in;
+  new_chemin->node_out = node_out;
+  new_chemin->dead_monsters = 0;
+  new_chemin->next = NULL;
+  if(listChemins->next == NULL) {
+    listChemins->nbChemin++;
+    listChemins->next = new_chemin;
+  }
+  else {
+    Chemin* currentChemin = listChemins->next; 
+    while(currentChemin->next != NULL) {
+      currentChemin = currentChemin->next;
+    }
+    listChemins->nbChemin++;
+    currentChemin->next = new_chemin;
+  }
+}
+
+void itineraire_addValueChemin(Monster* monster) {
+    Chemin* chemin = itineraire_getChemin(monster->itineraire->next->next->node, monster->itineraire->next->node);
+    chemin->dead_monsters++;
+}
+
+void itineraire_removeValueChemin(Monster* monster) {
+    Chemin* chemin = itineraire_getChemin(monster->itineraire->next->next->node, monster->itineraire->next->node);
+    chemin->dead_monsters--;
+}
+
+Chemin* itineraire_getChemin(Node* node_in, Node* node_out) {
+    Chemin* currentChemin = plateau->listChemins->next;
+    char exist = 0;
+
+    while(currentChemin != NULL) {
+      if(currentChemin->node_in->id == node_in->id && currentChemin->node_out->id == node_out->id) {
+        return currentChemin;
+      } else if (currentChemin->node_in->id == node_out->id && currentChemin->node_out->id == node_in->id) {
+        return currentChemin;
+      }
+      else currentChemin = currentChemin->next;
+    }
 }

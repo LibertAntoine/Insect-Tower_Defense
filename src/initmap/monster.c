@@ -100,12 +100,12 @@ void monster_kill(Monster* monster)
   monster->status = DEAD;
   Mix_PlayChannel(-1, sound[MONSTERKILL], 0);
   player_gagneArgent(plateau->listMonsters->dataMonsters[monster->type]->value);
-  case_addValueChemin(monster);
+  itineraire_addValueChemin(monster);
 }
 
 void monster_delete(Monster* monster) 
 {
-  case_removeValueChemin(monster);
+  itineraire_removeValueChemin(monster);
   monster_removeFromList(monster);
 }
 

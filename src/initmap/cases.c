@@ -57,7 +57,7 @@ int case_initPlateau(MapData* mapdata)
   if (!plateau->tours) {
     return EXIT_FAILURE;
   }
-  case_checkChemin(mapdata);
+  itineraire_checkChemin(mapdata);
 
   return 1;
 }
@@ -73,65 +73,6 @@ int case_RGBCompare(RGBcolor color1, RGBcolor color2) {
     return 1;
   }
 }
-
-void case_checkChemin(MapData* mapData)
-{
-  ListChemins* listChemins = malloc(sizeof(listChemins));
-  listChemins->nbChemin = 0;
-  listChemins->next = NULL;
-  for(int i = 0; i < mapData->infosNodes->nbNoeud; i++) {
-    Node* node = &mapData->infosNodes->nodes[i];
-    for(int j = 0; node->link[j] != -1 && j < 5; j++) {
-      case_checkExistChemin(listChemins, node, &node->link[j]);
-    }
-  }
-  plateau->listChemins = listChemins;
-}
-
-void case_checkExistChemin(ListChemins* listChemins, Node* node_in, Node* node_out)
-{
-  if(listChemins->nbChemin == 0) {
-    case_addChemin(listChemins, node_in, node_out);
-  } else {
-    Chemin* currentChemin = listChemins->next;
-    char exist = 0;
-    while(currentChemin != NULL) {
-      if(currentChemin->node_in->id == node_out->id && currentChemin->node_out->id == node_in->id) {
-        exist = 1;
-        break;
-      } else if (currentChemin->node_in->id == node_in->id && currentChemin->node_out->id == node_out->id) {
-        exist = 1;
-        break;
-      }
-      currentChemin = currentChemin->next;
-    }
-    if(!exist) {
-      case_addChemin(listChemins, node_in, node_out);
-    }
-  }
-}
-
-void case_addChemin(ListChemins* listChemins, Node* node_in, Node* node_out)
-{
-  Chemin* new_chemin = malloc(sizeof(Chemin));
-  new_chemin->node_in = node_in;
-  new_chemin->node_out = node_out;
-  new_chemin->dead_monsters = 0;
-  new_chemin->next = NULL;
-  if(listChemins->next == NULL) {
-    listChemins->nbChemin++;
-    listChemins->next = new_chemin;
-  }
-  else {
-    Chemin* currentChemin = listChemins->next; 
-    while(currentChemin->next != NULL) {
-      currentChemin = currentChemin->next;
-    }
-    listChemins->nbChemin++;
-    currentChemin->next = new_chemin;
-  }
-}
-
 
 int case_getCaseIndex(int caseX, int caseY)
 {
@@ -346,28 +287,4 @@ void case_printInfos(int caseX, int caseY)
     printf("Cadence calculée : %f\n", cadence_calc);
     printf("Degats calculés : %f\n", degats_calc);
   }
-}
-
-void case_addValueChemin(Monster* monster) {
-    Chemin* chemin = case_giveChemin(monster->itineraire->next->next->node, monster->itineraire->next->node);
-    chemin->dead_monsters++;
-}
-
-void case_removeValueChemin(Monster* monster) {
-    Chemin* chemin = case_giveChemin(monster->itineraire->next->next->node, monster->itineraire->next->node);
-    chemin->dead_monsters--;
-}
-
-Chemin* case_giveChemin(Node* node_in, Node* node_out) {
-    Chemin* currentChemin = plateau->listChemins->next;
-    char exist = 0;
-
-    while(currentChemin != NULL) {
-      if(currentChemin->node_in->id == node_in->id && currentChemin->node_out->id == node_out->id) {
-        return currentChemin;
-      } else if (currentChemin->node_in->id == node_out->id && currentChemin->node_out->id == node_in->id) {
-        return currentChemin;
-      }
-      else currentChemin = currentChemin->next;
-    }
 }

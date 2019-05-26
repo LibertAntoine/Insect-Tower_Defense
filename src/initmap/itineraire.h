@@ -1,5 +1,5 @@
-#ifndef SHORT_PATH_ALGO_H_
-#define SHORT_PATH_ALGO_H_
+#ifndef ITINERAIRE_H_
+#define ITINERAIRE_H_
 #pragma once
 
 #include <stdio.h>
@@ -18,9 +18,17 @@ int *itineraire_initVisitedArray(int size);
 int *itineraire_initDistanceArray(int size);
 
 int itineraire_findShortestPath(InfosNodes* infosNodes);
-void fill(int* array, int size, int value);
-double valueChemin(Node startNode, Node arrivedNode);
+void itineraire_fillArray(int* array, int size, int value);
+double itineraire_getValueChemin(Node startNode, Node arrivedNode);
 int itineraire_initMonster(Monster* monster, InfosNodes* infosNodes);
-int addToItineraire(Itineraire* itineraire, Node* node);
+void itineraire_addEtape(Itineraire* itineraire, Node* node);
 
-#endif //SHORT_PATH_ALGO_H_
+void itineraire_checkChemin(MapData* mapData);
+void itineraire_checkExistChemin(ListChemins* listChemins, Node* node_in, Node* node_out);
+void itineraire_addChemin(ListChemins* listChemins, Node* node_in, Node* node_out);
+void itineraire_addValueChemin(Monster* monster);
+void itineraire_removeValueChemin(Monster* monster);
+Chemin* itineraire_getChemin(Node* node_in, Node* node_out);
+
+
+#endif //ITINERAIRE_H_
