@@ -27,9 +27,12 @@ void sprite_init()
   textures = calloc(14, sizeof(Texture*));
 
   textures[SOLDER_TEX] = sprite_importTexture("images/sprite_A.png", 4, 1); 
+  textures[HUGE_SOLDER_TEX] = sprite_importTexture("images/sprite_B.png", 4, 1); 
+  textures[BOSS_TEX] = sprite_importTexture("images/sprite_C.png", 4, 1); 
+  textures[GERERAL_TEX] = sprite_importTexture("images/sprite_D.png", 3, 1); 
 }
 
-SpriteTexture* sprite_loadSprite(TextureName texture_name, Uint32 loop_duration)
+SpriteTexture* sprite_loadSprite(TextureName texture_name, int loop_duration)
 {
   SpriteTexture *new_sprite = calloc(1, sizeof(SpriteTexture));
   //TODO: check alloc
@@ -82,7 +85,10 @@ void sprite_displaySprite(SpriteTexture* sprite)
 
 void sprite_updateSprite(SpriteTexture* sprite)
 {
-  Uint32 now = SDL_GetTicks();
+  struct timespec now_c;
+  clock_gettime(CLOCK_MONOTONIC_RAW, &now_c);
+  int now = now_c.tv_sec * 1000 + now_c.tv_nsec / 1000000;
+
   if (now - sprite->last_frame >= sprite->loop_duration) {
     sprite_translateTexture(sprite);
     sprite->last_frame = now;

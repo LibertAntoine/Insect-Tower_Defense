@@ -10,6 +10,8 @@
 
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_mixer.h>
+#include <time.h>
+#include <sys/time.h>
 
 typedef enum MapDataContent {
   MDATA_IMG = 1,
@@ -156,8 +158,8 @@ typedef struct SpriteTexture {
   Bool loop;
   int sprite_numX;
   int sprite_numY;
-  Uint32 last_frame;
-  Uint32 loop_duration;
+  int last_frame;
+  int loop_duration;
 } SpriteTexture;
 
 typedef struct Tour {

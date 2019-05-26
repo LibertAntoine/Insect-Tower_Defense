@@ -14,11 +14,6 @@ int initListMonsters()
   listMonsters->monster_total = 0;
   listMonsters->firstMonster = NULL;
 
-  // NOTE: Moins pratique le tableau de champs, mieux vaut faire des tableaux de structures
-  //dataMonsters->PDV = malloc(sizeof(int)*4);
-  //dataMonsters->strength = malloc(sizeof(int)*4);
-  //dataMonsters->mass = malloc(sizeof(double)*4);
-
   dataMonsters[SOLDER]->PDV = 1;
   dataMonsters[SOLDER]->strength = 1;
   dataMonsters[SOLDER]->mass = 1.0;
@@ -91,7 +86,16 @@ int monster_popMonster(InfosNodes* InfosNodes, TypeMonster type, int idIn)
   // TODO: Checker l'allocation
 
   if (type == SOLDER) {
-    monster->sprite_texture = sprite_loadSprite(SOLDER_TEX, 200);
+    monster->sprite_texture = sprite_loadSprite(SOLDER_TEX, 5200);
+  }
+  else if (type == HUGE_SOLDER) {
+    monster->sprite_texture = sprite_loadSprite(HUGE_SOLDER_TEX, 900);
+  }
+  else if (type == BOSS) {
+    monster->sprite_texture = sprite_loadSprite(BOSS_TEX, 700);
+  }
+  else if (type == GERERAL) {
+    monster->sprite_texture = sprite_loadSprite(GERERAL_TEX, 800);
   }
 
   monster->PDV = plateau->listMonsters->dataMonsters[type]->PDV;

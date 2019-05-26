@@ -85,7 +85,7 @@ int main(int argc, char *argv[])
     glClear(GL_COLOR_BUFFER_BIT);
 
     // NOTE: display general GUI
-    display_window();
+
 
     launchWaves(mapData, (SDL_GetTicks() - beginMomentLevel));
 
@@ -95,6 +95,7 @@ int main(int argc, char *argv[])
       projectile_moveAll();
     }
 
+    display_window();
     display_game(plateauGUI, idMap, idGrid);
     
     /* Echange du front et du back buffer : mise a jour de la fenetre */
@@ -138,15 +139,13 @@ int main(int argc, char *argv[])
         default:
           break;
       }
-
     }
 
 
     /* Calcul du temps ecoule */
     Uint32 elapsedTime = SDL_GetTicks() - startTime;
     /* Si trop peu de temps s'est ecoule, on met en pause le programme */
-    if(elapsedTime < FRAMERATE_MILLISECONDS) 
-    {
+    if(elapsedTime < FRAMERATE_MILLISECONDS) {
       SDL_Delay(FRAMERATE_MILLISECONDS - elapsedTime);
     }
   }

@@ -99,12 +99,10 @@ void display_drawSingleMonster(Monster* monster)
 
   glPushMatrix();
   glRotatef(angle, 0, 0, 1);
-  if (monster->type == SOLDER) {
-    sprite_displaySprite(monster->sprite_texture);
-  }
-  else {
-    display_drawTriangle(GL_FILL);
-  }
+
+  sprite_displaySprite(monster->sprite_texture);
+  //display_drawTriangle(GL_FILL);
+
   glPopMatrix();
 
   // NOTE: affiche la vie que si le monstre est vivant et qu'il a subi des dommages
