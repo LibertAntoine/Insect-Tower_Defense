@@ -102,6 +102,7 @@ int itineraire_initMonster(Monster* monster, InfosNodes* infosNodes)
   monster->itineraire = itineraire;
 }
 
+// TODO: checker l'ambiguité des return
 void itineraire_addEtape(Itineraire* itineraire, Node* node) {
   Etape* etape = malloc(sizeof(Etape));
   etape->node = node;
