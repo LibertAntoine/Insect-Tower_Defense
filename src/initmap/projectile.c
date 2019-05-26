@@ -29,7 +29,7 @@ int addToProjectiles(Projectile* projectile) {
   return 0;
 }
 
-int moveAllProjectiles() {
+int projectile_moveAll() {
   if(plateau->listProjectiles->next == NULL) {
     return 0;
   }

@@ -53,13 +53,7 @@ int main()
         loop = 0; 
         break;
       }
-      if (e.type == SDL_MOUSEBUTTONDOWN) {
-        // mouse click
-      }
     }
-
-
-
 
     Uint32 elapsedTime = SDL_GetTicks() - startTime;
     if(elapsedTime < FRAMERATE_MILLISECONDS) 

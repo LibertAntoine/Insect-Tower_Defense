@@ -12,6 +12,7 @@ typedef struct SpriteImage {
 } SpriteImage;
 
 typedef struct SpriteTexture {
+  //TODO: Bool loop;
   int sprite_totalX;
   int sprite_totalY;
   int sprite_numX;

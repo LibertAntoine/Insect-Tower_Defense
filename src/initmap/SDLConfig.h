@@ -5,7 +5,6 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <SDL2/SDL.h>
-#include <SDL2/SDL_mixer.h>
 #include "cases.h"
 #include "structures.h"
 
@@ -16,7 +15,6 @@
     #include <GL/glu.h>
 #endif
 
-extern Mix_Chunk** sound;
 
 /* Dimensions initiales et titre de la fenetre */
 static const unsigned int WINDOW_WIDTH = 800;

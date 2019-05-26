@@ -59,12 +59,10 @@ void animation_displaySprite(SpriteTexture* sprite)
   glEnable(GL_TEXTURE_2D);
   glBindTexture(GL_TEXTURE_2D, sprite->texture_id);
 
-  // TODO: check translate the texture
   animation_updateSprite(sprite);
 
   GLfloat params[16];
   glGetFloatv(GL_TEXTURE_MATRIX, params);
-
 
   float x_shift = 1. / sprite->sprite_totalX;
   float y_shift = 1. / sprite->sprite_totalY;
@@ -85,7 +83,6 @@ void animation_displaySprite(SpriteTexture* sprite)
 
   glBindTexture(GL_TEXTURE_2D, 0);
   glDisable(GL_TEXTURE_2D);
-
 }
 
 void animation_updateSprite(SpriteTexture* sprite)

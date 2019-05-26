@@ -86,9 +86,9 @@ int main(int argc, char *argv[])
     launchWaves(mapData, (SDL_GetTicks() - beginMomentLevel));
 
     if (plateau->play == TRUE) {
-      moveAllMonster();
-      attackAllTower();
-      moveAllProjectiles();
+      monster_moveAll();
+      tour_attackAll();
+      projectile_moveAll();
     }
 
     display_game(plateauGUI, idMap, idGrid);

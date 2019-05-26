@@ -206,13 +206,10 @@ int updateAllTower() {
     return 0;
 }
 
-
-
-int attackAllTower()
+int tour_attackAll()
 {
   Tour* currentTour = plateau->listTours->next;
-  while (currentTour != NULL)
-  {  
+  while (currentTour != NULL) {  
     tour_attaqueMonster(currentTour);
     currentTour = currentTour->next;
   }
@@ -243,7 +240,7 @@ float tour_calculCadence(Tour* tour)
   int entrepots = tour->munition;
   float cadence_normale = 1000.0 / tour_getCadence(tour->type);
   float cadence = cadence_normale + entrepots*(cadence_normale / 4);
-  return cadence;
+  return 60000 / cadence;
 }
 
 /*

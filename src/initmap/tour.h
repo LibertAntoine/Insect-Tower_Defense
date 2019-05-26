@@ -30,7 +30,7 @@ void tour_completeInfo(TypeCase type, int index_case);
 void tour_add(TypeCase type, int index_case);
 int addToListTour(Tour* tour);
 int updateAllTower();
-int attackAllTower();
+int tour_attackAll();
 
 void tour_tire(Tour* tour);
 void tour_recharge(Tour* tour);

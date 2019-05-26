@@ -30,5 +30,5 @@ Orientation monster_moveDirection(Monster* monster);
 /**
  * @brief Parcours la liste de montre afin d'en demander le déplacement.
  */
-int moveAllMonster();
+int monster_moveAll();
 #endif //MONSTER_H_

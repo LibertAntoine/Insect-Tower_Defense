@@ -207,7 +207,7 @@ int moveMonster(Monster* monster)
   return 0;
 }
 
-int moveAllMonster()
+int monster_moveAll()
 {
   Monster* currentMonster = plateau->listMonsters->firstMonster;
 
