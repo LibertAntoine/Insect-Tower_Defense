@@ -25,9 +25,16 @@
 #include "itineraire.h"
 #include "SDLConfig.h"
 #include "projectile.h"
+#include "gui.h"
+#include "mouse.h"
 
 Plateau *plateau = NULL;
 Mix_Chunk** sound = NULL;
+
+GUI *bodyGUI; //variable globale de l'interface
+GUI *plateauGUI;
+GUI *bottomGUI;
+GUI *topGUI;
 
 int main(int argc, char *argv[])
 {
@@ -50,7 +57,7 @@ int main(int argc, char *argv[])
 
   SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 0);
 
-
+  gui_init();
 
   GLuint idGrid = glGenLists(1);
   display_gridList(idGrid);
@@ -66,8 +73,7 @@ int main(int argc, char *argv[])
   /* Boucle principale */
   Bool play = TRUE;
   int loop = 1;
-  while(loop) 
-  {
+  while(loop) {
     /* Recuperation du temps au debut de la boucle */
     Uint32 startTime = SDL_GetTicks();
 
@@ -75,9 +81,13 @@ int main(int argc, char *argv[])
 
     glClear(GL_COLOR_BUFFER_BIT);
 
-    /* Affichage de la grille du plateau */
+    /* ajouté dans display_game
     glCallList(idMap);
     glCallList(idGrid);
+    */
+
+    // NOTE: display general GUI
+    display_window();
 
     /* Affichage des tours */
     display_drawBoard();
@@ -89,23 +99,26 @@ int main(int argc, char *argv[])
       attackAllTower();
       moveAllProjectiles();
     }
+
+    /* ajouté dans display_game
     display_drawAllMonsters();
     display_drawAllProjectiles();
+    */
+
+    display_game(plateauGUI, idMap, idGrid);
     
     /* Echange du front et du back buffer : mise a jour de la fenetre */
     SDL_GL_SwapWindow(surface);
 
     SDL_Event e;
-    while(SDL_PollEvent(&e)) 
-    {
+    while(SDL_PollEvent(&e)) {
       /* L'utilisateur ferme la fenetre : */
       if(e.type == SDL_QUIT) {
         loop = 0;
         break;
       }
 
-      if(e.type == SDL_KEYDOWN && (e.key.keysym.sym == SDLK_q || e.key.keysym.sym == SDLK_ESCAPE))
-      {
+      if(e.type == SDL_KEYDOWN && (e.key.keysym.sym == SDLK_q || e.key.keysym.sym == SDLK_ESCAPE)) {
         loop = 0; 
         break;
       }
@@ -114,9 +127,9 @@ int main(int argc, char *argv[])
       TypeCase type = joueur->type;
       Action action = joueur->action;
 
-      switch(e.type) 
-      {
+      switch(e.type) {
         case SDL_MOUSEBUTTONDOWN:
+          mouse_handleClick();
           SDL_GetMouseState(&pixelMouseX, &pixelMouseY);
           case_getCaseCoordFromPixels(pixelMouseX, pixelMouseY, &caseMouseX, &caseMouseY, WINDOW_WIDTH, WINDOW_HEIGHT);
           printf("\n\nmouse X -> %d\nmouse Y -> %d\n", caseMouseX, caseMouseY);

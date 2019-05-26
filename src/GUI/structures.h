@@ -11,7 +11,11 @@ typedef struct Div {
 typedef enum ButtonName {
   LASER,
   PAUSE,
-  MISSILE
+  MISSILE,
+  CENTRALE,
+  MUNITION,
+  ARMEMENT,
+  RADAR,
 } ButtonName;
 
 typedef enum Display {

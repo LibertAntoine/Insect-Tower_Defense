@@ -1,4 +1,3 @@
-
 #ifdef _WIN32
   #include <GL/glew.h>
 #else
@@ -71,9 +70,6 @@ int main()
         mouse_handleClick();
       }
     }
-
-
-
 
     Uint32 elapsedTime = SDL_GetTicks() - startTime;
     if(elapsedTime < FRAMERATE_MILLISECONDS) 

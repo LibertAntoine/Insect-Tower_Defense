@@ -14,6 +14,8 @@
 #include <stdlib.h>
 #include <math.h>
 
+#include "gui.h"
+#include "structures.h"
 #include "cases.h"
 #include "monster.h"
 #include "tour.h"
@@ -39,4 +41,12 @@ void display_drawAllTargetRanges();
 int display_drawAllProjectiles();
 void display_drawSingleProjectile(Projectile* projectile);
 void display_drawItineraire(Monster* monster);
+
+void display_game(GUI *plateau_gui, GLuint idMap, GLuint idGrid);
+void display_window();
+void display_left();
+void display_top();
+void display_drawZoneBasedOnGUI(GUI *section);
+void display_setDrawingZone(GUI *section);
+void display_drawSingleButton(Button *button);
 #endif //DRAW_MONSTER_H_
