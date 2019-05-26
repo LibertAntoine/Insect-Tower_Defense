@@ -20,6 +20,7 @@
 #include "monster.h"
 #include "tour.h"
 #include "projectile.h"
+#include "sprite.h"
 
 void display_drawMonsterLife(float PDV);
 void display_drawTriangle(int fillMode);

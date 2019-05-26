@@ -13,6 +13,7 @@
 #include "tour.h"
 #include "projectile.h"
 #include "itineraire.h"
+#include "sprite.h"
 
 int initListMonsters();
 int addToList(Monster* monster);

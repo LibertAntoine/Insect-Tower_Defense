@@ -1,6 +1,13 @@
 #ifndef STRUCTURES_H_
 #define STRUCTURES_H_
 
+#ifdef _WIN32
+  #include <GL/glew.h>
+#else
+  #include <GL/gl.h>
+  #include <GL/glu.h>
+#endif
+
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_mixer.h>
 
@@ -121,6 +128,38 @@ typedef enum Bool {
   TRUE = 1
 } Bool;
 
+typedef enum TextureName {
+  PAUSE_TEX,
+  LASER_TEX,
+  MISSILE_TEX,
+  CENTRALE_TEX,
+  MUNITION_TEX,
+  ARMEMENT_TEX,
+  RADAR_TEX,
+  ADD_TEX,
+  REMOVE_TEX,
+  GETINFO_TEX,
+  SOLDER_TEX,
+  HUGE_SOLDER_TEX,
+  GERERAL_TEX,
+  BOSS_TEX
+} TextureName;
+
+typedef struct Texture {
+  GLuint texture_id;
+  int sprite_totalX;
+  int sprite_totalY;
+} Texture;
+
+typedef struct SpriteTexture {
+  TextureName texture_name;
+  Bool loop;
+  int sprite_numX;
+  int sprite_numY;
+  Uint32 last_frame;
+  Uint32 loop_duration;
+} SpriteTexture;
+
 typedef struct Tour {
   TypeCase type;
   int armement;
@@ -190,19 +229,20 @@ typedef struct Itineraire {
 } Itineraire;
 
 typedef struct Monster {
-   float PDV;
-   int strength;
-   double mass;
-   int value;
-   int idIn;
-   TypeMonster type;
-   Statut status;
-   float decomposition;
-   Orientation orientation;
-   double x;
-   double y;
-   Itineraire* itineraire;
-   struct Monster* next; 
+  SpriteTexture* sprite_texture;
+  float PDV;
+  int strength;
+  double mass;
+  int value;
+  int idIn;
+  TypeMonster type;
+  Statut status;
+  float decomposition;
+  Orientation orientation;
+  double x;
+  double y;
+  Itineraire* itineraire;
+  struct Monster* next; 
 } Monster;
 
 typedef enum ProjectileType {
@@ -292,6 +332,7 @@ typedef enum Display {
 } Display;
 
 typedef struct Button {
+  SpriteTexture sprite;
   Div *dimensions;
   Display display;
   struct Button *next;
@@ -319,5 +360,6 @@ extern GUI *plateauGUI;
 extern GUI *bottomGUI;
 extern GUI *topGUI;
 extern Mix_Chunk** sound;
+extern Texture** textures;
 
 #endif //STRUCTURES_H_

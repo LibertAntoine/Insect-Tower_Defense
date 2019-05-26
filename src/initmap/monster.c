@@ -90,6 +90,10 @@ int monster_popMonster(InfosNodes* InfosNodes, TypeMonster type, int idIn)
   Monster* monster = malloc(sizeof(Monster)); 
   // TODO: Checker l'allocation
 
+  if (type == SOLDER) {
+    monster->sprite_texture = sprite_loadSprite(SOLDER_TEX, 200);
+  }
+
   monster->PDV = plateau->listMonsters->dataMonsters[type]->PDV;
   monster->strength = plateau->listMonsters->dataMonsters[type]->strength;
   monster->mass = plateau->listMonsters->dataMonsters[type]->mass;

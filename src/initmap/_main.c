@@ -1,5 +1,6 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_mixer.h>
+#include <SDL2/SDL_image.h>
 
 #ifdef _WIN32
   #include <GL/glew.h>
@@ -29,8 +30,10 @@
 #include "mouse.h"
 #include "keyboard.h"
 #include "sound.h"
+#include "sprite.h"
 
 Plateau *plateau = NULL;
+Texture** textures = NULL;
 Mix_Chunk** sound = NULL;
 
 GUI *bodyGUI; //variable globale de l'interface
@@ -58,6 +61,7 @@ int main(int argc, char *argv[])
 
   SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 0);
 
+  sprite_init();
   gui_init();
   sound_init();
 
