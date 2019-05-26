@@ -288,3 +288,99 @@ void case_printInfos(int caseX, int caseY)
     printf("Degats calculés : %f\n", degats_calc);
   }
 }
+
+void get_casesi(int *caseX, int *caseY, Div *plateau_div)
+{
+  int mouseX, mouseY;
+  SDL_GetMouseState(&mouseX, &mouseY);
+
+  int RmouseX = mouseX - plateau_div->x;
+  int RmouseY = mouseY - plateau_div->y;
+
+  int stepX = plateau_div->width / plateau->Xsplit;
+  int stepY = plateau_div->height / plateau->Ysplit;
+
+  printf("%d %d\n", RmouseX, RmouseY);
+
+  if (RmouseX >= 0 && RmouseY >= 0) {
+    if (RmouseX <= plateau_div->width && RmouseY <= plateau_div->height) {
+      // on est bien dans le plateau,
+      *caseX = RmouseX / stepX;
+      *caseY = RmouseY / stepY;
+    }
+  }
+}
+
+void get_casesf(float *caseX, float *caseY, Div *plateau_div)
+{
+  int mouseX, mouseY;
+  SDL_GetMouseState(&mouseX, &mouseY);
+
+  float RmouseX = mouseX - plateau_div->x;
+  float RmouseY = mouseY - plateau_div->y;
+
+  float stepX = plateau_div->width / plateau->Xsplit;
+  float stepY = plateau_div->height / plateau->Ysplit;
+
+  if (RmouseX >= 0 && RmouseY >= 0) {
+    if (RmouseX <= plateau_div->width && RmouseY <= plateau_div->height) {
+      // On est bien dans le plateau
+      *caseX = RmouseX / stepX;
+      *caseY = RmouseY / stepY;
+    }
+  }
+}
+
+void case_actionAdd(int caseX, int caseY)
+{
+  if(case_isConstructible(caseX, caseY)) {
+    printf("Porte monaie : %d \n", plateau->joueur.argent);
+    if (player_acheteConstruction(caseX, caseY)) {
+      printf("Ajout de tour avec succes, -%d\n", tour_getPrixAchat(case_getType(caseX, caseY)));
+      printf("Porte monaie : %d \n", plateau->joueur.argent);
+    }
+    else {
+      printf("Vous n'avez pas assez\n");
+    }
+  }
+  else {
+    printf("This place is not available\n");
+  }
+}
+
+void case_actionRemove(int caseX, int caseY)
+{
+  printf("invoking remove\n");
+
+  if (case_isUserPlaced(caseX, caseY)) {
+    printf("Suppression de tour avec succes, +%d\n", tour_getPrixRevente(case_getType(caseX, caseY)));
+    case_removeConstruction(caseX, caseY);
+    printf("Porte monaie : %d \n", plateau->joueur.argent);
+  }
+  else {
+    printf("You can only remove your buildings\n");
+  }
+}
+
+void case_actionInfo(int caseX, int caseY)
+{
+  case_printInfos(caseX, caseY);
+}
+
+void case_handleAction(int caseX, int caseY)
+{
+  switch(plateau->joueur.action) {
+    case ADD:
+      case_actionAdd(caseX, caseY);
+      break;
+
+    case GETINFO:
+      case_actionInfo(caseX, caseY);
+      break;
+
+    case REMOVE:
+      case_actionRemove(caseX, caseY);
+      break;
+  }
+}
+

@@ -474,6 +474,8 @@ void display_game(GUI *plateau_gui, GLuint idMap, GLuint idGrid)
   glCallList(idMap);
   glCallList(idGrid);
 
+  display_drawBoard();
+
   display_drawAllMonsters();
   display_drawAllProjectiles();
   /*

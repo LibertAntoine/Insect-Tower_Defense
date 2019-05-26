@@ -41,5 +41,13 @@ void case_addConstruction(int caseX, int caseY);
 void case_printInfos(int caseX, int caseY);
 Tour* case_getTourPointer(int caseX, int caseY);
 
+void get_casesi(int *caseX, int *caseY, Div *plateau_div);
+void get_casesf(float *caseX, float *caseY, Div *plateau_div);
+
+void case_actionAdd(int caseX, int caseY);
+void case_actionRemove(int caseX, int caseY);
+void case_actionInfo(int caseX, int caseY);
+void case_handleAction(int caseX, int caseY);
+
 #endif //CASES_H_
 

@@ -89,9 +89,6 @@ int main(int argc, char *argv[])
     // NOTE: display general GUI
     display_window();
 
-    /* Affichage des tours */
-    display_drawBoard();
-
     launchWaves(mapData, (SDL_GetTicks() - beginMomentLevel));
 
     if (play == TRUE) {
@@ -132,47 +129,6 @@ int main(int argc, char *argv[])
           mouse_handleClick();
           SDL_GetMouseState(&pixelMouseX, &pixelMouseY);
           case_getCaseCoordFromPixels(pixelMouseX, pixelMouseY, &caseMouseX, &caseMouseY, WINDOW_WIDTH, WINDOW_HEIGHT);
-          printf("\n\nmouse X -> %d\nmouse Y -> %d\n", caseMouseX, caseMouseY);
-
-
-          switch(plateau->joueur.action) {
-            case ADD:
-              printf("invoking add\n");
-              if(case_isConstructible(caseMouseX, caseMouseY)) {
-                //int case_type = case_getType(caseMouseX, caseMouseY);
-                printf("Porte monaie : %d \n", plateau->joueur.argent);
-                if (player_acheteConstruction(caseMouseX, caseMouseY)) {
-                  printf("Ajout de tour avec succes, -%d\n", tour_getPrixAchat(case_getType(caseMouseX, caseMouseY)));
-                  printf("Porte monaie : %d \n", plateau->joueur.argent);
-                }
-                else {
-                  printf("Vous n'avez pas assez\n");
-                }
-              }
-              else {
-                printf("This place is not available\n");
-              }
-              break;
-
-
-            case GETINFO:
-              case_printInfos(caseMouseX, caseMouseY);
-              break;
-
-
-            case REMOVE:
-              printf("invoking remove\n");
-
-              if (case_isUserPlaced(caseMouseX, caseMouseY)) {
-                printf("Suppression de tour avec succes, +%d\n", tour_getPrixRevente(case_getType(caseMouseX, caseMouseY)));
-                case_removeConstruction(caseMouseX, caseMouseY);
-                printf("Porte monaie : %d \n", plateau->joueur.argent);
-              }
-              else {
-                printf("You can only remove your buildings\n");
-              }
-              break;
-          }
           break;
 
         case SDL_WINDOWEVENT:
