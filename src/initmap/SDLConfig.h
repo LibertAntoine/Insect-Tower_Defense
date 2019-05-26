@@ -34,7 +34,6 @@ static const unsigned int BIT_PER_PIXEL = 32;
 static const Uint32 FRAMERATE_MILLISECONDS = 1000 / 60;
 
 void sdlConfig_initSDL();
-void sdlConfig_initSon();
 void sdlConfig_reshape(SDL_Window** surface, SDL_GLContext *GLcontext, unsigned int width, unsigned int height);
 
 #endif //SDLCONFIG_H_

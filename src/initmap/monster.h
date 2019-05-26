@@ -14,8 +14,6 @@
 #include "projectile.h"
 #include "itineraire.h"
 
-extern Mix_Chunk** sound;
-
 int initListMonsters();
 int addToList(Monster* monster);
 

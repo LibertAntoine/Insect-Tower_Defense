@@ -2,6 +2,7 @@
 #define STRUCTURES_H_
 
 #include <SDL2/SDL.h>
+#include <SDL2/SDL_mixer.h>
 
 typedef enum MapDataContent {
   MDATA_IMG = 1,
@@ -317,5 +318,6 @@ extern GUI *bodyGUI;
 extern GUI *plateauGUI;
 extern GUI *bottomGUI;
 extern GUI *topGUI;
+extern Mix_Chunk** sound;
 
 #endif //STRUCTURES_H_

@@ -28,6 +28,7 @@
 #include "gui.h"
 #include "mouse.h"
 #include "keyboard.h"
+#include "sound.h"
 
 Plateau *plateau = NULL;
 Mix_Chunk** sound = NULL;
@@ -51,7 +52,6 @@ int main(int argc, char *argv[])
 
   /* Définition de l'environnement SDL*/
   sdlConfig_initSDL();
-  sdlConfig_initSon();
   SDL_Window* surface;
   SDL_GLContext GLcontext = NULL;
   sdlConfig_reshape(&surface, &GLcontext, WINDOW_WIDTH, WINDOW_HEIGHT);
@@ -59,6 +59,7 @@ int main(int argc, char *argv[])
   SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 0);
 
   gui_init();
+  sound_init();
 
   GLuint idGrid = glGenLists(1);
   display_gridList(idGrid);
@@ -74,11 +75,9 @@ int main(int argc, char *argv[])
   /* Boucle principale */
   int loop = 1;
   while(loop) {
-    /* Recuperation du temps au debut de la boucle */
     Uint32 startTime = SDL_GetTicks();
 
     /* Placer ici le code de dessin */
-
     glClear(GL_COLOR_BUFFER_BIT);
 
     // NOTE: display general GUI

@@ -121,8 +121,9 @@ void monster_attack(Projectile* projectile)
 
 void monster_kill(Monster* monster) 
 {
-  monster->status = DEAD;
   Mix_PlayChannel(-1, sound[MONSTERKILL], 0);
+
+  monster->status = DEAD;
   player_gagneArgent(plateau->listMonsters->dataMonsters[monster->type]->value);
   itineraire_addValueChemin(monster);
 }

@@ -33,12 +33,14 @@ void mouse_checkIfMonster()
   while (currentMonster) {
     if (casex_f <= currentMonster->x + 0.5 && casex_f >= currentMonster->x - 0.5) {
       if (casey_f <= currentMonster->y + 0.5 && casey_f >= currentMonster->y - 0.5) {
-        monster_printInfos(currentMonster);
+        // NOTE: getting proper infos
+        //monster_printInfos(currentMonster);
         break;
       }
     }
     currentMonster = currentMonster->next;
   }
+
   plateau->monster_hover = currentMonster;
 }
 
