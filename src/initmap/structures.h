@@ -224,8 +224,8 @@ typedef struct ListProjectiles {
 } ListProjectiles;
 
 typedef struct DataMonsters {
-   int PDV;
-   int strength;
+   float PDV;
+   float strength;
    double mass;
    int value;
 } DataMonsters;
@@ -253,6 +253,7 @@ typedef struct Plateau {
   int Ysplit;
   Bool play;
   Etat joueur;
+  Monster *monster_hover;
   ConstructionData constructionData[6];
   ListTours* listTours;
   ListMonsters* listMonsters;

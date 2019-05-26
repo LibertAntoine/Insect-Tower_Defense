@@ -1,5 +1,47 @@
 #include "mouse.h"
 
+void mouse_handlePosition()
+{
+  GUI *current_section = mouse_getSection();
+
+  if (current_section->name == PLATEAU) {
+    //printf("%f x %f y\n", casex_f, casey_f);
+
+    int casex;
+    int casey;
+    get_casesi(&casex, &casey, plateauGUI->dimensions);
+
+    TypeCase currentCase_type = case_getType(casex, casey);
+
+    //TODO: Si sur chemin :
+    if (currentCase_type == CHEMIN || currentCase_type == NOEUD) {
+      mouse_checkIfMonster();
+    }
+    else if (plateau->monster_hover) {
+      plateau->monster_hover = NULL;
+    }
+  }
+}
+
+void mouse_checkIfMonster()
+{
+  float casex_f;
+  float casey_f;
+  get_casesf(&casex_f, &casey_f, plateauGUI->dimensions);
+
+  Monster* currentMonster = plateau->listMonsters->firstMonster;
+  while (currentMonster) {
+    if (casex_f <= currentMonster->x + 0.5 && casex_f >= currentMonster->x - 0.5) {
+      if (casey_f <= currentMonster->y + 0.5 && casey_f >= currentMonster->y - 0.5) {
+        monster_printInfos(currentMonster);
+        break;
+      }
+    }
+    currentMonster = currentMonster->next;
+  }
+  plateau->monster_hover = currentMonster;
+}
+
 void mouse_handleButtonClick(ButtonName button_name)
 {
   Etat *joueur = &(plateau->joueur);
@@ -55,36 +97,19 @@ void mouse_handleClick()
   GUI *current_section = mouse_getSection();
 
   if (current_section->name == PLATEAU) {
-    int caseX, caseY;
-    float caseX_f, caseY_f;
-    get_casesi(&caseX, &caseY, plateauGUI->dimensions);
-    get_casesf(&caseX_f, &caseY_f, plateauGUI->dimensions);
-    printf("%d %d\n", caseX, caseY);
-    printf("%f %f\n", caseX_f, caseY_f);
-    case_handleAction(caseX, caseY);
+    int casex, casey;
+    float casex_f, casey_f;
+    get_casesi(&casex, &casey, plateauGUI->dimensions);
+    get_casesf(&casex_f, &casey_f, plateauGUI->dimensions);
+    printf("%d %d\n", casex, casey);
+    printf("%f %f\n", casex_f, casey_f);
+    case_handleAction(casex, casey);
   }
   Button *buttonClicked = mouse_GUIbutton(current_section);
   if (buttonClicked) {
     mouse_handleButtonClick(buttonClicked->name);
     printf("%d\n", buttonClicked->name +1);
   }
-
-  /*
-  if (current_section->name == FOOTER) {
-    Button *buttonClicked = mouse_GUIbutton(current_section);
-    if (buttonClicked) {
-      mouse_handleButtonClick(ButtonName buttonClicked->name);
-      printf("%d\n", buttonClicked->name +1);
-    }
-  }
-  if (current_section->name == HEADER) {
-    Button *buttonClicked = mouse_GUIbutton(current_section);
-    if (buttonClicked) {
-      mouse_handleButtonClick(ButtonName buttonClicked->name);
-      printf("%d\n", buttonClicked->name +1);
-    }
-  }
-  */
 }
 
 Button *mouse_GUIbutton(GUI *section)

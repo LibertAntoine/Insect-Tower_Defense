@@ -59,6 +59,30 @@ int addToList(Monster* monster)
   return 0;
 }
 
+void monster_printInfos(Monster *monster)
+{
+  TypeMonster type = monster->type;
+  char name[20];
+  switch (type) {
+    case SOLDER:
+      strcpy(name, "solder");
+      break;
+    case HUGE_SOLDER:
+      strcpy(name, "huge_solder");
+      break;
+    case GERERAL:
+      strcpy(name, "gereral");
+      break;
+    case BOSS:
+      strcpy(name, "boss");
+      break;
+  }
+
+  printf("Monstre : %s\n", name);
+  printf("PDV : %f/%f\n", monster->PDV, plateau->listMonsters->dataMonsters[type]->PDV);
+  printf("vitesse : %f\n", plateau->listMonsters->dataMonsters[type]->mass);
+  printf("Position x %lf | y %lf\n", monster->x, monster->y);
+}
 
 int monster_popMonster(InfosNodes* InfosNodes, TypeMonster type, int idIn) 
 {

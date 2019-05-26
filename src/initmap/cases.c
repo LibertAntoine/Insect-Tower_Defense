@@ -59,6 +59,7 @@ int case_initPlateau(MapData* mapdata)
   }
   itineraire_checkChemin(mapdata);
 
+  plateau->monster_hover = NULL;
   plateau->play = TRUE;
   return 1;
 }
@@ -301,8 +302,6 @@ void get_casesi(int *caseX, int *caseY, Div *plateau_div)
   int stepX = plateau_div->width / plateau->Xsplit;
   int stepY = plateau_div->height / plateau->Ysplit;
 
-  printf("%d %d\n", RmouseX, RmouseY);
-
   if (RmouseX >= 0 && RmouseY >= 0) {
     if (RmouseX <= plateau_div->width && RmouseY <= plateau_div->height) {
       // on est bien dans le plateau,
@@ -326,8 +325,8 @@ void get_casesf(float *caseX, float *caseY, Div *plateau_div)
   if (RmouseX >= 0 && RmouseY >= 0) {
     if (RmouseX <= plateau_div->width && RmouseY <= plateau_div->height) {
       // On est bien dans le plateau
-      *caseX = RmouseX / stepX;
-      *caseY = RmouseY / stepY;
+      *caseX = RmouseX / stepX +1;
+      *caseY = RmouseY / stepY +1;
     }
   }
 }

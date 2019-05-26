@@ -2,12 +2,14 @@
 #define MONSTER_H_
 
 #include <stdio.h>
+#include <string.h>
 #include <math.h>
 #include <SDL2/SDL_mixer.h>
 
 #include "structures.h"
 
 #include "cases.h"
+#include "tour.h"
 #include "tour.h"
 #include "projectile.h"
 #include "itineraire.h"
@@ -16,6 +18,8 @@ extern Mix_Chunk** sound;
 
 int initListMonsters();
 int addToList(Monster* monster);
+
+void monster_printInfos(Monster *monster);
 
 int monster_popMonster(InfosNodes* InfosNodes, TypeMonster type, int idIn);
 void monster_attack(Projectile* projectile);

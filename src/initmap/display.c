@@ -135,7 +135,9 @@ int display_drawAllMonsters()
   Monster* currentMonster = plateau->listMonsters->firstMonster;
   while (currentMonster != NULL) {  
       display_drawSingleMonster(currentMonster);
-      display_drawItineraire(currentMonster);
+      if (plateau->monster_hover == currentMonster) {
+        display_drawItineraire(currentMonster);
+      }
       currentMonster = currentMonster->next;
   }
   return 0;
@@ -461,13 +463,10 @@ void display_window()
 
 void display_game(GUI *plateau_gui, GLuint idMap, GLuint idGrid)
 {
-  // glViewport lowerleft corner from bottom left, + shift x , y
-
   // TODO: mettre des valeurs dynamiques
   glViewport(300, 100, 500, 400);
   glMatrixMode(GL_PROJECTION);
   glLoadIdentity();
-  //gluOrtho2D(1, 7, 6, 1);
   gluOrtho2D(1, plateau->Xsplit+1, plateau->Ysplit+1, 1);
   glMatrixMode(GL_MODELVIEW);
 
@@ -478,23 +477,6 @@ void display_game(GUI *plateau_gui, GLuint idMap, GLuint idGrid)
 
   display_drawAllMonsters();
   display_drawAllProjectiles();
-  /*
-  glColor3f(1,1,1);
-
-  glPushMatrix();
-  glTranslatef(1, 1, 0);
-
-  //FOND
-  glBegin(GL_QUADS);
-  glVertex2f(0, 0);
-  glVertex2f(0, 6);
-  glVertex2f(7, 6);
-  glVertex2f(7,0);
-  glEnd();
-
-  display_boardGrid(Xsplit, Ysplit);
-  glPopMatrix();
-  */
 
   glViewport(0, 0, 800, 600);
   glMatrixMode(GL_PROJECTION);

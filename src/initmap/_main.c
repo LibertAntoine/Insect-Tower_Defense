@@ -81,11 +81,6 @@ int main(int argc, char *argv[])
 
     glClear(GL_COLOR_BUFFER_BIT);
 
-    /* ajouté dans display_game
-    glCallList(idMap);
-    glCallList(idGrid);
-    */
-
     // NOTE: display general GUI
     display_window();
 
@@ -96,11 +91,6 @@ int main(int argc, char *argv[])
       attackAllTower();
       moveAllProjectiles();
     }
-
-    /* ajouté dans display_game
-    display_drawAllMonsters();
-    display_drawAllProjectiles();
-    */
 
     display_game(plateauGUI, idMap, idGrid);
     
@@ -124,11 +114,13 @@ int main(int argc, char *argv[])
       TypeCase type = joueur->type;
       Action action = joueur->action;
 
+      mouse_handlePosition();
       switch(e.type) {
+        case SDL_MOUSEMOTION:
+          break;
+
         case SDL_MOUSEBUTTONDOWN:
           mouse_handleClick();
-          SDL_GetMouseState(&pixelMouseX, &pixelMouseY);
-          case_getCaseCoordFromPixels(pixelMouseX, pixelMouseY, &caseMouseX, &caseMouseY, WINDOW_WIDTH, WINDOW_HEIGHT);
           break;
 
         case SDL_WINDOWEVENT:

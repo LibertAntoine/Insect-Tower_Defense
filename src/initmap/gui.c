@@ -38,15 +38,21 @@ void gui_init()
   bodyGUI->buttons = NULL;
 
   bottomGUI = gui_addChildren(FOOTER, 0, 500, 800, 100, bodyGUI);
-  gui_addButton(bottomGUI, 700, 50, 25, 35, LASER_BTN, INACTIVE);
-  gui_addButton(bottomGUI, 600, 50, 25, 35, MISSILE_BTN, INACTIVE);
 
-  gui_addButton(bottomGUI, 500, 50, 25, 35, ARMEMENT_BTN, INACTIVE);
-  gui_addButton(bottomGUI, 400, 50, 25, 35, MUNITION_BTN, INACTIVE);
-  gui_addButton(bottomGUI, 300, 50, 25, 35, RADAR_BTN, INACTIVE);
-  gui_addButton(bottomGUI, 200, 50, 25, 35, CENTRALE_BTN, INACTIVE);
+  gui_addButton(bottomGUI, 750, 50, 25, 35, LASER_BTN, INACTIVE);
+  gui_addButton(bottomGUI, 700, 50, 25, 35, MISSILE_BTN, INACTIVE);
+
+  gui_addButton(bottomGUI, 650, 50, 25, 35, ARMEMENT_BTN, INACTIVE);
+  gui_addButton(bottomGUI, 600, 50, 25, 35, MUNITION_BTN, INACTIVE);
+  gui_addButton(bottomGUI, 550, 50, 25, 35, RADAR_BTN, INACTIVE);
+  gui_addButton(bottomGUI, 500, 50, 25, 35, CENTRALE_BTN, INACTIVE);
+
+  gui_addButton(bottomGUI, 350, 50, 25, 35, ADD_BTN, INACTIVE);
+  gui_addButton(bottomGUI, 300, 50, 25, 35, GETINFO_BTN, INACTIVE);
+  gui_addButton(bottomGUI, 250, 50, 25, 35, REMOVE_BTN, INACTIVE);
 
   topGUI = gui_addChildren(HEADER, 0, 0, 800, 100, bodyGUI);
+
   gui_addButton(topGUI, 600, 50, 45, 35, PAUSE_BTN, INACTIVE);
 
   plateauGUI = gui_addChildren(PLATEAU, 300, 100, 500, 400, bodyGUI);
