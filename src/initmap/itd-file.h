@@ -81,6 +81,6 @@ int addToWaves(ListWaves* listWaves, Wave* wave);
  */
 int itd_checkForMapData(FILE* file, MapData* mapData);
 
-void idt_load(char* itdFile, MapData* mapData);
+MapData* idt_load(char* itd_path);
 
 #endif //PPM_LOADER_H_

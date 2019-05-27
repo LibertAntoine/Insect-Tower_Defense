@@ -17,15 +17,10 @@
 #include "tour.h"
 #include "player.h"
 #include "monster.h"
+#include "projectile.h"
 
-
-extern Plateau *plateau;
-
-/** 
- * @brief Remplis les informations de cases de la structure plateau.
- * @param[in] mapData données du fichier .itd.
- */
-int case_initPlateau(MapData* mapdata);
+TypeCase* case_loadFromPPM(MapData* mapData);
+Plateau* case_initPlateau(MapData* mapData);
 int case_RGBCompare(RGBcolor color1, RGBcolor color2);
 
 int case_getCaseIndex(int caseX, int caseY);

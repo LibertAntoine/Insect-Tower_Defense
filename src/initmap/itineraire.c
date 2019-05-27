@@ -122,7 +122,7 @@ void itineraire_addEtape(Itineraire* itineraire, Node* node) {
   return 0;
 }
 
-void itineraire_checkChemin(MapData* mapData)
+ListChemins* itineraire_initListChemins(MapData* mapData)
 {
   ListChemins* listChemins = malloc(sizeof(listChemins));
   listChemins->nbChemin = 0;
@@ -133,7 +133,7 @@ void itineraire_checkChemin(MapData* mapData)
       itineraire_checkExistChemin(listChemins, node, &mapData->infosNodes->nodes[node->link[j]]);
     }
   }
-  plateau->listChemins = listChemins;
+  return listChemins;
 }
 
 void itineraire_checkExistChemin(ListChemins* listChemins, Node* node_in, Node* node_out)

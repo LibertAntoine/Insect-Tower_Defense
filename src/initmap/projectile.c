@@ -1,5 +1,13 @@
 #include "projectile.h"
 
+ListProjectiles* projectile_initListProjectiles()
+{
+  ListProjectiles* listProjectiles = malloc(sizeof(ListProjectiles));
+  listProjectiles->nbProjectile = 0;
+  listProjectiles->next = NULL;
+
+  return listProjectiles;
+}
 
 int create_projectile(Tour* tour, Monster* monster, float degats) {
   Projectile* projectile = malloc(sizeof(Projectile));

@@ -37,7 +37,7 @@ void ppm_handleComments(FILE *image)
   }
 }
 
-char* ppm_loadImage(char path[])
+char* ppm_load(char path[])
 {
 
   int width, height, color_value;

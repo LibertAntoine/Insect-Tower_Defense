@@ -1,67 +1,71 @@
 #include "cases.h"
 
-int case_initPlateau(MapData* mapdata)
+TypeCase* case_loadFromPPM(MapData* mapData)
 {
-  plateau = malloc(sizeof(Plateau));
-   if (!plateau) {
-    return EXIT_FAILURE;
-  }
-
-  player_init();
-  tour_initConstructionData();
-  initListMonsters();
-
   unsigned char* pixel_data;
-  pixel_data = ppm_loadImage(mapdata->mapFile);
-   
-  if(plateau->Xsplit*plateau->Ysplit != mapdata->energy) {
+  pixel_data = ppm_load(mapData->mapFile);
 
-    return 0;
-  }     
-    
-  TypeCase* cases = malloc(sizeof(int)*mapdata->energy);
+  TypeCase* cases = calloc(plateau->Xsplit*plateau->Ysplit, sizeof(int));
   RGBcolor* pixel_ppm = malloc(sizeof(RGBcolor));
+
   int nbSortie = 0;
+
   for(int i = 0; i < plateau->Xsplit*plateau->Ysplit; i++) {
     pixel_ppm->red = (char) pixel_data[i*3];
     pixel_ppm->green = (char) pixel_data[i*3+1];
     pixel_ppm->blue = (char) pixel_data[i*3+2];
-    if(case_RGBCompare(*pixel_ppm, mapdata->pathCol)) {
-        cases[i] = CHEMIN;
-    } else if (case_RGBCompare(*pixel_ppm, mapdata->nodeCol)) {
-        cases[i] = NOEUD;   
-    } else if (case_RGBCompare(*pixel_ppm, mapdata->buildingCol)) {
-        cases[i] = TERRAIN;
-    } else if (case_RGBCompare(*pixel_ppm, mapdata->inCol)) {
-        cases[i] = ENTREE;
-    } else if (case_RGBCompare(*pixel_ppm, mapdata->outCol)) {
-        cases[i] = SORTIE;
-        nbSortie++;
+    if(case_RGBCompare(*pixel_ppm, mapData->pathCol)) {
+      cases[i] = CHEMIN;
+    } else if (case_RGBCompare(*pixel_ppm, mapData->nodeCol)) {
+      cases[i] = NOEUD;   
+    } else if (case_RGBCompare(*pixel_ppm, mapData->buildingCol)) {
+      cases[i] = TERRAIN;
+    } else if (case_RGBCompare(*pixel_ppm, mapData->inCol)) {
+      cases[i] = ENTREE;
+    } else if (case_RGBCompare(*pixel_ppm, mapData->outCol)) {
+      cases[i] = SORTIE;
+      nbSortie++;
     } else {
-      return 0;
+      cases[i] = CHEMIN;
     }
-    //printf("%d ", cases[i]);
   }
+
   if(nbSortie != 1) {
     return 0;
   }
-  plateau->cases = cases;
-  plateau->listTours = malloc(sizeof(ListTours));
-  plateau->listTours->nbTours = 0;
-  plateau->listTours->next = NULL;
-  plateau->listProjectiles = malloc(sizeof(ListProjectiles));
-  plateau->listProjectiles->nbProjectile = 0;
-  plateau->listProjectiles->next = NULL;
+
+  return cases;
+}
+
+Plateau* case_initPlateau(MapData* mapData)
+{
+  plateau = malloc(sizeof(Plateau));
+  if (!plateau) {
+    return EXIT_FAILURE;
+  }
+
+  tour_initConstructionData();
+
+  int argent = 10000;
+
+  plateau->joueur = player_init(argent);
+  plateau->cases = case_loadFromPPM(mapData);
+  plateau->listMonsters = monster_initListMonster();
+  plateau->listMonsters->dataMonsters = monster_initDataMonster();
+  plateau->listTours = tour_initListTours();
+  plateau->listProjectiles = projectile_initListProjectiles();
 
   plateau->tours = calloc(plateau->Xsplit*plateau->Ysplit, sizeof(Tour*));
   if (!plateau->tours) {
     return EXIT_FAILURE;
   }
-  itineraire_checkChemin(mapdata);
+
+  plateau->listChemins = itineraire_initListChemins(mapData);
 
   plateau->monster_hover = NULL;
   plateau->play = TRUE;
-  return 1;
+  
+  return plateau;
 }
 
 int case_RGBCompare(RGBcolor color1, RGBcolor color2) {
@@ -150,7 +154,7 @@ void case_addConstruction(int caseX, int caseY)
 {
   int index_case = case_getCaseIndex(caseX, caseY);
 
-  TypeCase type = plateau->joueur.type;
+  TypeCase type = plateau->joueur->type;
 
   GeneralType generalType = case_getGeneralConstructionType(type);
 
@@ -185,7 +189,7 @@ void case_removeConstruction(int caseX, int caseY)
   int index_case = case_getCaseIndex(caseX, caseY);
   TypeCase type = case_getType(caseX, caseY);
   GeneralType generalType = case_getGeneralConstructionType(type);
-  plateau->joueur.argent += tour_getPrixRevente(type);
+  plateau->joueur->argent += tour_getPrixRevente(type);
 
   plateau->cases[index_case] = TERRAIN;
   if (generalType == TOUR) {
@@ -334,10 +338,10 @@ void get_casesf(float *caseX, float *caseY, Div *plateau_div)
 void case_actionAdd(int caseX, int caseY)
 {
   if(case_isConstructible(caseX, caseY)) {
-    printf("Porte monaie : %d \n", plateau->joueur.argent);
+    printf("Porte monaie : %d \n", plateau->joueur->argent);
     if (player_acheteConstruction(caseX, caseY)) {
       printf("Ajout de tour avec succes, -%d\n", tour_getPrixAchat(case_getType(caseX, caseY)));
-      printf("Porte monaie : %d \n", plateau->joueur.argent);
+      printf("Porte monaie : %d \n", plateau->joueur->argent);
     }
     else {
       printf("Vous n'avez pas assez\n");
@@ -355,7 +359,7 @@ void case_actionRemove(int caseX, int caseY)
   if (case_isUserPlaced(caseX, caseY)) {
     printf("Suppression de tour avec succes, +%d\n", tour_getPrixRevente(case_getType(caseX, caseY)));
     case_removeConstruction(caseX, caseY);
-    printf("Porte monaie : %d \n", plateau->joueur.argent);
+    printf("Porte monaie : %d \n", plateau->joueur->argent);
   }
   else {
     printf("You can only remove your buildings\n");
@@ -369,7 +373,7 @@ void case_actionInfo(int caseX, int caseY)
 
 void case_handleAction(int caseX, int caseY)
 {
-  switch(plateau->joueur.action) {
+  switch(plateau->joueur->action) {
     case ADD:
       case_actionAdd(caseX, caseY);
       break;

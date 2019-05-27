@@ -85,9 +85,7 @@ void sprite_displaySprite(SpriteTexture* sprite)
 
 void sprite_updateSprite(SpriteTexture* sprite)
 {
-  struct timespec now_c;
-  clock_gettime(CLOCK_MONOTONIC_RAW, &now_c);
-  int now = now_c.tv_sec * 1000 + now_c.tv_nsec / 1000000;
+  Uint32 now = SDL_GetTicks();
 
   if (now - sprite->last_frame >= sprite->loop_duration) {
     sprite_translateTexture(sprite);

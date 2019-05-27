@@ -9,6 +9,7 @@
 
 extern Mix_Chunk** sound;
 
+ListProjectiles* projectile_initListProjectiles();
 int create_projectile(Tour* tour, Monster* monster, float degats);
 int addToProjectiles(Projectile* projectile);
 int projectile_moveAll();

@@ -8,7 +8,7 @@
 #include "cases.h"
 
 // Functions
-void player_init();
+Etat* player_init(int argent);
 void player_afficherAction();
 void player_afficherEtat();
 int player_acheteConstruction(int caseX, int caseY);

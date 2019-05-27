@@ -43,12 +43,11 @@ GUI *topGUI;
 
 int main(int argc, char *argv[])
 {
-  /* Récuperation des informations idt/ppm */
-  MapData* mapData = itd_initMapData();
-  idt_load("level/level3.itd", mapData);
+  /* Récuperation des informations itd/ppm */
+  MapData* mapData = idt_load("level/level3.itd");
   
   /* Création du plateau */
-  case_initPlateau(mapData);
+  plateau = case_initPlateau(mapData);
 
   /* Calcul des chemins les plus courts */
   itineraire_findShortestPath(mapData->infosNodes);
@@ -78,6 +77,8 @@ int main(int argc, char *argv[])
 
   /* Boucle principale */
   int loop = 1;
+  int frameFPS = 0;
+  Uint32 lastCheckFPS = beginMomentLevel;
   while(loop) {
     Uint32 startTime = SDL_GetTicks();
 
@@ -114,7 +115,7 @@ int main(int argc, char *argv[])
         break;
       }
 
-      Etat *joueur = &(plateau->joueur);
+      Etat *joueur = plateau->joueur;
       TypeCase type = joueur->type;
       Action action = joueur->action;
 
@@ -148,7 +149,17 @@ int main(int argc, char *argv[])
     if(elapsedTime < FRAMERATE_MILLISECONDS) {
       SDL_Delay(FRAMERATE_MILLISECONDS - elapsedTime);
     }
+
+    /* NOTE: Display FPS counter
+    frameFPS++;
+    Uint32 elapsedTimeFPS = SDL_GetTicks() - lastCheckFPS;
+    if (elapsedTimeFPS >= 1000) {
+      printf("FPS : %f\n", frameFPS / (elapsedTimeFPS / 1000.));
+      frameFPS = 0;
+      lastCheckFPS = SDL_GetTicks();
+    }
   }
+  */
 
   /* Liberation des ressources associees a la SDL */ 
   Mix_CloseAudio();

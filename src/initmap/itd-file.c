@@ -454,30 +454,30 @@ int itd_checkForMapData(FILE* file, MapData* mapData)
 }
 
 
-void idt_load(char* itdFile, MapData* mapData)
+MapData* idt_load(char* itd_path)
 {
-  FILE* file = fopen(itdFile, "r");
+  MapData* mapData = itd_initMapData();
+
+  FILE* file = fopen(itd_path, "r");
 
   if (!file) {
-    printf("Cound't open the file %s\n", itdFile);
+    printf("Cound't open the file %s\n", itd_path);
   } else {
     fseek(file, 0, SEEK_END);
     int totalSizeofFile = ftell(file);
-    // printf("size of file = %d\n", totalSizeofFile);
     fseek(file, 0, SEEK_SET);
 
     if(itd_checkCode(file)) {
-      // ERROR file code doesn't match ITD
+      //TODO: ERROR file code doesn't match ITD
     }
     else {
-      printf("correct file ITD\n");
+      printf("Correct file ITD\n");
       itd_gotoEndOfLine(file);
     }
 
     while (fgetc(file) != EOF) {
       itd_checkComment(file);
       itd_checkForMapData(file, mapData);
-      //printf("pos : %ld %c\n", ftell(file), fgetc(file));
     }
 
 
@@ -486,6 +486,7 @@ void idt_load(char* itdFile, MapData* mapData)
       printf("file is valid\n");
     }
   }
+  return mapData;
 }
 
 

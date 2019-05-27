@@ -15,7 +15,9 @@
 #include "itineraire.h"
 #include "sprite.h"
 
-int initListMonsters();
+ListMonsters* monster_initListMonster();
+DataMonsters** monster_initDataMonster();
+
 int addToList(Monster* monster);
 
 void monster_printInfos(Monster *monster);

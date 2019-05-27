@@ -10,8 +10,6 @@
 
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_mixer.h>
-#include <time.h>
-#include <sys/time.h>
 
 typedef enum MapDataContent {
   MDATA_IMG = 1,
@@ -158,7 +156,7 @@ typedef struct SpriteTexture {
   Bool loop;
   int sprite_numX;
   int sprite_numY;
-  int last_frame;
+  Uint32 last_frame;
   int loop_duration;
 } SpriteTexture;
 
@@ -295,7 +293,7 @@ typedef struct Plateau {
   int Xsplit;
   int Ysplit;
   Bool play;
-  Etat joueur;
+  Etat* joueur;
   Monster *monster_hover;
   ConstructionData constructionData[6];
   ListTours* listTours;
@@ -357,6 +355,7 @@ typedef struct GUI {
   Button *buttons;
 } GUI;
 
+extern Plateau *plateau;
 extern GUI *bodyGUI;
 extern GUI *plateauGUI;
 extern GUI *bottomGUI;

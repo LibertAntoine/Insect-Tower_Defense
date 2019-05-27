@@ -1,5 +1,13 @@
 #include "tour.h"
 
+ListTours* tour_initListTours()
+{
+  ListTours* listTours = malloc(sizeof(ListTours));
+  listTours->nbTours = 0;
+  listTours->next = NULL;
+  return listTours;
+}
+
 void tour_initConstructionData()
 {
   plateau->constructionData[LASER].type = LASER;

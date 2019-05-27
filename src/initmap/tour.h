@@ -16,6 +16,7 @@
 extern Mix_Chunk** sound;
 
 // Functions
+ListTours* tour_initListTours();
 void tour_initConstructionData();
 int tour_getDegats(TypeCase type);
 int tour_getAlimentation(TypeCase type);
@@ -40,7 +41,6 @@ Bool tour_lockTarget(Tour* tour);
 Bool tour_findTarget(Tour* tour);
 Bool tour_isLoaded(Tour* tour);
 Bool tour_targetStillInRange(Tour* tour);
-void tour_recharge(Tour* tour);
 
 float tour_calculCadence(Tour* tour);
 float tour_calculDegats(Tour* tour);

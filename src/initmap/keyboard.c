@@ -4,7 +4,7 @@ void keyboard_handleKeypress(SDL_Event *event)
 {
   SDL_Keycode key = event->key.keysym.sym; 
 
-  Etat *joueur = &(plateau->joueur);
+  Etat *joueur = plateau->joueur;
   TypeCase type = joueur->type;
   Action action = joueur->action;
 

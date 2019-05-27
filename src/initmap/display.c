@@ -441,7 +441,6 @@ void display_top()
 void display_bottom()
 {
   glColor3f(1,0,1);
-
   display_drawZoneBasedOnGUI(bottomGUI);
 }
 

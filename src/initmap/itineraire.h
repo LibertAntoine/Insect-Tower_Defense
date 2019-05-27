@@ -23,7 +23,7 @@ double itineraire_getValueChemin(Node startNode, Node arrivedNode);
 int itineraire_initMonster(Monster* monster, InfosNodes* infosNodes);
 void itineraire_addEtape(Itineraire* itineraire, Node* node);
 
-void itineraire_checkChemin(MapData* mapData);
+ListChemins* itineraire_initListChemins(MapData* mapData);
 void itineraire_checkExistChemin(ListChemins* listChemins, Node* node_in, Node* node_out);
 void itineraire_addChemin(ListChemins* listChemins, Node* node_in, Node* node_out);
 void itineraire_addValueChemin(Monster* monster);

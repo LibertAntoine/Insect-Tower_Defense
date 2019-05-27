@@ -1,18 +1,13 @@
 #include "monster.h"
 
-int initListMonsters()
+DataMonsters** monster_initDataMonster()
 {
-  ListMonsters* listMonsters = malloc(sizeof(ListMonsters));
   DataMonsters** dataMonsters = malloc(sizeof(DataMonsters*) * 4);
 
   dataMonsters[SOLDER] = malloc(sizeof(DataMonsters));
   dataMonsters[HUGE_SOLDER] = malloc(sizeof(DataMonsters));
   dataMonsters[GERERAL] = malloc(sizeof(DataMonsters));
   dataMonsters[BOSS] = malloc(sizeof(DataMonsters));
-  // TODO: Checker l'allocation
-
-  listMonsters->monster_total = 0;
-  listMonsters->firstMonster = NULL;
 
   dataMonsters[SOLDER]->PDV = 1;
   dataMonsters[SOLDER]->strength = 1;
@@ -34,9 +29,17 @@ int initListMonsters()
   dataMonsters[BOSS]->mass = 1.0;
   dataMonsters[BOSS]->value = 1.0;
 
-  listMonsters->dataMonsters = dataMonsters;
+  return dataMonsters;
+}
 
-  plateau->listMonsters = listMonsters;
+ListMonsters* monster_initListMonster()
+{
+  ListMonsters* listMonsters = malloc(sizeof(ListMonsters));
+  // TODO: Checker l'allocation
+  listMonsters->monster_total = 0;
+  listMonsters->firstMonster = NULL;
+
+  return listMonsters;
 }
 
 int addToList(Monster* monster)

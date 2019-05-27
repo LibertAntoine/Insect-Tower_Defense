@@ -1,15 +1,19 @@
 #include "player.h"
 
-void player_init()
+Etat* player_init(int argent)
 {
-  plateau->joueur.argent = 10000;
-  plateau->joueur.action = ADD;
-  plateau->joueur.type = LASER;
+  Etat *joueur = malloc(sizeof(Etat));
+
+  joueur->argent = argent;
+  joueur->action = ADD;
+  joueur->type = LASER;
+
+  return joueur;
 }
 
 void player_afficherAction()
 {
-  Etat *joueur = &(plateau->joueur);
+  Etat *joueur = plateau->joueur;
   char mode[20];
   switch(joueur->action) {
     case ADD:
@@ -27,7 +31,7 @@ void player_afficherAction()
 
 void player_afficherEtat()
 {
-  Etat *joueur = &(plateau->joueur);
+  Etat *joueur = plateau->joueur;
   char mode[20];
   switch(joueur->type) {
     case RADAR:
@@ -55,7 +59,7 @@ void player_afficherEtat()
 
 int player_acheteConstruction(int caseX, int caseY)
 {
-  Etat *joueur = &(plateau->joueur);
+  Etat *joueur = plateau->joueur;
 
   int prix = tour_getPrixAchat(joueur->type);
   if (joueur->argent < prix) {
@@ -70,13 +74,13 @@ int player_acheteConstruction(int caseX, int caseY)
 
 void player_gagneArgent(int valeur)
 {
-  Etat *joueur = &(plateau->joueur);
+  Etat *joueur = plateau->joueur;
   joueur->argent += valeur;
 }
 
 void player_switchAction(Action action)
 {
-  Etat *joueur = &(plateau->joueur);
+  Etat *joueur = plateau->joueur;
   printf("Changing action ");
   player_afficherAction();
   printf(" --> ");
@@ -87,7 +91,7 @@ void player_switchAction(Action action)
 
 void player_switchTowerType(TypeCase type)
 {
-  Etat *joueur = &(plateau->joueur);
+  Etat *joueur = plateau->joueur;
   printf("Changing tower type ");
   player_afficherEtat();
   printf(" --> ");
