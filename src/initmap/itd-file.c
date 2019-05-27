@@ -201,7 +201,6 @@ int itd_getInfosWaves(FILE* file, MapData* MapData) {
       itd_checkComment(file);
 
       char line[100];
-      // TODO: Vérifier à quoi sert la ligne suivante :
 
       fgets(line, 100, file);
       if(sscanf(line, "%d %f %f %f %d %d %d %d", &wave_id, &timeBegin, &freq_pop, &random, 

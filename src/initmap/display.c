@@ -1,6 +1,5 @@
 #include "display.h"
 
-// TODO: fix circle range bugs.
 void display_drawCircle(int fillMode)
 {
   float angleStep = 2 * M_PI / 360;
@@ -322,7 +321,6 @@ void display_drawAllTargetRanges()
           range = tour_getRange(type);
           break;
         case TOUR:
-          // TODO: Faire en sorte d'allonger la portée grâce au nombre de radars connectés 
           range = tour_calculPortee(plateau->tours[index_case]);
           break;
       }
@@ -450,8 +448,10 @@ void display_window()
 
 void display_game(GUI *plateau_gui, GLuint idMap, GLuint idGrid)
 {
-  // TODO: mettre des valeurs dynamiques
-  glViewport(300, 100, 500, 400);
+  Div* plateau_div = plateau_gui->dimensions;
+  Div* body_div = bodyGUI->dimensions;
+
+  glViewport(plateau_div->x, plateau_div->y, plateau_div->width, plateau_div->height);
   glMatrixMode(GL_PROJECTION);
   glLoadIdentity();
   gluOrtho2D(1, plateau->Xsplit+1, plateau->Ysplit+1, 1);
@@ -465,9 +465,9 @@ void display_game(GUI *plateau_gui, GLuint idMap, GLuint idGrid)
   display_drawAllMonsters();
   display_drawAllProjectiles();
 
-  glViewport(0, 0, 800, 600);
+  glViewport(0, 0, body_div->width, body_div->height);
   glMatrixMode(GL_PROJECTION);
   glLoadIdentity();
-  gluOrtho2D(0, 800, 600, 0);
+  gluOrtho2D(0, body_div->width, body_div->height, 0);
   glMatrixMode(GL_MODELVIEW);
 }

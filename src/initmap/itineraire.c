@@ -1,6 +1,5 @@
 #include "itineraire.h"
 
-// TODO: Décrire le fonctionnement. Docummentation Doxygen, essayer de simplifier la lecture de la fonction.
 int itineraire_findShortestPath(InfosNodes* infosNodes)
 {
   if (infosNodes->idOut > infosNodes->nbNoeud -1 || infosNodes->idOut < 0) {

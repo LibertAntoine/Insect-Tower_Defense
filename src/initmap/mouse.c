@@ -13,22 +13,21 @@ void mouse_handlePosition()
 
     TypeCase currentCase_type = case_getType(caseX, caseY);
 
-    //TODO: Si sur chemin :
-    if (currentCase_type == CHEMIN || currentCase_type == NOEUD) {
+    if (currentCase_type == CHEMIN || currentCase_type == NOEUD || currentCase_type == ENTREE) {
       mouse_checkIfMonster();
-      plateau->index_case_hover = NULL;
+      plateau->index_case_hover = -1;
     }
     else if (case_getGeneralConstructionType(currentCase_type) == TOUR || case_getGeneralConstructionType(currentCase_type) == BATIMENT) {
       plateau->index_case_hover = case_getCaseIndex(caseX, caseY);
       plateau->monster_hover = NULL;
     }
     else {
-      plateau->index_case_hover = NULL;
+      plateau->index_case_hover = -1;
       plateau->monster_hover = NULL;
     }
   }
   else {
-    plateau->index_case_hover = NULL;
+    plateau->index_case_hover = -1;
     plateau->monster_hover = NULL;
   }
 }

@@ -11,7 +11,6 @@
 #include "cases.h"
 #include "monster.h"
 
-// TODO: convention de nommage des fonctions
 // NOTE: le but est de facilement trouver ce qu'elles font et où les trouver
 
 int *itineraire_initVisitedArray(int size);

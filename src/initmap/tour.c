@@ -124,24 +124,23 @@ Tour *tour_create(TypeCase type, int index_case)
 
 int addToListTour(Tour* tour)
 {
-    if(plateau->listTours->next == NULL) {
-        plateau->listTours->next = tour;
-        return 0;
-    }
-    Tour* currentTour = plateau->listTours->next;
-    while (currentTour->next != NULL)
-        {  
-            currentTour = currentTour->next;
-        }
-    currentTour->next = tour;
+  if(plateau->listTours->next == NULL) {
+    plateau->listTours->next = tour;
     return 0;
+  }
+  Tour* currentTour = plateau->listTours->next;
+  while (currentTour->next != NULL)
+  {  
+    currentTour = currentTour->next;
+  }
+  currentTour->next = tour;
+  return 0;
 }
-
-
 
 /**
  * Retourne le nombre de batiments d'un certain type autour d'une tour spécifique
  * */
+// TODO: Passer sur des portées en ligne droite
 int tour_countBatiments(TypeCase type, int index_case)
 {
   int Xsplit = plateau->Xsplit;
@@ -200,18 +199,17 @@ void tour_add(TypeCase type, int index_case)
 }
 
 int updateAllTower() {
-    Tour* currentTour = plateau->listTours->next;
-    int index_case = -1; 
-    while (currentTour != NULL)
-        { 
-          index_case = case_getCaseIndex(currentTour->x - 1.5, currentTour->y - 1.5);
-          tour_completeInfo(RADAR, index_case);
-          tour_completeInfo(CENTRALE, index_case);
-          tour_completeInfo(ARMEMENT, index_case);
-          tour_completeInfo(MUNITION, index_case);
-          currentTour = currentTour->next;
-        }
-    return 0;
+  Tour* currentTour = plateau->listTours->next;
+  int index_case = -1; 
+  while (currentTour != NULL) { 
+    index_case = case_getCaseIndex(currentTour->x - 1.5, currentTour->y - 1.5);
+    tour_completeInfo(RADAR, index_case);
+    tour_completeInfo(CENTRALE, index_case);
+    tour_completeInfo(ARMEMENT, index_case);
+    tour_completeInfo(MUNITION, index_case);
+    currentTour = currentTour->next;
+  }
+  return 0;
 }
 
 int tour_attackAll()
@@ -235,7 +233,6 @@ float tour_calculDegats(Tour* tour)
 
 void tour_tire(Tour* tour)
 {
-  // TODO: Creer le projectile
   float degats = tour_calculDegats(tour);
   create_projectile(tour, tour->targetMonster, degats);
 
@@ -252,12 +249,12 @@ float tour_calculCadence(Tour* tour)
 }
 
 /*
-void tour_recharge(Tour* tour)
-{
-  float cadence = tour_calculCadence(tour);
-  tour->rechargement -= 1;
-}
-*/
+   void tour_recharge(Tour* tour)
+   {
+   float cadence = tour_calculCadence(tour);
+   tour->rechargement -= 1;
+   }
+ */
 
 Bool tour_checkAlimentation(Tour* tour)
 {
@@ -299,7 +296,6 @@ Bool tour_lockTarget(Tour* tour)
   }
 }
 
-// TODO: Vérifier le bon fonctionnement
 float tour_calculPortee(Tour* tour)
 {
   float normal_range = tour_getPortee(tour->type);
@@ -323,7 +319,7 @@ Bool tour_findTarget(Tour* tour)
   while (currentMonster != NULL)
   {  
     if(currentMonster->status == ALIVE) {
-      current_monster_distance = pow(abs(tour->x - currentMonster->x), 2) + pow(abs(tour->y - currentMonster->y), 2);
+      current_monster_distance = pow(tour->x - currentMonster->x, 2) + pow(tour->y - currentMonster->y, 2);
 
       if (current_monster_distance <= portee) {
         if(current_monster_distance < shortest_monster_distance) {

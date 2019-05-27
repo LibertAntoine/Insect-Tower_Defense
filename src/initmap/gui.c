@@ -28,8 +28,8 @@ void gui_init()
   Div *dimensions = calloc(1, sizeof(Div));
   dimensions->x = 0;
   dimensions->y = 0;
-  dimensions->width = 800;
-  dimensions->height = 600;
+  dimensions->width = WINDOW_WIDTH;
+  dimensions->height = WINDOW_HEIGHT;
 
   bodyGUI->dimensions = dimensions;
   bodyGUI->parent = NULL;
@@ -37,7 +37,7 @@ void gui_init()
   bodyGUI->childen = NULL;
   bodyGUI->buttons = NULL;
 
-  bottomGUI = gui_addChildren(FOOTER, 0, 500, 800, 100, bodyGUI);
+  bottomGUI = gui_addChildren(FOOTER, 0, 500, bodyGUI->dimensions->width, 100, bodyGUI);
 
   gui_addButton(bottomGUI, 750, 50, 25, 35, LASER_BTN, INACTIVE);
   gui_addButton(bottomGUI, 700, 50, 25, 35, MISSILE_BTN, INACTIVE);
@@ -51,7 +51,7 @@ void gui_init()
   gui_addButton(bottomGUI, 300, 50, 25, 35, GETINFO_BTN, INACTIVE);
   gui_addButton(bottomGUI, 250, 50, 25, 35, REMOVE_BTN, INACTIVE);
 
-  topGUI = gui_addChildren(HEADER, 0, 0, 800, 100, bodyGUI);
+  topGUI = gui_addChildren(HEADER, 0, 0, bodyGUI->dimensions->width, 100, bodyGUI);
 
   gui_addButton(topGUI, 600, 50, 45, 35, PAUSE_BTN, INACTIVE);
 

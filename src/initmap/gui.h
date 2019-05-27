@@ -3,6 +3,7 @@
 
 #include <stdlib.h>
 
+#include "SDLConfig.h"
 #include "structures.h"
 
 GUI *gui_addChildren(SectionName name, int x, int y, int width, int height, GUI *parent);

@@ -37,7 +37,6 @@ SpriteTexture* sprite_loadSprite(TextureName texture_name, int loop_duration)
   SpriteTexture *new_sprite = calloc(1, sizeof(SpriteTexture));
   //TODO: check alloc
 
-  //TODO: clarify magic variables
   new_sprite->loop_duration = loop_duration;
   new_sprite->last_frame = 0;
 
@@ -97,7 +96,6 @@ void sprite_translateTexture(SpriteTexture* sprite)
 {
   sprite->sprite_numX++;
 
-  // TODO: checker systeme de coord
   if (sprite->sprite_numX >= textures[sprite->texture_name]->sprite_totalX) {
     sprite->sprite_numX = 0;
     sprite->sprite_numY++;
@@ -114,7 +112,6 @@ void sprite_translateTexture(SpriteTexture* sprite)
   glMatrixMode(GL_TEXTURE);
   glLoadIdentity();
 
-  // TODO: check translate the texture
   glTranslatef(x_shift * sprite->sprite_numX, y_shift * sprite->sprite_numY, 0);
 
   glMatrixMode(GL_MODELVIEW);
