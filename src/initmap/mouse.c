@@ -7,21 +7,32 @@ void mouse_handlePosition()
   if (current_section->name == PLATEAU) {
     //printf("%f x %f y\n", casex_f, casey_f);
 
-    int casex;
-    int casey;
-    get_casesi(&casex, &casey, plateauGUI->dimensions);
+    int caseX;
+    int caseY;
+    get_casesi(&caseX, &caseY, plateauGUI->dimensions);
 
-    TypeCase currentCase_type = case_getType(casex, casey);
+    TypeCase currentCase_type = case_getType(caseX, caseY);
 
     //TODO: Si sur chemin :
     if (currentCase_type == CHEMIN || currentCase_type == NOEUD) {
       mouse_checkIfMonster();
+      plateau->index_case_hover = NULL;
     }
-    else if (plateau->monster_hover) {
+    else if (case_getGeneralConstructionType(currentCase_type) == TOUR || case_getGeneralConstructionType(currentCase_type) == BATIMENT) {
+      plateau->index_case_hover = case_getCaseIndex(caseX, caseY);
+      plateau->monster_hover = NULL;
+    }
+    else {
+      plateau->index_case_hover = NULL;
       plateau->monster_hover = NULL;
     }
   }
+  else {
+    plateau->index_case_hover = NULL;
+    plateau->monster_hover = NULL;
+  }
 }
+
 
 void mouse_checkIfMonster()
 {
@@ -46,7 +57,7 @@ void mouse_checkIfMonster()
 
 void mouse_handleButtonClick(ButtonName button_name)
 {
-  Etat *joueur = &(plateau->joueur);
+  Etat *joueur = plateau->joueur;
   TypeCase type = joueur->type;
   Action action = joueur->action;
 

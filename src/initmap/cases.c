@@ -63,6 +63,7 @@ Plateau* case_initPlateau(MapData* mapData)
   plateau->listChemins = itineraire_initListChemins(mapData);
 
   plateau->monster_hover = NULL;
+  plateau->index_case_hover = NULL;
   plateau->play = TRUE;
   
   return plateau;

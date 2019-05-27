@@ -295,6 +295,7 @@ typedef struct Plateau {
   Bool play;
   Etat* joueur;
   Monster *monster_hover;
+  int index_case_hover;
   ConstructionData constructionData[6];
   ListTours* listTours;
   ListMonsters* listMonsters;

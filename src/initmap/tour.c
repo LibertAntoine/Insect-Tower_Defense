@@ -304,13 +304,12 @@ float tour_calculPortee(Tour* tour)
 {
   float normal_range = tour_getPortee(tour->type);
   int radars = tour->radar;
-  float portee = normal_range + radars*(normal_range/4); // adding 25% de la portee normale
+  float portee = normal_range + radars * (normal_range/4); // ajout de 25% de la portee normale par radar
   return portee;
 }
 
 Bool tour_findTarget(Tour* tour)
 {
-
   tour->targetMonster = NULL;
 
   if(plateau->listMonsters->firstMonster == NULL) {

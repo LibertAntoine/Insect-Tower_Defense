@@ -15,6 +15,7 @@ void display_drawCircle(int fillMode)
     angleCurrent += angleStep;
   }
   glEnd();
+  glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 }
 
 void display_drawSquare(int fillMode)
@@ -40,12 +41,11 @@ void display_drawTriangle(int fillMode)
   glEnd();
 }
 
-void display_drawTargetRange(int caseX, int caseY, int range)
+void display_drawTargetRange(int caseX, int caseY, float range)
 {
   glPushMatrix();
   glTranslatef(caseX, caseY, 0);
   glTranslatef(0.5,0.5,0);
-  glScalef(2, 2, 1);
   glScalef(range, range, 1);
   glColor3f(1,1,1);
   display_drawCircle(GL_LINE);
@@ -302,21 +302,6 @@ void display_drawSingleTower(int caseX, int caseY, TypeCase type)
   glPopMatrix();
 }
 
-/*
-   void display_drawAllTowers()
-   {
-   int total_cases = plateau->Xsplit * plateau->Ysplit;
-
-   for (int i=0; i < total_cases; i++) {
-   int Y = i / plateau->Xsplit;
-   int X = i % plateau->Xsplit;
-
-   TypeCase towerType = plateau->cases[i];
-   display_drawSingleTower(X, Y, towerType);
-   }
-   }
- */
-
 void display_drawAllTargetRanges()
 {
   int total_cases = plateau->Xsplit * plateau->Ysplit;
@@ -329,21 +314,21 @@ void display_drawAllTargetRanges()
     }
     int caseY, caseX;
     case_getCasePosition(index_case, &caseX, &caseY);
-    glPushMatrix();
-
-    int range = 0;
-    switch (generalType) {
-      case BATIMENT:
-        range = tour_getRange(type);
-        break;
-      case TOUR:
-        // TODO: Faire en sorte d'allonger la portée grâce au nombre de radars connectés 
-        range = tour_getPortee(type);
-        break;
+    if (plateau->index_case_hover == index_case) {
+      glPushMatrix();
+      float range = 0;
+      switch (generalType) {
+        case BATIMENT:
+          range = tour_getRange(type);
+          break;
+        case TOUR:
+          // TODO: Faire en sorte d'allonger la portée grâce au nombre de radars connectés 
+          range = tour_calculPortee(plateau->tours[index_case]);
+          break;
+      }
+      display_drawTargetRange(caseX, caseY, range);
+      glPopMatrix();
     }
-    display_drawTargetRange(caseX, caseY, range);
-    glPopMatrix();
-
   }
 }
 

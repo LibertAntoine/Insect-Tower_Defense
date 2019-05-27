@@ -145,6 +145,7 @@ int main(int argc, char *argv[])
 
     /* Calcul du temps ecoule */
     Uint32 elapsedTime = SDL_GetTicks() - startTime;
+
     /* Si trop peu de temps s'est ecoule, on met en pause le programme */
     if(elapsedTime < FRAMERATE_MILLISECONDS) {
       SDL_Delay(FRAMERATE_MILLISECONDS - elapsedTime);
@@ -158,8 +159,8 @@ int main(int argc, char *argv[])
       frameFPS = 0;
       lastCheckFPS = SDL_GetTicks();
     }
+    */
   }
-  */
 
   /* Liberation des ressources associees a la SDL */ 
   Mix_CloseAudio();

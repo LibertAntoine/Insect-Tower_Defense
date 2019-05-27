@@ -25,7 +25,7 @@
 void display_drawMonsterLife(float PDV);
 void display_drawTriangle(int fillMode);
 void display_drawCircle(int fillMode);
-void display_drawTargetRange(int caseX, int caseY, int range);
+void display_drawTargetRange(int caseX, int caseY, float range);
 void display_drawSquare(int fillMode);
 void display_gridList(GLuint id);
 void display_mapList(GLuint id);
