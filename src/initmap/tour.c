@@ -202,7 +202,7 @@ int updateAllTower() {
   Tour* currentTour = plateau->listTours->next;
   int index_case = -1; 
   while (currentTour != NULL) { 
-    index_case = case_getCaseIndex(currentTour->x - 1.5, currentTour->y - 1.5);
+    index_case = case_getCaseIndex(currentTour->x - 0.5, currentTour->y - 0.5);
     tour_completeInfo(RADAR, index_case);
     tour_completeInfo(CENTRALE, index_case);
     tour_completeInfo(ARMEMENT, index_case);

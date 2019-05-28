@@ -27,7 +27,7 @@ void sprite_init()
   textures = calloc(14, sizeof(Texture*));
 
   textures[SOLDER_TEX] = sprite_importTexture("images/sprite_A.png", 4, 1); 
-  textures[HUGE_SOLDER_TEX] = sprite_importTexture("images/sprite_B.png", 4, 1); 
+  textures[HUGE_SOLDER_TEX] = sprite_importTexture("images/sprite_B2.png", 2, 1); 
   textures[BOSS_TEX] = sprite_importTexture("images/sprite_C.png", 4, 1); 
   textures[GERERAL_TEX] = sprite_importTexture("images/sprite_D.png", 3, 1); 
 }
@@ -44,6 +44,9 @@ SpriteTexture* sprite_loadSprite(TextureName texture_name, int loop_duration)
   new_sprite->sprite_numY = 0;
   new_sprite->texture_name = texture_name;
 
+  new_sprite->translate_x = 0;
+  new_sprite->translate_y = 0;
+
   return new_sprite;
 }
 
@@ -57,11 +60,14 @@ void sprite_displaySprite(SpriteTexture* sprite)
   glEnable(GL_TEXTURE_2D);
   glBindTexture(GL_TEXTURE_2D, currentTexture->texture_id);
 
-  sprite_updateSprite(sprite);
+  if (sprite->loop == TRUE || plateau->play == TRUE) {
+    sprite_updateSprite(sprite);
+  }
 
   float x_shift = 1. / currentTexture->sprite_totalX;
   float y_shift = 1. / currentTexture->sprite_totalY;
 
+  sprite_translateTexture(sprite);
   glColor3f(1,1,1);
   glBegin(GL_QUADS);
   glTexCoord2f(0, 0);
@@ -80,39 +86,46 @@ void sprite_displaySprite(SpriteTexture* sprite)
 
   glBindTexture(GL_TEXTURE_2D, 0);
   glDisable(GL_TEXTURE_2D);
+
+  glMatrixMode(GL_TEXTURE);
+  glLoadIdentity();
+  glMatrixMode(GL_MODELVIEW);
 }
 
 void sprite_updateSprite(SpriteTexture* sprite)
 {
   Uint32 now = SDL_GetTicks();
+  Texture* texture = textures[sprite->texture_name];
 
-  if (now - sprite->last_frame >= sprite->loop_duration) {
-    sprite_translateTexture(sprite);
+  if (now - sprite->last_frame >= sprite->loop_duration / (texture->sprite_totalX * texture->sprite_totalY)) {
+    sprite->sprite_numX++;
+
+    if (sprite->sprite_numX >= textures[sprite->texture_name]->sprite_totalX) {
+      sprite->sprite_numX = 0;
+      sprite->sprite_numY++;
+
+      if (sprite->sprite_numY >= textures[sprite->texture_name]->sprite_totalY) {
+        sprite->sprite_numX = 0;
+        sprite->sprite_numY = 0;
+      }
+    }
+
+    float shift_x = 1. / textures[sprite->texture_name]->sprite_totalX;
+    float shift_y = 1. / textures[sprite->texture_name]->sprite_totalY;
+
+    sprite->translate_x = shift_x * sprite->sprite_numX;
+    sprite->translate_y = shift_y * sprite->sprite_numY;
+
     sprite->last_frame = now;
   }
 }
 
 void sprite_translateTexture(SpriteTexture* sprite)
 {
-  sprite->sprite_numX++;
-
-  if (sprite->sprite_numX >= textures[sprite->texture_name]->sprite_totalX) {
-    sprite->sprite_numX = 0;
-    sprite->sprite_numY++;
-
-    if (sprite->sprite_numY >= textures[sprite->texture_name]->sprite_totalY) {
-      sprite->sprite_numX = 0;
-      sprite->sprite_numY = 0;
-    }
-  }
-
-  float x_shift = 1. / textures[sprite->texture_name]->sprite_totalX;
-  float y_shift = 1. / textures[sprite->texture_name]->sprite_totalY;
-
   glMatrixMode(GL_TEXTURE);
   glLoadIdentity();
 
-  glTranslatef(x_shift * sprite->sprite_numX, y_shift * sprite->sprite_numY, 0);
+  glTranslatef(sprite->translate_x, sprite->translate_y, 0);
 
   glMatrixMode(GL_MODELVIEW);
 }

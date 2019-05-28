@@ -11,14 +11,14 @@ void mouse_handlePosition()
     int caseY;
     get_casesi(&caseX, &caseY, plateauGUI->dimensions);
 
-    TypeCase currentCase_type = case_getType(caseX, caseY);
+    TypeCase currentCase_type = case_getType(caseX+1, caseY+1);
 
     if (currentCase_type == CHEMIN || currentCase_type == NOEUD || currentCase_type == ENTREE) {
       mouse_checkIfMonster();
       plateau->index_case_hover = -1;
     }
     else if (case_getGeneralConstructionType(currentCase_type) == TOUR || case_getGeneralConstructionType(currentCase_type) == BATIMENT) {
-      plateau->index_case_hover = case_getCaseIndex(caseX, caseY);
+      plateau->index_case_hover = case_getCaseIndex(caseX+1, caseY+1);
       plateau->monster_hover = NULL;
     }
     else {
@@ -115,7 +115,7 @@ void mouse_handleClick()
     get_casesf(&casex_f, &casey_f, plateauGUI->dimensions);
     printf("%d %d\n", casex, casey);
     printf("%f %f\n", casex_f, casey_f);
-    case_handleAction(casex, casey);
+    case_handleAction(casex +1, casey +1);
   }
   Button *buttonClicked = mouse_GUIbutton(current_section);
   if (buttonClicked) {

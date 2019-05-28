@@ -44,8 +44,8 @@ GUI *topGUI;
 int main(int argc, char *argv[])
 {
   /* Récuperation des informations itd/ppm */
-  MapData* mapData = idt_load("level/level3.itd");
-  
+  MapData* mapData = idt_load("level/level2.itd");
+    
   /* Création du plateau */
   plateau = case_initPlateau(mapData);
 

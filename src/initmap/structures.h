@@ -142,7 +142,8 @@ typedef enum TextureName {
   SOLDER_TEX,
   HUGE_SOLDER_TEX,
   GERERAL_TEX,
-  BOSS_TEX
+  BOSS_TEX,
+  SPLASH_TEX
 } TextureName;
 
 typedef struct Texture {
@@ -158,6 +159,8 @@ typedef struct SpriteTexture {
   int sprite_numY;
   Uint32 last_frame;
   int loop_duration;
+  float translate_x;
+  float translate_y;
 } SpriteTexture;
 
 typedef struct Tour {

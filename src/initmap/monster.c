@@ -92,10 +92,10 @@ int monster_popMonster(InfosNodes* InfosNodes, TypeMonster type, int idIn)
     monster->sprite_texture = sprite_loadSprite(SOLDER_TEX, 5200);
   }
   else if (type == HUGE_SOLDER) {
-    monster->sprite_texture = sprite_loadSprite(HUGE_SOLDER_TEX, 900);
+    monster->sprite_texture = sprite_loadSprite(HUGE_SOLDER_TEX, 1900);
   }
   else if (type == BOSS) {
-    monster->sprite_texture = sprite_loadSprite(BOSS_TEX, 700);
+    monster->sprite_texture = sprite_loadSprite(BOSS_TEX, 2700);
   }
   else if (type == GERERAL) {
     monster->sprite_texture = sprite_loadSprite(GERERAL_TEX, 800);
