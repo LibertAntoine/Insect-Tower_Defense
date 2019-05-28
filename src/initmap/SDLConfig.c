@@ -12,6 +12,7 @@ void sdlConfig_reshape(SDL_Window** surface, SDL_GLContext *GLcontext, unsigned 
 {
 
   SDL_Window* surface_temp = SDL_CreateWindow(WINDOW_TITLE, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, width, height, SDL_WINDOW_SHOWN | SDL_WINDOW_OPENGL);
+  //SDL_ShowCursor(SDL_DISABLE);
 
   if(NULL == surface_temp) 
   {
