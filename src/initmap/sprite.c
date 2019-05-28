@@ -24,21 +24,23 @@ Texture* sprite_importTexture(char image_path[], int totalX, int totalY)
 
 void sprite_init()
 {
-  textures = calloc(14, sizeof(Texture*));
+  textures = calloc(15, sizeof(Texture*));
 
   textures[SOLDER_TEX] = sprite_importTexture("images/sprite_A.png", 4, 1); 
   textures[HUGE_SOLDER_TEX] = sprite_importTexture("images/sprite_B2.png", 2, 1); 
   textures[BOSS_TEX] = sprite_importTexture("images/sprite_C.png", 4, 1); 
   textures[GERERAL_TEX] = sprite_importTexture("images/sprite_D.png", 3, 1); 
+  textures[SPLASH_TEX] = sprite_importTexture("images/sprite_splash.png", 1, 1); 
 }
 
-SpriteTexture* sprite_loadSprite(TextureName texture_name, int loop_duration)
+SpriteTexture* sprite_loadSprite(TextureName texture_name, int loop_duration, Bool loop)
 {
   SpriteTexture *new_sprite = calloc(1, sizeof(SpriteTexture));
   //TODO: check alloc
 
   new_sprite->loop_duration = loop_duration;
   new_sprite->last_frame = 0;
+  new_sprite->loop = loop;
 
   new_sprite->sprite_numX = -1;
   new_sprite->sprite_numY = 0;
@@ -68,7 +70,6 @@ void sprite_displaySprite(SpriteTexture* sprite)
   float y_shift = 1. / currentTexture->sprite_totalY;
 
   sprite_translateTexture(sprite);
-  glColor3f(1,1,1);
   glBegin(GL_QUADS);
   glTexCoord2f(0, 0);
 

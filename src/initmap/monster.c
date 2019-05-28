@@ -89,16 +89,16 @@ int monster_popMonster(InfosNodes* InfosNodes, TypeMonster type, int idIn)
   // TODO: Checker l'allocation
 
   if (type == SOLDER) {
-    monster->sprite_texture = sprite_loadSprite(SOLDER_TEX, 5200);
+    monster->sprite_texture = sprite_loadSprite(SOLDER_TEX, 5200, TRUE);
   }
   else if (type == HUGE_SOLDER) {
-    monster->sprite_texture = sprite_loadSprite(HUGE_SOLDER_TEX, 1900);
+    monster->sprite_texture = sprite_loadSprite(HUGE_SOLDER_TEX, 1900, TRUE);
   }
   else if (type == BOSS) {
-    monster->sprite_texture = sprite_loadSprite(BOSS_TEX, 2700);
+    monster->sprite_texture = sprite_loadSprite(BOSS_TEX, 2700, TRUE);
   }
   else if (type == GERERAL) {
-    monster->sprite_texture = sprite_loadSprite(GERERAL_TEX, 800);
+    monster->sprite_texture = sprite_loadSprite(GERERAL_TEX, 800, TRUE);
   }
 
   monster->PDV = plateau->listMonsters->dataMonsters[type]->PDV;
@@ -135,6 +135,9 @@ void monster_kill(Monster* monster)
   Mix_PlayChannel(-1, sound[MONSTERKILL], 0);
 
   monster->status = DEAD;
+  free(monster->sprite_texture);
+  monster->sprite_texture = sprite_loadSprite(SPLASH_TEX, 0, FALSE); 
+  monster->decomposition = 1; 
   player_gagneArgent(plateau->listMonsters->dataMonsters[monster->type]->value);
   itineraire_addValueChemin(monster);
 }
@@ -157,6 +160,7 @@ void monster_removeFromList(Monster* monster)
       monster_from_list = monster_from_list->next;
     }
     monster_from_list->next = monster_from_list->next->next;
+    //TODO : free tout l'interieur de monster
   }
 }
 

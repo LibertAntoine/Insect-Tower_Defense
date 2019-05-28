@@ -53,32 +53,11 @@ void display_drawTargetRange(int caseX, int caseY, float range)
 
 void display_drawSingleMonster(Monster* monster)
 {
-  if (monster->type == SOLDER) {
-    if(monster->status == ALIVE) {
-      glColor3f(0,0,0.5);
-    } else {
-      glColor3f(0,0,0);
-    }
-  } else if (monster->type == HUGE_SOLDER) {
-    if(monster->status == ALIVE) {
-      glColor3f(1,1,1);
-    } else {
-      glColor3f(0,0,0);
-    }
-  } else if (monster->type == GERERAL) {
-    if(monster->status == ALIVE) {
-      glColor3f(0,1,0);
-    } else {
-      glColor3f(0,0,0);
-    }
-  } else if (monster->type == BOSS) {
-    if(monster->status == ALIVE) {
-      glColor3f(0,1,1);
-    } else {
-      glColor3f(0,0,0);
-    }
+  if(monster->status == ALIVE) {
+    glColor3f(1,1,1);
+  } else {
+    glColor4f(1,1,1, monster->decomposition);
   }
-
 
   float angle = 0;
   if (monster->orientation == HAUT) {
@@ -106,11 +85,11 @@ void display_drawSingleMonster(Monster* monster)
 
   // NOTE: affiche la vie que si le monstre est vivant et qu'il a subi des dommages
   if(monster->status == ALIVE && percentPDV < 1) {
-      glPushMatrix();
-      glScalef(0.8, 0.3, 1);
-      glTranslatef(0, 0.9, 0);
-      display_drawMonsterLife(percentPDV);
-      glPopMatrix();
+    glPushMatrix();
+    glScalef(0.8, 0.3, 1);
+    glTranslatef(0, 0.9, 0);
+    display_drawMonsterLife(percentPDV);
+    glPopMatrix();
   }
   glPopMatrix();
 }
