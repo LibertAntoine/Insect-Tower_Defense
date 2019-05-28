@@ -88,9 +88,9 @@ int main(int argc, char *argv[])
     // NOTE: display general GUI
 
 
-    launchWaves(mapData, (SDL_GetTicks() - beginMomentLevel));
 
     if (plateau->play == TRUE) {
+      launchWaves(mapData, (SDL_GetTicks() - beginMomentLevel));
       monster_moveAll();
       tour_attackAll();
       projectile_moveAll();
