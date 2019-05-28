@@ -62,7 +62,7 @@ void sprite_displaySprite(SpriteTexture* sprite)
   glEnable(GL_TEXTURE_2D);
   glBindTexture(GL_TEXTURE_2D, currentTexture->texture_id);
 
-  if (sprite->loop == TRUE || plateau->play == TRUE) {
+  if (sprite->loop == TRUE && plateau->play == TRUE) {
     sprite_updateSprite(sprite);
   }
 

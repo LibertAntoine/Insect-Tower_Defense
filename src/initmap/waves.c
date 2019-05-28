@@ -21,7 +21,7 @@ int moveWave(MapData* mapdata, Wave* currentWave)
   if(currentWave->monster_total == 0) {
     return 0;
   }
-  else if (currentWave->nextMonster_timer + (sin(rand()) * currentWave->random) > 0 ) {
+  else if (currentWave->nextMonster_timer + (sin(rand()) * currentWave->random) > 0) {
     currentWave->nextMonster_timer -= 1.0/60.0;
     return 0;
   }
@@ -51,7 +51,7 @@ int launchWaves(MapData* mapdata, float timer) {
 
   while(currentWave != NULL) {
     restMonster = restMonster + currentWave->monster_total;
-    if(currentWave->timeBegin*1000 < timer) {
+    if(currentWave->timeBegin * 1000 < timer) {
       moveWave(mapdata, currentWave);
     }
     currentWave = currentWave->next;
