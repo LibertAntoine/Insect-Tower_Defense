@@ -248,14 +248,6 @@ float tour_calculCadence(Tour* tour)
   return 60000 / cadence;
 }
 
-/*
-   void tour_recharge(Tour* tour)
-   {
-   float cadence = tour_calculCadence(tour);
-   tour->rechargement -= 1;
-   }
- */
-
 Bool tour_checkAlimentation(Tour* tour)
 {
   if (tour->centrale > 0) {
@@ -347,4 +339,20 @@ Bool tour_targetStillInRange(Tour* tour)
     else return TRUE;
   }
   else return FALSE;
+}
+
+void tour_remove(Tour* tour)
+{
+  Tour* tour_list = plateau->listTours->next;
+  if (tour_list == tour) {
+    plateau->listTours->next = tour_list->next;
+  }
+  else {
+    while (tour_list->next != tour){
+      tour_list = tour_list->next;
+    }
+    tour_list->next = tour_list->next->next;
+  }
+
+  free(tour);
 }

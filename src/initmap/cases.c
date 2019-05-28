@@ -195,7 +195,7 @@ void case_removeConstruction(int caseX, int caseY)
 
   plateau->cases[index_case] = TERRAIN;
   if (generalType == TOUR) {
-    free(plateau->tours[index_case]);
+    tour_remove(plateau->tours[index_case]);
   }
 }
 

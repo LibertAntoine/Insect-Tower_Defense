@@ -45,5 +45,6 @@ Bool tour_targetStillInRange(Tour* tour);
 float tour_calculCadence(Tour* tour);
 float tour_calculDegats(Tour* tour);
 float tour_calculPortee(Tour* tour);
+void tour_remove(Tour* tour);
 
 #endif //TOUR_H_
