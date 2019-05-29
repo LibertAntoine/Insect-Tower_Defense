@@ -392,8 +392,6 @@ void display_drawSingleButton(Button *button)
   glScalef(button->dimensions->width, button->dimensions->height, 0);
 
   display_buttonBackground(button->display);
-  //display_buttonBackground(ACTIVE);
-
 
   glColor3f(1,1,1);
 
