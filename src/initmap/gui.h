@@ -6,6 +6,9 @@
 #include "SDLConfig.h"
 #include "structures.h"
 
+ButtonName gui_getButtonNameFromTypeCase(TypeCase type);
+void gui_changeActionButtonState(Action action, Display state);
+void gui_changeTowerButtonState(TypeCase type, Display state);
 GUI *gui_addChildren(SectionName name, int x, int y, int width, int height, GUI *parent);
 void gui_init();
 void gui_getAbsoluteCoordinates(GUI *section, int *X, int *Y);

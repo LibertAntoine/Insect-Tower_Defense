@@ -1,5 +1,68 @@
 #include "gui.h"
 
+ButtonName gui_getButtonNameFromAction(Action action)
+{
+  ButtonName button_name;
+  switch(action) {
+    case GETINFO:
+      button_name = GETINFO_BTN;
+      break;
+    case ADD:
+      button_name = ADD_BTN;
+      break;
+    case REMOVE:
+      button_name = REMOVE_BTN;
+      break;
+  }
+  return button_name;
+}
+
+ButtonName gui_getButtonNameFromTypeCase(TypeCase type)
+{
+  ButtonName button_name;
+  switch(type) {
+    case LASER:
+      button_name = LASER_BTN;
+      break;
+    case MISSILE:
+      button_name = MISSILE_BTN;
+      break;
+    case RADAR:
+      button_name = RADAR_BTN;
+      break;
+    case ARMEMENT:
+      button_name = ARMEMENT_BTN;
+      break;
+    case CENTRALE:
+      button_name = CENTRALE_BTN;
+      break;
+    case MUNITION:
+      button_name = MUNITION_BTN;
+      break;
+  }
+  return button_name;
+}
+
+void gui_changeTowerButtonState(TypeCase type, Display state)
+{
+  ButtonName button_name = gui_getButtonNameFromTypeCase(type);
+  Button *currentButton = buttonGUI->buttons;
+  while (currentButton->name != button_name) {
+    currentButton = currentButton->next;
+  }
+  currentButton->display = state;
+}
+
+void gui_changeActionButtonState(Action action, Display state)
+{
+  ButtonName button_name = gui_getButtonNameFromAction(action);
+  Button *currentButton = buttonGUI->buttons;
+  while (currentButton->name != button_name) {
+    currentButton = currentButton->next;
+  }
+  currentButton->display = state;
+}
+
 GUI *gui_addChildren(SectionName name, int x, int y, int width, int height, GUI *parent)
 {
   Div *dimensions = calloc(1, sizeof(Div));
@@ -37,25 +100,30 @@ void gui_init()
   bodyGUI->childen = NULL;
   bodyGUI->buttons = NULL;
 
-  bottomGUI = gui_addChildren(FOOTER, 0, 500, bodyGUI->dimensions->width, 100, bodyGUI);
+  topGUI = gui_addChildren(HEADER, 0, 0, bodyGUI->dimensions->width, 70, bodyGUI);
+  gui_addButton(topGUI, 600, 30, 25, 25, PAUSE_BTN, INACTIVE);
 
-  gui_addButton(bottomGUI, 750, 50, 25, 35, LASER_BTN, INACTIVE);
-  gui_addButton(bottomGUI, 700, 50, 25, 35, MISSILE_BTN, INACTIVE);
+  plateauGUI = gui_addChildren(PLATEAU, 0, 130, bodyGUI->dimensions->width, 600, bodyGUI);
 
-  gui_addButton(bottomGUI, 650, 50, 25, 35, ARMEMENT_BTN, INACTIVE);
-  gui_addButton(bottomGUI, 600, 50, 25, 35, MUNITION_BTN, INACTIVE);
-  gui_addButton(bottomGUI, 550, 50, 25, 35, RADAR_BTN, INACTIVE);
-  gui_addButton(bottomGUI, 500, 50, 25, 35, CENTRALE_BTN, INACTIVE);
 
-  gui_addButton(bottomGUI, 350, 50, 25, 35, ADD_BTN, INACTIVE);
-  gui_addButton(bottomGUI, 300, 50, 25, 35, GETINFO_BTN, INACTIVE);
-  gui_addButton(bottomGUI, 250, 50, 25, 35, REMOVE_BTN, INACTIVE);
+  bottomGUI = gui_addChildren(FOOTER, 0, 670, bodyGUI->dimensions->width, 130, bodyGUI);
 
-  topGUI = gui_addChildren(HEADER, 0, 0, bodyGUI->dimensions->width, 100, bodyGUI);
+  infoGUI = gui_addChildren(INFO_SECTION, 0, 0, 300, bottomGUI->dimensions->height, bottomGUI);
 
-  gui_addButton(topGUI, 600, 50, 45, 35, PAUSE_BTN, INACTIVE);
+  buttonGUI = gui_addChildren(TOWER_BUTTONS_SECTION, 500, 0, 300, bottomGUI->dimensions->height, bottomGUI);
 
-  plateauGUI = gui_addChildren(PLATEAU, 300, 100, 500, 400, bodyGUI);
+  gui_addButton(buttonGUI, 20, 30, 25, 25, LASER_BTN, INACTIVE);
+  gui_addButton(buttonGUI, 70, 30, 25, 25, MISSILE_BTN, INACTIVE);
+
+  gui_addButton(buttonGUI, 20, 70, 25, 25, ARMEMENT_BTN, INACTIVE);
+  gui_addButton(buttonGUI, 70, 70, 25, 25, MUNITION_BTN, INACTIVE);
+  gui_addButton(buttonGUI, 20, 120, 25, 25, RADAR_BTN, INACTIVE);
+  gui_addButton(buttonGUI, 70, 120, 25, 25, CENTRALE_BTN, INACTIVE);
+
+  gui_addButton(buttonGUI, 150, 30, 25, 25, ADD_BTN, INACTIVE);
+  gui_addButton(buttonGUI, 150, 50, 25, 25, GETINFO_BTN, INACTIVE);
+  gui_addButton(buttonGUI, 150, 70, 25, 25, REMOVE_BTN, INACTIVE);
+
 }
 
 void gui_getAbsoluteDimensionsButton(GUI *section, Div *button)
@@ -82,18 +150,18 @@ void gui_getAbsoluteCoordinates(GUI *section, int *X, int *Y)
 
 void gui_addButton(GUI *section, int x, int y, int width, int height, ButtonName name, Display display_mode)
 {
-  Button *new = calloc(1, sizeof(Button));
+  Button *new_button = calloc(1, sizeof(Button));
 
   Div *dimensions = calloc(1, sizeof(Div));
   dimensions->x = x;
   dimensions->y = y;
   dimensions->width = width;
   dimensions->height = height;
-  new->dimensions = dimensions;
+  new_button->dimensions = dimensions;
 
-  new->name = name;
-  new->display = display_mode;
-  new->next = section->buttons;
+  new_button->name = name;
+  new_button->display = display_mode;
+  new_button->next = section->buttons;
 
-  section->buttons = new;
+  section->buttons = new_button;
 }

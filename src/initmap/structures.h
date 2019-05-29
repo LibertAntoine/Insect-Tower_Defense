@@ -130,20 +130,23 @@ typedef enum Bool {
 
 typedef enum TextureName {
   PAUSE_TEX,
+  PLAY_TEX,
   LASER_TEX,
   MISSILE_TEX,
   CENTRALE_TEX,
   MUNITION_TEX,
   ARMEMENT_TEX,
   RADAR_TEX,
-  ADD_TEX,
-  REMOVE_TEX,
-  GETINFO_TEX,
   SOLDER_TEX,
   HUGE_SOLDER_TEX,
   GERERAL_TEX,
   BOSS_TEX,
-  SPLASH_TEX
+  SPLASH_TEX,
+  BUTTON_TEX,
+  ADD_TEX,
+  REMOVE_TEX,
+  GETINFO_TEX
+
 } TextureName;
 
 typedef struct Texture {
@@ -332,10 +335,12 @@ typedef enum Display {
   NONE,
   ACTIVE,
   INACTIVE,
-  CLICK
+  CLICK,
+  DISABLED
 } Display;
 
 typedef struct Button {
+  SpriteTexture button;
   SpriteTexture sprite;
   Div *dimensions;
   Display display;
@@ -347,7 +352,9 @@ typedef enum SectionName {
   BODY,
   FOOTER,
   PLATEAU,
-  HEADER
+  HEADER,
+  TOWER_BUTTONS_SECTION,
+  INFO_SECTION
 } SectionName;
 
 typedef struct GUI {
@@ -366,5 +373,7 @@ extern GUI *bottomGUI;
 extern GUI *topGUI;
 extern Mix_Chunk** sound;
 extern Texture** textures;
+extern GUI *infoGUI;
+extern GUI *buttonGUI;
 
 #endif //STRUCTURES_H_

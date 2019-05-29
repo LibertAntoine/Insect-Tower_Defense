@@ -344,6 +344,7 @@ void display_drawZoneBasedOnGUI(GUI *section)
 {
   display_setDrawingZone(section);
 
+
   glBegin(GL_QUADS);
   glVertex2f(0, 0);
   glVertex2f(0, section->dimensions->height);
@@ -351,7 +352,6 @@ void display_drawZoneBasedOnGUI(GUI *section)
   glVertex2f(section->dimensions->width, 0);
   glEnd();
 
-  glColor3f(1,0,0);
   Button *button = section->buttons;
   while (button != NULL) {
     display_drawSingleButton(button);
@@ -359,6 +359,26 @@ void display_drawZoneBasedOnGUI(GUI *section)
   }
 
   display_setDrawingZone(bodyGUI);
+}
+
+void display_buttonBackground(Display display)
+{
+  switch (display) {
+    case ACTIVE:
+      glColor3f(0,1,0);
+      break;
+    case INACTIVE:
+      glColor3f(1,1,1);
+      break;
+    case DISABLED:
+      glColor4f(1,1,1,0.2);
+      break;
+    case NONE:
+      glColor4f(0,1,0,0);
+      break;
+  }
+
+  sprite_displayFixedTexture(BUTTON_TEX);
 }
 
 void display_drawSingleButton(Button *button)
@@ -369,12 +389,16 @@ void display_drawSingleButton(Button *button)
   glPushMatrix();
   glTranslatef(button->dimensions->x, button->dimensions->y, 0);
 
-  glBegin(GL_QUADS);
-  glVertex2f(-half_width,-half_height);
-  glVertex2f(half_width,-half_height);
-  glVertex2f(half_width, half_height);
-  glVertex2f(-half_width, half_height);
-  glEnd();
+  glScalef(button->dimensions->width, button->dimensions->height, 0);
+
+  display_buttonBackground(button->display);
+  //display_buttonBackground(ACTIVE);
+
+
+  glColor3f(1,1,1);
+
+  TextureName texture_name = sprite_getTextureNameFromButtonName(button->name);
+  sprite_displayFixedTexture(texture_name);
 
   glPopMatrix();
 }
@@ -389,6 +413,10 @@ void display_bottom()
 {
   glColor3f(1,0,1);
   display_drawZoneBasedOnGUI(bottomGUI);
+  glColor3f(1,1,1);
+  display_drawZoneBasedOnGUI(buttonGUI);
+  glColor3f(.50,0.7,1);
+  display_drawZoneBasedOnGUI(infoGUI);
 }
 
 void display_left()
@@ -400,13 +428,11 @@ void display_left()
   glVertex2f(300,500);
   glVertex2f(300,100);
   glEnd();
-
 }
 
 void display_window()
 {
     display_top();
-    display_left();
     display_bottom();
 }
 

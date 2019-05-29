@@ -40,6 +40,8 @@ GUI *bodyGUI; //variable globale de l'interface
 GUI *plateauGUI;
 GUI *bottomGUI;
 GUI *topGUI;
+GUI *infoGUI;
+GUI *buttonGUI;
 
 int main(int argc, char *argv[])
 {
@@ -86,8 +88,6 @@ int main(int argc, char *argv[])
     glClear(GL_COLOR_BUFFER_BIT);
 
     // NOTE: display general GUI
-
-
 
     if (plateau->play == TRUE) {
       launchWaves(mapData, (SDL_GetTicks() - beginMomentLevel));

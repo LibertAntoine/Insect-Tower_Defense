@@ -42,6 +42,7 @@ void display_drawAllTargetRanges();
 int display_drawAllProjectiles();
 void display_drawSingleProjectile(Projectile* projectile);
 void display_drawItineraire(Monster* monster);
+void display_buttonBackground(Display display);
 
 void display_game(GUI *plateau_gui, GLuint idMap, GLuint idGrid);
 void display_window();

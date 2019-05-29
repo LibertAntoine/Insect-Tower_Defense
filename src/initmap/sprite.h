@@ -17,11 +17,13 @@
 #include "structures.h"
 
 // NOTE: Un peu à part
+TextureName sprite_getTextureNameFromButtonName(ButtonName button_name);
 Texture* sprite_importTexture(char image_path[], int totalX, int totalY);
 void sprite_init();
 SpriteTexture* sprite_loadSprite(TextureName texture_name, int loop_duration, Bool loop);
 void sprite_displaySprite(SpriteTexture* sprite);
 void sprite_updateSprite(SpriteTexture* sprite);
 void sprite_translateTexture(SpriteTexture* sprite);
+void sprite_displayFixedTexture(TextureName texture_name);
 
 #endif //SPRITE_H_
