@@ -335,7 +335,7 @@ typedef enum Display {
   NONE,
   ACTIVE,
   INACTIVE,
-  CLICK,
+  CLICKED,
   DISABLED
 } Display;
 

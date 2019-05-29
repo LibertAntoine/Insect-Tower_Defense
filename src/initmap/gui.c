@@ -100,29 +100,29 @@ void gui_init()
   bodyGUI->childen = NULL;
   bodyGUI->buttons = NULL;
 
-  topGUI = gui_addChildren(HEADER, 0, 0, bodyGUI->dimensions->width, 70, bodyGUI);
-  gui_addButton(topGUI, 600, 30, 25, 25, PAUSE_BTN, INACTIVE);
+  topGUI = gui_addChildren(HEADER, 0, 0, bodyGUI->dimensions->width, 40, bodyGUI);
+  gui_addButton(topGUI, 600, 20, 25, 25, PAUSE_BTN, CLICKED);
 
-  plateauGUI = gui_addChildren(PLATEAU, 0, 130, bodyGUI->dimensions->width, 600, bodyGUI);
+  plateauGUI = gui_addChildren(PLATEAU, 0, 160, bodyGUI->dimensions->width, 600, bodyGUI);
 
 
-  bottomGUI = gui_addChildren(FOOTER, 0, 670, bodyGUI->dimensions->width, 130, bodyGUI);
+  bottomGUI = gui_addChildren(FOOTER, 0, 640, bodyGUI->dimensions->width, 160, bodyGUI);
 
   infoGUI = gui_addChildren(INFO_SECTION, 0, 0, 300, bottomGUI->dimensions->height, bottomGUI);
 
   buttonGUI = gui_addChildren(TOWER_BUTTONS_SECTION, 500, 0, 300, bottomGUI->dimensions->height, bottomGUI);
 
-  gui_addButton(buttonGUI, 20, 30, 25, 25, LASER_BTN, INACTIVE);
-  gui_addButton(buttonGUI, 70, 30, 25, 25, MISSILE_BTN, INACTIVE);
+  gui_addButton(buttonGUI, 20, 30, 25, 25, LASER_BTN, CLICKED);
+  gui_addButton(buttonGUI, 70, 30, 25, 25, MISSILE_BTN, ACTIVE);
 
-  gui_addButton(buttonGUI, 20, 70, 25, 25, ARMEMENT_BTN, INACTIVE);
-  gui_addButton(buttonGUI, 70, 70, 25, 25, MUNITION_BTN, INACTIVE);
-  gui_addButton(buttonGUI, 20, 120, 25, 25, RADAR_BTN, INACTIVE);
-  gui_addButton(buttonGUI, 70, 120, 25, 25, CENTRALE_BTN, INACTIVE);
+  gui_addButton(buttonGUI, 20, 70, 25, 25, ARMEMENT_BTN, ACTIVE);
+  gui_addButton(buttonGUI, 70, 70, 25, 25, MUNITION_BTN, ACTIVE);
+  gui_addButton(buttonGUI, 20, 120, 25, 25, RADAR_BTN, ACTIVE);
+  gui_addButton(buttonGUI, 70, 120, 25, 25, CENTRALE_BTN, ACTIVE);
 
-  gui_addButton(buttonGUI, 150, 30, 25, 25, ADD_BTN, INACTIVE);
-  gui_addButton(buttonGUI, 150, 50, 25, 25, GETINFO_BTN, INACTIVE);
-  gui_addButton(buttonGUI, 150, 70, 25, 25, REMOVE_BTN, INACTIVE);
+  gui_addButton(buttonGUI, 150, 30, 25, 25, ADD_BTN, CLICKED);
+  gui_addButton(buttonGUI, 150, 50, 25, 25, GETINFO_BTN, ACTIVE);
+  gui_addButton(buttonGUI, 150, 70, 25, 25, REMOVE_BTN, ACTIVE);
 
 }
 

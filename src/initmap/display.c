@@ -298,7 +298,7 @@ void display_drawBoard()
 {
   int total_cases = plateau->Xsplit * plateau->Ysplit;
 
-  for (int index_case=0; index_case < total_cases; index_case++) {
+  for (int index_case = 0; index_case < total_cases; index_case++) {
     int caseY, caseX;
     case_getCasePosition(index_case, &caseX, &caseY);
     TypeCase type = plateau->cases[index_case];
@@ -364,17 +364,20 @@ void display_drawZoneBasedOnGUI(GUI *section)
 void display_buttonBackground(Display display)
 {
   switch (display) {
-    case ACTIVE:
+    case NONE:
+      glColor4f(0,0,0,0);
+      break;
+    case CLICKED:
       glColor3f(0,1,0);
       break;
     case INACTIVE:
-      glColor3f(1,1,1);
+      glColor4f(1,1,1, 0.2);
       break;
     case DISABLED:
-      glColor4f(1,1,1,0.2);
+      glColor3f(1,0,0);
       break;
-    case NONE:
-      glColor4f(0,1,0,0);
+    case ACTIVE:
+      glColor3f(1,1,1);
       break;
   }
 
@@ -391,7 +394,20 @@ void display_drawSingleButton(Button *button)
 
   glScalef(button->dimensions->width, button->dimensions->height, 0);
 
-  display_buttonBackground(button->display);
+  Display display_mode;
+  if (button->name == PAUSE_BTN) {
+    if (plateau->play == TRUE) {
+      display_mode = CLICKED;
+    }
+    else {
+      display_mode = DISABLED;
+    }
+  }
+  else {
+    display_mode = button->display;
+  }
+
+  display_buttonBackground(display_mode);
 
   glColor3f(1,1,1);
 

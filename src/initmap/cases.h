@@ -12,6 +12,7 @@
 
 #include "structures.h"
 
+#include "SDLConfig.h"
 #include "itd-file.h"
 #include "ppm-loader.h"
 #include "tour.h"
