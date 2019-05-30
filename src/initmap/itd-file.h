@@ -15,7 +15,7 @@
  * Create a MapData of an empty state
  * param[out] MapData 
  */
-MapData* itd_initMapData();
+void itd_initMapData();
 
 /**
  * Move specific file cursor to the end of the current line
@@ -43,7 +43,7 @@ int itd_checkCode(FILE* file);
  *
  * TODO check whether it's a .ppm otherwise throw an error
  */
-int itd_getImageFilePath(FILE* file, MapData* mapData);
+int itd_getImageFilePath(FILE* file);
 
 /**
  * Extract a single decimal value
@@ -51,25 +51,25 @@ int itd_getImageFilePath(FILE* file, MapData* mapData);
  * param[in] * MapData
  * param[out] * MapData updated if the line is valid
  */
-int itd_getEnergyValue(FILE* file, MapData* mapData);
+int itd_getEnergyValue(FILE* file);
 
 /**
  * Fill an array with RGB color data found in file
  * param[in] file
  * param[in] * RGBcolor empty 
  */
-int itd_getColor(FILE* file, RGBcolor* RGBColor);
+int itd_getColor(FILE* file);
 
 /**
  * Fill the number of noeud data found in file
  * param[in] file
  * param[in] * MapData MapData 
  */
-int itd_getInfosNodes(FILE* file, MapData* MapData);
+int itd_getInfosNodes(FILE* file);
 
-int getIdEntrees(MapData* mapdata);
+int getIdEntrees();
 
-int itd_getInfosWaves(FILE* file, MapData* MapData);
+int itd_getInfosWaves(FILE* file);
 int addToWaves(ListWaves* listWaves, Wave* wave);
 /**
  * Verify whether it is a keyword, if so, check it's value
@@ -79,8 +79,11 @@ int addToWaves(ListWaves* listWaves, Wave* wave);
  * param[in] * MapData
  * param[out] * MapData updated if the line is valid
  */
-int itd_checkForMapData(FILE* file, MapData* mapData);
+int itd_checkForMapData(FILE* file);
 
-MapData* idt_load(char* itd_path);
+void idt_load(char* itd_path);
+void itd_actionMenu(ButtonName button);
+void itd_initLevel();
+void itd_freeMapData();
 
 #endif //PPM_LOADER_H_
