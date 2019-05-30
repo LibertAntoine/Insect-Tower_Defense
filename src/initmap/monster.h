@@ -22,12 +22,14 @@ int addToList(Monster* monster);
 
 void monster_printInfos(Monster *monster);
 
-int monster_popMonster(InfosNodes* InfosNodes, TypeMonster type, int idIn);
+int monster_popMonster(TypeMonster type, int idIn);
 void monster_attack(Projectile* projectile);
 void monster_removeFromList(Monster* monster);
 void monster_kill(Monster* monster);
 int moveMonster(Monster* monster);
 void monster_delete(Monster* monster);
+void monster_freeListMonsters(ListMonsters* listMonsters);
+void monster_freeMonster(Monster* monster);
 Orientation monster_moveDirection(Monster* monster);
 
 /**

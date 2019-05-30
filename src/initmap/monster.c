@@ -82,9 +82,8 @@ void monster_printInfos(Monster *monster)
   printf("Position x %lf | y %lf\n", monster->x, monster->y);
 }
 
-int monster_popMonster(InfosNodes* InfosNodes, TypeMonster type, int idIn) 
+int monster_popMonster(TypeMonster type, int idIn) 
 {
-  itineraire_findShortestPath(InfosNodes);
   Monster* monster = malloc(sizeof(Monster)); 
   // TODO: Checker l'allocation
 
@@ -112,9 +111,9 @@ int monster_popMonster(InfosNodes* InfosNodes, TypeMonster type, int idIn)
   monster->status = ALIVE;
   monster->decomposition = 10;
   monster->orientation = HAUT;
-  monster->x = InfosNodes->nodes[idIn].x;
-  monster->y = InfosNodes->nodes[idIn].y;
-  itineraire_initMonster(monster, InfosNodes);
+  monster->x = mapData->infosNodes->nodes[idIn].x;
+  monster->y = mapData->infosNodes->nodes[idIn].y;
+  itineraire_initMonster(monster);
 
   addToList(monster);
   plateau->listMonsters->monster_total++;
@@ -160,8 +159,34 @@ void monster_removeFromList(Monster* monster)
       monster_from_list = monster_from_list->next;
     }
     monster_from_list->next = monster_from_list->next->next;
-    //TODO : free tout l'interieur de monster
+    monster_freeMonster(monster);
   }
+}
+
+void monster_freeListMonsters(ListMonsters* listMonsters) {
+  Monster* monsterFree;
+  Monster* currentMonster = NULL;
+  if(listMonsters->firstMonster != NULL) {
+    Monster* currentMonster;
+    monsterFree = listMonsters->firstMonster;
+    currentMonster = listMonsters->firstMonster->next;
+    monster_freeMonster(monsterFree);
+  }
+  while(currentMonster != NULL) {
+    monsterFree = currentMonster;
+    currentMonster = currentMonster->next;
+    monster_freeMonster(monsterFree);
+  }
+  for(int i = 0; i<4; i++) {
+    free(listMonsters->dataMonsters[i]);
+  }
+  free(listMonsters);
+}
+
+void monster_freeMonster(Monster* monster) {
+  itineraire_freeItiniraire(monster->itineraire);
+  free(monster->sprite_texture);
+  free(monster);
 }
 
 Orientation monster_moveDirection(Monster* monster)
@@ -185,8 +210,9 @@ int moveMonster(Monster* monster)
 
   // NOTE: Le monstre a atteint l'arrivée.
   if (monster->itineraire->next->next == NULL) {
-    // TODO: La partie est terminée.
+    case_freePlateau();
     Mix_PlayChannel(-1, sound[LOSELEVEL], 0);
+    gameState = LOSEMENU;
     return 0;
   }
 
@@ -225,12 +251,16 @@ int moveMonster(Monster* monster)
 int monster_moveAll()
 {
   Monster* currentMonster = plateau->listMonsters->firstMonster;
-
+  Bool noLifeMonster = TRUE;
   while (currentMonster != NULL) {  
     if(currentMonster->status == DEAD) {
       currentMonster->decomposition -= 1.0/60.0;
     } else {
+      noLifeMonster = FALSE;
       moveMonster(currentMonster);
+      if(gameState == LOSEMENU) {
+        return 0;
+      }
     }
 
     if(currentMonster->decomposition < 0) {
@@ -240,7 +270,11 @@ int monster_moveAll()
     } else {
       currentMonster = currentMonster->next;
     }
-    
+
+
+  }
+  if(noLifeMonster = TRUE) {
+   return 1;
   }
   return 0;
 }
