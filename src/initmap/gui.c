@@ -85,26 +85,18 @@ void gui_init()
 {
   bodyGUI = calloc(1, sizeof(GUI));
   // TODO: check alloc
-
   bodyGUI->name = BODY;
 
   Div *dimensions = calloc(1, sizeof(Div));
-  dimensions->x = 0;
-  dimensions->y = 0;
   dimensions->width = WINDOW_WIDTH;
   dimensions->height = WINDOW_HEIGHT;
-
   bodyGUI->dimensions = dimensions;
-  bodyGUI->parent = NULL;
-  bodyGUI->next = NULL;
-  bodyGUI->childen = NULL;
-  bodyGUI->buttons = NULL;
+
 
   topGUI = gui_addChildren(HEADER, 0, 0, bodyGUI->dimensions->width, 40, bodyGUI);
   gui_addButton(topGUI, 600, 20, 25, 25, PAUSE_BTN, CLICKED);
 
   plateauGUI = gui_addChildren(PLATEAU, 0, 40, bodyGUI->dimensions->width, 600, bodyGUI);
-
 
   bottomGUI = gui_addChildren(FOOTER, 0, 640, bodyGUI->dimensions->width, 160, bodyGUI);
 
@@ -124,6 +116,25 @@ void gui_init()
   gui_addButton(buttonGUI, 150, 50, 25, 25, GETINFO_BTN, ACTIVE);
   gui_addButton(buttonGUI, 150, 70, 25, 25, REMOVE_BTN, ACTIVE);
 
+
+  mainMenuGUI = calloc(1, sizeof(GUI));
+  mainMenuGUI->name = MAIN;
+  Div *dimensions_main = calloc(1, sizeof(Div));
+  dimensions_main->width = WINDOW_WIDTH;
+  dimensions_main->height = WINDOW_HEIGHT;
+  mainMenuGUI->dimensions = dimensions_main;
+  gui_addButton(mainMenuGUI, 400, 400, 250, 25, LEVEL1_BTN, ACTIVE);
+  gui_addButton(mainMenuGUI, 400, 450, 250, 25, LEVEL2_BTN, ACTIVE);
+  gui_addButton(mainMenuGUI, 400, 500, 250, 25, LEVEL3_BTN, ACTIVE);
+
+  endMenuGUI = calloc(1, sizeof(GUI));
+  endMenuGUI->name =LOSEMENU ;
+  Div *dimensions_end = calloc(1, sizeof(Div));
+  dimensions_end->width = WINDOW_WIDTH;
+  dimensions_end->height = WINDOW_HEIGHT;
+  endMenuGUI->dimensions = dimensions_main;
+  gui_addButton(endMenuGUI, 400, 400, 250, 25, MAINMENU_BTN, ACTIVE);
+  gui_addButton(endMenuGUI, 400, 450, 250, 25, REPLAY_BTN, ACTIVE);
 }
 
 void gui_getAbsoluteDimensionsButton(GUI *section, Div *button)

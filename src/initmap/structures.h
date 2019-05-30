@@ -374,6 +374,7 @@ typedef enum Display {
 typedef struct Button {
   SpriteTexture button;
   SpriteTexture sprite;
+  TextureText* texture_texte;
   Div *dimensions;
   Display display;
   struct Button *next;
@@ -386,7 +387,9 @@ typedef enum SectionName {
   PLATEAU,
   HEADER,
   TOWER_BUTTONS_SECTION,
-  INFO_SECTION
+  INFO_SECTION,
+  MAIN,
+  ENDMENU
 } SectionName;
 
 typedef struct GUI {
@@ -423,11 +426,13 @@ extern GUI *bottomGUI;
 extern GUI *topGUI;
 extern Mix_Chunk** sound;
 extern Texture** textures;
-extern int gameState;
+extern GameState gameState;
 extern Uint32 beginMomentLevel;
 extern MapData* mapData;
 extern GUI *infoGUI;
 extern GUI *buttonGUI;
+extern GUI *mainMenuGUI; 
+extern GUI *endMenuGUI; 
 extern DefaultList **default_list;
 
 #endif //STRUCTURES_H_

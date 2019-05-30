@@ -36,7 +36,7 @@
 Plateau *plateau = NULL;
 Texture** textures = NULL;
 Mix_Chunk** sound = NULL;
-int gameState = NULL;
+GameState gameState = MAINMENU;
 Uint32 beginMomentLevel = NULL;
 MapData* mapData = NULL;
 
@@ -46,6 +46,9 @@ GUI *bottomGUI;
 GUI *topGUI;
 GUI *infoGUI;
 GUI *buttonGUI;
+GUI *buttonGUI;
+GUI *mainMenuGUI; 
+GUI *endMenuGUI; 
 
 DefaultList **default_list = NULL;
 
@@ -60,8 +63,8 @@ int main(int argc, char *argv[])
 
   SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 0);
 
-  sprite_init();
   gui_init();
+  sprite_init();
   sound_init();
 
   // Position X, Y en pixel ET en indice de case de la souris
@@ -96,11 +99,11 @@ int main(int argc, char *argv[])
       }
 
     } else if (gameState == MAINMENU) {
-      //display menu
+      display_mainMenu();
     } else if (gameState == LOSEMENU) {
-      //display menu
+      display_endMenu();
     } else if (gameState == WINMENU) {
-      //display menu
+      display_endMenu();
     }
 
     /* Echange du front et du back buffer : mise a jour de la fenetre */
@@ -130,7 +133,6 @@ int main(int argc, char *argv[])
           break;
 
         case SDL_MOUSEBUTTONDOWN:
-            /* Récuperation des informations itd/ppm */           
           mouse_handleClick();
           break;
 

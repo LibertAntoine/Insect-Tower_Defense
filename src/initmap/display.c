@@ -617,7 +617,7 @@ void display_drawZoneBasedOnGUI(GUI *section)
 {
   display_setDrawingZone(section);
 
-  if (default_list == NULL) {
+  if (default_list == NULL && gameState == LEVELPLAY) {
     display_initDefaultList();
   }
 
@@ -672,7 +672,6 @@ void display_drawSingleButton(Button *button)
   glPushMatrix();
   glTranslatef(button->dimensions->x, button->dimensions->y, 0);
 
-  glScalef(button->dimensions->width, button->dimensions->height, 0);
 
   Display display_mode;
   if (button->name == PAUSE_BTN) {
@@ -687,13 +686,52 @@ void display_drawSingleButton(Button *button)
     display_mode = button->display;
   }
 
-  display_buttonBackground(display_mode);
+  if (gameState == LEVELPLAY) {
+    glScalef(button->dimensions->width, button->dimensions->height, 0);
+    display_buttonBackground(display_mode);
 
+    glColor3f(1,1,1);
+
+    TextureName texture_name = sprite_getTextureNameFromButtonName(button->name);
+    sprite_displayFixedTexture(texture_name);
+  }
+  else {
+    display_menuButtonText(button);
+  }
+
+  glPopMatrix();
+}
+
+void display_menuButtonText(Button* button)
+{
+  if (button->texture_texte == NULL) {
+    char texte[20];
+    switch (button->name) {
+      case LEVEL1_BTN:
+        strcpy(texte, "level 1");
+        break;
+      case LEVEL2_BTN:
+        strcpy(texte, "level 2");
+        break;
+      case LEVEL3_BTN:
+        strcpy(texte, "level 3");
+        break;
+      case REPLAY_BTN:
+        strcpy(texte, "replay this level");
+        break;
+      case MAINMENU_BTN:
+        strcpy(texte, "Return to main menu");
+        break;
+    }
+    button->texture_texte = display_loadTextureText(texte);
+  }
+  glPushMatrix();
+  glScalef(button->dimensions->height*button->texture_texte->ratio, button->dimensions->height, 0);
   glColor3f(1,1,1);
-
-  TextureName texture_name = sprite_getTextureNameFromButtonName(button->name);
-  sprite_displayFixedTexture(texture_name);
-
+  display_drawSquare(GL_FILL);
+  glTranslatef(-0.5, 0,0);
+  glColor3f(1,0,0);
+  sprite_displayFixedTextureText(button->texture_texte);
   glPopMatrix();
 }
 
@@ -728,6 +766,18 @@ void display_window()
 {
     display_top();
     display_bottom();
+}
+
+void display_mainMenu()
+{
+  glColor3f(1,0,1);
+  display_drawZoneBasedOnGUI(mainMenuGUI);
+}
+
+void display_endMenu()
+{
+  glColor3f(1,0,1);
+  display_drawZoneBasedOnGUI(endMenuGUI);
 }
 
 void display_game(GUI *plateau_gui, GLuint idMap, GLuint idGrid)

@@ -325,7 +325,7 @@ void get_casesf(float *caseX, float *caseY, Div *plateau_div)
 {
   int mouseX, mouseY;
   SDL_GetMouseState(&mouseX, &mouseY);
-  printf("%d x %d\n", mouseX, mouseY);
+  //printf("%d x %d\n", mouseX, mouseY);
 
   float RmouseX = mouseX - plateau_div->x;
   float RmouseY = mouseY - plateau_div->y;

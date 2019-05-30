@@ -11,6 +11,7 @@
 #endif
 
 #include <stdio.h>
+#include <string.h>
 #include <stdlib.h>
 #include <math.h>
 #include <SDL2/SDL_ttf.h>
@@ -22,6 +23,10 @@
 #include "tour.h"
 #include "projectile.h"
 #include "sprite.h"
+
+void display_menuButtonText(Button* button);
+void display_mainMenu();
+void display_endMenu();
 
 TextureText*  display_loadTextureText(char text[]);
 void display_drawSingleStat(GeneralType generalType, char text[], TextureName texture_name);

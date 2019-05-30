@@ -10,8 +10,6 @@ void mouse_handlePosition()
     int caseY;
     get_casesi(&caseX, &caseY, plateauGUI->dimensions);
 
-    printf("%d x %d y\n", caseX, caseY);
-
     TypeCase currentCase_type = case_getType(caseX+1, caseY+1);
 
     if (currentCase_type == CHEMIN || currentCase_type == NOEUD || currentCase_type == ENTREE) {
@@ -59,53 +57,56 @@ void mouse_checkIfMonster()
 void mouse_handleButtonClick(ButtonName button_name)
 {
   if(gameState == LEVELPLAY) {
-  Etat *joueur = plateau->joueur;
-  TypeCase type = joueur->type;
-  Action action = joueur->action;
+    Etat *joueur = plateau->joueur;
+    TypeCase type = joueur->type;
+    Action action = joueur->action;
 
-  switch (button_name) {
-    case PAUSE_BTN:
-      plateau->play = (plateau->play == TRUE) ? FALSE : TRUE;
-      break;
-    case RADAR_BTN:
-      type = RADAR;
-      break;
-    case ARMEMENT_BTN:
-      type = ARMEMENT;
-      break;
-    case CENTRALE_BTN:
-      type = CENTRALE;
-      break;
-    case MUNITION_BTN:
-      type = MUNITION;
-      break;
+    switch (button_name) {
+      case PAUSE_BTN:
+        plateau->play = (plateau->play == TRUE) ? FALSE : TRUE;
+        break;
+      case RADAR_BTN:
+        type = RADAR;
+        break;
+      case ARMEMENT_BTN:
+        type = ARMEMENT;
+        break;
+      case CENTRALE_BTN:
+        type = CENTRALE;
+        break;
+      case MUNITION_BTN:
+        type = MUNITION;
+        break;
 
-    case LASER_BTN:
-      type = LASER;
-      break;
-    case MISSILE_BTN:
-      type = MISSILE;
-      break;
+      case LASER_BTN:
+        type = LASER;
+        break;
+      case MISSILE_BTN:
+        type = MISSILE;
+        break;
 
-    case ADD_BTN:
-      action = ADD;
-      break;
-    case GETINFO_BTN:
-      action = GETINFO;
-      break;
-    case REMOVE_BTN:
-      action = REMOVE;
-      break;
+      case ADD_BTN:
+        action = ADD;
+        break;
+      case GETINFO_BTN:
+        action = GETINFO;
+        break;
+      case REMOVE_BTN:
+        action = REMOVE;
+        break;
     }
 
-  if (action != joueur->action) {
-    player_switchAction(action);
-  }
+    if (action != joueur->action) {
+      player_switchAction(action);
+    }
 
-  if (type != joueur->type) {
-    player_switchTowerType(type);
+    if (type != joueur->type) {
+      player_switchTowerType(type);
+    }
   }
-}
+  else if (gameState == MAINMENU || gameState == LOSEMENU) {
+    itd_actionMenu(button_name);
+  }
 }
 
 void mouse_handleClick()
@@ -113,20 +114,34 @@ void mouse_handleClick()
   GUI *current_section = mouse_getSection();
 
   if(gameState == LEVELPLAY) {
-  if (current_section->name == PLATEAU) {
-    int casex, casey;
-    float casex_f, casey_f;
-    get_casesi(&casex, &casey, plateauGUI->dimensions);
-    get_casesf(&casex_f, &casey_f, plateauGUI->dimensions);
-    printf("%d %d\n", casex, casey);
-    printf("%f %f\n", casex_f, casey_f);
-    case_handleAction(casex +1, casey +1);
+    if (current_section->name == PLATEAU) {
+      int casex, casey;
+      float casex_f, casey_f;
+      get_casesi(&casex, &casey, plateauGUI->dimensions);
+      get_casesf(&casex_f, &casey_f, plateauGUI->dimensions);
+      printf("%d %d\n", casex, casey);
+      printf("%f %f\n", casex_f, casey_f);
+      case_handleAction(casex +1, casey +1);
+    }
+    Button *buttonClicked = mouse_GUIbutton(current_section);
+    if (buttonClicked) {
+      mouse_handleButtonClick(buttonClicked->name);
+      printf("%d\n", buttonClicked->name +1);
+    }
   }
-  Button *buttonClicked = mouse_GUIbutton(current_section);
-  if (buttonClicked) {
-    mouse_handleButtonClick(buttonClicked->name);
-    printf("%d\n", buttonClicked->name +1);
+  else if (gameState == MAINMENU) {
+    Button *buttonClicked = mouse_GUIbutton(mainMenuGUI);
+    if (buttonClicked) {
+      mouse_handleButtonClick(buttonClicked->name);
+      printf("%d\n", buttonClicked->name +1);
+    }
   }
+  else if (gameState == LOSEMENU) {
+    Button *buttonClicked = mouse_GUIbutton(endMenuGUI);
+    if (buttonClicked) {
+      mouse_handleButtonClick(buttonClicked->name);
+      printf("%d\n", buttonClicked->name +1);
+    }
   }
 }
 
