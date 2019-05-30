@@ -58,7 +58,7 @@ int itd_getEnergyValue(FILE* file);
  * param[in] file
  * param[in] * RGBcolor empty 
  */
-int itd_getColor(FILE* file);
+int itd_getColor(FILE* file, RGBcolor* color);
 
 /**
  * Fill the number of noeud data found in file

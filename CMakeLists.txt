@@ -38,6 +38,7 @@ if(WIN32)
         ${CMAKE_SOURCE_DIR}/windows/dependencies/SDL2-2.0.9/lib/x86/SDL2main.lib
         ${CMAKE_SOURCE_DIR}/windows/dependencies/SDL2-2.0.9/lib/x86/SDL2_image.lib
         ${CMAKE_SOURCE_DIR}/windows/dependencies/SDL2-2.0.9/lib/x86/SDL2_mixer.lib
+        ${CMAKE_SOURCE_DIR}/windows/dependencies/SDL2-2.0.9/lib/x86/SDL2_ttf.lib
         ${CMAKE_SOURCE_DIR}/windows/dependencies/glew-2.1.0/lib/Release/Win32/glew32.lib
     )
     file(COPY windows/dependencies/SDL2-2.0.9/lib/x86/SDL_dll/

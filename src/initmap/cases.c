@@ -37,7 +37,7 @@ TypeCase* case_loadFromPPM()
   return cases;
 }
 
-Plateau* case_initPlateau()
+void case_initPlateau()
 {
   plateau = malloc(sizeof(Plateau));
   if (!plateau) {
@@ -69,8 +69,6 @@ Plateau* case_initPlateau()
   plateau->monster_hover = NULL;
   plateau->index_case_hover = -1;
   plateau->play = TRUE;
-  
-  return plateau;
 }
 
 int case_RGBCompare(RGBcolor color1, RGBcolor color2) {
