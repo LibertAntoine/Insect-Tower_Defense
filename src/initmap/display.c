@@ -735,7 +735,7 @@ void display_game(GUI *plateau_gui, GLuint idMap, GLuint idGrid)
   Div* plateau_div = plateau_gui->dimensions;
   Div* body_div = bodyGUI->dimensions;
 
-  glViewport(plateau_div->x, plateau_div->y, plateau_div->width, plateau_div->height);
+  glViewport(plateau_div->x, (bodyGUI->dimensions->height - plateau_div->y - plateau_div->height), plateau_div->width, plateau_div->height);
   glMatrixMode(GL_PROJECTION);
   glLoadIdentity();
   gluOrtho2D(1, plateau->Xsplit+1, plateau->Ysplit+1, 1);

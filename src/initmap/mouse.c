@@ -5,11 +5,12 @@ void mouse_handlePosition()
   GUI *current_section = mouse_getSection();
 
   if (current_section->name == PLATEAU && gameState == LEVELPLAY) {
-    //printf("%f x %f y\n", casex_f, casey_f);
 
     int caseX;
     int caseY;
     get_casesi(&caseX, &caseY, plateauGUI->dimensions);
+
+    printf("%d x %d y\n", caseX, caseY);
 
     TypeCase currentCase_type = case_getType(caseX+1, caseY+1);
 
@@ -39,6 +40,7 @@ void mouse_checkIfMonster()
   float casey_f;
   get_casesf(&casex_f, &casey_f, plateauGUI->dimensions);
 
+  //printf("%f x %f\n", casex_f, casey_f);
   Monster* currentMonster = plateau->listMonsters->firstMonster;
   while (currentMonster) {
     if (casex_f <= currentMonster->x + 0.5 && casex_f >= currentMonster->x - 0.5) {

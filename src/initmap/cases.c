@@ -97,6 +97,7 @@ void case_getCasePosition(int caseIndex, int* caseX, int* caseY)
 
 TypeCase case_getType(int caseX, int caseY)
 {
+  //printf("%d, x %d\n", caseX, caseY);
   int index_case = case_getCaseIndex(caseX, caseY);
   return plateau->cases[index_case];
 }
@@ -305,7 +306,7 @@ void get_casesi(int *caseX, int *caseY, Div *plateau_div)
   SDL_GetMouseState(&mouseX, &mouseY);
 
   int RmouseX = mouseX - plateau_div->x;
-  int RmouseY = mouseY - (WINDOW_HEIGHT - plateau_div->y - plateau_div->height);
+  int RmouseY = mouseY - plateau_div->y;
 
   int stepX = plateau_div->width / plateau->Xsplit;
   int stepY = plateau_div->height / plateau->Ysplit;
@@ -323,9 +324,10 @@ void get_casesf(float *caseX, float *caseY, Div *plateau_div)
 {
   int mouseX, mouseY;
   SDL_GetMouseState(&mouseX, &mouseY);
+  printf("%d x %d\n", mouseX, mouseY);
 
   float RmouseX = mouseX - plateau_div->x;
-  float RmouseY = mouseY - (WINDOW_HEIGHT - plateau_div->y - plateau_div->height);
+  float RmouseY = mouseY - plateau_div->y;
 
   float stepX = plateau_div->width / plateau->Xsplit;
   float stepY = plateau_div->height / plateau->Ysplit;
