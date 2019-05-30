@@ -86,7 +86,6 @@ int main(int argc, char *argv[])
         tour_attackAll();
         projectile_moveAll();
         moveWave();
-        monster_moveAll();
         if(monster_moveAll() == 1 && plateau->currentWave.next == NULL) {
           if(plateau->currentWave.monster_total == 0) {
             case_freePlateau();

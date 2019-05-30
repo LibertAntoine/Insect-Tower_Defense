@@ -56,6 +56,7 @@ void mouse_checkIfMonster()
 
 void mouse_handleButtonClick(ButtonName button_name)
 {
+  if(gameState == LEVELPLAY) {
   Etat *joueur = plateau->joueur;
   TypeCase type = joueur->type;
   Action action = joueur->action;
@@ -93,7 +94,7 @@ void mouse_handleButtonClick(ButtonName button_name)
     case REMOVE_BTN:
       action = REMOVE;
       break;
-  }
+    }
 
   if (action != joueur->action) {
     player_switchAction(action);
@@ -102,6 +103,7 @@ void mouse_handleButtonClick(ButtonName button_name)
   if (type != joueur->type) {
     player_switchTowerType(type);
   }
+}
 }
 
 void mouse_handleClick()
