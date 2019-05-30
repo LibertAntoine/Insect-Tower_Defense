@@ -39,5 +39,5 @@ void sdlConfig_reshape(SDL_Window** surface, SDL_GLContext *GLcontext, unsigned 
   glViewport(0, 0, window_width, window_height);
   glMatrixMode(GL_PROJECTION);
   glLoadIdentity();
-  gluOrtho2D(1, plateau->Xsplit+1, plateau->Ysplit+1, 1);
+  gluOrtho2D(1, window_width, window_height, 1);
 }

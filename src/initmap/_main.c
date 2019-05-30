@@ -36,6 +36,9 @@
 Plateau *plateau = NULL;
 Texture** textures = NULL;
 Mix_Chunk** sound = NULL;
+int gameState = NULL;
+Uint32 beginMomentLevel = NULL;
+MapData* mapData = NULL;
 
 GUI *bodyGUI; //variable globale de l'interface
 GUI *plateauGUI;
@@ -48,14 +51,6 @@ DefaultList **default_list = NULL;
 
 int main(int argc, char *argv[])
 {
-  /* Récuperation des informations itd/ppm */
-  MapData* mapData = idt_load("level/level2.itd");
-    
-  /* Création du plateau */
-  plateau = case_initPlateau(mapData);
-
-  /* Calcul des chemins les plus courts */
-  itineraire_findShortestPath(mapData->infosNodes);
 
   /* Définition de l'environnement SDL*/
   sdlConfig_initSDL();
@@ -69,16 +64,8 @@ int main(int argc, char *argv[])
   gui_init();
   sound_init();
 
-  GLuint idGrid = glGenLists(1);
-  display_gridList(idGrid);
-
-  GLuint idMap = glGenLists(1);
-  display_mapList(idMap);
   // Position X, Y en pixel ET en indice de case de la souris
   int pixelMouseX, pixelMouseY, caseMouseX, caseMouseY;
-
-  Uint32 beginMomentLevel = SDL_GetTicks();
-  Mix_PlayChannel(-1, sound[BEGINLEVEL], 0);
 
   /* Boucle principale */
   int loop = 1;
@@ -90,18 +77,33 @@ int main(int argc, char *argv[])
     /* Placer ici le code de dessin */
     glClear(GL_COLOR_BUFFER_BIT);
 
-    // NOTE: display general GUI
+    if(gameState == LEVELPLAY) {
+      // NOTE: display general GUI
+      display_window();
+      display_game(plateauGUI, mapData->idMap, mapData->idGrid);
+      if (plateau->play == TRUE) {
+        
+        tour_attackAll();
+        projectile_moveAll();
+        moveWave();
+        monster_moveAll();
+        if(monster_moveAll() == 1 && plateau->currentWave.next == NULL) {
+          if(plateau->currentWave.monster_total == 0) {
+            case_freePlateau();
+            Mix_PlayChannel(-1, sound[WINLEVEL], 0);
+            gameState = WINMENU;
+          }
+        }
+      }
 
-    if (plateau->play == TRUE) {
-      launchWaves(mapData, (SDL_GetTicks() - beginMomentLevel));
-      monster_moveAll();
-      tour_attackAll();
-      projectile_moveAll();
+    } else if (gameState == MAINMENU) {
+        
+    } else if (gameState == LOSEMENU) {
+
+    } else if (gameState == WINMENU) {
+
     }
 
-    display_window();
-    display_game(plateauGUI, idMap, idGrid);
-    
     /* Echange du front et du back buffer : mise a jour de la fenetre */
     SDL_GL_SwapWindow(surface);
 
@@ -117,10 +119,11 @@ int main(int argc, char *argv[])
         loop = 0; 
         break;
       }
-
+      if(gameState == LEVELPLAY) {
       Etat *joueur = plateau->joueur;
       TypeCase type = joueur->type;
       Action action = joueur->action;
+      }
 
       mouse_handlePosition();
       switch(e.type) {
@@ -128,6 +131,7 @@ int main(int argc, char *argv[])
           break;
 
         case SDL_MOUSEBUTTONDOWN:
+            /* Récuperation des informations itd/ppm */           
           mouse_handleClick();
           break;
 
@@ -139,7 +143,6 @@ int main(int argc, char *argv[])
 
         case SDL_KEYDOWN:
           keyboard_handleKeypress(&e);
-
         default:
           break;
       }
@@ -171,3 +174,17 @@ int main(int argc, char *argv[])
   return EXIT_SUCCESS;
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+                  

@@ -37,12 +37,12 @@ void ppm_handleComments(FILE *image)
   }
 }
 
-char* ppm_load(char path[])
+char* ppm_load()
 {
 
   int width, height, color_value;
 
-  FILE* image = fopen(path, "rb");
+  FILE* image = fopen(mapData->mapFile, "rb");
   
   if (!image) {
     printf("Image couldn't be loaded, interupting program\n");

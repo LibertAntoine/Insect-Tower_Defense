@@ -10,9 +10,6 @@
 
 #include <stdlib.h>
 #include <SDL2/SDL_image.h>
-#include <time.h>
-#include <sys/time.h>
-
 
 #include "structures.h"
 

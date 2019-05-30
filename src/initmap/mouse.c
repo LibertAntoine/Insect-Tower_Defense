@@ -4,7 +4,7 @@ void mouse_handlePosition()
 {
   GUI *current_section = mouse_getSection();
 
-  if (current_section->name == PLATEAU) {
+  if (current_section->name == PLATEAU && gameState == LEVELPLAY) {
     //printf("%f x %f y\n", casex_f, casey_f);
 
     int caseX;
@@ -26,7 +26,7 @@ void mouse_handlePosition()
       plateau->monster_hover = NULL;
     }
   }
-  else {
+  else if (gameState == LEVELPLAY) {
     plateau->index_case_hover = -1;
     plateau->monster_hover = NULL;
   }

@@ -1,8 +1,8 @@
 #include "itd-file.h"
 
-MapData* itd_initMapData()
+void itd_initMapData()
 {
-  MapData* mapData = malloc(sizeof(MapData));
+  mapData = malloc(sizeof(MapData));
   if (!mapData) {
     printf("ERROR ALLOC : mapData");
   } else {
@@ -85,7 +85,7 @@ int itd_getColor(FILE* file, RGBcolor* RGBColor) {
   }
 }
 
-int itd_getInfosNodes(FILE* file, MapData* MapData) {
+int itd_getInfosNodes(FILE* file) {
   int nbNoeud;
   int noOfNoeud = fscanf(file, "%d", &nbNoeud);
   if (noOfNoeud != 1 || nbNoeud <= 0) {
@@ -146,36 +146,36 @@ int itd_getInfosNodes(FILE* file, MapData* MapData) {
     infosNodes->nodes = nodes;
     infosNodes->entrance_total = entrance_total;
     infosNodes->idOut = idOut;
-    MapData->infosNodes = infosNodes;
+    mapData->infosNodes = infosNodes;
 
-    getIdEntrees(MapData);
+    getIdEntrees();
 
     fseek(file, -1, SEEK_CUR);
     return CHK_SUCCESS;
   }
 }
 
-int getIdEntrees(MapData* mapdata) {
-  int* idEntrees = malloc(sizeof(int)*mapdata->infosNodes->entrance_total);
+int getIdEntrees() {
+  int* idEntrees = malloc(sizeof(int)*mapData->infosNodes->entrance_total);
   //TODO: Checker allocation.
 
   int j = 0;
-  for (int i = 0; i < mapdata->infosNodes->nbNoeud; i++)
+  for (int i = 0; i < mapData->infosNodes->nbNoeud; i++)
   {
-    if(mapdata->infosNodes->nodes[i].type == 2) {
-      idEntrees[j] = mapdata->infosNodes->nodes[i].id;
+    if(mapData->infosNodes->nodes[i].type == 2) {
+      idEntrees[j] = mapData->infosNodes->nodes[i].id;
       j++;
     }
   }
-  if (mapdata->infosNodes->entrance_total != j) {
+  if (mapData->infosNodes->entrance_total != j) {
     return CHK_ERROR_FILE;
   } else {
-    mapdata->infosNodes->idEntrees = idEntrees;
+    mapData->infosNodes->idEntrees = idEntrees;
     return CHK_SUCCESS;
   }
 }
 
-int itd_getInfosWaves(FILE* file, MapData* MapData) {
+int itd_getInfosWaves(FILE* file) {
   int wave_total;
   int noOfNoeud = fscanf(file, "%d", &wave_total);
   if (noOfNoeud != 1 || wave_total <= 0) {
@@ -196,17 +196,17 @@ int itd_getInfosWaves(FILE* file, MapData* MapData) {
       }   
 
       int wave_id;
-      float timeBegin, freq_pop, random;
+      float timeBeforeNext, freq_pop, random;
       int nbSolder, nbHugeSolder, nbGeneral, nbBoss;
       itd_checkComment(file);
 
       char line[100];
 
       fgets(line, 100, file);
-      if(sscanf(line, "%d %f %f %f %d %d %d %d", &wave_id, &timeBegin, &freq_pop, &random, 
+      if(sscanf(line, "%d %f %f %f %d %d %d %d", &wave_id, &timeBeforeNext, &freq_pop, &random, 
             &nbSolder, &nbHugeSolder, &nbGeneral, &nbBoss)) {
         wave->wave_id = wave_id;
-        wave->timeBegin = timeBegin;
+        wave->timeBeforeNext = timeBeforeNext;
         wave->freq_pop = freq_pop;
         wave->nextMonster_timer = freq_pop;
         wave->random = random;
@@ -236,22 +236,13 @@ int itd_getInfosWaves(FILE* file, MapData* MapData) {
           monsters[i] = BOSS;
         }
 
-        // NOTE: cas impossible car monster_total = nbSolder + nbHugeSolder + ...;
-        /*
-           if(i != wave->monster_total) {
-
-           return CHK_ERROR_FILE;
-           }
-         */
-
         wave->monsters = monsters;
 
         addToWaves(listWaves, wave);
-
       }
     }
 
-    MapData->listWaves = listWaves;
+    mapData->listWaves = listWaves;
     return CHK_SUCCESS;
   }  
 }
@@ -276,7 +267,7 @@ int addToWaves(ListWaves* listWaves, Wave* wave)
 
 
 
-int itd_getImageFilePath(FILE* file, MapData* mapData)
+int itd_getImageFilePath(FILE* file)
 {
   char currentChar;
 
@@ -302,7 +293,12 @@ int itd_getImageFilePath(FILE* file, MapData* mapData)
     }
 
     int i;
-    fseek(file, -letterCount -1, SEEK_CUR);
+    #ifdef _WIN32
+      fseek(file, -letterCount -2, SEEK_CUR);
+    #else
+      fseek(file, -letterCount -1, SEEK_CUR);
+    #endif
+    
     strcpy(filePath, "level/");
     for (i=6; i<letterCount+6; i++) {
       currentChar = fgetc(file);
@@ -314,7 +310,7 @@ int itd_getImageFilePath(FILE* file, MapData* mapData)
   }
 }
 
-int itd_getEnergyValue(FILE* file, MapData* mapData)
+int itd_getEnergyValue(FILE* file)
 {
   int energy;
   if(fscanf(file, "%d", &energy)) {
@@ -326,7 +322,7 @@ int itd_getEnergyValue(FILE* file, MapData* mapData)
   }
 }
 
-int itd_checkForMapData(FILE* file, MapData* mapData)
+int itd_checkForMapData(FILE* file)
 {
   int originalPosition = ftell(file);
   char label[15];
@@ -334,7 +330,7 @@ int itd_checkForMapData(FILE* file, MapData* mapData)
   if (fscanf(file, "%s", label)) {
     RGBcolor* color = malloc(sizeof(RGBcolor));
     if (strcmp("carte", label) == 0) {
-      if (itd_getImageFilePath(file, mapData) == CHK_SUCCESS) {
+      if (itd_getImageFilePath(file) == CHK_SUCCESS) {
         mapData->contentState |= MDATA_IMG;
         return CHK_SUCCESS;
       }
@@ -346,7 +342,7 @@ int itd_checkForMapData(FILE* file, MapData* mapData)
     }
 
     if (strcmp("energie", label) == 0) {
-      if (itd_getEnergyValue(file, mapData) == CHK_SUCCESS) {
+      if (itd_getEnergyValue(file) == CHK_SUCCESS) {
         mapData->contentState |= MDATA_ENERGY;
         return CHK_SUCCESS;
       }
@@ -422,7 +418,7 @@ int itd_checkForMapData(FILE* file, MapData* mapData)
     }
 
     if (strcmp("infosNodes", label) == 0) {
-      if (itd_getInfosNodes(file, mapData) == CHK_SUCCESS) {
+      if (itd_getInfosNodes(file) == CHK_SUCCESS) {
         mapData->contentState |= MDATA_INFOSNODE;
         return CHK_SUCCESS;
       }
@@ -433,7 +429,7 @@ int itd_checkForMapData(FILE* file, MapData* mapData)
     }
 
     if (strcmp("waves", label) == 0) {
-      if (itd_getInfosWaves(file, mapData) == CHK_SUCCESS) {
+      if (itd_getInfosWaves(file) == CHK_SUCCESS) {
         mapData->contentState |= MDATA_WAVES;
         return CHK_SUCCESS;
       }
@@ -453,9 +449,9 @@ int itd_checkForMapData(FILE* file, MapData* mapData)
 }
 
 
-MapData* idt_load(char* itd_path)
+void idt_load(char* itd_path)
 {
-  MapData* mapData = itd_initMapData();
+  itd_initMapData();
 
   FILE* file = fopen(itd_path, "r");
 
@@ -476,7 +472,7 @@ MapData* idt_load(char* itd_path)
 
     while (fgetc(file) != EOF) {
       itd_checkComment(file);
-      itd_checkForMapData(file, mapData);
+      itd_checkForMapData(file);
     }
 
 
@@ -485,8 +481,53 @@ MapData* idt_load(char* itd_path)
       printf("file is valid\n");
     }
   }
-  return mapData;
 }
 
 
+void itd_actionMenu(ButtonName button) {
+  if(gameState == MAINMENU) {
+    if (button == LEVEL1_BTN) {
+      idt_load("level/level1.itd");
+    } else if (button == LEVEL2_BTN) {
+      idt_load("level/level2.itd");
+    } else if (button == LEVEL3_BTN) {
+      idt_load("level/level3.itd");
+    } else {
+      return EXIT_FAILURE;
+    }
+  itd_initLevel();
+  gameState = LEVELPLAY;
+  } else if (gameState == LOSEMENU || gameState == WINMENU) {
+    if(button == MAINMENU_BTN) {
+      itd_freeMapData();
+      gameState = MAINMENU;
+    } else if (button == REPLAY_BTN) {
+      itd_initLevel();
+      gameState = LEVELPLAY;
+    }
+  }
+}
+
+void itd_initLevel() {
+    /* Création du plateau */
+    plateau = case_initPlateau();
+    /* Calcul des chemins les plus courts */
+    itineraire_findShortestPath();
+
+    mapData->idGrid = glGenLists(1);
+    display_gridList(mapData->idGrid);
+
+    mapData->idMap = glGenLists(1);
+    display_mapList(mapData->idMap);
+    
+    beginMomentLevel = SDL_GetTicks();
+    
+    Mix_PlayChannel(-1, sound[BEGINLEVEL], 0);
+}
+
+void itd_freeMapData() {
+  wave_freeListWaves();
+  free(mapData->infosNodes);
+  free(mapData);
+}
 

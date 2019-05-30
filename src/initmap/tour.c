@@ -340,7 +340,6 @@ Bool tour_targetStillInRange(Tour* tour)
   }
   else return FALSE;
 }
-
 void tour_remove(Tour* tour)
 {
   Tour* tour_list = plateau->listTours->next;
@@ -355,4 +354,20 @@ void tour_remove(Tour* tour)
   }
 
   free(tour);
+}
+
+void tour_freeListTours(ListTours* listTours) {
+  Tour* tourFree;
+  Tour* currentTour = NULL;
+  if(listTours->next != NULL) {
+    tourFree = listTours->next;
+    currentTour = listTours->next->next;
+    free(tourFree);
+  }
+  while(currentTour != NULL) {
+    tourFree = currentTour;
+    currentTour = currentTour->next;
+    free(tourFree);
+  }
+  free(listTours);
 }

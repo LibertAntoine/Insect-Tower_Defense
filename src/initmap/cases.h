@@ -20,8 +20,8 @@
 #include "monster.h"
 #include "projectile.h"
 
-TypeCase* case_loadFromPPM(MapData* mapData);
-Plateau* case_initPlateau(MapData* mapData);
+TypeCase* case_loadFromPPM();
+Plateau* case_initPlateau();
 int case_RGBCompare(RGBcolor color1, RGBcolor color2);
 
 int case_getCaseIndex(int caseX, int caseY);
@@ -44,6 +44,6 @@ void case_actionAdd(int caseX, int caseY);
 void case_actionRemove(int caseX, int caseY);
 void case_actionInfo(int caseX, int caseY);
 void case_handleAction(int caseX, int caseY);
-
+void case_freePlateau();
 #endif //CASES_H_
 

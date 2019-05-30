@@ -1,50 +1,50 @@
 #include "itineraire.h"
 
-int itineraire_findShortestPath(InfosNodes* infosNodes)
+int itineraire_findShortestPath()
 {
-  if (infosNodes->idOut > infosNodes->nbNoeud -1 || infosNodes->idOut < 0) {
+  if (mapData->infosNodes->idOut > mapData->infosNodes->nbNoeud -1 || mapData->infosNodes->idOut < 0) {
     return 0;
   }
 
-  int *idVisited = itineraire_initVisitedArray(infosNodes->nbNoeud);
-  int *distances = itineraire_initDistanceArray(infosNodes->nbNoeud);
+  int *idVisited = itineraire_initVisitedArray(mapData->infosNodes->nbNoeud);
+  int *distances = itineraire_initDistanceArray(mapData->infosNodes->nbNoeud);
 
-  distances[infosNodes->idOut] = 0;
+  distances[mapData->infosNodes->idOut] = 0;
 
-  Node** previous = malloc(sizeof(Node*) * infosNodes->nbNoeud);
+  Node** previous = malloc(sizeof(Node*) * mapData->infosNodes->nbNoeud);
   // TODO: Vérifier l'allocation dynamique
 
-  int i = infosNodes->idOut;
+  int i = mapData->infosNodes->idOut;
   int distance;
   while (i != -1) {
     idVisited[i] = 1;
 
     for(int link_id = 0; link_id < 4; link_id++) {   
       //printf("%d ", distanceNodes(infosNodes->nodes[i], infosNodes->nodes[infosNodes->nodes[i].link[j]]));
-      int next_id = infosNodes->nodes[i].link[link_id];
+      int next_id = mapData->infosNodes->nodes[i].link[link_id];
 
       if(next_id == -1) {
         break;
       }
       else {
-        distance = (int) itineraire_getValueChemin(infosNodes->nodes[i], infosNodes->nodes[next_id]);
+        distance = (int) itineraire_getValueChemin(mapData->infosNodes->nodes[i], mapData->infosNodes->nodes[next_id]);
         if (distances[i] + distance < distances[next_id]) { 
           distances[next_id] = distances[i] + distance; 
-          previous[next_id] = &infosNodes->nodes[i]; 
+          previous[next_id] = &mapData->infosNodes->nodes[i]; 
         }
       }
     }
 
     i = -1;
     int distance_max = plateau->Xsplit * plateau->Ysplit;
-    for(int k = 0; k < infosNodes->nbNoeud; k++) {
+    for(int k = 0; k < mapData->infosNodes->nbNoeud; k++) {
       if(!idVisited[k] && distance_max >= distances[k]) { 
         distance_max = distances[k];     
         i = k;   
       }
     }
   }
-  infosNodes->shortPaths = previous;
+  mapData->infosNodes->shortPaths = previous;
 }
 
 int *itineraire_initVisitedArray(int size)
@@ -84,19 +84,36 @@ double itineraire_getValueChemin(Node node_in, Node node_out)
   return distance + chemin->dead_monsters;
 }
 
+void itineraire_freeItiniraire(Itineraire* itineraire) {
+  Etape* etapeFree;
+  Etape* currentEtape = NULL;
+  if(itineraire->next != NULL) {
+    etapeFree = itineraire->next;
+    currentEtape = itineraire->next->next;
+    free(etapeFree);
+  }
+  while(currentEtape != NULL) {
+    etapeFree = currentEtape;
+    currentEtape = currentEtape->next;
+    free(etapeFree);
+  }
+  free(itineraire);
+}
 
-int itineraire_initMonster(Monster* monster, InfosNodes* infosNodes)
+
+int itineraire_initMonster(Monster* monster)
 {
+  itineraire_findShortestPath();
   Itineraire* itineraire = malloc(sizeof(Itineraire));
   itineraire->next = NULL;
   itineraire->nbEtape = 1;
-  itineraire_addEtape(itineraire, &infosNodes->nodes[monster->idIn]);
+  itineraire_addEtape(itineraire, &mapData->infosNodes->nodes[monster->idIn]);
 
   int idNode = monster->idIn;
-  while(idNode != infosNodes->idOut) {  
-    itineraire_addEtape(itineraire, infosNodes->shortPaths[idNode]);
+  while(idNode != mapData->infosNodes->idOut) {  
+    itineraire_addEtape(itineraire, mapData->infosNodes->shortPaths[idNode]);
     itineraire->nbEtape++;  
-    idNode = infosNodes->shortPaths[idNode]->id;
+    idNode = mapData->infosNodes->shortPaths[idNode]->id;
   }
   monster->itineraire = itineraire;
 }
@@ -121,7 +138,7 @@ void itineraire_addEtape(Itineraire* itineraire, Node* node) {
   return 0;
 }
 
-ListChemins* itineraire_initListChemins(MapData* mapData)
+ListChemins* itineraire_initListChemins()
 {
   ListChemins* listChemins = malloc(sizeof(listChemins));
   listChemins->nbChemin = 0;
@@ -201,4 +218,19 @@ Chemin* itineraire_getChemin(Node* node_in, Node* node_out) {
       }
       else currentChemin = currentChemin->next;
     }
+}
+
+void itineraire_freeListChemins() {
+  Chemin* cheminFree;
+  Chemin* currentChemin = NULL;
+  if(plateau->listChemins->next != NULL) {
+    cheminFree = plateau->listChemins->next;
+    currentChemin = plateau->listChemins->next->next;
+    free(cheminFree);
+  }
+  while(currentChemin != NULL) {
+    cheminFree = currentChemin;
+    currentChemin = currentChemin->next;
+    free(cheminFree);
+  }
 }
