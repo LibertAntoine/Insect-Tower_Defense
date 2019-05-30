@@ -16,7 +16,12 @@ void mouse_handlePosition()
       plateau->index_case_hover = -1;
     }
     else if (case_getGeneralConstructionType(currentCase_type) == TOUR || case_getGeneralConstructionType(currentCase_type) == BATIMENT) {
-      plateau->index_case_hover = case_getCaseIndex(caseX+1, caseY+1);
+      int index_case_hover = case_getCaseIndex(caseX+1, caseY+1);
+      if (plateau->index_case_hover != index_case_hover) {
+        plateau->index_case_hover = index_case_hover;
+        glDeleteLists(plateau->idListInfos, 1);
+        plateau->idListInfos = GL_INVALID_VALUE;
+      }
       plateau->monster_hover = NULL;
     }
     else {
@@ -135,7 +140,7 @@ void mouse_handleClick()
       printf("%d\n", buttonClicked->name +1);
     }
   }
-  else if (gameState == LOSEMENU) {
+  else if (gameState == LOSEMENU || gameState == WINMENU) {
     Button *buttonClicked = mouse_GUIbutton(endMenuGUI);
     if (buttonClicked) {
       mouse_handleButtonClick(buttonClicked->name);

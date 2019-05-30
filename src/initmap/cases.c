@@ -46,7 +46,10 @@ void case_initPlateau()
 
   tour_initConstructionData();
 
-  int argent = 1000;
+  int argent = 2000;
+
+  plateau->idListInfos = GL_INVALID_VALUE;
+  plateau->idListIcon = GL_INVALID_VALUE;
 
   plateau->joueur = player_init(argent);
   plateau->cases = case_loadFromPPM();

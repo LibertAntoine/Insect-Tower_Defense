@@ -30,19 +30,19 @@ TextureText*  display_loadTextureText(char text[])
 }
 
 
-void display_drawSingleStat(GeneralType generalType, char text[], TextureName texture_name)
+void display_drawSingleStat(GeneralType generalType, char text[], TextureName texture_name, char str2[])
 {
   TextureText* texture_texte = display_loadTextureText(text);
 
-  glTranslatef(50, 10 ,0);
+  glTranslatef(70, 10 ,0);
   glColor3f(1,1,1);
 
   glPushMatrix();
-  glScalef(100, 35, 1);
+  glScalef(150, 35, 1);
   sprite_displayFixedTexture(PLANK_TEX);
   glPopMatrix();
 
-  glTranslatef(-25, 0 ,0);
+  glTranslatef(-55, 0 ,0);
 
   glPushMatrix();
   glTranslatef(5, 0, 0);
@@ -63,19 +63,116 @@ void display_drawSingleStat(GeneralType generalType, char text[], TextureName te
   glScalef(14*texture_texte->ratio, 14, 1);
   sprite_displayFixedTextureText(texture_texte);
   glPopMatrix();
+
+  if (str2) {
+    TextureText* texture_texte_2 = display_loadTextureText(str2);
+    glPushMatrix();
+    glTranslatef(90, 0, 0);
+    glScalef(14*texture_texte->ratio, 14, 1);
+    sprite_displayFixedTextureText(texture_texte_2);
+    glPopMatrix();
+
+    glPushMatrix();
+    glTranslatef(75, 5, 0);
+    glScalef(15, 15, 1);
+    sprite_displayFixedTexture(PLUS_TEX);
+    glPopMatrix();
+  }
 }
 
-/*
-void display_initDefaultListIcon(TextureName texture_name)
+void display_genBatimentList(TypeCase type)
 {
     GLuint idListInfos = glGenLists(1);
     glNewList(idListInfos, GL_COMPILE);
-    TextureText* texture_texte = display_loadTextureText(text);
-    sprite_displayFixedTextureText(texture_texte);
+    int position = 0;
+    char str[20];
+    char str2[20];
+    GeneralType generalType = BATIMENT;
+
+    glPushMatrix();
+
+    glPushMatrix();
+    glTranslatef(15, position*35+15, 0);
+    sprintf(str, "%d", tour_getCadence(type));
+    display_drawSingleStat(generalType, str, DAMAGE_TEX, NULL);
+    position++;
+    glPopMatrix();
+
+    glPushMatrix();
+    glTranslatef(15, position*35+15, 0);
+    sprintf(str, "%d", tour_getPortee(type));
+    sprintf(str2, "%d",tour_getRange(type));
+    display_drawSingleStat(TOUR, str, TARGET_TEX, str2);
+    position++;
+    glPopMatrix();
+
+    glPushMatrix();
+    glTranslatef(15, position*35+15, 0);
+    sprintf(str, "%d", tour_getCadence(type));
+    display_drawSingleStat(generalType, str, MUNITION_TEX, NULL);
+    position++;
+    glPopMatrix();
+
+    glPushMatrix();
+    glTranslatef(15, position*35+15, 0);
+    sprintf(str, "%d", tour_getAlimentation(type));
+    display_drawSingleStat(generalType, str, FOOD_TEX, NULL);
+    position++;
+    glPopMatrix();
+
+    glPopMatrix();
     glEndList();
-    default_list[i]->idListIcon = idListInfos;
+
+    plateau->idListInfos = idListInfos;
 }
-*/
+void display_genTourList(Tour* tour)
+{
+    GLuint idListInfos = glGenLists(1);
+    glNewList(idListInfos, GL_COMPILE);
+    int position = 0;
+    char str[20];
+    char str2[20];
+    GeneralType generalType = TOUR;
+
+    glPushMatrix();
+
+    glPushMatrix();
+    glTranslatef(15, position*35+15, 0);
+    sprintf(str, "%d", tour_getCadence(tour->type));
+    sprintf(str2, "%d",tour->armement);
+    display_drawSingleStat(generalType, str, DAMAGE_TEX, str2);
+    position++;
+    glPopMatrix();
+
+    glPushMatrix();
+    glTranslatef(15, position*35+15, 0);
+    sprintf(str, "%d", tour_getPortee(tour->type));
+    sprintf(str2, "%d",tour->radar);
+    display_drawSingleStat(generalType, str, TARGET_TEX, str2);
+    position++;
+    glPopMatrix();
+
+    glPushMatrix();
+    glTranslatef(15, position*35+15, 0);
+    sprintf(str, "%d", tour_getCadence(tour->type));
+    sprintf(str2, "%d",tour->munition);
+    display_drawSingleStat(generalType, str, MUNITION_TEX, str2);
+    position++;
+    glPopMatrix();
+
+    glPushMatrix();
+    glTranslatef(15, position*35+15, 0);
+    sprintf(str, "%d", tour_getAlimentation(tour->type));
+    sprintf(str2, "%d",tour->centrale);
+    display_drawSingleStat(generalType, str, FOOD_TEX, str2);
+    position++;
+    glPopMatrix();
+
+    glPopMatrix();
+    glEndList();
+
+    plateau->idListInfos = idListInfos;
+}
 
 void display_initDefaultList()
 {
@@ -95,45 +192,45 @@ void display_initDefaultList()
     glPushMatrix();
     glTranslatef(15, position*35+15, 0);
     sprintf(str, "%d", plateau->constructionData[i].degats);
-    display_drawSingleStat(generalType, str, DAMAGE_TEX);
+    display_drawSingleStat(generalType, str, DAMAGE_TEX, NULL);
     position++;
     glPopMatrix();
 
     glPushMatrix();
     glTranslatef(15, position*35+15, 0);
     sprintf(str, "%d", plateau->constructionData[i].cadence);
-    display_drawSingleStat(generalType, str, CADENCE_TEX);
+    display_drawSingleStat(generalType, str, CADENCE_TEX, NULL);
     position++;
     glPopMatrix();
 
     glPushMatrix();
     glTranslatef(15, position*35+15, 0);
     sprintf(str, "%d", plateau->constructionData[i].portee);
-    display_drawSingleStat(generalType, str, TARGET_TEX);
+    display_drawSingleStat(generalType, str, TARGET_TEX, NULL);
     position++;
     glPopMatrix();
 
     glPushMatrix();
     glTranslatef(15, position*35+15, 0);
     sprintf(str, "%d", plateau->constructionData[i].alimentation);
-    display_drawSingleStat(generalType, str, FOOD_TEX);
+    display_drawSingleStat(generalType, str, FOOD_TEX, NULL);
     position++;
     glPopMatrix();
 
     position = 0;
-    glTranslatef(100, 0,0);
+    glTranslatef(150, 0,0);
 
     glPushMatrix();
     glTranslatef(15, position*35+15, 0);
     sprintf(str, "%d", plateau->constructionData[i].valeur_achat);
-    display_drawSingleStat(generalType, str, MONEY_TEX);
+    display_drawSingleStat(generalType, str, MONEY_TEX, NULL);
     position++;
     glPopMatrix();
 
     glPushMatrix();
     glTranslatef(15, position*35+15, 0);
     sprintf(str, "%d", plateau->constructionData[i].valeur_revente);
-    display_drawSingleStat(generalType, str, MONEY_TEX);
+    display_drawSingleStat(generalType, str, MONEY_TEX, NULL);
     position++;
     glPopMatrix();
 
@@ -156,52 +253,52 @@ void display_initDefaultList()
     glPushMatrix();
     glTranslatef(15, position*35+15, 0);
     sprintf(str, "%d", plateau->constructionData[i].degats);
-    display_drawSingleStat(generalType, str, DAMAGE_TEX);
+    display_drawSingleStat(generalType, str, DAMAGE_TEX, NULL);
     position++;
     glPopMatrix();
 
     glPushMatrix();
     glTranslatef(15, position*35+15, 0);
     sprintf(str, "%d", plateau->constructionData[i].cadence);
-    display_drawSingleStat(generalType, str, CADENCE_TEX);
+    display_drawSingleStat(generalType, str, CADENCE_TEX, NULL);
     position++;
     glPopMatrix();
 
     glPushMatrix();
     glTranslatef(15, position*35+15, 0);
     sprintf(str, "%d", plateau->constructionData[i].portee);
-    display_drawSingleStat(generalType, str, TARGET_TEX);
+    display_drawSingleStat(generalType, str, TARGET_TEX, NULL);
     position++;
     glPopMatrix();
 
     glPushMatrix();
     glTranslatef(15, position*35+15, 0);
     sprintf(str, "%d", plateau->constructionData[i].alimentation);
-    display_drawSingleStat(generalType, str, FOOD_TEX);
+    display_drawSingleStat(generalType, str, FOOD_TEX, NULL);
     position++;
     glPopMatrix();
 
     position = 0;
-    glTranslatef(100, 0,0);
+    glTranslatef(150, 0,0);
 
     glPushMatrix();
     glTranslatef(15, position*35+15, 0);
     sprintf(str, "%d", plateau->constructionData[i].valeur_achat);
-    display_drawSingleStat(generalType, str, MONEY_TEX);
+    display_drawSingleStat(generalType, str, MONEY_TEX, NULL);
     position++;
     glPopMatrix();
 
     glPushMatrix();
     glTranslatef(15, position*35+15, 0);
     sprintf(str, "%d", plateau->constructionData[i].valeur_revente);
-    display_drawSingleStat(generalType, str, MONEY_TEX);
+    display_drawSingleStat(generalType, str, MONEY_TEX, NULL);
     position++;
     glPopMatrix();
 
     glPushMatrix();
     glTranslatef(15, position*35+15, 0);
     sprintf(str, "%d", plateau->constructionData[i].range);
-    display_drawSingleStat(TOUR, str, TARGET_TEX);
+    display_drawSingleStat(TOUR, str, TARGET_TEX, NULL);
     position++;
     glPopMatrix();
 
@@ -224,28 +321,28 @@ void display_initDefaultList()
     glPushMatrix();
     glTranslatef(15, position*35+15, 0);
     sprintf(str, "%d", (int) plateau->listMonsters->dataMonsters[type]->PDV);
-    display_drawSingleStat(generalType, str, LIFE_TEX);
+    display_drawSingleStat(generalType, str, LIFE_TEX, NULL);
     position++;
     glPopMatrix();
 
     glPushMatrix();
     glTranslatef(15, position*35+15, 0);
     sprintf(str, "%d", (int) plateau->listMonsters->dataMonsters[type]->strength);
-    display_drawSingleStat(generalType, str, SHIELD_TEX);
+    display_drawSingleStat(generalType, str, SHIELD_TEX, NULL);
     position++;
     glPopMatrix();
 
     glPushMatrix();
     glTranslatef(15, position*35+15, 0);
     sprintf(str, "%f", 0.01/plateau->listMonsters->dataMonsters[type]->mass);
-    display_drawSingleStat(generalType, str, SPEED_TEX);
+    display_drawSingleStat(generalType, str, SPEED_TEX, NULL);
     position++;
     glPopMatrix();
 
     glPushMatrix();
     glTranslatef(15, position*35+15, 0);
     sprintf(str, "%d", plateau->listMonsters->dataMonsters[type]->value);
-    display_drawSingleStat(BATIMENT, str, MONEY_TEX);
+    display_drawSingleStat(BATIMENT, str, MONEY_TEX, NULL);
     position++;
     glPopMatrix();
 
@@ -266,10 +363,20 @@ void display_printInfos()
     glCallList(default_list[plateau->monster_hover->type + 6]->idListInfos);
   }
   else if (case_getGeneralConstructionType(plateau->cases[plateau->index_case_hover]) == TOUR) {
-    printf("faire l'affichage infos tour\n");
+    if (plateau->idListInfos == GL_INVALID_VALUE) {
+      display_genTourList(plateau->tours[plateau->index_case_hover]);
+    }
+    else {
+      glCallList(plateau->idListInfos);
+    }
   }
   else if (case_getGeneralConstructionType(plateau->cases[plateau->index_case_hover]) == BATIMENT) {
-    printf("faire l'affichage infos batiment\n");
+    if (plateau->idListInfos == GL_INVALID_VALUE) {
+      display_genBatimentList(plateau->cases[plateau->index_case_hover]);
+    }
+    else {
+      glCallList(plateau->idListInfos);
+    }
   }
 }
 
@@ -519,32 +626,33 @@ void display_drawSingleTower(int caseX, int caseY, TypeCase type)
   int index_case = case_getCaseIndex(caseX, caseY);
   GeneralType generalType = case_getGeneralConstructionType(type);
   if (generalType != OTHER) {
-    switch (type) {
-      case LASER:
-        glColor3f(0,1,0);
-        break;
-      case MISSILE:
-        glColor3f(1,0,0);
-        break;
-      case ARMEMENT:
-        glColor3f(1,0,0);
-        break;
-      case MUNITION:
-        glColor3d(1,1,0);
-        break;
-      case RADAR:
-        glColor3f(0,0,1);
-        break;
-      case CENTRALE:
-        glColor3f(0,1,0);
-        break;
-    }
+    Tour* tour;
     switch (generalType) {
       case BATIMENT:
-        display_drawSquare(GL_FILL);
         break;
       case TOUR:
-        display_drawCircle(GL_FILL);
+        tour = case_getTourPointer(caseX, caseY);
+        glRotatef(tour->angle+45, 0, 0, 1);
+        break;
+    }
+    switch (type) {
+      case LASER:
+        sprite_displayFixedTexture(LASER_TEX);
+        break;
+      case MISSILE:
+        sprite_displayFixedTexture(MISSILE_TEX);
+        break;
+      case ARMEMENT:
+        sprite_displayFixedTexture(ARMEMENT_TEX);
+        break;
+      case MUNITION:
+        sprite_displayFixedTexture(MUNITION_TEX);
+        break;
+      case RADAR:
+        sprite_displayFixedTexture(RADAR_TEX);
+        break;
+      case CENTRALE:
+        sprite_displayFixedTexture(CENTRALE_TEX);
         break;
     }
   }

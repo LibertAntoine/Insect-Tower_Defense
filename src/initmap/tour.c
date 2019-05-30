@@ -107,6 +107,7 @@ Tour *tour_create(TypeCase type, int index_case)
   new->radar = 0;
   new->munition = 0;
   new->rechargement = 0;
+  new->angle = rand()%360;
   new->next = NULL;
   new->targetMonster = NULL;
   new->x = caseX + 0.5;
@@ -283,6 +284,7 @@ Bool tour_isLoaded(Tour* tour)
 
 void tour_attaqueMonster(Tour* tour)
 {
+  tour_updateShootingAngle(tour);
   if (tour_checkAlimentation(tour) == TRUE) {
     if (tour_isLoaded(tour) == TRUE) {
       if (tour_lockTarget(tour) == TRUE) {
@@ -354,6 +356,16 @@ Bool tour_targetStillInRange(Tour* tour)
     else return TRUE;
   }
   else return FALSE;
+}
+
+void tour_updateShootingAngle(Tour* tour)
+{
+  if (tour->targetMonster) {
+    double hypo = sqrt(pow(tour->x - tour->targetMonster->x, 2) + pow(tour->y - tour->targetMonster->y, 2));
+    double distance = tour->x - tour->targetMonster->x;
+    double angle = acos(distance/hypo)* 180.0 / M_PI;
+    tour->angle = angle;
+  }
 }
 
 void tour_freeListTours(ListTours* listTours) {

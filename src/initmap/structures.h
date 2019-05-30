@@ -207,6 +207,7 @@ typedef struct Tour {
   int centrale;
   int munition;
   float rechargement;
+  float angle;
   int radar;
   double x;
   double y;
@@ -335,6 +336,8 @@ typedef struct Plateau {
   int Ysplit;
   Bool play;
   Etat* joueur;
+  GLuint idListInfos;
+  GLuint idListIcon;
   Monster *monster_hover;
   int index_case_hover;
   ConstructionData constructionData[6];

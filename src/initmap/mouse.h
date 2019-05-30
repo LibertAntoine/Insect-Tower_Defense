@@ -1,6 +1,12 @@
 #ifndef MOUSE_H_
 #define MOUSE_H_
 
+#ifdef _WIN32
+  #include <GL/glew.h>
+#else
+  #include <GL/gl.h>
+  #include <GL/glu.h>
+#endif
 #include <SDL2/SDL.h>
 
 #include "structures.h"

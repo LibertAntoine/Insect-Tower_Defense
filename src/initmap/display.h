@@ -30,9 +30,11 @@ void display_menuButtonText(Button* button);
 void display_mainMenu();
 void display_endMenu();
 void display_showCursor();
+void display_genTourList(Tour* tour);
+void display_genBatimentList(TypeCase type);
 
 TextureText*  display_loadTextureText(char text[]);
-void display_drawSingleStat(GeneralType generalType, char text[], TextureName texture_name);
+void display_drawSingleStat(GeneralType generalType, char text[], TextureName texture_name, char str2[]);
 void display_initDefaultList();
 void display_printInfos();
 void display_drawMonsterLife(float PDV);

@@ -73,10 +73,10 @@ void sprite_init()
   textures[BOSS_TEX] = sprite_importTexture("images/sprite-entities/gendarme.png", 2, 1); 
   textures[GERERAL_TEX] = sprite_importTexture("images/sprite-entities/larve.png", 2, 1); 
 
-  textures[CENTRALE_TEX] = sprite_importTexture("images/tests/abeille.png", 1, 1); 
-  textures[RADAR_TEX] = sprite_importTexture("images/tests/coccinelle.png", 1, 1); 
-  textures[ARMEMENT_TEX] = sprite_importTexture("images/tests/guepe.png", 1, 1); 
-  textures[MUNITION_TEX] = sprite_importTexture("images/tests/punaise.png", 1, 1); 
+  textures[CENTRALE_TEX] = sprite_importTexture("images/tests/food.png", 1, 1); 
+  textures[RADAR_TEX] = sprite_importTexture("images/tests/gem1.png", 1, 1); 
+  textures[ARMEMENT_TEX] = sprite_importTexture("images/tests/gem2.png", 1, 1); 
+  textures[MUNITION_TEX] = sprite_importTexture("images/tests/gem3.png", 1, 1); 
 
   textures[MISSILE_TEX] = sprite_importTexture("images/sprite-entities/puceron.png", 1, 1); 
   textures[LASER_TEX] = sprite_importTexture("images/sprite-entities/mouche.png", 1, 1); 

@@ -13,9 +13,8 @@
 #include "cases.h"
 #include "projectile.h"
 
-extern Mix_Chunk** sound;
-
 // Functions
+void tour_updateShootingAngle(Tour* tour);
 ListTours* tour_initListTours();
 void tour_initConstructionData();
 int tour_getDegats(TypeCase type);
