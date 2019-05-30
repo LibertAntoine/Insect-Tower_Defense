@@ -23,6 +23,14 @@ typedef enum MapDataContent {
   MDATA_WAVES = 256
 } MapDataContent;
 
+
+typedef enum GameState {
+  MAINMENU,
+  LEVELPLAY,
+  LOSEMENU,
+  WINMENU
+} GameState;
+
 typedef enum Operations {
   CHK_SUCCESS = 0,
   CHK_NULL = 0,
@@ -49,7 +57,7 @@ typedef enum Sound {
 
 typedef struct Wave {
   int wave_id;
-  float timeBegin;
+  float timeBeforeNext;
   float freq_pop;
   float random;
   float nextMonster_timer;
@@ -99,6 +107,8 @@ typedef struct MapData {
   unsigned int contentState; 
   InfosNodes* infosNodes;
   ListWaves* listWaves;
+  GLuint idGrid;
+  GLuint idMap;
 } MapData;
 
 typedef enum GeneralType {
@@ -304,6 +314,7 @@ typedef struct Plateau {
   ListMonsters* listMonsters;
   ListProjectiles* listProjectiles;
   ListChemins* listChemins;
+  Wave currentWave;
   Tour **tours;
   TypeCase *cases;
 } Plateau;
@@ -326,6 +337,11 @@ typedef enum ButtonName {
   ADD_BTN,
   REMOVE_BTN,
   GETINFO_BTN,
+  LEVEL1_BTN,
+  LEVEL2_BTN,
+  LEVEL3_BTN,
+  MAINMENU_BTN,
+  REPLAY_BTN
 } ButtonName;
 
 typedef enum Display {
@@ -366,5 +382,8 @@ extern GUI *bottomGUI;
 extern GUI *topGUI;
 extern Mix_Chunk** sound;
 extern Texture** textures;
+extern int gameState;
+extern Uint32 beginMomentLevel;
+extern MapData* mapData;
 
 #endif //STRUCTURES_H_
