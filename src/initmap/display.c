@@ -65,6 +65,18 @@ void display_drawSingleStat(GeneralType generalType, char text[], TextureName te
   glPopMatrix();
 }
 
+/*
+void display_initDefaultListIcon(TextureName texture_name)
+{
+    GLuint idListInfos = glGenLists(1);
+    glNewList(idListInfos, GL_COMPILE);
+    TextureText* texture_texte = display_loadTextureText(text);
+    sprite_displayFixedTextureText(texture_texte);
+    glEndList();
+    default_list[i]->idListIcon = idListInfos;
+}
+*/
+
 void display_initDefaultList()
 {
   default_list = calloc(10, sizeof(DefaultList*));
@@ -129,6 +141,8 @@ void display_initDefaultList()
     glEndList();
     default_list[i]->idListInfos = idListInfos;
     position = 0;
+
+    //display_initDefaultListIcon(i);
   }
 
   generalType = BATIMENT;
@@ -721,7 +735,7 @@ void display_game(GUI *plateau_gui, GLuint idMap, GLuint idGrid)
   Div* plateau_div = plateau_gui->dimensions;
   Div* body_div = bodyGUI->dimensions;
 
-  glViewport(plateau_div->x, plateau_div->y, plateau_div->width, plateau_div->height);
+  glViewport(plateau_div->x, (bodyGUI->dimensions->height - plateau_div->y - plateau_div->height), plateau_div->width, plateau_div->height);
   glMatrixMode(GL_PROJECTION);
   glLoadIdentity();
   gluOrtho2D(1, plateau->Xsplit+1, plateau->Ysplit+1, 1);

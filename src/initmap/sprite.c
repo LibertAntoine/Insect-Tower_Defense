@@ -66,7 +66,7 @@ if(!texture_surface) {
 
 void sprite_init()
 {
-  textures = calloc(28, sizeof(Texture*));
+  textures = calloc(29, sizeof(Texture*));
 
   textures[SOLDER_TEX] = sprite_importTexture("images/sprite_A.png", 4, 1); 
   textures[HUGE_SOLDER_TEX] = sprite_importTexture("images/sprite_B2.png", 2, 1); 
@@ -99,7 +99,7 @@ void sprite_init()
   textures[CADENCE_TEX] = sprite_importTexture("images/tests/munition.png", 1, 1); 
   textures[SPEED_TEX] = sprite_importTexture("images/tests/speed.png", 1, 1); 
   textures[LIFE_TEX] = sprite_importTexture("images/tests/heart.png", 1, 1); 
-  textures[FOOD_TEX] = sprite_importTexture("images/tests/frites.png", 1, 1); 
+  textures[FOOD_TEX] = sprite_importTexture("images/tests/cookie.png", 1, 1); 
 }
 
 SpriteTexture* sprite_loadSprite(TextureName texture_name, int loop_duration, Bool loop)

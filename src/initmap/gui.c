@@ -103,7 +103,7 @@ void gui_init()
   topGUI = gui_addChildren(HEADER, 0, 0, bodyGUI->dimensions->width, 40, bodyGUI);
   gui_addButton(topGUI, 600, 20, 25, 25, PAUSE_BTN, CLICKED);
 
-  plateauGUI = gui_addChildren(PLATEAU, 0, 160, bodyGUI->dimensions->width, 600, bodyGUI);
+  plateauGUI = gui_addChildren(PLATEAU, 0, 40, bodyGUI->dimensions->width, 600, bodyGUI);
 
 
   bottomGUI = gui_addChildren(FOOTER, 0, 640, bodyGUI->dimensions->width, 160, bodyGUI);

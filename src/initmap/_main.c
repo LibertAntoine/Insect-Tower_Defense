@@ -96,11 +96,11 @@ int main(int argc, char *argv[])
       }
 
     } else if (gameState == MAINMENU) {
-        
+      //display menu
     } else if (gameState == LOSEMENU) {
-
+      //display menu
     } else if (gameState == WINMENU) {
-
+      //display menu
     }
 
     /* Echange du front et du back buffer : mise a jour de la fenetre */
@@ -119,9 +119,9 @@ int main(int argc, char *argv[])
         break;
       }
       if(gameState == LEVELPLAY) {
-      Etat *joueur = plateau->joueur;
-      TypeCase type = joueur->type;
-      Action action = joueur->action;
+        Etat *joueur = plateau->joueur;
+        TypeCase type = joueur->type;
+        Action action = joueur->action;
       }
 
       mouse_handlePosition();
