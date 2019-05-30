@@ -10,6 +10,7 @@
 
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_mixer.h>
+#include <SDL2/SDL_ttf.h>
 
 typedef enum MapDataContent {
   MDATA_IMG = 1,
@@ -140,20 +141,33 @@ typedef enum Bool {
 
 typedef enum TextureName {
   PAUSE_TEX,
+  PLAY_TEX,
   LASER_TEX,
   MISSILE_TEX,
   CENTRALE_TEX,
   MUNITION_TEX,
   ARMEMENT_TEX,
   RADAR_TEX,
-  ADD_TEX,
-  REMOVE_TEX,
-  GETINFO_TEX,
   SOLDER_TEX,
   HUGE_SOLDER_TEX,
   GERERAL_TEX,
   BOSS_TEX,
-  SPLASH_TEX
+  SPLASH_TEX,
+  BUTTON_TEX,
+  ADD_TEX,
+  REMOVE_TEX,
+  GETINFO_TEX,
+  PLANK_TEX,
+  PLUS_TEX,
+  MONEY_TEX,
+  POINTER_TEX,
+  SHIELD_TEX,
+  DAMAGE_TEX,
+  CADENCE_TEX,
+  SPEED_TEX,
+  LIFE_TEX,
+  TARGET_TEX,
+  FOOD_TEX,
 } TextureName;
 
 typedef struct Texture {
@@ -172,6 +186,12 @@ typedef struct SpriteTexture {
   float translate_x;
   float translate_y;
 } SpriteTexture;
+
+typedef struct TextureText {
+  GLuint texture_id;
+  float ratio;
+} TextureText;
+
 
 typedef struct Tour {
   TypeCase type;
@@ -348,10 +368,12 @@ typedef enum Display {
   NONE,
   ACTIVE,
   INACTIVE,
-  CLICK
+  CLICKED,
+  DISABLED
 } Display;
 
 typedef struct Button {
+  SpriteTexture button;
   SpriteTexture sprite;
   Div *dimensions;
   Display display;
@@ -363,7 +385,9 @@ typedef enum SectionName {
   BODY,
   FOOTER,
   PLATEAU,
-  HEADER
+  HEADER,
+  TOWER_BUTTONS_SECTION,
+  INFO_SECTION
 } SectionName;
 
 typedef struct GUI {
@@ -375,6 +399,24 @@ typedef struct GUI {
   Button *buttons;
 } GUI;
 
+typedef enum DefaultListName {
+  LASER_DEF,
+  MISSILE_DEF,
+  RADAR_DEF,
+  ARMEMENT_DEF,
+  CENTRALE_DEF,
+  MUNITION_DEF,
+  SOLDER_DEF,
+  HUGE_SOLDER_DEF,
+  GERERAL_DEF,
+  BOSS_DEF,
+} DefaultListName;
+
+typedef struct DefaultList {
+  GLuint idListInfos;
+  GLuint idListIcon;
+} DefaultList;
+
 extern Plateau *plateau;
 extern GUI *bodyGUI;
 extern GUI *plateauGUI;
@@ -385,5 +427,8 @@ extern Texture** textures;
 extern int gameState;
 extern Uint32 beginMomentLevel;
 extern MapData* mapData;
+extern GUI *infoGUI;
+extern GUI *buttonGUI;
+extern DefaultList **default_list;
 
 #endif //STRUCTURES_H_

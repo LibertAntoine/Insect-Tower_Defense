@@ -4,7 +4,9 @@
 #include <stdio.h>
 #include <string.h>
 
+#include "structures.h"
 #include "tour.h"
+#include "gui.h"
 #include "cases.h"
 
 // Functions

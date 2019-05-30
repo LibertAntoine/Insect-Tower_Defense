@@ -83,8 +83,10 @@ void player_switchAction(Action action)
   Etat *joueur = plateau->joueur;
   printf("Changing action ");
   player_afficherAction();
+  gui_changeActionButtonState(joueur->action, ACTIVE);
   printf(" --> ");
   joueur->action = action;
+  gui_changeActionButtonState(joueur->action, CLICKED);
   player_afficherAction();
   printf("\n");
 }
@@ -94,8 +96,10 @@ void player_switchTowerType(TypeCase type)
   Etat *joueur = plateau->joueur;
   printf("Changing tower type ");
   player_afficherEtat();
+  gui_changeTowerButtonState(joueur->type, ACTIVE);
   printf(" --> ");
   joueur->type = type;
+  gui_changeTowerButtonState(joueur->type, CLICKED);
   player_afficherEtat();
   printf("\n");
 }

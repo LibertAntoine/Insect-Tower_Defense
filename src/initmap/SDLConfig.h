@@ -18,7 +18,7 @@
 
 /* Dimensions initiales et titre de la fenetre */
 static const unsigned int WINDOW_WIDTH = 800;
-static const unsigned int WINDOW_HEIGHT = 600;
+static const unsigned int WINDOW_HEIGHT = 800;
 static const char WINDOW_TITLE[] = "test";
 
 /* Espace fenetre virtuelle */

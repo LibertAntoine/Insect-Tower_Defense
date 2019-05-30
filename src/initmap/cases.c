@@ -307,7 +307,7 @@ void get_casesi(int *caseX, int *caseY, Div *plateau_div)
   SDL_GetMouseState(&mouseX, &mouseY);
 
   int RmouseX = mouseX - plateau_div->x;
-  int RmouseY = mouseY - plateau_div->y;
+  int RmouseY = mouseY - (WINDOW_HEIGHT - plateau_div->y - plateau_div->height);
 
   int stepX = plateau_div->width / plateau->Xsplit;
   int stepY = plateau_div->height / plateau->Ysplit;
@@ -327,7 +327,7 @@ void get_casesf(float *caseX, float *caseY, Div *plateau_div)
   SDL_GetMouseState(&mouseX, &mouseY);
 
   float RmouseX = mouseX - plateau_div->x;
-  float RmouseY = mouseY - plateau_div->y;
+  float RmouseY = mouseY - (WINDOW_HEIGHT - plateau_div->y - plateau_div->height);
 
   float stepX = plateau_div->width / plateau->Xsplit;
   float stepY = plateau_div->height / plateau->Ysplit;
