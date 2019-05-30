@@ -1,9 +1,9 @@
 #include "cases.h"
 
-TypeCase* case_loadFromPPM(MapData* mapData)
+TypeCase* case_loadFromPPM()
 {
   unsigned char* pixel_data;
-  pixel_data = ppm_load(mapData->mapFile);
+  pixel_data = ppm_load();
 
   TypeCase* cases = calloc(plateau->Xsplit*plateau->Ysplit, sizeof(int));
   RGBcolor* pixel_ppm = malloc(sizeof(RGBcolor));
@@ -37,7 +37,7 @@ TypeCase* case_loadFromPPM(MapData* mapData)
   return cases;
 }
 
-Plateau* case_initPlateau(MapData* mapData)
+Plateau* case_initPlateau()
 {
   plateau = malloc(sizeof(Plateau));
   if (!plateau) {
@@ -49,18 +49,22 @@ Plateau* case_initPlateau(MapData* mapData)
   int argent = 10000;
 
   plateau->joueur = player_init(argent);
-  plateau->cases = case_loadFromPPM(mapData);
+  plateau->cases = case_loadFromPPM();
   plateau->listMonsters = monster_initListMonster();
   plateau->listMonsters->dataMonsters = monster_initDataMonster();
   plateau->listTours = tour_initListTours();
   plateau->listProjectiles = projectile_initListProjectiles();
+  plateau->currentWave = *mapData->listWaves->next;
+  TypeMonster* tmp = malloc(sizeof(TypeMonster)*mapData->listWaves->next->monster_total);
+  memcpy(tmp , mapData->listWaves->next->monsters, sizeof(TypeMonster)*mapData->listWaves->next->monster_total);
+  plateau->currentWave.monsters = tmp;
 
   plateau->tours = calloc(plateau->Xsplit*plateau->Ysplit, sizeof(Tour*));
   if (!plateau->tours) {
     return EXIT_FAILURE;
   }
 
-  plateau->listChemins = itineraire_initListChemins(mapData);
+  plateau->listChemins = itineraire_initListChemins();
 
   plateau->monster_hover = NULL;
   plateau->index_case_hover = -1;
@@ -389,4 +393,14 @@ void case_handleAction(int caseX, int caseY)
       break;
   }
 }
+
+void case_freePlateau() {
+  free(plateau->joueur);
+  tour_freeListTours(plateau->listTours);
+  monster_freeListMonsters(plateau->listMonsters);
+  projectile_freeListProjectiles(plateau->listProjectiles);
+  itineraire_freeListChemins();
+  free(plateau);
+}
+
 
