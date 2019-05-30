@@ -510,7 +510,7 @@ void itd_actionMenu(ButtonName button) {
 
 void itd_initLevel() {
     /* Création du plateau */
-    plateau = case_initPlateau();
+    case_initPlateau();
     /* Calcul des chemins les plus courts */
     itineraire_findShortestPath();
 
