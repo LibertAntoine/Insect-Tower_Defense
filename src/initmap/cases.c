@@ -200,6 +200,7 @@ void case_removeConstruction(int caseX, int caseY)
   if (generalType == TOUR) {
     tour_remove(plateau->tours[index_case]);
   }
+  updateAllTower();
 }
 
 Tour* case_getTourPointer(int caseX, int caseY)

@@ -198,6 +198,21 @@ void tour_add(TypeCase type, int index_case)
   updateAllTower();
 }
 
+void tour_remove(Tour* tour)
+{
+  Tour* tour_list = plateau->listTours->next;
+  if (tour_list == tour) {
+    plateau->listTours->next = tour_list->next;
+  }
+  else {
+    while (tour_list->next != tour){
+      tour_list = tour_list->next;
+    }
+    tour_list->next = tour_list->next->next;
+  }
+  free(tour);
+}
+
 int updateAllTower() {
   Tour* currentTour = plateau->listTours->next;
   int index_case = -1; 
@@ -339,21 +354,6 @@ Bool tour_targetStillInRange(Tour* tour)
     else return TRUE;
   }
   else return FALSE;
-}
-void tour_remove(Tour* tour)
-{
-  Tour* tour_list = plateau->listTours->next;
-  if (tour_list == tour) {
-    plateau->listTours->next = tour_list->next;
-  }
-  else {
-    while (tour_list->next != tour){
-      tour_list = tour_list->next;
-    }
-    tour_list->next = tour_list->next->next;
-  }
-
-  free(tour);
 }
 
 void tour_freeListTours(ListTours* listTours) {

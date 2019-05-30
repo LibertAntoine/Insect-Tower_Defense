@@ -24,7 +24,6 @@ typedef enum MapDataContent {
   MDATA_WAVES = 256
 } MapDataContent;
 
-
 typedef enum GameState {
   MAINMENU,
   LEVELPLAY,
