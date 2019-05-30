@@ -107,8 +107,8 @@ int deleteToProjectile(Projectile* projectile) {
 }
 
 void projectile_freeListProjectiles(ListProjectiles* listProjectiles) {
-  Tour* projectileFree;
-  Tour* currentProjectile = NULL;
+  Projectile* projectileFree;
+  Projectile* currentProjectile = NULL;
   if(listProjectiles->next != NULL) {
     projectileFree = listProjectiles->next;
     currentProjectile = listProjectiles->next->next;
