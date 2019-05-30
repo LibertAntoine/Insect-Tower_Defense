@@ -273,7 +273,7 @@ int monster_moveAll()
 
 
   }
-  if(noLifeMonster = TRUE) {
+  if(noLifeMonster == TRUE) {
    return 1;
   }
   return 0;
