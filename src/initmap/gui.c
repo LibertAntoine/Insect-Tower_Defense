@@ -107,7 +107,7 @@ void gui_init()
 
 
   topGUI = gui_addChildren(HEADER, 0, 0, bodyGUI->dimensions->width, 40, bodyGUI);
-  gui_addButton(topGUI, 600, 20, 25, 25, PAUSE_BTN, CLICKED);
+  gui_addButton(topGUI, 600, 20, 45, 45, PAUSE_BTN, CLICKED);
 
   plateauGUI = gui_addChildren(PLATEAU, 0, 40, bodyGUI->dimensions->width, 600, bodyGUI);
 
@@ -115,19 +115,19 @@ void gui_init()
 
   infoGUI = gui_addChildren(INFO_SECTION, 0, 0, 350, bottomGUI->dimensions->height, bottomGUI);
 
-  buttonGUI = gui_addChildren(TOWER_BUTTONS_SECTION, 500, 0, 300, bottomGUI->dimensions->height, bottomGUI);
+  buttonGUI = gui_addChildren(TOWER_BUTTONS_SECTION, 600, 0, 200, bottomGUI->dimensions->height, bottomGUI);
 
-  gui_addButton(buttonGUI, 20, 30, 25, 25, LASER_BTN, CLICKED);
-  gui_addButton(buttonGUI, 70, 30, 25, 25, MISSILE_BTN, ACTIVE);
+  gui_addButton(buttonGUI, 30, 30, 45, 45, LASER_BTN, CLICKED);
+  gui_addButton(buttonGUI, 90, 30, 45, 45, MISSILE_BTN, ACTIVE);
 
-  gui_addButton(buttonGUI, 20, 70, 25, 25, ARMEMENT_BTN, ACTIVE);
-  gui_addButton(buttonGUI, 70, 70, 25, 25, MUNITION_BTN, ACTIVE);
-  gui_addButton(buttonGUI, 20, 120, 25, 25, RADAR_BTN, ACTIVE);
-  gui_addButton(buttonGUI, 70, 120, 25, 25, CENTRALE_BTN, ACTIVE);
+  gui_addButton(buttonGUI, 30, 80, 45, 45, ARMEMENT_BTN, ACTIVE);
+  gui_addButton(buttonGUI, 90, 80, 45, 45, MUNITION_BTN, ACTIVE);
+  gui_addButton(buttonGUI, 30, 130, 45, 45, RADAR_BTN, ACTIVE);
+  gui_addButton(buttonGUI, 90, 130, 45, 45, CENTRALE_BTN, ACTIVE);
 
-  gui_addButton(buttonGUI, 150, 30, 25, 25, ADD_BTN, CLICKED);
-  gui_addButton(buttonGUI, 150, 50, 25, 25, GETINFO_BTN, ACTIVE);
-  gui_addButton(buttonGUI, 150, 70, 25, 25, REMOVE_BTN, ACTIVE);
+  gui_addButton(buttonGUI, 170, 30, 45, 45, ADD_BTN, CLICKED);
+  gui_addButton(buttonGUI, 170, 80, 45, 45, GETINFO_BTN, ACTIVE);
+  gui_addButton(buttonGUI, 170, 130, 45, 45, REMOVE_BTN, ACTIVE);
 
 
   mainMenuGUI = calloc(1, sizeof(GUI));

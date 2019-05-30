@@ -26,6 +26,7 @@
 #include "sprite.h"
 #include <time.h>
 
+void display_printMoney();
 void display_menuButtonText(Button* button);
 void display_mainMenu();
 void display_endMenu();

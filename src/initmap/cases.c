@@ -50,6 +50,7 @@ void case_initPlateau()
 
   plateau->idListInfos = GL_INVALID_VALUE;
   plateau->idListIcon = GL_INVALID_VALUE;
+  plateau->idListMoney = GL_INVALID_VALUE;
 
   plateau->joueur = player_init(argent);
   plateau->cases = case_loadFromPPM();

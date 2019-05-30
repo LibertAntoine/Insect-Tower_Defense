@@ -338,6 +338,7 @@ typedef struct Plateau {
   Etat* joueur;
   GLuint idListInfos;
   GLuint idListIcon;
+  GLuint idListMoney;
   Monster *monster_hover;
   int index_case_hover;
   ConstructionData constructionData[6];

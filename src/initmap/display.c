@@ -759,6 +759,9 @@ void display_drawZoneBasedOnGUI(GUI *section)
   if (section == infoGUI) {
     display_printInfos();
   }
+  else if (section == topGUI) {
+    display_printMoney();
+  }
 
   display_setDrawingZone(bodyGUI);
 }
@@ -812,6 +815,7 @@ void display_drawSingleButton(Button *button)
     glScalef(button->dimensions->width, button->dimensions->height, 0);
     display_buttonBackground(display_mode);
 
+    glScalef(0.9,0.9,1);
     glColor3f(1,1,1);
 
     TextureName texture_name = sprite_getTextureNameFromButtonName(button->name);
@@ -855,6 +859,51 @@ void display_menuButtonText(Button* button)
   glColor3f(1,0,0);
   sprite_displayFixedTextureText(button->texture_texte);
   glPopMatrix();
+}
+
+void display_printMoney()
+{
+  if (plateau->idListMoney == GL_INVALID_VALUE) {
+    char money[20];
+    sprintf(money, "%d", plateau->joueur->argent);
+
+    TextureText* texture_texte = display_loadTextureText(money);
+
+    GLuint idListMoney = glGenLists(1);
+    glNewList(idListMoney, GL_COMPILE);
+
+    glPushMatrix();
+
+    glColor3f(1,1,1);
+    glTranslatef(20, 15, 0);
+
+    glPushMatrix();
+    glTranslatef(5, 0, 0);
+    glScalef(25, 25, 1);
+    sprite_displayFixedTexture(MONEY_TEX);
+    glPopMatrix();
+
+    glColor3f(1,0,0);
+    glPushMatrix();
+    glTranslatef(15, 5, 0);
+    glScalef(15, 15, 1);
+    sprite_displayFixedTexture(PLUS_TEX);
+    glPopMatrix();
+
+    glPushMatrix();
+    glTranslatef(30, 0, 0);
+    glScalef(14*texture_texte->ratio, 14, 1);
+    sprite_displayFixedTextureText(texture_texte);
+    glPopMatrix();
+
+    glPopMatrix();
+
+    glEndList();
+    plateau->idListMoney = idListMoney;
+  }
+  else {
+    glCallList(plateau->idListMoney);
+  }
 }
 
 void display_top()

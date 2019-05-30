@@ -1,6 +1,13 @@
 #ifndef PLAYER_H_
 #define PLAYER_H_
 
+#ifdef _WIN32
+    #include <GL/glew.h>
+    #define _USE_MATH_DEFINES
+#else
+    #include <GL/gl.h>
+    #include <GL/glu.h>
+#endif
 #include <stdio.h>
 #include <string.h>
 
