@@ -46,5 +46,6 @@ float tour_calculCadence(Tour* tour);
 float tour_calculDegats(Tour* tour);
 float tour_calculPortee(Tour* tour);
 void tour_remove(Tour* tour);
+void tour_freeListTours(ListTours* listTours);
 
 #endif //TOUR_H_
