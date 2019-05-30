@@ -105,3 +105,19 @@ int deleteToProjectile(Projectile* projectile) {
   free(projectile);
   return 0;
 }
+
+void projectile_freeListProjectiles(ListProjectiles* listProjectiles) {
+  Tour* projectileFree;
+  Tour* currentProjectile = NULL;
+  if(listProjectiles->next != NULL) {
+    projectileFree = listProjectiles->next;
+    currentProjectile = listProjectiles->next->next;
+    free(projectileFree);
+  }
+  while(currentProjectile != NULL) {
+    projectileFree = currentProjectile;
+    currentProjectile = currentProjectile->next;
+    free(projectileFree);
+  }
+  free(listProjectiles);
+}

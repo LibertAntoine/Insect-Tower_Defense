@@ -15,4 +15,5 @@ int addToProjectiles(Projectile* projectile);
 int projectile_moveAll();
 int moveProjectile(Projectile* projectile);
 int deleteToProjectile(Projectile* projectile);
+void projectile_freeListProjectiles(ListProjectiles* listProjectiles);
 #endif //PROJECTILE_H_
