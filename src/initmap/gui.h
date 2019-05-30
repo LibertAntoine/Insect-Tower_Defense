@@ -6,6 +6,7 @@
 #include "SDLConfig.h"
 #include "structures.h"
 
+Display gui_getTowerButtonState(TypeCase type);
 ButtonName gui_getButtonNameFromTypeCase(TypeCase type);
 void gui_changeActionButtonState(Action action, Display state);
 void gui_changeTowerButtonState(TypeCase type, Display state);

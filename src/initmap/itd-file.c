@@ -511,21 +511,23 @@ void itd_actionMenu(ButtonName button) {
   }
 }
 
-void itd_initLevel() {
-    /* Création du plateau */
-    case_initPlateau();
-    /* Calcul des chemins les plus courts */
-    itineraire_findShortestPath();
+void itd_initLevel() 
+{
+  /* Création du plateau */
+  case_initPlateau();
+  player_checkTarifs();
+  /* Calcul des chemins les plus courts */
+  itineraire_findShortestPath();
 
-    mapData->idGrid = glGenLists(1);
-    display_gridList(mapData->idGrid);
+  mapData->idGrid = glGenLists(1);
+  display_gridList(mapData->idGrid);
 
-    mapData->idMap = glGenLists(1);
-    display_mapList(mapData->idMap);
-    
-    beginMomentLevel = SDL_GetTicks();
-    
-    Mix_PlayChannel(-1, sound[BEGINLEVEL], 0);
+  mapData->idMap = glGenLists(1);
+  display_mapList(mapData->idMap);
+
+  beginMomentLevel = SDL_GetTicks();
+
+  Mix_PlayChannel(-1, sound[BEGINLEVEL], 0);
 }
 
 void itd_freeMapData() {

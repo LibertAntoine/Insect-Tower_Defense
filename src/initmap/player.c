@@ -68,7 +68,28 @@ int player_acheteConstruction(int caseX, int caseY)
   else {
     joueur->argent -= prix;
     case_addConstruction(caseX, caseY);
+    player_checkTarifs();
     return 1;
+  }
+}
+
+void player_checkTarifs()
+{
+  for (TypeCase i = LASER; i <= MUNITION; i++) {
+    if (plateau->constructionData[i].valeur_achat > plateau->joueur->argent) {
+      if (gui_getTowerButtonState(i) == CLICKED) {
+        gui_changeTowerButtonState(i+1, CLICKED);
+      }
+      gui_changeTowerButtonState(i, DISABLED);
+    }
+    else {
+      if (plateau->joueur->type == i) {
+        gui_changeTowerButtonState(i, CLICKED);
+      }
+      else {
+        gui_changeTowerButtonState(i, ACTIVE);
+      }
+    }
   }
 }
 
@@ -76,6 +97,7 @@ void player_gagneArgent(int valeur)
 {
   Etat *joueur = plateau->joueur;
   joueur->argent += valeur;
+  player_checkTarifs();
 }
 
 void player_switchAction(Action action)

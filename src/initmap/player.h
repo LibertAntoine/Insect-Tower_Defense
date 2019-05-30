@@ -10,6 +10,7 @@
 #include "cases.h"
 
 // Functions
+void player_checkTarifs();
 Etat* player_init(int argent);
 void player_afficherAction();
 void player_afficherEtat();

@@ -43,11 +43,24 @@ ButtonName gui_getButtonNameFromTypeCase(TypeCase type)
   return button_name;
 }
 
+Display gui_getTowerButtonState(TypeCase type)
+{
+  ButtonName button_name = gui_getButtonNameFromTypeCase(type);
+  Button *currentButton = buttonGUI->buttons;
+  while (currentButton->name != button_name) {
+    currentButton = currentButton->next;
+  }
+  return currentButton->display;
+}
+
 void gui_changeTowerButtonState(TypeCase type, Display state)
 {
   ButtonName button_name = gui_getButtonNameFromTypeCase(type);
   Button *currentButton = buttonGUI->buttons;
   while (currentButton->name != button_name) {
+    if (currentButton->next == NULL) {
+      return;
+    }
     currentButton = currentButton->next;
   }
   currentButton->display = state;

@@ -46,7 +46,7 @@ void case_initPlateau()
 
   tour_initConstructionData();
 
-  int argent = 10000;
+  int argent = 1000;
 
   plateau->joueur = player_init(argent);
   plateau->cases = case_loadFromPPM();
