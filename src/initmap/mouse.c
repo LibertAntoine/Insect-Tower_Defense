@@ -110,6 +110,7 @@ void mouse_handleClick()
 {
   GUI *current_section = mouse_getSection();
 
+  if(gameState == LEVELPLAY) {
   if (current_section->name == PLATEAU) {
     int casex, casey;
     float casex_f, casey_f;
@@ -123,6 +124,7 @@ void mouse_handleClick()
   if (buttonClicked) {
     mouse_handleButtonClick(buttonClicked->name);
     printf("%d\n", buttonClicked->name +1);
+  }
   }
 }
 
