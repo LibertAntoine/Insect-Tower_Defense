@@ -16,6 +16,7 @@
  */
 int wave_reduceWaveMonsterArray(int monster_id);
 int moveWave();
+void wave_freeListWaves();
 
 
 #endif
