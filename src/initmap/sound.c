@@ -17,7 +17,7 @@ void sound_init()
 
   son = Mix_LoadWAV("sound/addTower.wav");
   sound[TOWER] = son;
-
+  
   son = Mix_LoadWAV("sound/projectile.wav");
   sound[PROJECTILE] = son;
 
