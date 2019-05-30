@@ -1,6 +1,7 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_mixer.h>
 #include <SDL2/SDL_image.h>
+#include <SDL2/SDL_ttf.h>
 
 #ifdef _WIN32
   #include <GL/glew.h>
@@ -42,6 +43,8 @@ GUI *bottomGUI;
 GUI *topGUI;
 GUI *infoGUI;
 GUI *buttonGUI;
+
+DefaultList **default_list = NULL;
 
 int main(int argc, char *argv[])
 {

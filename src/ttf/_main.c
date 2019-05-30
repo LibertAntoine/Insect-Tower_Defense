@@ -28,6 +28,7 @@ int main()
 
   TextureText* text = loadTextureText("Hellooooe");
 
+  GLuint idList = GL_INVALID_VALUE;
   int loop = 1;
   glClearColor(1,1,1,1);
   while(loop) {
@@ -35,7 +36,7 @@ int main()
 
     glClear(GL_COLOR_BUFFER_BIT);
 
-    display_infos(text, 65);
+    display_infos(text, 65, idList);
 
     SDL_GL_SwapWindow(surface);
 

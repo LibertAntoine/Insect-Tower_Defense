@@ -14,27 +14,8 @@ TextureText*  loadTextureText(char text[])
 
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-  GLuint colours = texture_surface->format->BytesPerPixel;
-  GLuint externalFormat, internalFormat;
-  SDL_PixelFormat *format = texture_surface->format;
-  if (colours == 4) {
 
-    if (texture_surface->format->Rmask == 0x000000ff)
-      externalFormat = GL_RGBA;
-    else
-      externalFormat = GL_BGRA;
-  }
-  else {
-      if (texture_surface->format->Rmask == 0x000000ff)
-        externalFormat = GL_RGB;
-      else
-        externalFormat = GL_BGR;
-  }
-  internalFormat = (colours == 4) ? GL_RGBA : GL_RGB;
-
-                                                                             
-
-  glTexImage2D(GL_TEXTURE_2D, 0, internalFormat, texture_surface->w, texture_surface->h, 0, externalFormat, GL_UNSIGNED_BYTE, texture_surface->pixels);
+  glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, texture_surface->w, texture_surface->h, 0, GL_RGBA, GL_UNSIGNED_BYTE, texture_surface->pixels);
 
   glBindTexture(GL_TEXTURE_2D, 0);
 
@@ -48,30 +29,38 @@ TextureText*  loadTextureText(char text[])
   return texture_texte;
 }
 
-void display_infos(TextureText* text, int height)
+void display_infos(TextureText* text, int height, GLuint idList)
 {
   int width = text->ratio * height;
 
-  glEnable(GL_BLEND);
-  glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+  if (idList == GL_INVALID_VALUE) {
+    idList = glGenLists(1);
+    glNewList(idList, GL_COMPILE);
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-  glEnable(GL_TEXTURE_2D);
-  glBindTexture(GL_TEXTURE_2D, text->texture_id);
+    glEnable(GL_TEXTURE_2D);
+    glBindTexture(GL_TEXTURE_2D, text->texture_id);
 
-  glColor4f(1,1,1,1);
-  glBegin(GL_QUADS);
-  glTexCoord2f(0, 0);
-  glVertex2f(0, 0);
-  glTexCoord2f(1, 0);
-  glVertex2f(width, 0);
-  glTexCoord2f(1, 1);
-  glVertex2f(width, height);
-  glTexCoord2f(0, 1);
-  glVertex2f(0, height);
-  glEnd();
+    glColor4f(1,1,1,1);
+    glBegin(GL_QUADS);
+    glTexCoord2f(0, 0);
+    glVertex2f(0, 0);
+    glTexCoord2f(1, 0);
+    glVertex2f(width, 0);
+    glTexCoord2f(1, 1);
+    glVertex2f(width, height);
+    glTexCoord2f(0, 1);
+    glVertex2f(0, height);
+    glEnd();
 
-  glDisable(GL_BLEND);
+    glDisable(GL_BLEND);
 
-  glBindTexture(GL_TEXTURE_2D, 0);
-  glDisable(GL_TEXTURE_2D);
+    glBindTexture(GL_TEXTURE_2D, 0);
+    glDisable(GL_TEXTURE_2D);
+    glEndList();
+  }
+
+  glCallList(idList);
+
 }

@@ -1,5 +1,264 @@
 #include "display.h"
 
+TextureText*  display_loadTextureText(char text[])
+{
+  TTF_Init();
+  TTF_Font *font = TTF_OpenFont("fonts/fun.ttf", 36);
+  SDL_Color white = {255, 255, 255};
+  SDL_Surface* texture_surface = TTF_RenderText_Blended(font, text, white);
+
+  GLuint texture_id;
+  glGenTextures(1, &texture_id);
+
+  glBindTexture(GL_TEXTURE_2D, texture_id);
+
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+  glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, texture_surface->w, texture_surface->h, 0, GL_RGBA, GL_UNSIGNED_BYTE, texture_surface->pixels);
+
+  glBindTexture(GL_TEXTURE_2D, 0);
+
+  TTF_CloseFont(font);
+  TTF_Quit();
+
+  TextureText* texture_texte = malloc(sizeof(TextureText));
+  texture_texte->texture_id = texture_id;
+  texture_texte->ratio = texture_surface->w / (float) texture_surface->h;
+
+  return texture_texte;
+}
+
+
+void display_drawSingleStat(GeneralType generalType, char text[], TextureName texture_name)
+{
+  TextureText* texture_texte = display_loadTextureText(text);
+
+  glTranslatef(50, 10 ,0);
+  glColor3f(1,1,1);
+
+  glPushMatrix();
+  glScalef(100, 35, 1);
+  sprite_displayFixedTexture(PLANK_TEX);
+  glPopMatrix();
+
+  glTranslatef(-25, 0 ,0);
+
+  glPushMatrix();
+  glTranslatef(5, 0, 0);
+  glScalef(25, 25, 1);
+  sprite_displayFixedTexture(texture_name);
+  glPopMatrix();
+
+  if (generalType == BATIMENT) {
+    glPushMatrix();
+    glTranslatef(15, 5, 0);
+    glScalef(15, 15, 1);
+    sprite_displayFixedTexture(PLUS_TEX);
+    glPopMatrix();
+  }
+
+  glPushMatrix();
+  glTranslatef(30, 0, 0);
+  glScalef(14*texture_texte->ratio, 14, 1);
+  sprite_displayFixedTextureText(texture_texte);
+  glPopMatrix();
+}
+
+void display_initDefaultList()
+{
+  default_list = calloc(10, sizeof(DefaultList*));
+
+  int position = 0;
+  char str[12];
+
+  GeneralType generalType = TOUR;
+  for (int i = LASER; i <= MISSILE; i++) {
+    default_list[i] = calloc(1, sizeof(DefaultList));
+
+    GLuint idListInfos = glGenLists(1);
+    glNewList(idListInfos, GL_COMPILE);
+    glPushMatrix();
+
+    glPushMatrix();
+    glTranslatef(15, position*35+15, 0);
+    sprintf(str, "%d", plateau->constructionData[i].degats);
+    display_drawSingleStat(generalType, str, DAMAGE_TEX);
+    position++;
+    glPopMatrix();
+
+    glPushMatrix();
+    glTranslatef(15, position*35+15, 0);
+    sprintf(str, "%d", plateau->constructionData[i].cadence);
+    display_drawSingleStat(generalType, str, CADENCE_TEX);
+    position++;
+    glPopMatrix();
+
+    glPushMatrix();
+    glTranslatef(15, position*35+15, 0);
+    sprintf(str, "%d", plateau->constructionData[i].portee);
+    display_drawSingleStat(generalType, str, TARGET_TEX);
+    position++;
+    glPopMatrix();
+
+    glPushMatrix();
+    glTranslatef(15, position*35+15, 0);
+    sprintf(str, "%d", plateau->constructionData[i].alimentation);
+    display_drawSingleStat(generalType, str, FOOD_TEX);
+    position++;
+    glPopMatrix();
+
+    position = 0;
+    glTranslatef(100, 0,0);
+
+    glPushMatrix();
+    glTranslatef(15, position*35+15, 0);
+    sprintf(str, "%d", plateau->constructionData[i].valeur_achat);
+    display_drawSingleStat(generalType, str, MONEY_TEX);
+    position++;
+    glPopMatrix();
+
+    glPushMatrix();
+    glTranslatef(15, position*35+15, 0);
+    sprintf(str, "%d", plateau->constructionData[i].valeur_revente);
+    display_drawSingleStat(generalType, str, MONEY_TEX);
+    position++;
+    glPopMatrix();
+
+    glPopMatrix();
+    glEndList();
+    default_list[i]->idListInfos = idListInfos;
+    position = 0;
+  }
+
+  generalType = BATIMENT;
+  for (int i = RADAR; i <= MUNITION; i++) {
+    default_list[i] = calloc(1, sizeof(DefaultList));
+
+    GLuint idListInfos = glGenLists(1);
+    glNewList(idListInfos, GL_COMPILE);
+    glPushMatrix();
+
+    glPushMatrix();
+    glTranslatef(15, position*35+15, 0);
+    sprintf(str, "%d", plateau->constructionData[i].degats);
+    display_drawSingleStat(generalType, str, DAMAGE_TEX);
+    position++;
+    glPopMatrix();
+
+    glPushMatrix();
+    glTranslatef(15, position*35+15, 0);
+    sprintf(str, "%d", plateau->constructionData[i].cadence);
+    display_drawSingleStat(generalType, str, CADENCE_TEX);
+    position++;
+    glPopMatrix();
+
+    glPushMatrix();
+    glTranslatef(15, position*35+15, 0);
+    sprintf(str, "%d", plateau->constructionData[i].portee);
+    display_drawSingleStat(generalType, str, TARGET_TEX);
+    position++;
+    glPopMatrix();
+
+    glPushMatrix();
+    glTranslatef(15, position*35+15, 0);
+    sprintf(str, "%d", plateau->constructionData[i].alimentation);
+    display_drawSingleStat(generalType, str, FOOD_TEX);
+    position++;
+    glPopMatrix();
+
+    position = 0;
+    glTranslatef(100, 0,0);
+
+    glPushMatrix();
+    glTranslatef(15, position*35+15, 0);
+    sprintf(str, "%d", plateau->constructionData[i].valeur_achat);
+    display_drawSingleStat(generalType, str, MONEY_TEX);
+    position++;
+    glPopMatrix();
+
+    glPushMatrix();
+    glTranslatef(15, position*35+15, 0);
+    sprintf(str, "%d", plateau->constructionData[i].valeur_revente);
+    display_drawSingleStat(generalType, str, MONEY_TEX);
+    position++;
+    glPopMatrix();
+
+    glPushMatrix();
+    glTranslatef(15, position*35+15, 0);
+    sprintf(str, "%d", plateau->constructionData[i].range);
+    display_drawSingleStat(TOUR, str, TARGET_TEX);
+    position++;
+    glPopMatrix();
+
+    glPopMatrix();
+    glEndList();
+    default_list[i]->idListInfos = idListInfos;
+    position = 0;
+  }
+
+  generalType = TOUR;
+  int type;
+  for (int i = SOLDER_DEF; i <= BOSS_DEF; i++) {
+    type = i - 6;
+    default_list[i] = calloc(1, sizeof(DefaultList));
+
+    GLuint idListInfos = glGenLists(1);
+    glNewList(idListInfos, GL_COMPILE);
+    glPushMatrix();
+
+    glPushMatrix();
+    glTranslatef(15, position*35+15, 0);
+    sprintf(str, "%d", (int) plateau->listMonsters->dataMonsters[type]->PDV);
+    display_drawSingleStat(generalType, str, LIFE_TEX);
+    position++;
+    glPopMatrix();
+
+    glPushMatrix();
+    glTranslatef(15, position*35+15, 0);
+    sprintf(str, "%d", (int) plateau->listMonsters->dataMonsters[type]->strength);
+    display_drawSingleStat(generalType, str, SHIELD_TEX);
+    position++;
+    glPopMatrix();
+
+    glPushMatrix();
+    glTranslatef(15, position*35+15, 0);
+    sprintf(str, "%f", 0.01/plateau->listMonsters->dataMonsters[type]->mass);
+    display_drawSingleStat(generalType, str, SPEED_TEX);
+    position++;
+    glPopMatrix();
+
+    glPushMatrix();
+    glTranslatef(15, position*35+15, 0);
+    sprintf(str, "%d", plateau->listMonsters->dataMonsters[type]->value);
+    display_drawSingleStat(BATIMENT, str, MONEY_TEX);
+    position++;
+    glPopMatrix();
+
+    glPopMatrix();
+    glEndList();
+    default_list[i]->idListInfos = idListInfos;
+
+    position = 0;
+  }
+}
+
+void display_printInfos()
+{
+  if (plateau->index_case_hover == -1 && plateau->monster_hover == NULL) {
+    glCallList(default_list[plateau->joueur->type]->idListInfos);
+  }
+  else if (plateau->monster_hover) {
+    glCallList(default_list[plateau->monster_hover->type + 6]->idListInfos);
+  }
+  else if (case_getGeneralConstructionType(plateau->cases[plateau->index_case_hover]) == TOUR) {
+    printf("faire l'affichage infos tour\n");
+  }
+  else if (case_getGeneralConstructionType(plateau->cases[plateau->index_case_hover]) == BATIMENT) {
+    printf("faire l'affichage infos batiment\n");
+  }
+}
+
 void display_drawCircle(int fillMode)
 {
   float angleStep = 2 * M_PI / 360;
@@ -344,6 +603,9 @@ void display_drawZoneBasedOnGUI(GUI *section)
 {
   display_setDrawingZone(section);
 
+  if (default_list == NULL) {
+    display_initDefaultList();
+  }
 
   glBegin(GL_QUADS);
   glVertex2f(0, 0);
@@ -356,6 +618,10 @@ void display_drawZoneBasedOnGUI(GUI *section)
   while (button != NULL) {
     display_drawSingleButton(button);
     button = button->next;
+  }
+
+  if (section == infoGUI) {
+    display_printInfos();
   }
 
   display_setDrawingZone(bodyGUI);

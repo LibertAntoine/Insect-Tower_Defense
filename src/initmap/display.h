@@ -13,6 +13,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
+#include <SDL2/SDL_ttf.h>
 
 #include "gui.h"
 #include "structures.h"
@@ -22,6 +23,10 @@
 #include "projectile.h"
 #include "sprite.h"
 
+TextureText*  display_loadTextureText(char text[]);
+void display_drawSingleStat(GeneralType generalType, char text[], TextureName texture_name);
+void display_initDefaultList();
+void display_printInfos();
 void display_drawMonsterLife(float PDV);
 void display_drawTriangle(int fillMode);
 void display_drawCircle(int fillMode);

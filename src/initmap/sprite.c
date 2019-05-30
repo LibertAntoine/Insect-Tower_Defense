@@ -62,7 +62,7 @@ Texture* sprite_importTexture(char image_path[], int totalX, int totalY)
 
 void sprite_init()
 {
-  textures = calloc(17, sizeof(Texture*));
+  textures = calloc(28, sizeof(Texture*));
 
   textures[SOLDER_TEX] = sprite_importTexture("images/sprite_A.png", 4, 1); 
   textures[HUGE_SOLDER_TEX] = sprite_importTexture("images/sprite_B2.png", 2, 1); 
@@ -84,6 +84,18 @@ void sprite_init()
   textures[PLAY_TEX] = sprite_importTexture("images/tests/play.png", 1, 1); 
   textures[SPLASH_TEX] = sprite_importTexture("images/sprite_splash.png", 1, 1); 
   textures[BUTTON_TEX] = sprite_importTexture("images/sprite_Button.png", 1, 1); 
+
+  textures[PLANK_TEX] = sprite_importTexture("images/tests/plank.png", 1, 1); 
+  textures[PLUS_TEX] = sprite_importTexture("images/tests/plus.png", 1, 1); 
+  textures[TARGET_TEX] = sprite_importTexture("images/tests/target.png", 1, 1); 
+  textures[MONEY_TEX] = sprite_importTexture("images/tests/money.png", 1, 1); 
+  textures[POINTER_TEX] = sprite_importTexture("images/tests/hand.png", 1, 1); 
+  textures[SHIELD_TEX] = sprite_importTexture("images/tests/shield.png", 1, 1); 
+  textures[DAMAGE_TEX] = sprite_importTexture("images/tests/explosion.png", 1, 1); 
+  textures[CADENCE_TEX] = sprite_importTexture("images/tests/munition.png", 1, 1); 
+  textures[SPEED_TEX] = sprite_importTexture("images/tests/speed.png", 1, 1); 
+  textures[LIFE_TEX] = sprite_importTexture("images/tests/heart.png", 1, 1); 
+  textures[FOOD_TEX] = sprite_importTexture("images/tests/frites.png", 1, 1); 
 }
 
 SpriteTexture* sprite_loadSprite(TextureName texture_name, int loop_duration, Bool loop)
@@ -103,6 +115,31 @@ SpriteTexture* sprite_loadSprite(TextureName texture_name, int loop_duration, Bo
   new_sprite->translate_y = 0;
 
   return new_sprite;
+}
+
+void sprite_displayFixedTextureText(TextureText* texture_texte)
+{
+  glEnable(GL_BLEND);
+  glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+  glEnable(GL_TEXTURE_2D);
+  glBindTexture(GL_TEXTURE_2D, texture_texte->texture_id);
+
+  glBegin(GL_QUADS);
+  glTexCoord2f(0, 1);
+  glVertex2f(0,0.5);
+  glTexCoord2f(0, 0);
+  glVertex2f(0,-0.5);
+  glTexCoord2f(1, 0);
+  glVertex2f(1,-0.5);
+  glTexCoord2f(1, 1);
+  glVertex2f(1,0.5);
+
+  glEnd();
+
+  glDisable(GL_BLEND);
+  glBindTexture(GL_TEXTURE_2D, 0);
+  glDisable(GL_TEXTURE_2D);
 }
 
 void sprite_displayFixedTexture(TextureName texture_name)
