@@ -85,7 +85,8 @@ int itd_getColor(FILE* file, RGBcolor* RGBColor) {
   }
 }
 
-int itd_getInfosNodes(FILE* file) {
+int itd_getInfosNodes(FILE* file) 
+{
   int nbNoeud;
   int noOfNoeud = fscanf(file, "%d", &nbNoeud);
   if (noOfNoeud != 1 || nbNoeud <= 0) {
@@ -155,7 +156,8 @@ int itd_getInfosNodes(FILE* file) {
   }
 }
 
-int getIdEntrees() {
+int getIdEntrees() 
+{
   int* idEntrees = malloc(sizeof(int)*mapData->infosNodes->entrance_total);
   //TODO: Checker allocation.
 
@@ -175,7 +177,8 @@ int getIdEntrees() {
   }
 }
 
-int itd_getInfosWaves(FILE* file) {
+int itd_getInfosWaves(FILE* file) 
+{
   int wave_total;
   int noOfNoeud = fscanf(file, "%d", &wave_total);
   if (noOfNoeud != 1 || wave_total <= 0) {
