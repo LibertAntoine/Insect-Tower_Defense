@@ -65,6 +65,18 @@ void display_drawSingleStat(GeneralType generalType, char text[], TextureName te
   glPopMatrix();
 }
 
+/*
+void display_initDefaultListIcon(TextureName texture_name)
+{
+    GLuint idListInfos = glGenLists(1);
+    glNewList(idListInfos, GL_COMPILE);
+    TextureText* texture_texte = display_loadTextureText(text);
+    sprite_displayFixedTextureText(texture_texte);
+    glEndList();
+    default_list[i]->idListIcon = idListInfos;
+}
+*/
+
 void display_initDefaultList()
 {
   default_list = calloc(10, sizeof(DefaultList*));
@@ -129,6 +141,8 @@ void display_initDefaultList()
     glEndList();
     default_list[i]->idListInfos = idListInfos;
     position = 0;
+
+    //display_initDefaultListIcon(i);
   }
 
   generalType = BATIMENT;

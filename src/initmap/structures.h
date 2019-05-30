@@ -130,8 +130,6 @@ typedef enum Bool {
 } Bool;
 
 typedef enum TextureName {
-  PAUSE_TEX,
-  PLAY_TEX,
   LASER_TEX,
   MISSILE_TEX,
   CENTRALE_TEX,
@@ -142,6 +140,8 @@ typedef enum TextureName {
   HUGE_SOLDER_TEX,
   GERERAL_TEX,
   BOSS_TEX,
+  PAUSE_TEX,
+  PLAY_TEX,
   SPLASH_TEX,
   BUTTON_TEX,
   ADD_TEX,
