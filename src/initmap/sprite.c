@@ -4,6 +4,10 @@ Texture* sprite_importTexture(char image_path[], int totalX, int totalY)
 {
   Texture* new_texture = malloc(sizeof(Texture));
   SDL_Surface* texture_surface = IMG_Load(image_path);
+if(!texture_surface) {
+    printf("IMG_Load: %s\n", IMG_GetError());
+    // handle error
+}
   new_texture->sprite_totalX = totalX;
   new_texture->sprite_totalY = totalY;
 
