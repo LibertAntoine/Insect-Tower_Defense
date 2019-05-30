@@ -5,7 +5,6 @@ void mouse_handlePosition()
   GUI *current_section = mouse_getSection();
 
   if (current_section->name == PLATEAU && gameState == LEVELPLAY) {
-
     int caseX;
     int caseY;
     get_casesi(&caseX, &caseY, plateauGUI->dimensions);
@@ -104,7 +103,7 @@ void mouse_handleButtonClick(ButtonName button_name)
       player_switchTowerType(type);
     }
   }
-  else if (gameState == MAINMENU || gameState == LOSEMENU) {
+  else if (gameState == MAINMENU || gameState == LOSEMENU || gameState == WINMENU) {
     itd_actionMenu(button_name);
   }
 }

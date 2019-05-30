@@ -436,33 +436,47 @@ void display_mapList(GLuint id)
     case_getCasePosition(index_case, &caseX, &caseY);
     TypeCase type = case_getType(caseX, caseY);
 
-    switch (type) {
-      case CHEMIN:
-        glColor3f(1,0,1);
-        break;
-      case NOEUD:
-        glColor3f(1,0,0);
-        break;
-      case ENTREE:
-        glColor3d(0,0,1);
-        break;
-      case SORTIE:
-        glColor3f(0,1,0);
-        break;
-      default:
-        glColor3f(0,0,0);
-        break;
-    }
-
     glPushMatrix();
+    glColor3f(1,1,1);
     glTranslatef(caseX, caseY, 0);
     glTranslatef(0.5, 0.5, 0);
-    display_drawSquare(GL_FILL);
+    glScalef(0.9,0.9,1);
+
+    switch (type) {
+      case CHEMIN:
+        sprite_displayFixedTexture(CHEMIN_1_TEX + rand()%3);
+        break;
+      case NOEUD:
+        sprite_displayFixedTexture(CHEMIN_1_TEX + rand()%3);
+        break;
+      case ENTREE:
+        sprite_displayFixedTexture(CHEMIN_1_TEX + rand()%3);
+        break;
+      case SORTIE:
+        sprite_displayFixedTexture(REINE_TEX);
+        break;
+      default:
+        sprite_displayFixedTexture(TERRAIN_1_TEX + rand()%5);
+        break;
+    }
     glPopMatrix();
 
   }
 
   glEndList();
+}
+
+void display_showCursor()
+{
+  int mouseX, mouseY;
+  SDL_GetMouseState(&mouseX, &mouseY);
+
+  glPushMatrix();
+  glColor3f(1,1,1);
+  glTranslatef(mouseX+20,mouseY+10,1);
+  glScalef(50,50,1);
+  sprite_displayFixedTexture(POINTER_TEX);
+  glPopMatrix();
 }
 
 void display_gridList(GLuint id)
@@ -792,7 +806,7 @@ void display_game(GUI *plateau_gui, GLuint idMap, GLuint idGrid)
   glMatrixMode(GL_MODELVIEW);
 
   glCallList(idMap);
-  glCallList(idGrid);
+  //glCallList(idGrid);
 
   display_drawBoard();
 

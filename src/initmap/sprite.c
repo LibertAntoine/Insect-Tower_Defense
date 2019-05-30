@@ -66,19 +66,20 @@ if(!texture_surface) {
 
 void sprite_init()
 {
-  textures = calloc(29, sizeof(Texture*));
+  textures = calloc(37, sizeof(Texture*));
 
-  textures[SOLDER_TEX] = sprite_importTexture("images/sprite_A.png", 4, 1); 
-  textures[HUGE_SOLDER_TEX] = sprite_importTexture("images/sprite_B2.png", 2, 1); 
-  textures[BOSS_TEX] = sprite_importTexture("images/sprite_C.png", 4, 1); 
-  textures[GERERAL_TEX] = sprite_importTexture("images/sprite_D.png", 3, 1); 
+  textures[SOLDER_TEX] = sprite_importTexture("images/sprite-entities/cafard.png", 2, 1); 
+  textures[HUGE_SOLDER_TEX] = sprite_importTexture("images/sprite-entities/punaise.png", 2, 1); 
+  textures[BOSS_TEX] = sprite_importTexture("images/sprite-entities/gendarme.png", 2, 1); 
+  textures[GERERAL_TEX] = sprite_importTexture("images/sprite-entities/larve.png", 2, 1); 
+
   textures[CENTRALE_TEX] = sprite_importTexture("images/tests/abeille.png", 1, 1); 
   textures[RADAR_TEX] = sprite_importTexture("images/tests/coccinelle.png", 1, 1); 
   textures[ARMEMENT_TEX] = sprite_importTexture("images/tests/guepe.png", 1, 1); 
   textures[MUNITION_TEX] = sprite_importTexture("images/tests/punaise.png", 1, 1); 
 
-  textures[MISSILE_TEX] = sprite_importTexture("images/tests/sauterelle.png", 1, 1); 
-  textures[LASER_TEX] = sprite_importTexture("images/tests/bizarre.png", 1, 1); 
+  textures[MISSILE_TEX] = sprite_importTexture("images/sprite-entities/puceron.png", 1, 1); 
+  textures[LASER_TEX] = sprite_importTexture("images/sprite-entities/mouche.png", 1, 1); 
 
   textures[ADD_TEX] = sprite_importTexture("images/tests/add.png", 1, 1); 
   textures[REMOVE_TEX] = sprite_importTexture("images/tests/delete.png", 1, 1); 
@@ -100,6 +101,17 @@ void sprite_init()
   textures[SPEED_TEX] = sprite_importTexture("images/tests/speed.png", 1, 1); 
   textures[LIFE_TEX] = sprite_importTexture("images/tests/heart.png", 1, 1); 
   textures[FOOD_TEX] = sprite_importTexture("images/tests/cookie.png", 1, 1); 
+
+  textures[TERRAIN_1_TEX] = sprite_importTexture("images/sprite-world/terrain1.png", 1, 1); 
+  textures[TERRAIN_2_TEX] = sprite_importTexture("images/sprite-world/terrain2.png", 1, 1); 
+  textures[TERRAIN_3_TEX] = sprite_importTexture("images/sprite-world/terrain3.png", 1, 1); 
+  textures[TERRAIN_4_TEX] = sprite_importTexture("images/sprite-world/terrain4.png", 1, 1); 
+  textures[TERRAIN_5_TEX] = sprite_importTexture("images/sprite-world/terrain5.png", 1, 1); 
+  textures[CHEMIN_1_TEX] = sprite_importTexture("images/sprite-world/chemin1.png", 1, 1); 
+  textures[CHEMIN_2_TEX] = sprite_importTexture("images/sprite-world/chemin2.png", 1, 1); 
+  textures[CHEMIN_3_TEX] = sprite_importTexture("images/sprite-world/chemin3.png", 1, 1); 
+
+  textures[REINE_TEX] = sprite_importTexture("images/sprite-world/arrivee-reine.png", 1, 1); 
 }
 
 SpriteTexture* sprite_loadSprite(TextureName texture_name, int loop_duration, Bool loop)

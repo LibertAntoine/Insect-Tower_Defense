@@ -167,6 +167,15 @@ typedef enum TextureName {
   LIFE_TEX,
   TARGET_TEX,
   FOOD_TEX,
+  TERRAIN_1_TEX,
+  TERRAIN_2_TEX,
+  TERRAIN_3_TEX,
+  TERRAIN_4_TEX,
+  TERRAIN_5_TEX,
+  CHEMIN_1_TEX,
+  CHEMIN_2_TEX,
+  CHEMIN_3_TEX,
+  REINE_TEX
 } TextureName;
 
 typedef struct Texture {

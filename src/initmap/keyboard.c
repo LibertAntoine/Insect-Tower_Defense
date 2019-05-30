@@ -10,8 +10,8 @@ void keyboard_handleKeypress(SDL_Event *event)
     Action action = joueur->action;
     switch(key) {
       case ' ':
-        plateau->play = (plateau->play == TRUE) ? FALSE : TRUE;
         // NOTE: toggle play/pause
+        plateau->play = (plateau->play == TRUE) ? FALSE : TRUE;
         break;
       case 'r':
         type = RADAR;
@@ -42,15 +42,16 @@ void keyboard_handleKeypress(SDL_Event *event)
       case 'x':
         action = REMOVE;
         break;
-        if (action != joueur->action) {
-          player_switchAction(action);
-        }
-
-        if (type != joueur->type) {
-          player_switchTowerType(type);
-        }
       }
-    } else if (gameState == MAINMENU) {
+    if (action != joueur->action) {
+      player_switchAction(action);
+    }
+
+    if (type != joueur->type) {
+      player_switchTowerType(type);
+    }
+    } 
+  else if (gameState == MAINMENU) {
       switch(key) {
       case 'a':
         itd_actionMenu(LEVEL1_BTN);

@@ -106,6 +106,8 @@ int main(int argc, char *argv[])
       display_endMenu();
     }
 
+    display_showCursor();
+
     /* Echange du front et du back buffer : mise a jour de la fenetre */
     SDL_GL_SwapWindow(surface);
 

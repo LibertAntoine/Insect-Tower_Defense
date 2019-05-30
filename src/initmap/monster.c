@@ -88,16 +88,16 @@ int monster_popMonster(TypeMonster type, int idIn)
   // TODO: Checker l'allocation
 
   if (type == SOLDER) {
-    monster->sprite_texture = sprite_loadSprite(SOLDER_TEX, 5200, TRUE);
+    monster->sprite_texture = sprite_loadSprite(SOLDER_TEX, 900, TRUE);
   }
   else if (type == HUGE_SOLDER) {
-    monster->sprite_texture = sprite_loadSprite(HUGE_SOLDER_TEX, 1900, TRUE);
+    monster->sprite_texture = sprite_loadSprite(HUGE_SOLDER_TEX, 700, TRUE);
   }
   else if (type == BOSS) {
     monster->sprite_texture = sprite_loadSprite(BOSS_TEX, 2700, TRUE);
   }
   else if (type == GERERAL) {
-    monster->sprite_texture = sprite_loadSprite(GERERAL_TEX, 800, TRUE);
+    monster->sprite_texture = sprite_loadSprite(GERERAL_TEX, 1800, TRUE);
   }
 
   monster->PDV = plateau->listMonsters->dataMonsters[type]->PDV;
