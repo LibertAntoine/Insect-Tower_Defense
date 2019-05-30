@@ -1,65 +1,68 @@
 #include "waves.h"
 
-// TODO: Clarifier le fonctionnement de la fonction. Ex: rendre les variables moins magiques.
-int wave_reduceWaveMonsterArray(TypeMonster* t, int monster_id, int monster_total)
+int wave_reduceWaveMonsterArray(int monster_id)
 {
-  int i = 0;
-  int j = 0;
-
-  for (int id = monster_id; id < monster_total; id++) {
-    t[id] = t[id+1];
+  for (int id = monster_id; id < plateau->currentWave.monster_total; id++) {
+    plateau->currentWave.monsters[id] = plateau->currentWave.monsters[id+1];
   }
 
   return 0;
 }
 
-int moveWave(MapData* mapdata, Wave* currentWave)
+int moveWave()
 {
   srand(time(NULL));
    
   /* Pas de monstre restant dans la vague */
-  if(currentWave->monster_total == 0) {
-    return 0;
+  if(plateau->currentWave.monster_total == 0) {
+    if(plateau->currentWave.next != NULL) {
+      if(plateau->currentWave.timeBeforeNext >= 0) {
+        plateau->currentWave.timeBeforeNext -= 1.0/60.0;
+        return 0;
+      } else {
+        TypeMonster* tmp = malloc(sizeof(TypeMonster)*plateau->currentWave.next->monster_total);
+        memcpy(tmp , plateau->currentWave.next->monsters, sizeof(TypeMonster)*plateau->currentWave.next->monster_total);
+        plateau->currentWave = *plateau->currentWave.next;
+        plateau->currentWave.monsters = tmp;
+        return 0;
+      }
+    } else {
+      /* Fin des vagues de monstres */
+      return 1;
+    }
   }
-  else if (currentWave->nextMonster_timer + (sin(rand()) * currentWave->random) > 0) {
-    currentWave->nextMonster_timer -= 1.0/60.0;
+  else if (plateau->currentWave.nextMonster_timer + (sin(rand()) * plateau->currentWave.random) > 0) {
+    plateau->currentWave.nextMonster_timer -= 1.0/60.0;
     return 0;
   }
   /* On pop un monstre */
   else {
-    int monster_id = rand()%(currentWave->monster_total);
-    int entrance_num = rand()%(mapdata->infosNodes->entrance_total);
-    int entrance_id = mapdata->infosNodes->idEntrees[entrance_num];
-    TypeMonster monster_type = currentWave->monsters[monster_id];
+    int monster_id = rand()%(plateau->currentWave.monster_total);
+    int entrance_num = rand()%(mapData->infosNodes->entrance_total);
+    int entrance_id = mapData->infosNodes->idEntrees[entrance_num];
+    TypeMonster monster_type = plateau->currentWave.monsters[monster_id];
 
-    wave_reduceWaveMonsterArray(currentWave->monsters, monster_id, currentWave->monster_total);
+    wave_reduceWaveMonsterArray(monster_id);
 
-    currentWave->monster_total--;
-    monster_popMonster(mapdata->infosNodes, monster_type, entrance_id);
-    currentWave->nextMonster_timer = currentWave->freq_pop;
+    plateau->currentWave.monster_total--;
+    monster_popMonster(monster_type, entrance_id);
+    plateau->currentWave.nextMonster_timer = plateau->currentWave.freq_pop;
     return 0;
   }
 }
 
-int launchWaves(MapData* mapdata, float timer) {
-  int restMonster = 0;
-
-  Wave* currentWave = malloc(sizeof(Wave));
-  // TODO: Vérifier l'allocation.
-
-  currentWave = mapdata->listWaves->next;
-
-  while(currentWave != NULL) {
-    restMonster = restMonster + currentWave->monster_total;
-    if(currentWave->timeBegin * 1000 < timer) {
-      moveWave(mapdata, currentWave);
-    }
+void wave_freeListWaves() {
+  Wave* waveFree;
+  Wave* currentWave = NULL;
+  if(mapData->listWaves->next != NULL) {
+    waveFree = mapData->listWaves->next;
+    currentWave = mapData->listWaves->next->next;
+    free(waveFree);
+  }
+  while(currentWave->next != NULL) {
+    waveFree = currentWave;
     currentWave = currentWave->next;
+    free(waveFree);
   }
-
-  /* La vague est terminée */
-  if(restMonster == 0) {
-    return 1;
-  }
-  return 0;
+  free(mapData->listWaves);
 }
