@@ -5,6 +5,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <cases.h>
+#include <itineraire.h>
+#include <display.h>
+#include <waves.h>
 
 #include "structures.h"
 
