@@ -177,6 +177,7 @@ void itineraire_checkExistChemin(ListChemins* listChemins, Node* node_in, Node* 
 
 void itineraire_addChemin(ListChemins* listChemins, Node* node_in, Node* node_out)
 {
+  itineraire_checkValidChemin(node_in, node_out);
   Chemin* new_chemin = malloc(sizeof(Chemin));
   new_chemin->node_in = node_in;
   new_chemin->node_out = node_out;
@@ -233,4 +234,33 @@ void itineraire_freeListChemins() {
     currentChemin = currentChemin->next;
     free(cheminFree);
   }
+}
+
+int itineraire_checkValidChemin(Node* node_in, Node* node_out) {
+  int x1 = floor(node_in->x);
+  int y1 = floor(node_in->y);
+
+  int x2 = floor(node_out->x);
+  int y2 = floor(node_out->y);
+
+  while(x1 != x2 || y1 != y2) {
+    if(x1 - x2 < 0) {
+      x1++;
+    } else if (x1 - x2 > 0) {
+      x1--;
+    }
+
+    if(y1 - y2 < 0) {
+      y1++;
+    } else if (y1 - y2 > 0) {
+      y1--;
+    }
+    if(x1 != x2 || y1 != y2) {
+      int cas = case_getCaseIndex(x1, y1);
+      if(plateau->cases[cas] != CHEMIN) {
+        return 1;
+      }
+    }
+  }
+  return 0;
 }
