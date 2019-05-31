@@ -26,6 +26,7 @@
 #include "sprite.h"
 #include <time.h>
 
+GLuint display_initDefaultListIcon(TextureName texture_name);
 void display_printMoney();
 void display_menuButtonText(Button* button);
 void display_mainMenu();

@@ -125,6 +125,7 @@ void display_genBatimentList(TypeCase type)
 
     plateau->idListInfos = idListInfos;
 }
+
 void display_genTourList(Tour* tour)
 {
     GLuint idListInfos = glGenLists(1);
@@ -138,7 +139,7 @@ void display_genTourList(Tour* tour)
 
     glPushMatrix();
     glTranslatef(15, position*35+15, 0);
-    sprintf(str, "%d", tour_getCadence(tour->type));
+    sprintf(str, "%d", tour_getDegats(tour->type));
     sprintf(str2, "%d",tour->armement);
     display_drawSingleStat(generalType, str, DAMAGE_TEX, str2);
     position++;
@@ -172,6 +173,70 @@ void display_genTourList(Tour* tour)
     glEndList();
 
     plateau->idListInfos = idListInfos;
+}
+
+GLuint display_initDefaultListIcon(TextureName texture_name)
+{
+  GLuint idListIcon = glGenLists(1);
+  glNewList(idListIcon, GL_COMPILE);
+  char name[20];
+
+  switch(texture_name) {
+    case LASER_TEX:
+      strcpy(name, "laser");
+      break;
+    case MISSILE_TEX:
+      strcpy(name, "missile");
+      break;
+    case CENTRALE_TEX:
+      strcpy(name, "centrale");
+      break;
+    case MUNITION_TEX:
+      strcpy(name, "munition");
+      break;
+    case ARMEMENT_TEX:
+      strcpy(name, "armement");
+      break;
+    case RADAR_TEX:
+      strcpy(name, "radar");
+      break;
+    case SOLDER_TEX:
+      strcpy(name, "solder");
+      break;
+    case HUGE_SOLDER_TEX:
+      strcpy(name, "huge");
+      break;
+    case GERERAL_TEX:
+      strcpy(name, "gereral");
+      break;
+    case BOSS_TEX:
+      strcpy(name, "boss");
+      break;
+  }
+
+  TextureText* texture_texte = display_loadTextureText(name);
+
+  glPushMatrix();
+
+  glTranslatef(430, 70, 0);
+  glColor3f(1,1,1);
+
+  glPushMatrix();
+  glScalef(100,100,1);
+  sprite_displayFixedTexture(texture_name);
+  glPopMatrix();
+
+  glPushMatrix();
+  glTranslatef(-14*texture_texte->ratio/2, 70, 0);
+  glScalef(14*texture_texte->ratio, 14, 1);
+  sprite_displayFixedTextureText(texture_texte);
+  glPopMatrix();
+
+  glPopMatrix();
+
+  glEndList();
+
+  return idListIcon;
 }
 
 void display_initDefaultList()
@@ -237,9 +302,9 @@ void display_initDefaultList()
     glPopMatrix();
     glEndList();
     default_list[i]->idListInfos = idListInfos;
+    default_list[i]->idListIcon = display_initDefaultListIcon(i);
     position = 0;
 
-    //display_initDefaultListIcon(i);
   }
 
   generalType = BATIMENT;
@@ -305,6 +370,7 @@ void display_initDefaultList()
     glPopMatrix();
     glEndList();
     default_list[i]->idListInfos = idListInfos;
+    default_list[i]->idListIcon = display_initDefaultListIcon(i);
     position = 0;
   }
 
@@ -349,6 +415,7 @@ void display_initDefaultList()
     glPopMatrix();
     glEndList();
     default_list[i]->idListInfos = idListInfos;
+    default_list[i]->idListIcon = display_initDefaultListIcon(i);
 
     position = 0;
   }
@@ -358,6 +425,7 @@ void display_printInfos()
 {
   if (plateau->index_case_hover == -1 && plateau->monster_hover == NULL) {
     glCallList(default_list[plateau->joueur->type]->idListInfos);
+    glCallList(default_list[plateau->joueur->type]->idListIcon);
   }
   else if (plateau->monster_hover) {
     glCallList(default_list[plateau->monster_hover->type + 6]->idListInfos);

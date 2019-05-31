@@ -113,7 +113,7 @@ void gui_init()
 
   bottomGUI = gui_addChildren(FOOTER, 0, 640, bodyGUI->dimensions->width, 160, bodyGUI);
 
-  infoGUI = gui_addChildren(INFO_SECTION, 0, 0, 350, bottomGUI->dimensions->height, bottomGUI);
+  infoGUI = gui_addChildren(INFO_SECTION, 0, 0, 600, bottomGUI->dimensions->height, bottomGUI);
 
   buttonGUI = gui_addChildren(TOWER_BUTTONS_SECTION, 600, 0, 200, bottomGUI->dimensions->height, bottomGUI);
 

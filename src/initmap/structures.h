@@ -141,10 +141,10 @@ typedef enum Bool {
 typedef enum TextureName {
   LASER_TEX,
   MISSILE_TEX,
+  RADAR_TEX,
+  ARMEMENT_TEX,
   CENTRALE_TEX,
   MUNITION_TEX,
-  ARMEMENT_TEX,
-  RADAR_TEX,
   SOLDER_TEX,
   HUGE_SOLDER_TEX,
   GERERAL_TEX,

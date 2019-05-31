@@ -75,6 +75,9 @@ int player_acheteConstruction(int caseX, int caseY)
 
 void player_checkTarifs()
 {
+  if (plateau->idListMoney != GL_INVALID_VALUE) {
+    glDeleteLists(plateau->idListMoney, 1);
+  }
   plateau->idListMoney = GL_INVALID_VALUE;
   for (TypeCase i = LASER; i <= MUNITION; i++) {
     if (plateau->constructionData[i].valeur_achat > plateau->joueur->argent) {
