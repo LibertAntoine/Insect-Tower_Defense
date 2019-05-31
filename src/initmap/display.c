@@ -73,7 +73,7 @@ void display_drawSingleStat(GeneralType generalType, char text[], TextureName te
     glPopMatrix();
 
     glPushMatrix();
-    glTranslatef(75, 5, 0);
+    glTranslatef(75, 0, 0);
     glScalef(15, 15, 1);
     sprite_displayFixedTexture(PLUS_TEX);
     glPopMatrix();
@@ -615,7 +615,7 @@ void display_mapList(GLuint id)
     glColor3f(1,1,1);
     glTranslatef(caseX, caseY, 0);
     glTranslatef(0.5, 0.5, 0);
-    glScalef(0.9,0.9,1);
+    glScalef(0.95,0.95,1);
 
     switch (type) {
       case CHEMIN:

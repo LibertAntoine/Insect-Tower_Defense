@@ -136,9 +136,9 @@ void gui_init()
   dimensions_main->width = WINDOW_WIDTH;
   dimensions_main->height = WINDOW_HEIGHT;
   mainMenuGUI->dimensions = dimensions_main;
-  gui_addButton(mainMenuGUI, 400, 400, 250, 25, LEVEL1_BTN, ACTIVE);
-  gui_addButton(mainMenuGUI, 400, 450, 250, 25, LEVEL2_BTN, ACTIVE);
-  gui_addButton(mainMenuGUI, 400, 500, 250, 25, LEVEL3_BTN, ACTIVE);
+  gui_addButton(mainMenuGUI, 400, 400, 250, 45, LEVEL1_BTN, ACTIVE);
+  gui_addButton(mainMenuGUI, 400, 470, 250, 45, LEVEL2_BTN, ACTIVE);
+  gui_addButton(mainMenuGUI, 400, 540, 250, 45, LEVEL3_BTN, ACTIVE);
 
   endMenuGUI = calloc(1, sizeof(GUI));
   endMenuGUI->name =LOSEMENU ;
@@ -146,8 +146,8 @@ void gui_init()
   dimensions_end->width = WINDOW_WIDTH;
   dimensions_end->height = WINDOW_HEIGHT;
   endMenuGUI->dimensions = dimensions_main;
-  gui_addButton(endMenuGUI, 400, 400, 250, 25, MAINMENU_BTN, ACTIVE);
-  gui_addButton(endMenuGUI, 400, 450, 250, 25, REPLAY_BTN, ACTIVE);
+  gui_addButton(endMenuGUI, 400, 400, 250, 45, MAINMENU_BTN, ACTIVE);
+  gui_addButton(endMenuGUI, 400, 470, 250, 45, REPLAY_BTN, ACTIVE);
 }
 
 void gui_getAbsoluteDimensionsButton(GUI *section, Div *button)

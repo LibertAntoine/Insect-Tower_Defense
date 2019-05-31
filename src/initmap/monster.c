@@ -254,7 +254,7 @@ int monster_moveAll()
   Bool noLifeMonster = TRUE;
   while (currentMonster != NULL) {  
     if(currentMonster->status == DEAD) {
-      currentMonster->decomposition -= 1.0/60.0;
+      currentMonster->decomposition -= 1.0/320.0;
     } else {
       noLifeMonster = FALSE;
       moveMonster(currentMonster);
