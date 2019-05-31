@@ -129,6 +129,8 @@ typedef struct DataMonsters {
 } DataMonsters;
 
 typedef struct MapData {
+  int Xsplit;
+  int Ysplit;
   char* mapFile;
   int energy;
   RGBcolor pathCol;
@@ -338,8 +340,6 @@ typedef struct ListChemins {
 } ListChemins;
 
 typedef struct Plateau {
-  int Xsplit;
-  int Ysplit;
   Bool play;
   Etat* joueur;
   GLuint idListInfos;

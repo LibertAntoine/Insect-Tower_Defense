@@ -36,7 +36,7 @@ int itineraire_findShortestPath()
     }
 
     i = -1;
-    int distance_max = plateau->Xsplit * plateau->Ysplit;
+    int distance_max = mapData->Xsplit * mapData->Ysplit;
     for(int k = 0; k < mapData->infosNodes->nbNoeud; k++) {
       if(!idVisited[k] && distance_max >= distances[k]) { 
         distance_max = distances[k];     
@@ -58,7 +58,7 @@ int *itineraire_initVisitedArray(int size)
 int *itineraire_initDistanceArray(int size)
 {
   int *array = malloc(sizeof(int) * size);
-  int total_cases = plateau->Xsplit * plateau->Ysplit;
+  int total_cases = mapData->Xsplit * mapData->Ysplit;
   itineraire_fillArray(array, size, total_cases);
 
   return array;

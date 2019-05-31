@@ -606,7 +606,7 @@ void display_mapList(GLuint id)
   int caseX;
   int caseY;
 
-  for (int index_case = 0; index_case < plateau->Xsplit * plateau->Ysplit; index_case++) {
+  for (int index_case = 0; index_case < mapData->Xsplit * mapData->Ysplit; index_case++) {
 
     case_getCasePosition(index_case, &caseX, &caseY);
     TypeCase type = case_getType(caseX, caseY);
@@ -660,26 +660,26 @@ void display_gridList(GLuint id)
   glColor3d(0,255,0);
   glLineWidth(3);
 
-  for (int i=0; i<plateau->Xsplit; i++) {
+  for (int i=0; i<mapData->Xsplit; i++) {
     glBegin(GL_LINES);
     glVertex2d(i+1, 1);
-    glVertex2d(i+1, plateau->Ysplit+1);
+    glVertex2d(i+1, mapData->Ysplit+1);
     glEnd();
   }
   glColor3d(255,255,0);
-  for (int i=0; i<plateau->Ysplit; i++) {
+  for (int i=0; i<mapData->Ysplit; i++) {
     glBegin(GL_LINES);
     glVertex2d(1, i+1);
-    glVertex2d(plateau->Xsplit+1, i+1);
+    glVertex2d(mapData->Xsplit+1, i+1);
     glEnd();
   }
 
   glColor3d(255,0,255);
   glPointSize(5);
   glBegin(GL_POINTS);
-  for (int i=0; i<plateau->Xsplit*plateau->Ysplit; i++) {
-    float centerY = i / plateau->Xsplit + 1.5;
-    float centerX = i % plateau->Xsplit + 1.5;
+  for (int i=0; i<mapData->Xsplit*mapData->Ysplit; i++) {
+    float centerY = i / mapData->Xsplit + 1.5;
+    float centerX = i % mapData->Xsplit + 1.5;
     glVertex2f(centerX, centerY);
   }
   glEnd();
@@ -730,7 +730,7 @@ void display_drawSingleTower(int caseX, int caseY, TypeCase type)
 
 void display_drawAllTargetRanges()
 {
-  int total_cases = plateau->Xsplit * plateau->Ysplit;
+  int total_cases = mapData->Xsplit * mapData->Ysplit;
 
   for (int index_case=0; index_case < total_cases; index_case++) {
     TypeCase type = plateau->cases[index_case];
@@ -759,7 +759,7 @@ void display_drawAllTargetRanges()
 
 void display_drawBoard()
 {
-  int total_cases = plateau->Xsplit * plateau->Ysplit;
+  int total_cases = mapData->Xsplit * mapData->Ysplit;
 
   for (int index_case = 0; index_case < total_cases; index_case++) {
     int caseY, caseX;
@@ -1027,7 +1027,7 @@ void display_game(GUI *plateau_gui, GLuint idMap, GLuint idGrid)
   glViewport(plateau_div->x, (bodyGUI->dimensions->height - plateau_div->y - plateau_div->height), plateau_div->width, plateau_div->height);
   glMatrixMode(GL_PROJECTION);
   glLoadIdentity();
-  gluOrtho2D(1, plateau->Xsplit+1, plateau->Ysplit+1, 1);
+  gluOrtho2D(1, mapData->Xsplit+1, mapData->Ysplit+1, 1);
   glMatrixMode(GL_MODELVIEW);
 
   glCallList(idMap);

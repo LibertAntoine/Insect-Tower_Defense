@@ -89,8 +89,8 @@ int addToListTour(Tour* tour)
 // TODO: Passer sur des portées en ligne droite
 int tour_countBatiments(TypeCase type, int index_case)
 {
-  int Xsplit = plateau->Xsplit;
-  int Ysplit = plateau->Ysplit;
+  int Xsplit = mapData->Xsplit;
+  int Ysplit = mapData->Ysplit;
   int total_cases = Xsplit * Ysplit;
   int range = mapData->constructionData[type].range;
 
@@ -269,7 +269,7 @@ Bool tour_findTarget(Tour* tour)
   Monster* currentMonster = plateau->listMonsters->firstMonster;
   float current_monster_distance = 0;
   float portee = tour_calculPortee(tour);
-  float shortest_monster_distance = pow(plateau->Xsplit, 2) + pow(plateau->Ysplit, 2);
+  float shortest_monster_distance = pow(mapData->Xsplit, 2) + pow(mapData->Ysplit, 2);
   while (currentMonster != NULL)
   {  
     if(currentMonster->status == ALIVE) {

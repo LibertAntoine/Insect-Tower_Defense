@@ -5,12 +5,12 @@ TypeCase* case_loadFromPPM()
   unsigned char* pixel_data;
   pixel_data = ppm_load();
 
-  TypeCase* cases = calloc(plateau->Xsplit*plateau->Ysplit, sizeof(int));
+  TypeCase* cases = calloc(mapData->Xsplit*mapData->Ysplit, sizeof(int));
   RGBcolor* pixel_ppm = malloc(sizeof(RGBcolor));
 
   int nbSortie = 0;
 
-  for(int i = 0; i < plateau->Xsplit*plateau->Ysplit; i++) {
+  for(int i = 0; i < mapData->Xsplit*mapData->Ysplit; i++) {
     pixel_ppm->red = (char) pixel_data[i*3];
     pixel_ppm->green = (char) pixel_data[i*3+1];
     pixel_ppm->blue = (char) pixel_data[i*3+2];
@@ -60,7 +60,7 @@ void case_initPlateau()
   memcpy(tmp , mapData->listWaves->next->monsters, sizeof(TypeMonster)*mapData->listWaves->next->monster_total);
   plateau->currentWave.monsters = tmp;
 
-  plateau->tours = calloc(plateau->Xsplit*plateau->Ysplit, sizeof(Tour*));
+  plateau->tours = calloc(mapData->Xsplit*mapData->Ysplit, sizeof(Tour*));
   if (!plateau->tours) {
     return EXIT_FAILURE;
   }
@@ -86,14 +86,14 @@ int case_RGBCompare(RGBcolor color1, RGBcolor color2) {
 
 int case_getCaseIndex(int caseX, int caseY)
 {
-  int index_case = (caseY-1)*plateau->Xsplit + (caseX-1);
+  int index_case = (caseY-1)*mapData->Xsplit + (caseX-1);
   return index_case;
 }
 
 void case_getCasePosition(int caseIndex, int* caseX, int* caseY)
 {
-  *caseY = caseIndex / plateau->Xsplit + 1;
-  *caseX = caseIndex % plateau->Xsplit + 1;
+  *caseY = caseIndex / mapData->Xsplit + 1;
+  *caseX = caseIndex % mapData->Xsplit + 1;
 }
 
 TypeCase case_getType(int caseX, int caseY)
@@ -105,8 +105,8 @@ TypeCase case_getType(int caseX, int caseY)
 
 int case_getCaseCoordFromPixels(int positionX, int positionY, int *caseX, int *caseY, int px_width, int px_height)
 {
-  int case_width = px_width / plateau->Xsplit;
-  int case_height = px_height / plateau->Ysplit;
+  int case_width = px_width / mapData->Xsplit;
+  int case_height = px_height / mapData->Ysplit;
 
   if (positionX >= 0 && positionX < px_width && positionY >= 0 && positionY < px_height) {
     *caseX = (positionX / case_width);
@@ -310,8 +310,8 @@ void get_casesi(int *caseX, int *caseY, Div *plateau_div)
   int RmouseX = mouseX - plateau_div->x;
   int RmouseY = mouseY - plateau_div->y;
 
-  int stepX = plateau_div->width / plateau->Xsplit;
-  int stepY = plateau_div->height / plateau->Ysplit;
+  int stepX = plateau_div->width / mapData->Xsplit;
+  int stepY = plateau_div->height / mapData->Ysplit;
 
   if (RmouseX >= 0 && RmouseY >= 0) {
     if (RmouseX <= plateau_div->width && RmouseY <= plateau_div->height) {
@@ -331,8 +331,8 @@ void get_casesf(float *caseX, float *caseY, Div *plateau_div)
   float RmouseX = mouseX - plateau_div->x;
   float RmouseY = mouseY - plateau_div->y;
 
-  float stepX = plateau_div->width / plateau->Xsplit;
-  float stepY = plateau_div->height / plateau->Ysplit;
+  float stepX = plateau_div->width / mapData->Xsplit;
+  float stepY = plateau_div->height / mapData->Ysplit;
 
   if (RmouseX >= 0 && RmouseY >= 0) {
     if (RmouseX <= plateau_div->width && RmouseY <= plateau_div->height) {

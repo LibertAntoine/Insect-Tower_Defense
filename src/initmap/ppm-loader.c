@@ -77,8 +77,8 @@ char* ppm_load()
 
   fread(pixel_data, 3*width, height, image);
   
-  plateau->Xsplit = width;
-  plateau->Ysplit = height;
+  mapData->Xsplit = width;
+  mapData->Ysplit = height;
 
   return pixel_data;
 
