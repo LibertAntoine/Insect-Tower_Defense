@@ -629,6 +629,7 @@ void idt_load(char* itd_path)
     int allFlags = (MDATA_IMG | MDATA_ENERGY | MDATA_IN | MDATA_OUT | MDATA_PATH | MDATA_NODE | MDATA_CONSTRUCT | MDATA_INFOSNODE | MDATA_WAVES);
     if (mapData->contentState == allFlags) {
       printf("file is valid\n");
+      mapData->cases = case_loadFromPPM();
     }
   }
 }

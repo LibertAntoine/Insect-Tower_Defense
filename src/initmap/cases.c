@@ -51,7 +51,6 @@ void case_initPlateau()
   plateau->idListMoney = GL_INVALID_VALUE;
 
   plateau->joueur = player_init(argent);
-  mapData->cases = case_loadFromPPM();
   plateau->listMonsters = monster_initListMonster();
   plateau->listTours = tour_initListTours();
   plateau->listProjectiles = projectile_initListProjectiles();
