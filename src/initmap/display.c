@@ -256,28 +256,28 @@ void display_initDefaultList()
 
     glPushMatrix();
     glTranslatef(15, position*35+15, 0);
-    sprintf(str, "%d", plateau->constructionData[i].degats);
+    sprintf(str, "%d", mapData->constructionData[i].degats);
     display_drawSingleStat(generalType, str, DAMAGE_TEX, NULL);
     position++;
     glPopMatrix();
 
     glPushMatrix();
     glTranslatef(15, position*35+15, 0);
-    sprintf(str, "%d", plateau->constructionData[i].cadence);
+    sprintf(str, "%d", mapData->constructionData[i].cadence);
     display_drawSingleStat(generalType, str, CADENCE_TEX, NULL);
     position++;
     glPopMatrix();
 
     glPushMatrix();
     glTranslatef(15, position*35+15, 0);
-    sprintf(str, "%d", plateau->constructionData[i].portee);
+    sprintf(str, "%d", mapData->constructionData[i].portee);
     display_drawSingleStat(generalType, str, TARGET_TEX, NULL);
     position++;
     glPopMatrix();
 
     glPushMatrix();
     glTranslatef(15, position*35+15, 0);
-    sprintf(str, "%d", plateau->constructionData[i].alimentation);
+    sprintf(str, "%d", mapData->constructionData[i].alimentation);
     display_drawSingleStat(generalType, str, FOOD_TEX, NULL);
     position++;
     glPopMatrix();
@@ -287,14 +287,14 @@ void display_initDefaultList()
 
     glPushMatrix();
     glTranslatef(15, position*35+15, 0);
-    sprintf(str, "%d", plateau->constructionData[i].valeur_achat);
+    sprintf(str, "%d", mapData->constructionData[i].valeur_achat);
     display_drawSingleStat(generalType, str, MONEY_TEX, NULL);
     position++;
     glPopMatrix();
 
     glPushMatrix();
     glTranslatef(15, position*35+15, 0);
-    sprintf(str, "%d", plateau->constructionData[i].valeur_revente);
+    sprintf(str, "%d", mapData->constructionData[i].valeur_revente);
     display_drawSingleStat(generalType, str, MONEY_TEX, NULL);
     position++;
     glPopMatrix();
@@ -317,28 +317,28 @@ void display_initDefaultList()
 
     glPushMatrix();
     glTranslatef(15, position*35+15, 0);
-    sprintf(str, "%d", plateau->constructionData[i].degats);
+    sprintf(str, "%d", mapData->constructionData[i].degats);
     display_drawSingleStat(generalType, str, DAMAGE_TEX, NULL);
     position++;
     glPopMatrix();
 
     glPushMatrix();
     glTranslatef(15, position*35+15, 0);
-    sprintf(str, "%d", plateau->constructionData[i].cadence);
+    sprintf(str, "%d", mapData->constructionData[i].cadence);
     display_drawSingleStat(generalType, str, CADENCE_TEX, NULL);
     position++;
     glPopMatrix();
 
     glPushMatrix();
     glTranslatef(15, position*35+15, 0);
-    sprintf(str, "%d", plateau->constructionData[i].portee);
+    sprintf(str, "%d", mapData->constructionData[i].portee);
     display_drawSingleStat(generalType, str, TARGET_TEX, NULL);
     position++;
     glPopMatrix();
 
     glPushMatrix();
     glTranslatef(15, position*35+15, 0);
-    sprintf(str, "%d", plateau->constructionData[i].alimentation);
+    sprintf(str, "%d", mapData->constructionData[i].alimentation);
     display_drawSingleStat(generalType, str, FOOD_TEX, NULL);
     position++;
     glPopMatrix();
@@ -348,21 +348,21 @@ void display_initDefaultList()
 
     glPushMatrix();
     glTranslatef(15, position*35+15, 0);
-    sprintf(str, "%d", plateau->constructionData[i].valeur_achat);
+    sprintf(str, "%d", mapData->constructionData[i].valeur_achat);
     display_drawSingleStat(generalType, str, MONEY_TEX, NULL);
     position++;
     glPopMatrix();
 
     glPushMatrix();
     glTranslatef(15, position*35+15, 0);
-    sprintf(str, "%d", plateau->constructionData[i].valeur_revente);
+    sprintf(str, "%d", mapData->constructionData[i].valeur_revente);
     display_drawSingleStat(generalType, str, MONEY_TEX, NULL);
     position++;
     glPopMatrix();
 
     glPushMatrix();
     glTranslatef(15, position*35+15, 0);
-    sprintf(str, "%d", plateau->constructionData[i].range);
+    sprintf(str, "%d", mapData->constructionData[i].range);
     display_drawSingleStat(TOUR, str, TARGET_TEX, NULL);
     position++;
     glPopMatrix();
@@ -386,28 +386,28 @@ void display_initDefaultList()
 
     glPushMatrix();
     glTranslatef(15, position*35+15, 0);
-    sprintf(str, "%d", (int) plateau->listMonsters->dataMonsters[type]->PDV);
+    sprintf(str, "%d", (int) mapData->dataMonsters[type].PDV);
     display_drawSingleStat(generalType, str, LIFE_TEX, NULL);
     position++;
     glPopMatrix();
 
     glPushMatrix();
     glTranslatef(15, position*35+15, 0);
-    sprintf(str, "%d", (int) plateau->listMonsters->dataMonsters[type]->strength);
+    sprintf(str, "%d", (int) mapData->dataMonsters[type].strength);
     display_drawSingleStat(generalType, str, SHIELD_TEX, NULL);
     position++;
     glPopMatrix();
 
     glPushMatrix();
     glTranslatef(15, position*35+15, 0);
-    sprintf(str, "%f", 0.01/plateau->listMonsters->dataMonsters[type]->mass);
+    sprintf(str, "%f", 0.01/mapData->dataMonsters[type].mass);
     display_drawSingleStat(generalType, str, SPEED_TEX, NULL);
     position++;
     glPopMatrix();
 
     glPushMatrix();
     glTranslatef(15, position*35+15, 0);
-    sprintf(str, "%d", plateau->listMonsters->dataMonsters[type]->value);
+    sprintf(str, "%d", mapData->dataMonsters[type].value);
     display_drawSingleStat(BATIMENT, str, MONEY_TEX, NULL);
     position++;
     glPopMatrix();
@@ -518,7 +518,7 @@ void display_drawSingleMonster(Monster* monster)
     angle = 90;
   }
   float PDV = monster->PDV;
-  float maxPDV = plateau->listMonsters->dataMonsters[monster->type]->PDV;
+  float maxPDV = mapData->dataMonsters[monster->type].PDV;
   float percentPDV = 1 / maxPDV * PDV;
   glPushMatrix();
   glTranslatef(monster->x, monster->y, 0);

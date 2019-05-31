@@ -156,6 +156,53 @@ int itd_getInfosNodes(FILE* file)
   }
 }
 
+int itd_getMonstersData(FILE* file, TypeCase type) 
+{
+  float PDV;
+  float strength;
+  double mass;
+  int value;
+  int noOfColors = fscanf(file, "%f %f %lf %d", &PDV, &strength, &mass, &value);
+  if (noOfColors != 4) {
+    return CHK_ERROR_FILE;
+  }
+  else {
+    mapData->dataMonsters[type].PDV = PDV;
+    mapData->dataMonsters[type].strength = strength;
+    mapData->dataMonsters[type].mass = mass;
+    mapData->dataMonsters[type].value = value;
+    return CHK_SUCCESS;
+  }
+}
+
+int itd_getConstructionData(FILE* file, TypeCase type) 
+{
+  int degats;
+  int alimentation;
+  int cadence;
+  int portee;
+  int range;
+  int valeur_achat;
+  int valeur_revente;
+  int noOfColors = fscanf(file, "%d %d %d %d %d %d %d", &degats, &alimentation, 
+  &cadence, &portee, &range, &valeur_achat, &valeur_revente);
+  if (noOfColors != 7) {
+    return CHK_ERROR_FILE;
+  }
+  else {
+    mapData->constructionData[type].type = type;
+    mapData->constructionData[type].degats = degats;
+    mapData->constructionData[type].alimentation = alimentation;
+    mapData->constructionData[type].cadence = cadence;
+    mapData->constructionData[type].portee = portee;
+    mapData->constructionData[type].range = range;
+    mapData->constructionData[type].valeur_achat = valeur_achat;
+    mapData->constructionData[type].valeur_revente = valeur_revente;
+    return CHK_SUCCESS;
+  }
+}
+
+
 int getIdEntrees() 
 {
   int* idEntrees = malloc(sizeof(int)*mapData->infosNodes->entrance_total);
@@ -423,6 +470,106 @@ int itd_checkForMapData(FILE* file)
     if (strcmp("infosNodes", label) == 0) {
       if (itd_getInfosNodes(file) == CHK_SUCCESS) {
         mapData->contentState |= MDATA_INFOSNODE;
+        return CHK_SUCCESS;
+      }
+      else {
+        fseek(file, originalPosition, SEEK_SET);
+        return CHK_ERROR_FILE;
+      }
+    }
+
+    if (strcmp("laser", label) == 0) {
+      if (itd_getConstructionData(file, LASER) == CHK_SUCCESS) {
+        return CHK_SUCCESS;
+      }
+      else {
+        fseek(file, originalPosition, SEEK_SET);
+        return CHK_ERROR_FILE;
+      }
+    }
+
+    if (strcmp("missile", label) == 0) {
+      if (itd_getConstructionData(file, MISSILE) == CHK_SUCCESS) {
+        return CHK_SUCCESS;
+      }
+      else {
+        fseek(file, originalPosition, SEEK_SET);
+        return CHK_ERROR_FILE;
+      }
+    }
+
+    if (strcmp("radar", label) == 0) {
+      if (itd_getConstructionData(file, RADAR) == CHK_SUCCESS) {
+        return CHK_SUCCESS;
+      }
+      else {
+        fseek(file, originalPosition, SEEK_SET);
+        return CHK_ERROR_FILE;
+      }
+    }
+
+    if (strcmp("armement", label) == 0) {
+      if (itd_getConstructionData(file, ARMEMENT) == CHK_SUCCESS) {
+        return CHK_SUCCESS;
+      }
+      else {
+        fseek(file, originalPosition, SEEK_SET);
+        return CHK_ERROR_FILE;
+      }
+    }
+
+    if (strcmp("centrale", label) == 0) {
+      if (itd_getConstructionData(file, CENTRALE) == CHK_SUCCESS) {
+        return CHK_SUCCESS;
+      }
+      else {
+        fseek(file, originalPosition, SEEK_SET);
+        return CHK_ERROR_FILE;
+      }
+    }
+
+    if (strcmp("solder", label) == 0) {
+      if (itd_getMonstersData(file, SOLDER) == CHK_SUCCESS) {
+        return CHK_SUCCESS;
+      }
+      else {
+        fseek(file, originalPosition, SEEK_SET);
+        return CHK_ERROR_FILE;
+      }
+    }
+
+    if (strcmp("huge_solder", label) == 0) {
+      if (itd_getMonstersData(file, HUGE_SOLDER) == CHK_SUCCESS) {
+        return CHK_SUCCESS;
+      }
+      else {
+        fseek(file, originalPosition, SEEK_SET);
+        return CHK_ERROR_FILE;
+      }
+    }
+
+    if (strcmp("gereral", label) == 0) {
+      if (itd_getMonstersData(file, GERERAL) == CHK_SUCCESS) {
+        return CHK_SUCCESS;
+      }
+      else {
+        fseek(file, originalPosition, SEEK_SET);
+        return CHK_ERROR_FILE;
+      }
+    }
+
+    if (strcmp("boss", label) == 0) {
+      if (itd_getMonstersData(file, BOSS) == CHK_SUCCESS) {
+        return CHK_SUCCESS;
+      }
+      else {
+        fseek(file, originalPosition, SEEK_SET);
+        return CHK_ERROR_FILE;
+      }
+    }
+
+    if (strcmp("munition", label) == 0) {
+      if (itd_getConstructionData(file, MUNITION) == CHK_SUCCESS) {
         return CHK_SUCCESS;
       }
       else {

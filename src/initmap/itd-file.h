@@ -49,6 +49,9 @@ int itd_checkCode(FILE* file);
  */
 int itd_getImageFilePath(FILE* file);
 
+int itd_getConstructionData(FILE* file, TypeCase type);
+
+
 /**
  * Extract a single decimal value
  * param[in] file

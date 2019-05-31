@@ -44,8 +44,6 @@ void case_initPlateau()
     return EXIT_FAILURE;
   }
 
-  tour_initConstructionData();
-
   int argent = 2000;
 
   plateau->idListInfos = GL_INVALID_VALUE;
@@ -55,7 +53,6 @@ void case_initPlateau()
   plateau->joueur = player_init(argent);
   plateau->cases = case_loadFromPPM();
   plateau->listMonsters = monster_initListMonster();
-  plateau->listMonsters->dataMonsters = monster_initDataMonster();
   plateau->listTours = tour_initListTours();
   plateau->listProjectiles = projectile_initListProjectiles();
   plateau->currentWave = *mapData->listWaves->next;
@@ -251,13 +248,13 @@ void case_printInfos(int caseX, int caseY)
   GeneralType generalType = case_getGeneralConstructionType(type);
 
   if (generalType == BATIMENT) {
-    int degats = plateau->constructionData[type].degats;
-    int alimentation = plateau->constructionData[type].alimentation;
-    int cadence = plateau->constructionData[type].cadence;
-    int portee = plateau->constructionData[type].portee;
-    int range = plateau->constructionData[type].range;
-    int valeur_achat = plateau->constructionData[type].valeur_achat;
-    int valeur_revente = plateau->constructionData[type].valeur_revente;
+    int degats = mapData->constructionData[type].degats;
+    int alimentation = mapData->constructionData[type].alimentation;
+    int cadence = mapData->constructionData[type].cadence;
+    int portee = mapData->constructionData[type].portee;
+    int range = mapData->constructionData[type].range;
+    int valeur_achat = mapData->constructionData[type].valeur_achat;
+    int valeur_revente = mapData->constructionData[type].valeur_revente;
     printf("stats du batiment :\n");
     printf("Apport dégats : %d\n", degats);
     printf("Apport alimentation : %d\n", alimentation);
@@ -268,12 +265,12 @@ void case_printInfos(int caseX, int caseY)
     printf("Cout à la revente : %d\n", valeur_revente);
   }
   else if (generalType == TOUR) {
-    int degats = plateau->constructionData[type].degats;
-    int alimentation = plateau->constructionData[type].alimentation;
-    int cadence = plateau->constructionData[type].cadence;
-    int portee = plateau->constructionData[type].portee;
-    int valeur_achat = plateau->constructionData[type].valeur_achat;
-    int valeur_revente = plateau->constructionData[type].valeur_revente;
+    int degats = mapData->constructionData[type].degats;
+    int alimentation = mapData->constructionData[type].alimentation;
+    int cadence = mapData->constructionData[type].cadence;
+    int portee = mapData->constructionData[type].portee;
+    int valeur_achat = mapData->constructionData[type].valeur_achat;
+    int valeur_revente = mapData->constructionData[type].valeur_revente;
     printf("stats de la tour à l'origine:\n");
     printf("dégats : %d\n", degats);
     printf("Besoins en alimentation : %d\n", alimentation);
