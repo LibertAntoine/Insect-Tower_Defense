@@ -104,7 +104,7 @@ void mouse_handleButtonClick(ButtonName button_name)
       player_switchAction(action);
     }
 
-    if (type != joueur->type && plateau->constructionData[type].valeur_achat <= plateau->joueur->argent) {
+    if (type != joueur->type && mapData->constructionData[type].valeur_achat <= plateau->joueur->argent) {
       player_switchTowerType(type);
     }
   }

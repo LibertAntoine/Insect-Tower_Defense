@@ -8,6 +8,7 @@
   #include <GL/glu.h>
 #endif
 
+#include <GL/glew.h>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_mixer.h>
 #include <SDL2/SDL_ttf.h>
@@ -95,28 +96,6 @@ typedef struct InfosNodes {
   Node** shortPaths;
 } InfosNodes;
 
-
-typedef struct MapData {
-  char* mapFile;
-  int energy;
-  RGBcolor pathCol;
-  RGBcolor nodeCol;
-  RGBcolor buildingCol;
-  RGBcolor inCol;
-  RGBcolor outCol;
-  unsigned int contentState; 
-  InfosNodes* infosNodes;
-  ListWaves* listWaves;
-  GLuint idGrid;
-  GLuint idMap;
-} MapData;
-
-typedef enum GeneralType {
-  TOUR = 1,
-  BATIMENT = 2,
-  OTHER
-} GeneralType;
-
 typedef enum TypeCase {
   LASER = 0,
   MISSILE,
@@ -130,6 +109,49 @@ typedef enum TypeCase {
   ENTREE,
   SORTIE
 } TypeCase;
+
+typedef struct ConstructionData {
+  TypeCase type;
+  int degats;
+  int alimentation;
+  int cadence;
+  int portee;
+  int range;
+  int valeur_achat;
+  int valeur_revente;
+} ConstructionData;
+
+typedef struct DataMonsters {
+   float PDV;
+   float strength;
+   double mass;
+   int value;
+} DataMonsters;
+
+typedef struct MapData {
+  char* mapFile;
+  int energy;
+  RGBcolor pathCol;
+  RGBcolor nodeCol;
+  RGBcolor buildingCol;
+  RGBcolor inCol;
+  RGBcolor outCol;
+  unsigned int contentState; 
+  InfosNodes* infosNodes;
+  ListWaves* listWaves;
+  ConstructionData constructionData[6];
+  DataMonsters dataMonsters[4];
+  GLuint idGrid;
+  GLuint idMap;
+} MapData;
+
+typedef enum GeneralType {
+  TOUR = 1,
+  BATIMENT = 2,
+  OTHER
+} GeneralType;
+
+
 
 typedef struct Monster Monster;
 
@@ -227,16 +249,6 @@ typedef enum Action {
   REMOVE
 } Action;
 
-typedef struct ConstructionData {
-  TypeCase type;
-  int degats;
-  int alimentation;
-  int cadence;
-  int portee;
-  int range;
-  int valeur_achat;
-  int valeur_revente;
-} ConstructionData;
 
 typedef struct Etat {
   TypeCase type;
@@ -306,17 +318,11 @@ typedef struct ListProjectiles {
     Projectile* next;
 } ListProjectiles;
 
-typedef struct DataMonsters {
-   float PDV;
-   float strength;
-   double mass;
-   int value;
-} DataMonsters;
+
 
 typedef struct ListMonsters {
    int monster_total;
    Monster* firstMonster;
-   DataMonsters** dataMonsters;
 } ListMonsters;
 
 typedef struct Chemin {
@@ -341,7 +347,6 @@ typedef struct Plateau {
   GLuint idListMoney;
   Monster *monster_hover;
   int index_case_hover;
-  ConstructionData constructionData[6];
   ListTours* listTours;
   ListMonsters* listMonsters;
   ListProjectiles* listProjectiles;

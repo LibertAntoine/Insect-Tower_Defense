@@ -16,7 +16,6 @@
 // Functions
 void tour_updateShootingAngle(Tour* tour);
 ListTours* tour_initListTours();
-void tour_initConstructionData();
 int tour_getDegats(TypeCase type);
 int tour_getAlimentation(TypeCase type);
 int tour_getCadence(TypeCase type);

@@ -80,7 +80,7 @@ void player_checkTarifs()
   }
   plateau->idListMoney = GL_INVALID_VALUE;
   for (TypeCase i = LASER; i <= MUNITION; i++) {
-    if (plateau->constructionData[i].valeur_achat > plateau->joueur->argent) {
+    if (mapData->constructionData[i].valeur_achat > plateau->joueur->argent) {
       if (gui_getTowerButtonState(i) == CLICKED) {
         gui_changeTowerButtonState(i+1, CLICKED);
       }

@@ -1,5 +1,5 @@
 #include "monster.h"
-
+/*
 DataMonsters** monster_initDataMonster()
 {
   DataMonsters** dataMonsters = malloc(sizeof(DataMonsters*) * 4);
@@ -31,7 +31,7 @@ DataMonsters** monster_initDataMonster()
 
   return dataMonsters;
 }
-
+*/
 ListMonsters* monster_initListMonster()
 {
   ListMonsters* listMonsters = malloc(sizeof(ListMonsters));
@@ -77,8 +77,8 @@ void monster_printInfos(Monster *monster)
   }
 
   printf("Monstre : %s\n", name);
-  printf("PDV : %f/%f\n", monster->PDV, plateau->listMonsters->dataMonsters[type]->PDV);
-  printf("vitesse : %f\n", plateau->listMonsters->dataMonsters[type]->mass);
+  printf("PDV : %f/%f\n", monster->PDV, mapData->dataMonsters[type].PDV);
+  printf("vitesse : %f\n", mapData->dataMonsters[type].mass);
   printf("Position x %lf | y %lf\n", monster->x, monster->y);
 }
 
@@ -100,10 +100,10 @@ int monster_popMonster(TypeMonster type, int idIn)
     monster->sprite_texture = sprite_loadSprite(GERERAL_TEX, 1800, TRUE);
   }
 
-  monster->PDV = plateau->listMonsters->dataMonsters[type]->PDV;
-  monster->strength = plateau->listMonsters->dataMonsters[type]->strength;
-  monster->mass = plateau->listMonsters->dataMonsters[type]->mass;
-  monster->value = plateau->listMonsters->dataMonsters[type]->value;
+  monster->PDV = mapData->dataMonsters[type].PDV;
+  monster->strength = mapData->dataMonsters[type].strength;
+  monster->mass = mapData->dataMonsters[type].mass;
+  monster->value = mapData->dataMonsters[type].value;
 
   monster->next = NULL;
   monster->idIn = idIn;
@@ -137,7 +137,7 @@ void monster_kill(Monster* monster)
   free(monster->sprite_texture);
   monster->sprite_texture = sprite_loadSprite(SPLASH_TEX, 0, FALSE); 
   monster->decomposition = 1; 
-  player_gagneArgent(plateau->listMonsters->dataMonsters[monster->type]->value);
+  player_gagneArgent(mapData->dataMonsters[monster->type].value);
   itineraire_addValueChemin(monster);
 }
 
@@ -176,9 +176,6 @@ void monster_freeListMonsters(ListMonsters* listMonsters) {
     monsterFree = currentMonster;
     currentMonster = currentMonster->next;
     monster_freeMonster(monsterFree);
-  }
-  for(int i = 0; i<4; i++) {
-    free(listMonsters->dataMonsters[i]);
   }
   free(listMonsters);
 }
