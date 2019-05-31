@@ -145,6 +145,7 @@ typedef struct MapData {
   DataMonsters dataMonsters[4];
   GLuint idGrid;
   GLuint idMap;
+  TypeCase *cases;
 } MapData;
 
 typedef enum GeneralType {
@@ -353,7 +354,6 @@ typedef struct Plateau {
   ListChemins* listChemins;
   Wave currentWave;
   Tour **tours;
-  TypeCase *cases;
 } Plateau;
 
 typedef struct Div {

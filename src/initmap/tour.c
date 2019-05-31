@@ -105,7 +105,7 @@ int tour_countBatiments(TypeCase type, int index_case)
         continue;
       }
 
-      if (plateau->cases[j] == type) {
+      if (mapData->cases[j] == type) {
         counter++;
       }
     }

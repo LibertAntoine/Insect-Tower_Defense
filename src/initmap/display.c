@@ -430,7 +430,7 @@ void display_printInfos()
   else if (plateau->monster_hover) {
     glCallList(default_list[plateau->monster_hover->type + 6]->idListInfos);
   }
-  else if (case_getGeneralConstructionType(plateau->cases[plateau->index_case_hover]) == TOUR) {
+  else if (case_getGeneralConstructionType(mapData->cases[plateau->index_case_hover]) == TOUR) {
     if (plateau->idListInfos == GL_INVALID_VALUE) {
       display_genTourList(plateau->tours[plateau->index_case_hover]);
     }
@@ -438,9 +438,9 @@ void display_printInfos()
       glCallList(plateau->idListInfos);
     }
   }
-  else if (case_getGeneralConstructionType(plateau->cases[plateau->index_case_hover]) == BATIMENT) {
+  else if (case_getGeneralConstructionType(mapData->cases[plateau->index_case_hover]) == BATIMENT) {
     if (plateau->idListInfos == GL_INVALID_VALUE) {
-      display_genBatimentList(plateau->cases[plateau->index_case_hover]);
+      display_genBatimentList(mapData->cases[plateau->index_case_hover]);
     }
     else {
       glCallList(plateau->idListInfos);
@@ -733,7 +733,7 @@ void display_drawAllTargetRanges()
   int total_cases = mapData->Xsplit * mapData->Ysplit;
 
   for (int index_case=0; index_case < total_cases; index_case++) {
-    TypeCase type = plateau->cases[index_case];
+    TypeCase type = mapData->cases[index_case];
     GeneralType generalType = case_getGeneralConstructionType(type);
     if (generalType == OTHER) {
       continue;
@@ -764,7 +764,7 @@ void display_drawBoard()
   for (int index_case = 0; index_case < total_cases; index_case++) {
     int caseY, caseX;
     case_getCasePosition(index_case, &caseX, &caseY);
-    TypeCase type = plateau->cases[index_case];
+    TypeCase type = mapData->cases[index_case];
 
     display_drawSingleTower(caseX, caseY, type);
   }

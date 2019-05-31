@@ -51,7 +51,7 @@ void case_initPlateau()
   plateau->idListMoney = GL_INVALID_VALUE;
 
   plateau->joueur = player_init(argent);
-  plateau->cases = case_loadFromPPM();
+  mapData->cases = case_loadFromPPM();
   plateau->listMonsters = monster_initListMonster();
   plateau->listTours = tour_initListTours();
   plateau->listProjectiles = projectile_initListProjectiles();
@@ -100,7 +100,7 @@ TypeCase case_getType(int caseX, int caseY)
 {
   //printf("%d, x %d\n", caseX, caseY);
   int index_case = case_getCaseIndex(caseX, caseY);
-  return plateau->cases[index_case];
+  return mapData->cases[index_case];
 }
 
 int case_getCaseCoordFromPixels(int positionX, int positionY, int *caseX, int *caseY, int px_width, int px_height)
@@ -121,7 +121,7 @@ int case_getCaseCoordFromPixels(int positionX, int positionY, int *caseX, int *c
 int case_isConstructible(int caseX, int caseY)
 {
   int index_case = case_getCaseIndex(caseX, caseY);
-  if (plateau->cases[index_case] != TERRAIN) {
+  if (mapData->cases[index_case] != TERRAIN) {
     return 0;
   }
   else {
@@ -132,7 +132,7 @@ int case_isConstructible(int caseX, int caseY)
 void case_update(int caseX, int caseY, TypeCase newType)
 {
   int index_case = case_getCaseIndex(caseX, caseY);
-  plateau->cases[index_case] = newType;
+  mapData->cases[index_case] = newType;
 }
 
 GeneralType case_getGeneralConstructionType(TypeCase type)
@@ -180,7 +180,7 @@ void case_addConstruction(int caseX, int caseY)
 int case_isUserPlaced(int caseX, int caseY)
 {
   int index_case = case_getCaseIndex(caseX, caseY);
-  TypeCase type = plateau->cases[index_case];
+  TypeCase type = mapData->cases[index_case];
   GeneralType generalType = case_getGeneralConstructionType(type);
   if (generalType == OTHER) {
     return 0;
@@ -197,7 +197,7 @@ void case_removeConstruction(int caseX, int caseY)
   GeneralType generalType = case_getGeneralConstructionType(type);
   plateau->joueur->argent += tour_getPrixRevente(type);
 
-  plateau->cases[index_case] = TERRAIN;
+  mapData->cases[index_case] = TERRAIN;
   if (generalType == TOUR) {
     tour_remove(plateau->tours[index_case]);
   }
@@ -216,7 +216,7 @@ Tour* case_getTourPointer(int caseX, int caseY)
 void case_printInfos(int caseX, int caseY)
 {
   int index_case = case_getCaseIndex(caseX, caseY);
-  TypeCase type = plateau->cases[index_case];
+  TypeCase type = mapData->cases[index_case];
   switch (type) {
     case TERRAIN:
       printf("Ceci est un terrain constructible\n");
