@@ -1,35 +1,56 @@
-@ITD 2
+@ITD 3
 # This is a sample ITD file
 # Comments can be placed on any line using '#" sign as the first char
 carte level2.ppm
-energie 20
+energie 180
 # A random comment
 chemin 255 255 255
 noeud 255 0 0
 in 0 255 0
 out 0 0 255
 construct 0 0 0
-# Construction Data
-laser 1 1 2 2 0 200 100
-missile 2 1 1 1 0 300 150
+# Construction Data (DEGAT ALIM CAD PORTEE RANGE VAL VAL)
+laser 1 1 5 2 0 200 100
+missile 2 1 2 1 0 300 150
 radar 0 0 0 1 2 200 100
 armement 1 0 0 0 2 400 200
 centrale 0 1 0 2 2 400 200
 munition 0 0 1 0 2 400 200
-# Monster Data
-solder 1.0 1.0 1.0 1.0
-huge_solder 2.0 2.0 2.0 2.0
-gereral 3.0 1.0 1.0 1.0
-boss 4.0 1.0 1.0 1.0
+# Monster Data (PDV ATTACK MASS VALUE)
+solder 1.0 1.0 0.6 10.0
+huge_solder 4.0 2.0 0.7 20.0
+gereral 30.0 1.0 0.8 100.0
+boss 100.0 1.0 2 500.0
 # Data characterized by a keyword can be placed in any order
-infosNodes 5
-0 1 3.5 1.5 1 3 
-1 1 3.5 4.5 0 2
-2 2 5.5 4.5 1
-3 2 5.5 1.5 0
-4 3 1.5 1.5 0
+infosNodes 26
+0 2 11.5 1.5 3
+1 2 1.5 2.5 2
+2 1 6.5 2.5 1 3 6
+3 1 11.5 2.5 0 2 4
+4 1 13.5 2.5 3 5 10
+5 2 18.5 2.5 4
+6 1 6.5 4.5 2 7 15
+7 1 9.5 4.5 6 8 12
+8 1 10.5 4.5 7 9 13
+9 1 11.5 4.5 8 10 14
+10 1 13.5 4.5 4 9 11
+11 1 15.5 4.5 10 20
+12 1 9.5 5.5 7 13 17
+13 3 10.5 5.5 8 12 14 18
+14 1 11.5 5.5 9 13 19
+15 2 1.5 6.5 16
+16 1 6.5 6.5 6 15
+17 1 9.5 6.5 12 18 23
+18 1 10.5 6.5 13 17 19
+19 1 11.5 6.5 14 18 20
+20 1 15.5 6.5 11 19 21
+21 2 18.5 6.5 20
+22 1 4.5 8.5 23 24
+23 1 9.5 8.5 17 22 25
+24 2 4.5 10.5 22
+25 2 9.5 10.5 23
 waves 4
-1 2 2 0.5 3 3 0 0
-2 10 2 0.5 4 1 0 0
-3 20 2 0.5 2 3 0 0
-4 30 2 0.5 0 2 1 1
+1 2 1 0.2 30 10 0 0
+2 10 1 0.2 30 20 2 0
+3 10 0.8 0.2 30 20 10 0
+4 10 0.8 0.2 30 30 10 1

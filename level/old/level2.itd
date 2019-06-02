@@ -1,7 +1,7 @@
-@ITD 1
+@ITD 2
 # This is a sample ITD file
 # Comments can be placed on any line using '#" sign as the first char
-carte level1.ppm
+carte level2.ppm
 energie 20
 # A random comment
 chemin 255 255 255
@@ -16,19 +16,20 @@ radar 0 0 0 1 2 200 100
 armement 1 0 0 0 2 400 200
 centrale 0 1 0 2 2 400 200
 munition 0 0 1 0 2 400 200
-# Monster Data
-solder 1.0 1.0 1.0 1.0
-huge_solder 2.0 2.0 2.0 2.0
-gereral 3.0 1.0 1.0 1.0
-boss 4.0 1.0 1.0 1.0
+# Monster Data (PDV ATTACK MASS VALUE)
+solder 1.0 1.0 0.2 1.0
+huge_solder 2.0 2.0 0.2 2.0
+gereral 3.0 1.0 0.2 1.0
+boss 4.0 1.0 0.2 1.0
 # Data characterized by a keyword can be placed in any order
-infosNodes 4
+infosNodes 5
 0 1 3.5 1.5 1 3 
 1 1 3.5 4.5 0 2
 2 2 5.5 4.5 1
-3 3 1.5 1.5 0
+3 2 5.5 1.5 0
+4 3 1.5 1.5 0
 waves 4
-1 2 2 0.5 0 6 0 0
-2 1 2 0.5 4 1 0 0
-3 2 2 0.5 2 3 0 0
-4 3 2 0.5 0 2 1 1
+1 2 2 0.5 3 3 0 0
+2 10 2 0.5 4 1 0 0
+3 20 2 0.5 2 3 0 0
+4 30 2 0.5 0 2 1 1
