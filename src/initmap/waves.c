@@ -13,30 +13,16 @@ int moveWave()
 {
   srand(time(NULL));
    
-  /* Pas de monstre restant dans la vague */
-  if(plateau->currentWave.monster_total == 0) {
-    if(plateau->currentWave.next != NULL) {
-      if(plateau->currentWave.timeBeforeNext >= 0) {
+  if(plateau->currentWave.timeBeforeNext >= 0) {
         plateau->currentWave.timeBeforeNext -= 1.0/60.0;
         return 0;
-      } else {
-        TypeMonster* tmp = malloc(sizeof(TypeMonster)*plateau->currentWave.next->monster_total);
-        memcpy(tmp , plateau->currentWave.next->monsters, sizeof(TypeMonster)*plateau->currentWave.next->monster_total);
-        plateau->currentWave = *plateau->currentWave.next;
-        plateau->currentWave.monsters = tmp;
-        return 0;
-      }
-    } else {
-      /* Fin des vagues de monstres */
-      return 1;
+  } else if (plateau->currentWave.monster_total != 0) {
+     if (plateau->currentWave.nextMonster_timer + (sin(rand()) * plateau->currentWave.random) > 0) {
+      plateau->currentWave.nextMonster_timer -= 1.0/60.0;
+      return 0;
     }
-  }
-  else if (plateau->currentWave.nextMonster_timer + (sin(rand()) * plateau->currentWave.random) > 0) {
-    plateau->currentWave.nextMonster_timer -= 1.0/60.0;
-    return 0;
-  }
   /* On pop un monstre */
-  else {
+    else {
     int monster_id = rand()%(plateau->currentWave.monster_total);
     int entrance_num = rand()%(mapData->infosNodes->entrance_total);
     int entrance_id = mapData->infosNodes->idEntrees[entrance_num];
@@ -48,6 +34,16 @@ int moveWave()
     monster_popMonster(monster_type, entrance_id);
     plateau->currentWave.nextMonster_timer = plateau->currentWave.freq_pop;
     return 0;
+    }
+  } else if(plateau->currentWave.next != NULL) {
+        TypeMonster* tmp = malloc(sizeof(TypeMonster)*plateau->currentWave.next->monster_total);
+        memcpy(tmp , plateau->currentWave.next->monsters, sizeof(TypeMonster)*plateau->currentWave.next->monster_total);
+        plateau->currentWave = *plateau->currentWave.next;
+        plateau->currentWave.monsters = tmp;
+        return 0;
+  } else {
+      /* Fin des vagues de monstres */
+      return 1;
   }
 }
 
