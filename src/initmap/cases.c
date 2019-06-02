@@ -8,6 +8,10 @@ TypeCase* case_loadFromPPM()
 
   TypeCase* cases = calloc(mapData->Xsplit*mapData->Ysplit, sizeof(int));
   RGBcolor* pixel_ppm = malloc(sizeof(RGBcolor));
+  if (!pixel_ppm) {
+    printf("ERROR ALLOC : mapData");
+    exit(EXIT_FAILURE);
+  }
 
   int nbSortie = 0;
 
@@ -40,6 +44,10 @@ TypeCase* case_loadFromPPM()
 
 void case_gameData_init() {
   gameData = malloc(sizeof(GameData));
+  if (!gameData) {
+    printf("ERROR ALLOC : mapData");
+    exit(EXIT_FAILURE);
+  }
   gameData->gameState = MAINMENU;
   gameData->default_list = NULL;
 };
@@ -48,9 +56,9 @@ void case_initPlateau()
 {
   plateau = malloc(sizeof(Plateau));
   if (!plateau) {
-    return EXIT_FAILURE;
+    printf("ERROR ALLOC : mapData");
+    exit(EXIT_FAILURE);
   }
-
   int argent = 2000;
 
   plateau->idListInfos = GL_INVALID_VALUE;
@@ -63,6 +71,10 @@ void case_initPlateau()
   plateau->listProjectiles = projectile_initListProjectiles();
   plateau->currentWave = *mapData->listWaves->next;
   TypeMonster* tmp = malloc(sizeof(TypeMonster)*mapData->listWaves->next->monster_total);
+  if (!tmp) {
+    printf("ERROR ALLOC : mapData");
+    exit(EXIT_FAILURE);
+  }
   memcpy(tmp , mapData->listWaves->next->monsters, sizeof(TypeMonster)*mapData->listWaves->next->monster_total);
   plateau->currentWave.monsters = tmp;
 

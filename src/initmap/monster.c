@@ -1,41 +1,12 @@
 #include "monster.h"
-/*
-DataMonsters** monster_initDataMonster()
-{
-  DataMonsters** dataMonsters = malloc(sizeof(DataMonsters*) * 4);
 
-  dataMonsters[SOLDER] = malloc(sizeof(DataMonsters));
-  dataMonsters[HUGE_SOLDER] = malloc(sizeof(DataMonsters));
-  dataMonsters[GERERAL] = malloc(sizeof(DataMonsters));
-  dataMonsters[BOSS] = malloc(sizeof(DataMonsters));
-
-  dataMonsters[SOLDER]->PDV = 1;
-  dataMonsters[SOLDER]->strength = 1;
-  dataMonsters[SOLDER]->mass = 1.0;
-  dataMonsters[SOLDER]->value = 1.0;
-
-  dataMonsters[HUGE_SOLDER]->PDV = 2;
-  dataMonsters[HUGE_SOLDER]->strength = 2;
-  dataMonsters[HUGE_SOLDER]->mass = 2.0;
-  dataMonsters[HUGE_SOLDER]->value = 2.0;
-
-  dataMonsters[GERERAL]->PDV = 3;
-  dataMonsters[GERERAL]->strength = 1;
-  dataMonsters[GERERAL]->mass = 1.0;
-  dataMonsters[GERERAL]->value = 1.0;
-
-  dataMonsters[BOSS]->PDV = 4;
-  dataMonsters[BOSS]->strength = 1;
-  dataMonsters[BOSS]->mass = 1.0;
-  dataMonsters[BOSS]->value = 1.0;
-
-  return dataMonsters;
-}
-*/
 ListMonsters* monster_initListMonster()
 {
   ListMonsters* listMonsters = malloc(sizeof(ListMonsters));
-  // TODO: Checker l'allocation
+  if (!listMonsters) {
+    printf("ERROR ALLOC : listMonsters");
+    exit(CHK_ERROR_ALLOC);
+  }
   listMonsters->monster_total = 0;
   listMonsters->firstMonster = NULL;
 
@@ -85,7 +56,10 @@ void monster_printInfos(Monster *monster)
 int monster_popMonster(TypeMonster type, int idIn) 
 {
   Monster* monster = malloc(sizeof(Monster)); 
-  // TODO: Checker l'allocation
+  if (!monster) {
+    printf("ERROR ALLOC : monster");
+    exit(CHK_ERROR_ALLOC);
+  }
 
   if (type == SOLDER) {
     monster->sprite_texture = sprite_loadSprite(SOLDER_TEX, 900, TRUE);

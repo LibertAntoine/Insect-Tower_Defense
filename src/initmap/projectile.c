@@ -3,6 +3,10 @@
 ListProjectiles* projectile_initListProjectiles()
 {
   ListProjectiles* listProjectiles = malloc(sizeof(ListProjectiles));
+  if (!listProjectiles) {
+    printf("ERROR ALLOC : listProjectiles");
+    exit(CHK_ERROR_ALLOC);
+  }
   listProjectiles->nbProjectile = 0;
   listProjectiles->next = NULL;
 
@@ -11,6 +15,10 @@ ListProjectiles* projectile_initListProjectiles()
 
 int create_projectile(Tour* tour, Monster* monster, float degats) {
   Projectile* projectile = malloc(sizeof(Projectile));
+  if (!projectile) {
+    printf("ERROR ALLOC : projectile");
+    exit(CHK_ERROR_ALLOC);
+  }
   projectile->cible = monster;
   projectile->x = tour->x;
   projectile->y = tour->y;

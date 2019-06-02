@@ -3,6 +3,10 @@
 Etat* player_init(int argent)
 {
   Etat *joueur = malloc(sizeof(Etat));
+  if (!joueur) {
+    printf("ERROR ALLOC : joueur");
+    exit(CHK_ERROR_ALLOC);
+  }
 
   joueur->argent = argent;
   joueur->action = ADD;

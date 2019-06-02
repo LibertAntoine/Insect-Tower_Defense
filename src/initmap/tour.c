@@ -3,6 +3,10 @@
 ListTours* tour_initListTours()
 {
   ListTours* listTours = malloc(sizeof(ListTours));
+  if (!listTours) {
+    printf("ERROR ALLOC : listTours");
+    exit(CHK_ERROR_ALLOC);
+  }
   listTours->nbTours = 0;
   listTours->next = NULL;
   return listTours;
@@ -41,7 +45,8 @@ Tour *tour_create(TypeCase type, int index_case)
 {
   Tour *new = malloc(sizeof(Tour));
   if (!new) {
-    // TODO: Throw allocation error
+    printf("ERROR ALLOC : new");
+    exit(CHK_ERROR_ALLOC);
   }
   int caseX, caseY;
   case_getCasePosition(index_case, &caseX, &caseY);

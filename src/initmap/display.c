@@ -23,6 +23,10 @@ TextureText*  display_loadTextureText(char text[])
   TTF_Quit();
 
   TextureText* texture_texte = malloc(sizeof(TextureText));
+  if (!texture_texte) {
+    printf("ERROR ALLOC : mapData");
+    exit(EXIT_FAILURE);
+  }
   texture_texte->texture_id = texture_id;
   texture_texte->ratio = texture_surface->w / (float) texture_surface->h;
 

@@ -12,8 +12,10 @@ int itineraire_findShortestPath()
   distances[mapData->infosNodes->idOut] = 0;
 
   Node** previous = malloc(sizeof(Node*) * mapData->infosNodes->nbNoeud);
-  // TODO: Vérifier l'allocation dynamique
-
+  if (!previous) {
+    printf("ERROR ALLOC : previous");
+    exit(CHK_ERROR_ALLOC);
+  }
   int i = mapData->infosNodes->idOut;
   int distance;
   while (i != -1) {
@@ -50,6 +52,10 @@ int itineraire_findShortestPath()
 int *itineraire_initVisitedArray(int size)
 {
   int *array = malloc(sizeof(int) * size);
+  if (!array) {
+    printf("ERROR ALLOC : array");
+    exit(CHK_ERROR_ALLOC);
+  }
   itineraire_fillArray(array, size, 0);
 
   return array;
@@ -58,6 +64,10 @@ int *itineraire_initVisitedArray(int size)
 int *itineraire_initDistanceArray(int size)
 {
   int *array = malloc(sizeof(int) * size);
+  if (!array) {
+    printf("ERROR ALLOC : array");
+    exit(CHK_ERROR_ALLOC);
+  }
   int total_cases = mapData->Xsplit * mapData->Ysplit;
   itineraire_fillArray(array, size, total_cases);
 
@@ -105,6 +115,10 @@ int itineraire_initMonster(Monster* monster)
 {
   itineraire_findShortestPath();
   Itineraire* itineraire = malloc(sizeof(Itineraire));
+  if (!itineraire) {
+    printf("ERROR ALLOC : itineraire");
+    exit(CHK_ERROR_ALLOC);
+  }
   itineraire->next = NULL;
   itineraire->nbEtape = 1;
   itineraire_addEtape(itineraire, &mapData->infosNodes->nodes[monster->idIn]);
@@ -120,6 +134,10 @@ int itineraire_initMonster(Monster* monster)
 
 void itineraire_addEtape(Itineraire* itineraire, Node* node) {
   Etape* etape = malloc(sizeof(Etape));
+  if (!etape) {
+    printf("ERROR ALLOC : etape");
+    exit(CHK_ERROR_ALLOC);
+  }
   etape->node = node;
   etape->next = NULL;
   if(itineraire->next == NULL) {
@@ -137,6 +155,10 @@ void itineraire_addEtape(Itineraire* itineraire, Node* node) {
 ListChemins* itineraire_initListChemins()
 {
   ListChemins* listChemins = malloc(sizeof(listChemins));
+  if (!listChemins) {
+    printf("ERROR ALLOC : listChemins");
+    exit(CHK_ERROR_ALLOC);
+  }
   listChemins->nbChemin = 0;
   listChemins->next = NULL;
   for(int i = 0; i < mapData->infosNodes->nbNoeud; i++) {
@@ -175,6 +197,10 @@ void itineraire_addChemin(ListChemins* listChemins, Node* node_in, Node* node_ou
 {
   itineraire_checkValidChemin(node_in, node_out);
   Chemin* new_chemin = malloc(sizeof(Chemin));
+  if (!new_chemin) {
+    printf("ERROR ALLOC : new_chemin");
+    exit(CHK_ERROR_ALLOC);
+  }
   new_chemin->node_in = node_in;
   new_chemin->node_out = node_out;
   new_chemin->dead_monsters = 0;

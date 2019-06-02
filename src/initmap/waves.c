@@ -37,6 +37,10 @@ int moveWave()
     }
   } else if(plateau->currentWave.next != NULL) {
         TypeMonster* tmp = malloc(sizeof(TypeMonster)*plateau->currentWave.next->monster_total);
+        if (!tmp) {
+          printf("ERROR ALLOC : tmp");
+          exit(CHK_ERROR_ALLOC);
+        }
         memcpy(tmp , plateau->currentWave.next->monsters, sizeof(TypeMonster)*plateau->currentWave.next->monster_total);
         plateau->currentWave = *plateau->currentWave.next;
         plateau->currentWave.monsters = tmp;

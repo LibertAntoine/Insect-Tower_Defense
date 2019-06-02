@@ -7,6 +7,10 @@ void sound_init()
   }
 
   gameData->sound = malloc(sizeof(Mix_Music*)*10);
+  if (!gameData->sound) {
+    printf("ERROR ALLOC : sound");
+    exit(CHK_ERROR_ALLOC);
+  }
 
   Mix_Music *musique;
   musique = Mix_LoadMUS("sound/musique.wav");

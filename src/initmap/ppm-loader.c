@@ -69,8 +69,8 @@ char* ppm_load()
   //Read actual image data
   unsigned char* pixel_data = malloc(sizeof(unsigned char)*3*width*height);
   if (!pixel_data) {
-    printf("Couldn't initialize array of pixels\n");
-    return EXIT_FAILURE;
+    printf("ERROR ALLOC : pixel_data");
+    exit(CHK_ERROR_ALLOC);
   }
 
   ppm_gotoEndOfLine(image);

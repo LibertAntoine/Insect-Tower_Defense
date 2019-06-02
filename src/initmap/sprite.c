@@ -41,6 +41,10 @@ TextureName sprite_getTextureNameFromButtonName(ButtonName button_name)
 Texture* sprite_importTexture(char image_path[], int totalX, int totalY)
 {
   Texture* new_texture = malloc(sizeof(Texture));
+  if (!new_texture) {
+    printf("ERROR ALLOC : new_texture");
+    exit(CHK_ERROR_ALLOC);
+  }
   SDL_Surface* texture_surface = IMG_Load(image_path);
 if(!texture_surface) {
     printf("IMG_Load: %s\n", IMG_GetError());

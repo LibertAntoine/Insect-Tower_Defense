@@ -3,9 +3,10 @@
 void itd_initMapData()
 {
   mapData = malloc(sizeof(MapData));
-  if (!mapData) {
-    printf("ERROR ALLOC : mapData");
-  } else {
+    if (!mapData) {
+      printf("ERROR ALLOC : mapData");
+      exit(CHK_ERROR_ALLOC);
+    } else {
     mapData->contentState = 0;
     return mapData;
   }
@@ -95,7 +96,10 @@ int itd_getInfosNodes(FILE* file)
   else {
     itd_gotoEndOfLine(file);
     Node* nodes = malloc(sizeof(Node)*nbNoeud);
-    // TODO: Checker l'allocation.
+    if (!nodes) {
+      printf("ERROR ALLOC : nodes");
+      exit(CHK_ERROR_ALLOC);
+    }
     int entrance_total = 0;
     int idOut = -1;
     for (int i = 0; i < nbNoeud; i++)
@@ -141,7 +145,10 @@ int itd_getInfosNodes(FILE* file)
       return CHK_ERROR_FILE;
     }
     InfosNodes* infosNodes = malloc(sizeof(InfosNodes));
-    //TODO: Checker allocation.
+    if (!infosNodes) {
+      printf("ERROR ALLOC : infosNodes");
+      exit(CHK_ERROR_ALLOC);
+    }
 
     infosNodes->nbNoeud = nbNoeud;
     infosNodes->nodes = nodes;
@@ -206,7 +213,10 @@ int itd_getConstructionData(FILE* file, TypeCase type)
 int getIdEntrees() 
 {
   int* idEntrees = malloc(sizeof(int)*mapData->infosNodes->entrance_total);
-  //TODO: Checker allocation.
+  if (!idEntrees) {
+    printf("ERROR ALLOC : idEntrees");
+    exit(CHK_ERROR_ALLOC);
+  }
 
   int j = 0;
   for (int i = 0; i < mapData->infosNodes->nbNoeud; i++)
@@ -233,7 +243,10 @@ int itd_getInfosWaves(FILE* file)
   } else {
     itd_gotoEndOfLine(file);
     ListWaves* listWaves = malloc(sizeof(ListWaves));
-    // TODO: Checker allocation.
+    if (!listWaves) {
+      printf("ERROR ALLOC : listWaves");
+      exit(CHK_ERROR_ALLOC);
+    }
 
     listWaves->wave_total = wave_total;
     listWaves->next = NULL;
@@ -242,7 +255,8 @@ int itd_getInfosWaves(FILE* file)
       Wave* wave = NULL;
       wave = malloc(sizeof(Wave));
       if (!wave) {
-        printf("ERROR ALLOC : mapData");
+        printf("ERROR ALLOC : wave");
+        exit(CHK_ERROR_ALLOC);
       }   
 
       int wave_id;
@@ -263,8 +277,10 @@ int itd_getInfosWaves(FILE* file)
         wave->monster_total = nbSolder + nbHugeSolder + nbGeneral + nbBoss;
         wave->next = NULL;
         TypeMonster* monsters = malloc(sizeof(TypeMonster) * wave->monster_total);
-        // TODO: Checker allocation.
-
+        if (!monsters) {
+          printf("ERROR ALLOC : monsters");
+          exit(CHK_ERROR_ALLOC);
+        }
 
         int i = 0;
         for (i ; i < nbSolder ; i++) {
@@ -339,7 +355,8 @@ int itd_getImageFilePath(FILE* file)
     // NOTE: ici le chiffre 6 correspond à la longueure de "level/"
     char* filePath = malloc(sizeof(char) * (letterCount + 6));
     if (!filePath) {
-      return CHK_ERROR_ALLOC;
+      printf("ERROR ALLOC : filePath");
+      exit(CHK_ERROR_ALLOC);
     }
 
     int i;
@@ -379,6 +396,10 @@ int itd_checkForMapData(FILE* file)
 
   if (fscanf(file, "%s", label)) {
     RGBcolor* color = malloc(sizeof(RGBcolor));
+    if (!color) {
+      printf("ERROR ALLOC : color");
+      exit(CHK_ERROR_ALLOC);
+    }
     if (strcmp("carte", label) == 0) {
       if (itd_getImageFilePath(file) == CHK_SUCCESS) {
         mapData->contentState |= MDATA_IMG;

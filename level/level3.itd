@@ -11,7 +11,7 @@ out 0 0 255
 construct 0 0 0
 # Construction Data (DEGAT ALIM CAD PORTEE RANGE VAL VAL)
 laser 1 1 5 2 0 200 100
-missile 2 1 1 1 0 300 150
+missile 2 1 2 1 0 300 150
 radar 0 0 0 1 2 200 100
 armement 1 0 0 0 2 400 200
 centrale 0 1 0 2 2 400 200
