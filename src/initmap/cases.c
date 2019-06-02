@@ -64,8 +64,6 @@ void case_initPlateau()
     return EXIT_FAILURE;
   }
 
-  plateau->listChemins = itineraire_initListChemins();
-
   plateau->monster_hover = NULL;
   plateau->index_case_hover = -1;
   plateau->play = TRUE;
@@ -395,12 +393,18 @@ void case_handleAction(int caseX, int caseY)
   }
 }
 
+void case_cleanCases() {
+  free(mapData->cases);
+  mapData->cases = case_loadFromPPM();
+}
+
 void case_freePlateau() {
   free(plateau->joueur);
   tour_freeListTours(plateau->listTours);
   monster_freeListMonsters(plateau->listMonsters);
   projectile_freeListProjectiles(plateau->listProjectiles);
-  itineraire_freeListChemins();
+  itineraire_cleanListChemins();
+  case_cleanCases();
   free(plateau);
 }
 

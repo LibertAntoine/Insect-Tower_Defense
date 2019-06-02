@@ -45,5 +45,6 @@ void case_actionRemove(int caseX, int caseY);
 void case_actionInfo(int caseX, int caseY);
 void case_handleAction(int caseX, int caseY);
 void case_freePlateau();
+void case_cleanCases();
 #endif //CASES_H_
 

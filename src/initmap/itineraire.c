@@ -118,7 +118,6 @@ int itineraire_initMonster(Monster* monster)
   monster->itineraire = itineraire;
 }
 
-// TODO: checker l'ambiguité des return
 void itineraire_addEtape(Itineraire* itineraire, Node* node) {
   Etape* etape = malloc(sizeof(Etape));
   etape->node = node;
@@ -132,9 +131,6 @@ void itineraire_addEtape(Itineraire* itineraire, Node* node) {
     currentEtape = currentEtape->next;
   }
   currentEtape->next = etape;
-  return 0;
-  etape->next = itineraire->next;
-  itineraire->next = etape;     
   return 0;
 }
 
@@ -208,7 +204,7 @@ void itineraire_removeValueChemin(Monster* monster) {
 }
 
 Chemin* itineraire_getChemin(Node* node_in, Node* node_out) {
-    Chemin* currentChemin = plateau->listChemins->next;
+    Chemin* currentChemin = mapData->listChemins->next;
     char exist = 0;
 
     while(currentChemin != NULL) {
@@ -224,15 +220,23 @@ Chemin* itineraire_getChemin(Node* node_in, Node* node_out) {
 void itineraire_freeListChemins() {
   Chemin* cheminFree;
   Chemin* currentChemin = NULL;
-  if(plateau->listChemins->next != NULL) {
-    cheminFree = plateau->listChemins->next;
-    currentChemin = plateau->listChemins->next->next;
+  if(mapData->listChemins->next != NULL) {
+    cheminFree = mapData->listChemins->next;
+    currentChemin = mapData->listChemins->next->next;
     free(cheminFree);
   }
   while(currentChemin != NULL) {
     cheminFree = currentChemin;
     currentChemin = currentChemin->next;
     free(cheminFree);
+  }
+}
+
+void itineraire_cleanListChemins() {
+  Chemin* currentChemin = mapData->listChemins->next;
+  while(currentChemin != NULL) {
+    currentChemin->dead_monsters = 0;
+    currentChemin = currentChemin->next;
   }
 }
 

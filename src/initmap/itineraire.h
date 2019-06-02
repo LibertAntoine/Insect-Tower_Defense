@@ -32,5 +32,5 @@ void itineraire_removeValueChemin(Monster* monster);
 void itineraire_freeItiniraire(Itineraire* itineraire);
 Chemin* itineraire_getChemin(Node* node_in, Node* node_out);
 void itineraire_freeListChemins();
-
+void itineraire_cleanListChemins();
 #endif //ITINERAIRE_H_

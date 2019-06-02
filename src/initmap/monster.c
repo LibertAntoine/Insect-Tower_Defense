@@ -131,8 +131,25 @@ void monster_attack(Projectile* projectile)
 
 void monster_kill(Monster* monster) 
 {
-  Mix_PlayChannel(-1, sound[MONSTERKILL], 0);
+  switch (monster->type)
+  {
+  case SOLDER:
+    Mix_PlayChannel(-1, sound[SOLD], 0);
+    break;
 
+  case HUGE_SOLDER:
+    Mix_PlayChannel(-1, sound[HSOLD], 0);
+    break;
+
+  case GERERAL:
+    Mix_PlayChannel(-1, sound[GENE], 0);
+    break;
+
+  case BOSS:
+    Mix_PlayChannel(-1, sound[BOS], 0);
+    break;
+  }
+  
   monster->status = DEAD;
   free(monster->sprite_texture);
   monster->sprite_texture = sprite_loadSprite(SPLASH_TEX, 0, FALSE); 

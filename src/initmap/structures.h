@@ -49,9 +49,13 @@ typedef enum TypeMonster {
 typedef enum Sound {
   MUSIQUE,
   TOWER,
+  CENTRAL,
   PROJECTILE,
-  MONSTERKILL,
   BEGINLEVEL,
+  SOLD,
+  HSOLD,
+  GENE,
+  BOS,
   LOSELEVEL,
   WINLEVEL
 } Sound;
@@ -121,12 +125,24 @@ typedef struct ConstructionData {
   int valeur_revente;
 } ConstructionData;
 
+typedef struct Chemin {
+   Node* node_in;
+   Node* node_out;
+   int dead_monsters;
+   struct Chemin* next;
+} Chemin;
+
 typedef struct DataMonsters {
    float PDV;
    float strength;
    double mass;
    int value;
 } DataMonsters;
+
+typedef struct ListChemins {
+   int nbChemin;
+   Chemin* next;
+} ListChemins;
 
 typedef struct MapData {
   int Xsplit;
@@ -143,9 +159,10 @@ typedef struct MapData {
   ListWaves* listWaves;
   ConstructionData constructionData[6];
   DataMonsters dataMonsters[4];
+  ListChemins* listChemins;
   GLuint idGrid;
   GLuint idMap;
-  TypeCase *cases;
+  TypeCase* cases;
 } MapData;
 
 typedef enum GeneralType {
@@ -153,8 +170,6 @@ typedef enum GeneralType {
   BATIMENT = 2,
   OTHER
 } GeneralType;
-
-
 
 typedef struct Monster Monster;
 
@@ -328,18 +343,6 @@ typedef struct ListMonsters {
    Monster* firstMonster;
 } ListMonsters;
 
-typedef struct Chemin {
-   Node* node_in;
-   Node* node_out;
-   int dead_monsters;
-   struct Chemin* next;
-} Chemin;
-
-typedef struct ListChemins {
-   int nbChemin;
-   Chemin* next;
-} ListChemins;
-
 typedef struct Plateau {
   Bool play;
   Etat* joueur;
@@ -351,7 +354,6 @@ typedef struct Plateau {
   ListTours* listTours;
   ListMonsters* listMonsters;
   ListProjectiles* listProjectiles;
-  ListChemins* listChemins;
   Wave currentWave;
   Tour **tours;
 } Plateau;

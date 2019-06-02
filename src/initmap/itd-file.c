@@ -630,6 +630,7 @@ void idt_load(char* itd_path)
     if (mapData->contentState == allFlags) {
       printf("file is valid\n");
       mapData->cases = case_loadFromPPM();
+      mapData->listChemins = itineraire_initListChemins();
     }
   }
 }
@@ -680,6 +681,7 @@ void itd_initLevel()
 
 void itd_freeMapData() {
   wave_freeListWaves();
+  itineraire_freeListChemins();
   free(mapData->infosNodes);
   free(mapData);
 }

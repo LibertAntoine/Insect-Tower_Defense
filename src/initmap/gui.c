@@ -18,7 +18,7 @@ ButtonName gui_getButtonNameFromAction(Action action)
 }
 
 ButtonName gui_getButtonNameFromTypeCase(TypeCase type)
-{
+{;
   ButtonName button_name;
   switch(type) {
     case LASER:
