@@ -637,7 +637,7 @@ void idt_load(char* itd_path)
 
 
 void itd_actionMenu(ButtonName button) {
-  if(gameState == MAINMENU) {
+  if(gameData->gameState == MAINMENU) {
     if (button == LEVEL1_BTN) {
       idt_load("level/level1.itd");
     } else if (button == LEVEL2_BTN) {
@@ -648,14 +648,14 @@ void itd_actionMenu(ButtonName button) {
       return EXIT_FAILURE;
     }
   itd_initLevel();
-  gameState = LEVELPLAY;
-  } else if (gameState == LOSEMENU || gameState == WINMENU) {
+  gameData->gameState = LEVELPLAY;
+  } else if (gameData->gameState == LOSEMENU || gameData->gameState == WINMENU) {
     if(button == MAINMENU_BTN) {
       itd_freeMapData();
-      gameState = MAINMENU;
+      gameData->gameState = MAINMENU;
     } else if (button == REPLAY_BTN) {
       itd_initLevel();
-      gameState = LEVELPLAY;
+      gameData->gameState = LEVELPLAY;
     }
   }
 }
@@ -674,9 +674,9 @@ void itd_initLevel()
   mapData->idMap = glGenLists(1);
   display_mapList(mapData->idMap);
 
-  beginMomentLevel = SDL_GetTicks();
+  gameData->beginMomentLevel = SDL_GetTicks();
 
-  Mix_PlayChannel(-1, sound[BEGINLEVEL], 0);
+  Mix_PlayChannel(-1, gameData->sound[BEGINLEVEL], 0);
 }
 
 void itd_freeMapData() {

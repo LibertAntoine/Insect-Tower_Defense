@@ -408,4 +408,10 @@ void case_freePlateau() {
   free(plateau);
 }
 
+void gameData_init() {
+  gameData = malloc(sizeof(GameData));
+  gameData->gameState = MAINMENU;
+  gameData->default_list = NULL;
+};
+
 

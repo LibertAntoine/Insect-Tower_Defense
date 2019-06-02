@@ -66,52 +66,52 @@ if(!texture_surface) {
 
 void sprite_init()
 {
-  textures = calloc(37, sizeof(Texture*));
+  gameData->textures = calloc(37, sizeof(Texture*));
 
-  textures[SOLDER_TEX] = sprite_importTexture("images/sprite-entities/cafard.png", 2, 1); 
-  textures[HUGE_SOLDER_TEX] = sprite_importTexture("images/sprite-entities/punaise.png", 2, 1); 
-  textures[BOSS_TEX] = sprite_importTexture("images/sprite-entities/gendarme.png", 2, 1); 
-  textures[GERERAL_TEX] = sprite_importTexture("images/sprite-entities/larve.png", 2, 1); 
+  gameData->textures[SOLDER_TEX] = sprite_importTexture("images/sprite-entities/cafard.png", 2, 1); 
+  gameData->textures[HUGE_SOLDER_TEX] = sprite_importTexture("images/sprite-entities/punaise.png", 2, 1); 
+  gameData->textures[BOSS_TEX] = sprite_importTexture("images/sprite-entities/gendarme.png", 2, 1); 
+  gameData->textures[GERERAL_TEX] = sprite_importTexture("images/sprite-entities/larve.png", 2, 1); 
 
-  textures[CENTRALE_TEX] = sprite_importTexture("images/tests/food.png", 1, 1); 
-  textures[RADAR_TEX] = sprite_importTexture("images/tests/gem1.png", 1, 1); 
-  textures[ARMEMENT_TEX] = sprite_importTexture("images/tests/gem2.png", 1, 1); 
-  textures[MUNITION_TEX] = sprite_importTexture("images/tests/gem3.png", 1, 1); 
+  gameData->textures[CENTRALE_TEX] = sprite_importTexture("images/tests/food.png", 1, 1); 
+  gameData->textures[RADAR_TEX] = sprite_importTexture("images/tests/gem1.png", 1, 1); 
+  gameData->textures[ARMEMENT_TEX] = sprite_importTexture("images/tests/gem2.png", 1, 1); 
+  gameData->textures[MUNITION_TEX] = sprite_importTexture("images/tests/gem3.png", 1, 1); 
 
-  textures[MISSILE_TEX] = sprite_importTexture("images/sprite-entities/puceron.png", 1, 1); 
-  textures[LASER_TEX] = sprite_importTexture("images/sprite-entities/mouche.png", 1, 1); 
+  gameData->textures[MISSILE_TEX] = sprite_importTexture("images/sprite-entities/puceron.png", 1, 1); 
+  gameData->textures[LASER_TEX] = sprite_importTexture("images/sprite-entities/mouche.png", 1, 1); 
 
-  textures[ADD_TEX] = sprite_importTexture("images/tests/add.png", 1, 1); 
-  textures[REMOVE_TEX] = sprite_importTexture("images/tests/delete.png", 1, 1); 
-  textures[GETINFO_TEX] = sprite_importTexture("images/tests/info.png", 1, 1); 
+  gameData->textures[ADD_TEX] = sprite_importTexture("images/tests/add.png", 1, 1); 
+  gameData->textures[REMOVE_TEX] = sprite_importTexture("images/tests/delete.png", 1, 1); 
+  gameData->textures[GETINFO_TEX] = sprite_importTexture("images/tests/info.png", 1, 1); 
 
-  textures[PAUSE_TEX] = sprite_importTexture("images/tests/pause.png", 1, 1); 
-  textures[PLAY_TEX] = sprite_importTexture("images/tests/play.png", 1, 1); 
-  textures[SPLASH_TEX] = sprite_importTexture("images/sprite_splash.png", 1, 1); 
-  textures[BUTTON_TEX] = sprite_importTexture("images/sprite_Button.png", 1, 1); 
+  gameData->textures[PAUSE_TEX] = sprite_importTexture("images/tests/pause.png", 1, 1); 
+  gameData->textures[PLAY_TEX] = sprite_importTexture("images/tests/play.png", 1, 1); 
+  gameData->textures[SPLASH_TEX] = sprite_importTexture("images/sprite_splash.png", 1, 1); 
+  gameData->textures[BUTTON_TEX] = sprite_importTexture("images/sprite_Button.png", 1, 1); 
 
-  textures[PLANK_TEX] = sprite_importTexture("images/tests/plank.png", 1, 1); 
-  textures[PLUS_TEX] = sprite_importTexture("images/tests/plus.png", 1, 1); 
-  textures[TARGET_TEX] = sprite_importTexture("images/tests/target.png", 1, 1); 
-  textures[MONEY_TEX] = sprite_importTexture("images/tests/money.png", 1, 1); 
-  textures[POINTER_TEX] = sprite_importTexture("images/tests/hand.png", 1, 1); 
-  textures[SHIELD_TEX] = sprite_importTexture("images/tests/shield.png", 1, 1); 
-  textures[DAMAGE_TEX] = sprite_importTexture("images/tests/explosion.png", 1, 1); 
-  textures[CADENCE_TEX] = sprite_importTexture("images/tests/munition.png", 1, 1); 
-  textures[SPEED_TEX] = sprite_importTexture("images/tests/speed.png", 1, 1); 
-  textures[LIFE_TEX] = sprite_importTexture("images/tests/heart.png", 1, 1); 
-  textures[FOOD_TEX] = sprite_importTexture("images/tests/cookie.png", 1, 1); 
+  gameData->textures[PLANK_TEX] = sprite_importTexture("images/tests/plank.png", 1, 1); 
+  gameData->textures[PLUS_TEX] = sprite_importTexture("images/tests/plus.png", 1, 1); 
+  gameData->textures[TARGET_TEX] = sprite_importTexture("images/tests/target.png", 1, 1); 
+  gameData->textures[MONEY_TEX] = sprite_importTexture("images/tests/money.png", 1, 1); 
+  gameData->textures[POINTER_TEX] = sprite_importTexture("images/tests/hand.png", 1, 1); 
+  gameData->textures[SHIELD_TEX] = sprite_importTexture("images/tests/shield.png", 1, 1); 
+  gameData->textures[DAMAGE_TEX] = sprite_importTexture("images/tests/explosion.png", 1, 1); 
+  gameData->textures[CADENCE_TEX] = sprite_importTexture("images/tests/munition.png", 1, 1); 
+  gameData->textures[SPEED_TEX] = sprite_importTexture("images/tests/speed.png", 1, 1); 
+  gameData->textures[LIFE_TEX] = sprite_importTexture("images/tests/heart.png", 1, 1); 
+  gameData->textures[FOOD_TEX] = sprite_importTexture("images/tests/cookie.png", 1, 1); 
 
-  textures[TERRAIN_1_TEX] = sprite_importTexture("images/sprite-world/terrain1.png", 1, 1); 
-  textures[TERRAIN_2_TEX] = sprite_importTexture("images/sprite-world/terrain2.png", 1, 1); 
-  textures[TERRAIN_3_TEX] = sprite_importTexture("images/sprite-world/terrain3.png", 1, 1); 
-  textures[TERRAIN_4_TEX] = sprite_importTexture("images/sprite-world/terrain4.png", 1, 1); 
-  textures[TERRAIN_5_TEX] = sprite_importTexture("images/sprite-world/terrain5.png", 1, 1); 
-  textures[CHEMIN_1_TEX] = sprite_importTexture("images/sprite-world/chemin1.png", 1, 1); 
-  textures[CHEMIN_2_TEX] = sprite_importTexture("images/sprite-world/chemin2.png", 1, 1); 
-  textures[CHEMIN_3_TEX] = sprite_importTexture("images/sprite-world/chemin3.png", 1, 1); 
+  gameData->textures[TERRAIN_1_TEX] = sprite_importTexture("images/sprite-world/terrain1.png", 1, 1); 
+  gameData->textures[TERRAIN_2_TEX] = sprite_importTexture("images/sprite-world/terrain2.png", 1, 1); 
+  gameData->textures[TERRAIN_3_TEX] = sprite_importTexture("images/sprite-world/terrain3.png", 1, 1); 
+  gameData->textures[TERRAIN_4_TEX] = sprite_importTexture("images/sprite-world/terrain4.png", 1, 1); 
+  gameData->textures[TERRAIN_5_TEX] = sprite_importTexture("images/sprite-world/terrain5.png", 1, 1); 
+  gameData->textures[CHEMIN_1_TEX] = sprite_importTexture("images/sprite-world/chemin1.png", 1, 1); 
+  gameData->textures[CHEMIN_2_TEX] = sprite_importTexture("images/sprite-world/chemin2.png", 1, 1); 
+  gameData->textures[CHEMIN_3_TEX] = sprite_importTexture("images/sprite-world/chemin3.png", 1, 1); 
 
-  textures[REINE_TEX] = sprite_importTexture("images/sprite-world/arrivee-reine.png", 1, 1); 
+  gameData->textures[REINE_TEX] = sprite_importTexture("images/sprite-world/arrivee-reine.png", 1, 1); 
 }
 
 SpriteTexture* sprite_loadSprite(TextureName texture_name, int loop_duration, Bool loop)
@@ -160,7 +160,7 @@ void sprite_displayFixedTextureText(TextureText* texture_texte)
 
 void sprite_displayFixedTexture(TextureName texture_name)
 {
-  Texture* texture = textures[texture_name];
+  Texture* texture = gameData->textures[texture_name];
   glEnable(GL_BLEND);
   glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
@@ -187,7 +187,7 @@ void sprite_displayFixedTexture(TextureName texture_name)
 
 void sprite_displaySprite(SpriteTexture* sprite)
 {
-  Texture* currentTexture = textures[sprite->texture_name];
+  Texture* currentTexture = gameData->textures[sprite->texture_name];
 
   glEnable(GL_BLEND);
   glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -229,23 +229,23 @@ void sprite_displaySprite(SpriteTexture* sprite)
 void sprite_updateSprite(SpriteTexture* sprite)
 {
   Uint32 now = SDL_GetTicks();
-  Texture* texture = textures[sprite->texture_name];
+  Texture* texture = gameData->textures[sprite->texture_name];
 
   if (now - sprite->last_frame >= sprite->loop_duration / (texture->sprite_totalX * texture->sprite_totalY)) {
     sprite->sprite_numX++;
 
-    if (sprite->sprite_numX >= textures[sprite->texture_name]->sprite_totalX) {
+    if (sprite->sprite_numX >= gameData->textures[sprite->texture_name]->sprite_totalX) {
       sprite->sprite_numX = 0;
       sprite->sprite_numY++;
 
-      if (sprite->sprite_numY >= textures[sprite->texture_name]->sprite_totalY) {
+      if (sprite->sprite_numY >= gameData->textures[sprite->texture_name]->sprite_totalY) {
         sprite->sprite_numX = 0;
         sprite->sprite_numY = 0;
       }
     }
 
-    float shift_x = 1. / textures[sprite->texture_name]->sprite_totalX;
-    float shift_y = 1. / textures[sprite->texture_name]->sprite_totalY;
+    float shift_x = 1. / gameData->textures[sprite->texture_name]->sprite_totalX;
+    float shift_y = 1. / gameData->textures[sprite->texture_name]->sprite_totalY;
 
     sprite->translate_x = shift_x * sprite->sprite_numX;
     sprite->translate_y = shift_y * sprite->sprite_numY;

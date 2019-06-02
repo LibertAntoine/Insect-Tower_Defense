@@ -4,7 +4,7 @@ void keyboard_handleKeypress(SDL_Event *event)
 {
   SDL_Keycode key = event->key.keysym.sym; 
 
-  if(gameState == LEVELPLAY) {
+  if(gameData->gameState == LEVELPLAY) {
     Etat *joueur = plateau->joueur;
     TypeCase type = joueur->type;
     Action action = joueur->action;
@@ -51,7 +51,7 @@ void keyboard_handleKeypress(SDL_Event *event)
       player_switchTowerType(type);
     }
     } 
-  else if (gameState == MAINMENU) {
+  else if (gameData->gameState == MAINMENU) {
       switch(key) {
       case 'a':
         itd_actionMenu(LEVEL1_BTN);
@@ -63,7 +63,7 @@ void keyboard_handleKeypress(SDL_Event *event)
         itd_actionMenu(LEVEL3_BTN);
         break;
       }
-    } else if (gameState == LOSEMENU || gameState == WINMENU) {
+    } else if (gameData->gameState == LOSEMENU || gameData->gameState == WINMENU) {
       switch(key) {
       case 'a':
         itd_actionMenu(MAINMENU_BTN);

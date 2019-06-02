@@ -134,22 +134,22 @@ void monster_kill(Monster* monster)
   switch (monster->type)
   {
   case SOLDER:
-    Mix_PlayChannel(-1, sound[SOLD], 0);
+    Mix_PlayChannel(-1, gameData->sound[SOLD], 0);
     break;
 
   case HUGE_SOLDER:
-    Mix_PlayChannel(-1, sound[HSOLD], 0);
+    Mix_PlayChannel(-1, gameData->sound[HSOLD], 0);
     break;
 
   case GERERAL:
-    Mix_PlayChannel(-1, sound[GENE], 0);
+    Mix_PlayChannel(-1, gameData->sound[GENE], 0);
     break;
 
   case BOSS:
-    Mix_PlayChannel(-1, sound[BOS], 0);
+    Mix_PlayChannel(-1, gameData->sound[BOS], 0);
     break;
   }
-  
+
   monster->status = DEAD;
   free(monster->sprite_texture);
   monster->sprite_texture = sprite_loadSprite(SPLASH_TEX, 0, FALSE); 
@@ -225,8 +225,8 @@ int moveMonster(Monster* monster)
   // NOTE: Le monstre a atteint l'arrivée.
   if (monster->itineraire->next->next == NULL) {
     case_freePlateau();
-    Mix_PlayChannel(-1, sound[LOSELEVEL], 0);
-    gameState = LOSEMENU;
+    Mix_PlayChannel(-1, gameData->sound[LOSELEVEL], 0);
+    gameData->gameState = LOSEMENU;
     return 0;
   }
 
@@ -272,7 +272,7 @@ int monster_moveAll()
     } else {
       noLifeMonster = FALSE;
       moveMonster(currentMonster);
-      if(gameState == LOSEMENU) {
+      if(gameData->gameState == LOSEMENU) {
         return 0;
       }
     }

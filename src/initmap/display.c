@@ -241,14 +241,14 @@ GLuint display_initDefaultListIcon(TextureName texture_name)
 
 void display_initDefaultList()
 {
-  default_list = calloc(10, sizeof(DefaultList*));
+  gameData->default_list = calloc(10, sizeof(DefaultList*));
 
   int position = 0;
   char str[12];
 
   GeneralType generalType = TOUR;
   for (int i = LASER; i <= MISSILE; i++) {
-    default_list[i] = calloc(1, sizeof(DefaultList));
+    gameData->default_list[i] = calloc(1, sizeof(DefaultList));
 
     GLuint idListInfos = glGenLists(1);
     glNewList(idListInfos, GL_COMPILE);
@@ -301,15 +301,15 @@ void display_initDefaultList()
 
     glPopMatrix();
     glEndList();
-    default_list[i]->idListInfos = idListInfos;
-    default_list[i]->idListIcon = display_initDefaultListIcon(i);
+    gameData->default_list[i]->idListInfos = idListInfos;
+    gameData->default_list[i]->idListIcon = display_initDefaultListIcon(i);
     position = 0;
 
   }
 
   generalType = BATIMENT;
   for (int i = RADAR; i <= MUNITION; i++) {
-    default_list[i] = calloc(1, sizeof(DefaultList));
+    gameData->default_list[i] = calloc(1, sizeof(DefaultList));
 
     GLuint idListInfos = glGenLists(1);
     glNewList(idListInfos, GL_COMPILE);
@@ -369,8 +369,8 @@ void display_initDefaultList()
 
     glPopMatrix();
     glEndList();
-    default_list[i]->idListInfos = idListInfos;
-    default_list[i]->idListIcon = display_initDefaultListIcon(i);
+    gameData->default_list[i]->idListInfos = idListInfos;
+    gameData->default_list[i]->idListIcon = display_initDefaultListIcon(i);
     position = 0;
   }
 
@@ -378,7 +378,7 @@ void display_initDefaultList()
   int type;
   for (int i = SOLDER_DEF; i <= BOSS_DEF; i++) {
     type = i - 6;
-    default_list[i] = calloc(1, sizeof(DefaultList));
+    gameData->default_list[i] = calloc(1, sizeof(DefaultList));
 
     GLuint idListInfos = glGenLists(1);
     glNewList(idListInfos, GL_COMPILE);
@@ -414,8 +414,8 @@ void display_initDefaultList()
 
     glPopMatrix();
     glEndList();
-    default_list[i]->idListInfos = idListInfos;
-    default_list[i]->idListIcon = display_initDefaultListIcon(i);
+    gameData->default_list[i]->idListInfos = idListInfos;
+    gameData->default_list[i]->idListIcon = display_initDefaultListIcon(i);
 
     position = 0;
   }
@@ -424,11 +424,11 @@ void display_initDefaultList()
 void display_printInfos()
 {
   if (plateau->index_case_hover == -1 && plateau->monster_hover == NULL) {
-    glCallList(default_list[plateau->joueur->type]->idListInfos);
-    glCallList(default_list[plateau->joueur->type]->idListIcon);
+    glCallList(gameData->default_list[plateau->joueur->type]->idListInfos);
+    glCallList(gameData->default_list[plateau->joueur->type]->idListIcon);
   }
   else if (plateau->monster_hover) {
-    glCallList(default_list[plateau->monster_hover->type + 6]->idListInfos);
+    glCallList(gameData->default_list[plateau->monster_hover->type + 6]->idListInfos);
   }
   else if (case_getGeneralConstructionType(mapData->cases[plateau->index_case_hover]) == TOUR) {
     if (plateau->idListInfos == GL_INVALID_VALUE) {
@@ -795,7 +795,7 @@ void display_setDrawingZone(GUI *section)
   int Y = 0;
   gui_getAbsoluteCoordinates(section, &X, &Y);
 
-  glViewport(X, bodyGUI->dimensions->height - Y - section->dimensions->height, section->dimensions->width, section->dimensions->height);
+  glViewport(X, gameData->bodyGUI->dimensions->height - Y - section->dimensions->height, section->dimensions->width, section->dimensions->height);
   glMatrixMode(GL_PROJECTION);
   glLoadIdentity();
 
@@ -807,7 +807,7 @@ void display_drawZoneBasedOnGUI(GUI *section)
 {
   display_setDrawingZone(section);
 
-  if (default_list == NULL && gameState == LEVELPLAY) {
+  if (gameData->default_list == NULL && gameData->gameState == LEVELPLAY) {
     display_initDefaultList();
   }
 
@@ -824,14 +824,14 @@ void display_drawZoneBasedOnGUI(GUI *section)
     button = button->next;
   }
 
-  if (section == infoGUI) {
+  if (section == gameData->infoGUI) {
     display_printInfos();
   }
-  else if (section == topGUI) {
+  else if (section == gameData->topGUI) {
     display_printMoney();
   }
 
-  display_setDrawingZone(bodyGUI);
+  display_setDrawingZone(gameData->bodyGUI);
 }
 
 void display_buttonBackground(Display display)
@@ -879,7 +879,7 @@ void display_drawSingleButton(Button *button)
     display_mode = button->display;
   }
 
-  if (gameState == LEVELPLAY) {
+  if (gameData->gameState == LEVELPLAY) {
     glScalef(button->dimensions->width, button->dimensions->height, 0);
     display_buttonBackground(display_mode);
 
@@ -977,17 +977,17 @@ void display_printMoney()
 void display_top()
 {
   glColor3f(1,1,0);
-  display_drawZoneBasedOnGUI(topGUI);
+  display_drawZoneBasedOnGUI(gameData->topGUI);
 }
 
 void display_bottom()
 {
   glColor3f(1,0,1);
-  display_drawZoneBasedOnGUI(bottomGUI);
+  display_drawZoneBasedOnGUI(gameData->bottomGUI);
   glColor3f(1,1,1);
-  display_drawZoneBasedOnGUI(buttonGUI);
+  display_drawZoneBasedOnGUI(gameData->buttonGUI);
   glColor3f(.50,0.7,1);
-  display_drawZoneBasedOnGUI(infoGUI);
+  display_drawZoneBasedOnGUI(gameData->infoGUI);
 }
 
 void display_left()
@@ -1010,21 +1010,21 @@ void display_window()
 void display_mainMenu()
 {
   glColor3f(1,0,1);
-  display_drawZoneBasedOnGUI(mainMenuGUI);
+  display_drawZoneBasedOnGUI(gameData->mainMenuGUI);
 }
 
 void display_endMenu()
 {
   glColor3f(1,0,1);
-  display_drawZoneBasedOnGUI(endMenuGUI);
+  display_drawZoneBasedOnGUI(gameData->endMenuGUI);
 }
 
 void display_game(GUI *plateau_gui, GLuint idMap, GLuint idGrid)
 {
   Div* plateau_div = plateau_gui->dimensions;
-  Div* body_div = bodyGUI->dimensions;
+  Div* body_div = gameData->bodyGUI->dimensions;
 
-  glViewport(plateau_div->x, (bodyGUI->dimensions->height - plateau_div->y - plateau_div->height), plateau_div->width, plateau_div->height);
+  glViewport(plateau_div->x, (gameData->bodyGUI->dimensions->height - plateau_div->y - plateau_div->height), plateau_div->width, plateau_div->height);
   glMatrixMode(GL_PROJECTION);
   glLoadIdentity();
   gluOrtho2D(1, mapData->Xsplit+1, mapData->Ysplit+1, 1);

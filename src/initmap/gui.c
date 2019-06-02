@@ -46,7 +46,7 @@ ButtonName gui_getButtonNameFromTypeCase(TypeCase type)
 Display gui_getTowerButtonState(TypeCase type)
 {
   ButtonName button_name = gui_getButtonNameFromTypeCase(type);
-  Button *currentButton = buttonGUI->buttons;
+  Button *currentButton = gameData->buttonGUI->buttons;
   while (currentButton->name != button_name) {
     currentButton = currentButton->next;
   }
@@ -56,7 +56,7 @@ Display gui_getTowerButtonState(TypeCase type)
 void gui_changeTowerButtonState(TypeCase type, Display state)
 {
   ButtonName button_name = gui_getButtonNameFromTypeCase(type);
-  Button *currentButton = buttonGUI->buttons;
+  Button *currentButton = gameData->buttonGUI->buttons;
   while (currentButton->name != button_name) {
     if (currentButton->next == NULL) {
       return;
@@ -69,7 +69,7 @@ void gui_changeTowerButtonState(TypeCase type, Display state)
 void gui_changeActionButtonState(Action action, Display state)
 {
   ButtonName button_name = gui_getButtonNameFromAction(action);
-  Button *currentButton = buttonGUI->buttons;
+  Button *currentButton = gameData->buttonGUI->buttons;
   while (currentButton->name != button_name) {
     currentButton = currentButton->next;
   }
@@ -96,58 +96,58 @@ GUI *gui_addChildren(SectionName name, int x, int y, int width, int height, GUI 
 
 void gui_init()
 {
-  bodyGUI = calloc(1, sizeof(GUI));
+  gameData->bodyGUI = calloc(1, sizeof(GUI));
   // TODO: check alloc
-  bodyGUI->name = BODY;
+  gameData->bodyGUI->name = BODY;
 
   Div *dimensions = calloc(1, sizeof(Div));
   dimensions->width = WINDOW_WIDTH;
   dimensions->height = WINDOW_HEIGHT;
-  bodyGUI->dimensions = dimensions;
+  gameData->bodyGUI->dimensions = dimensions;
 
 
-  topGUI = gui_addChildren(HEADER, 0, 0, bodyGUI->dimensions->width, 40, bodyGUI);
-  gui_addButton(topGUI, 600, 20, 45, 45, PAUSE_BTN, CLICKED);
+  gameData->topGUI = gui_addChildren(HEADER, 0, 0, gameData->bodyGUI->dimensions->width, 40, gameData->bodyGUI);
+  gui_addButton(gameData->topGUI, 600, 20, 45, 45, PAUSE_BTN, CLICKED);
 
-  plateauGUI = gui_addChildren(PLATEAU, 0, 40, bodyGUI->dimensions->width, 600, bodyGUI);
+  gameData->plateauGUI = gui_addChildren(PLATEAU, 0, 40, gameData->bodyGUI->dimensions->width, 600, gameData->bodyGUI);
 
-  bottomGUI = gui_addChildren(FOOTER, 0, 640, bodyGUI->dimensions->width, 160, bodyGUI);
+  gameData->bottomGUI = gui_addChildren(FOOTER, 0, 640, gameData->bodyGUI->dimensions->width, 160, gameData->bodyGUI);
 
-  infoGUI = gui_addChildren(INFO_SECTION, 0, 0, 600, bottomGUI->dimensions->height, bottomGUI);
+  gameData->infoGUI = gui_addChildren(INFO_SECTION, 0, 0, 600, gameData->bottomGUI->dimensions->height, gameData->bottomGUI);
 
-  buttonGUI = gui_addChildren(TOWER_BUTTONS_SECTION, 600, 0, 200, bottomGUI->dimensions->height, bottomGUI);
+  gameData->buttonGUI = gui_addChildren(TOWER_BUTTONS_SECTION, 600, 0, 200, gameData->bottomGUI->dimensions->height, gameData->bottomGUI);
 
-  gui_addButton(buttonGUI, 30, 30, 45, 45, LASER_BTN, CLICKED);
-  gui_addButton(buttonGUI, 90, 30, 45, 45, MISSILE_BTN, ACTIVE);
+  gui_addButton(gameData->buttonGUI, 30, 30, 45, 45, LASER_BTN, CLICKED);
+  gui_addButton(gameData->buttonGUI, 90, 30, 45, 45, MISSILE_BTN, ACTIVE);
 
-  gui_addButton(buttonGUI, 30, 80, 45, 45, ARMEMENT_BTN, ACTIVE);
-  gui_addButton(buttonGUI, 90, 80, 45, 45, MUNITION_BTN, ACTIVE);
-  gui_addButton(buttonGUI, 30, 130, 45, 45, RADAR_BTN, ACTIVE);
-  gui_addButton(buttonGUI, 90, 130, 45, 45, CENTRALE_BTN, ACTIVE);
+  gui_addButton(gameData->buttonGUI, 30, 80, 45, 45, ARMEMENT_BTN, ACTIVE);
+  gui_addButton(gameData->buttonGUI, 90, 80, 45, 45, MUNITION_BTN, ACTIVE);
+  gui_addButton(gameData->buttonGUI, 30, 130, 45, 45, RADAR_BTN, ACTIVE);
+  gui_addButton(gameData->buttonGUI, 90, 130, 45, 45, CENTRALE_BTN, ACTIVE);
 
-  gui_addButton(buttonGUI, 170, 30, 45, 45, ADD_BTN, CLICKED);
-  gui_addButton(buttonGUI, 170, 80, 45, 45, GETINFO_BTN, ACTIVE);
-  gui_addButton(buttonGUI, 170, 130, 45, 45, REMOVE_BTN, ACTIVE);
+  gui_addButton(gameData->buttonGUI, 170, 30, 45, 45, ADD_BTN, CLICKED);
+  gui_addButton(gameData->buttonGUI, 170, 80, 45, 45, GETINFO_BTN, ACTIVE);
+  gui_addButton(gameData->buttonGUI, 170, 130, 45, 45, REMOVE_BTN, ACTIVE);
 
 
-  mainMenuGUI = calloc(1, sizeof(GUI));
-  mainMenuGUI->name = MAIN;
+  gameData->mainMenuGUI = calloc(1, sizeof(GUI));
+  gameData->mainMenuGUI->name = MAIN;
   Div *dimensions_main = calloc(1, sizeof(Div));
   dimensions_main->width = WINDOW_WIDTH;
   dimensions_main->height = WINDOW_HEIGHT;
-  mainMenuGUI->dimensions = dimensions_main;
-  gui_addButton(mainMenuGUI, 400, 400, 250, 45, LEVEL1_BTN, ACTIVE);
-  gui_addButton(mainMenuGUI, 400, 470, 250, 45, LEVEL2_BTN, ACTIVE);
-  gui_addButton(mainMenuGUI, 400, 540, 250, 45, LEVEL3_BTN, ACTIVE);
+  gameData->mainMenuGUI->dimensions = dimensions_main;
+  gui_addButton(gameData->mainMenuGUI, 400, 400, 250, 45, LEVEL1_BTN, ACTIVE);
+  gui_addButton(gameData->mainMenuGUI, 400, 470, 250, 45, LEVEL2_BTN, ACTIVE);
+  gui_addButton(gameData->mainMenuGUI, 400, 540, 250, 45, LEVEL3_BTN, ACTIVE);
 
-  endMenuGUI = calloc(1, sizeof(GUI));
-  endMenuGUI->name =LOSEMENU ;
+  gameData->endMenuGUI = calloc(1, sizeof(GUI));
+  gameData->endMenuGUI->name =LOSEMENU ;
   Div *dimensions_end = calloc(1, sizeof(Div));
   dimensions_end->width = WINDOW_WIDTH;
   dimensions_end->height = WINDOW_HEIGHT;
-  endMenuGUI->dimensions = dimensions_main;
-  gui_addButton(endMenuGUI, 400, 400, 250, 45, MAINMENU_BTN, ACTIVE);
-  gui_addButton(endMenuGUI, 400, 470, 250, 45, REPLAY_BTN, ACTIVE);
+  gameData->endMenuGUI->dimensions = dimensions_main;
+  gui_addButton(gameData->endMenuGUI, 400, 400, 250, 45, MAINMENU_BTN, ACTIVE);
+  gui_addButton(gameData->endMenuGUI, 400, 470, 250, 45, REPLAY_BTN, ACTIVE);
 }
 
 void gui_getAbsoluteDimensionsButton(GUI *section, Div *button)

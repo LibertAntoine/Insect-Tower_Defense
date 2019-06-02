@@ -4,10 +4,10 @@ void mouse_handlePosition()
 {
   GUI *current_section = mouse_getSection();
 
-  if (current_section->name == PLATEAU && gameState == LEVELPLAY) {
+  if (current_section->name == PLATEAU && gameData->gameState == LEVELPLAY) {
     int caseX;
     int caseY;
-    get_casesi(&caseX, &caseY, plateauGUI->dimensions);
+    get_casesi(&caseX, &caseY, gameData->plateauGUI->dimensions);
 
     TypeCase currentCase_type = case_getType(caseX+1, caseY+1);
 
@@ -29,7 +29,7 @@ void mouse_handlePosition()
       plateau->monster_hover = NULL;
     }
   }
-  else if (gameState == LEVELPLAY) {
+  else if (gameData->gameState == LEVELPLAY) {
     plateau->index_case_hover = -1;
     plateau->monster_hover = NULL;
   }
@@ -40,7 +40,7 @@ void mouse_checkIfMonster()
 {
   float casex_f;
   float casey_f;
-  get_casesf(&casex_f, &casey_f, plateauGUI->dimensions);
+  get_casesf(&casex_f, &casey_f, gameData->plateauGUI->dimensions);
 
   //printf("%f x %f\n", casex_f, casey_f);
   Monster* currentMonster = plateau->listMonsters->firstMonster;
@@ -60,7 +60,7 @@ void mouse_checkIfMonster()
 
 void mouse_handleButtonClick(ButtonName button_name)
 {
-  if(gameState == LEVELPLAY) {
+  if(gameData->gameState == LEVELPLAY) {
     Etat *joueur = plateau->joueur;
     TypeCase type = joueur->type;
     Action action = joueur->action;
@@ -108,7 +108,7 @@ void mouse_handleButtonClick(ButtonName button_name)
       player_switchTowerType(type);
     }
   }
-  else if (gameState == MAINMENU || gameState == LOSEMENU || gameState == WINMENU) {
+  else if (gameData->gameState == MAINMENU || gameData->gameState == LOSEMENU || gameData->gameState == WINMENU) {
     itd_actionMenu(button_name);
   }
 }
@@ -117,12 +117,12 @@ void mouse_handleClick()
 {
   GUI *current_section = mouse_getSection();
 
-  if(gameState == LEVELPLAY) {
+  if(gameData->gameState == LEVELPLAY) {
     if (current_section->name == PLATEAU) {
       int casex, casey;
       float casex_f, casey_f;
-      get_casesi(&casex, &casey, plateauGUI->dimensions);
-      get_casesf(&casex_f, &casey_f, plateauGUI->dimensions);
+      get_casesi(&casex, &casey, gameData->plateauGUI->dimensions);
+      get_casesf(&casex_f, &casey_f, gameData->plateauGUI->dimensions);
       printf("%d %d\n", casex, casey);
       printf("%f %f\n", casex_f, casey_f);
       case_handleAction(casex +1, casey +1);
@@ -133,15 +133,15 @@ void mouse_handleClick()
       printf("%d\n", buttonClicked->name +1);
     }
   }
-  else if (gameState == MAINMENU) {
-    Button *buttonClicked = mouse_GUIbutton(mainMenuGUI);
+  else if (gameData->gameState == MAINMENU) {
+    Button *buttonClicked = mouse_GUIbutton(gameData->mainMenuGUI);
     if (buttonClicked) {
       mouse_handleButtonClick(buttonClicked->name);
       printf("%d\n", buttonClicked->name +1);
     }
   }
-  else if (gameState == LOSEMENU || gameState == WINMENU) {
-    Button *buttonClicked = mouse_GUIbutton(endMenuGUI);
+  else if (gameData->gameState == LOSEMENU || gameData->gameState == WINMENU) {
+    Button *buttonClicked = mouse_GUIbutton(gameData->endMenuGUI);
     if (buttonClicked) {
       mouse_handleButtonClick(buttonClicked->name);
       printf("%d\n", buttonClicked->name +1);
@@ -163,7 +163,7 @@ Button *mouse_GUIbutton(GUI *section)
 
 GUI *mouse_getSection()
 {
-  GUI *current_section = bodyGUI;
+  GUI *current_section = gameData->bodyGUI;
   while (current_section) {
     if (mouse_isWithinSection(current_section)) {
       if (current_section->childen != NULL) {

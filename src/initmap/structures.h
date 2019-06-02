@@ -439,20 +439,25 @@ typedef struct DefaultList {
   GLuint idListIcon;
 } DefaultList;
 
-extern Plateau *plateau;
-extern GUI *bodyGUI;
-extern GUI *plateauGUI;
-extern GUI *bottomGUI;
-extern GUI *topGUI;
-extern Mix_Chunk** sound;
-extern Texture** textures;
-extern GameState gameState;
-extern Uint32 beginMomentLevel;
+typedef struct GameData {
+  GameState gameState;
+  Uint32 beginMomentLevel;
+  Texture** textures;
+  Mix_Chunk** sound;
+  DefaultList **default_list;
+  GUI *bodyGUI;
+  GUI *plateauGUI;
+  GUI *bottomGUI;
+  GUI *topGUI;
+  GUI *infoGUI;
+  GUI *buttonGUI;
+  GUI *mainMenuGUI; 
+  GUI *endMenuGUI; 
+} GameData;
+
+
+extern Plateau* plateau;
 extern MapData* mapData;
-extern GUI *infoGUI;
-extern GUI *buttonGUI;
-extern GUI *mainMenuGUI; 
-extern GUI *endMenuGUI; 
-extern DefaultList **default_list;
+extern GameData* gameData;
 
 #endif //STRUCTURES_H_

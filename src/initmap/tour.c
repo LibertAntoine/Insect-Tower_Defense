@@ -139,7 +139,7 @@ void tour_add(TypeCase type, int index_case)
 {
   plateau->tours[index_case] = tour_create(type, index_case);
 
-  Mix_PlayChannel(-1, sound[TOWER], 0);
+  Mix_PlayChannel(-1, gameData->sound[TOWER], 0);
   printf("%p", plateau->tours[index_case]);
   updateAllTower();
 }

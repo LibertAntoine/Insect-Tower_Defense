@@ -34,23 +34,8 @@
 #include "sprite.h"
 
 Plateau *plateau = NULL;
-Texture** textures = NULL;
-Mix_Chunk** sound = NULL;
-GameState gameState = MAINMENU;
-Uint32 beginMomentLevel = NULL;
+GameData* gameData = NULL;
 MapData* mapData = NULL;
-
-GUI *bodyGUI; //variable globale de l'interface
-GUI *plateauGUI;
-GUI *bottomGUI;
-GUI *topGUI;
-GUI *infoGUI;
-GUI *buttonGUI;
-GUI *buttonGUI;
-GUI *mainMenuGUI; 
-GUI *endMenuGUI; 
-
-DefaultList **default_list = NULL;
 
 int main(int argc, char *argv[])
 {
@@ -63,6 +48,7 @@ int main(int argc, char *argv[])
 
   SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 0);
 
+  gameData_init();
   gui_init();
   sprite_init();
   sound_init();
@@ -73,17 +59,17 @@ int main(int argc, char *argv[])
   /* Boucle principale */
   int loop = 1;
   int frameFPS = 0;
-  Uint32 lastCheckFPS = beginMomentLevel;
+  Uint32 lastCheckFPS = gameData->beginMomentLevel;
   while(loop) {
     Uint32 startTime = SDL_GetTicks();
 
     /* Placer ici le code de dessin */
     glClear(GL_COLOR_BUFFER_BIT);
 
-    if(gameState == LEVELPLAY) {
+    if(gameData->gameState == LEVELPLAY) {
       // NOTE: display general GUI
       display_window();
-      display_game(plateauGUI, mapData->idMap, mapData->idGrid);
+      display_game(gameData->plateauGUI, mapData->idMap, mapData->idGrid);
       if (plateau->play == TRUE) {
         
         tour_attackAll();
@@ -92,17 +78,17 @@ int main(int argc, char *argv[])
         if(monster_moveAll() == 1 && plateau->currentWave.next == NULL) {
           if(plateau->currentWave.monster_total == 0) {
             case_freePlateau();
-            Mix_PlayChannel(-1, sound[WINLEVEL], 0);
-            gameState = WINMENU;
+            Mix_PlayChannel(-1, gameData->sound[WINLEVEL], 0);
+            gameData->gameState = WINMENU;
           }
         }
       }
 
-    } else if (gameState == MAINMENU) {
+    } else if (gameData->gameState == MAINMENU) {
       display_mainMenu();
-    } else if (gameState == LOSEMENU) {
+    } else if (gameData->gameState == LOSEMENU) {
       display_endMenu();
-    } else if (gameState == WINMENU) {
+    } else if (gameData->gameState == WINMENU) {
       display_endMenu();
     }
 
@@ -123,7 +109,7 @@ int main(int argc, char *argv[])
         loop = 0; 
         break;
       }
-      if(gameState == LEVELPLAY) {
+      if(gameData->gameState == LEVELPLAY) {
         Etat *joueur = plateau->joueur;
         TypeCase type = joueur->type;
         Action action = joueur->action;
