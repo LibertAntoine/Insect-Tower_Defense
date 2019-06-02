@@ -9,7 +9,7 @@ void sound_init()
   sound = malloc(sizeof(Mix_Music*)*10);
 
   Mix_Music *musique;
-  musique = Mix_LoadMUS("sound/musique.mp3");
+  musique = Mix_LoadMUS("sound/musique.wav");
   Mix_PlayMusic(musique, -1);
 
   Mix_AllocateChannels(10);
@@ -17,12 +17,24 @@ void sound_init()
 
   son = Mix_LoadWAV("sound/addTower.wav");
   sound[TOWER] = son;
+
+    son = Mix_LoadWAV("sound/addCentrale.wav");
+  sound[CENTRAL] = son;
   
   son = Mix_LoadWAV("sound/projectile.wav");
   sound[PROJECTILE] = son;
 
-  son = Mix_LoadWAV("sound/monsterDie.wav");
-  sound[MONSTERKILL] = son;
+  son = Mix_LoadWAV("sound/monsterSolder.wav");
+  sound[SOLD] = son;
+
+  son = Mix_LoadWAV("sound/monsterGeneral.wav");
+  sound[GENE] = son;
+
+  son = Mix_LoadWAV("sound/monsterHuge_Solder.wav");
+  sound[HSOLD] = son;
+
+  son = Mix_LoadWAV("sound/monsterBoss.wav");
+  sound[BOS] = son;
 
   son = Mix_LoadWAV("sound/beginLevel.wav");
   sound[BEGINLEVEL] = son;
@@ -30,7 +42,7 @@ void sound_init()
   son = Mix_LoadWAV("sound/levelLose.wav");
   sound[LOSELEVEL] = son;
 
-  son = Mix_LoadWAV("sound/levelWIN.wav");
+  son = Mix_LoadWAV("sound/levelWin.wav");
   sound[WINLEVEL] = son;
 
 }
