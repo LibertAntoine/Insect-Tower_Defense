@@ -1,5 +1,6 @@
 #include "cases.h"
 
+
 TypeCase* case_loadFromPPM()
 {
   unsigned char* pixel_data;
@@ -36,6 +37,12 @@ TypeCase* case_loadFromPPM()
 
   return cases;
 }
+
+void case_gameData_init() {
+  gameData = malloc(sizeof(GameData));
+  gameData->gameState = MAINMENU;
+  gameData->default_list = NULL;
+};
 
 void case_initPlateau()
 {
@@ -408,10 +415,6 @@ void case_freePlateau() {
   free(plateau);
 }
 
-void gameData_init() {
-  gameData = malloc(sizeof(GameData));
-  gameData->gameState = MAINMENU;
-  gameData->default_list = NULL;
-};
+
 
 

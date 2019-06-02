@@ -21,6 +21,7 @@
 #include "projectile.h"
 
 TypeCase* case_loadFromPPM();
+void case_gameData_init();
 void case_initPlateau();
 int case_RGBCompare(RGBcolor color1, RGBcolor color2);
 
