@@ -48,7 +48,7 @@ int main(int argc, char *argv[])
 
   SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 0);
 
-  gameData_init();
+  case_gameData_init();
   gui_init();
   sprite_init();
   sound_init();

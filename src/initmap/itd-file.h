@@ -22,7 +22,7 @@ void itd_initMapData();
 
 /**
  * Move specific file cursor to the end of the current line
- * @param[in] file itd
+ * param[in] file itd
  */
 void itd_gotoEndOfLine(FILE* file);
 
@@ -34,7 +34,7 @@ void itd_checkComment(FILE* file);
 
 /**
  * Treats .itd files code @ITD {num}
- * @param[in] file itd
+ * param[in] file itd
  */
 int itd_checkCode(FILE* file);
 
