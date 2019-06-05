@@ -21,7 +21,8 @@ typedef enum MapDataContent {
   MDATA_CONSTRUCT = 32,
   MDATA_NODE = 64,
   MDATA_INFOSNODE = 128,
-  MDATA_WAVES = 256
+  MDATA_WAVES = 256,
+  MDATA_INCONSTRUCTIBLE = 512
 } MapDataContent;
 
 typedef enum GameState {
@@ -110,7 +111,8 @@ typedef enum TypeCase {
   CHEMIN,
   NOEUD,
   ENTREE,
-  SORTIE
+  SORTIE,
+  INCONSTRUCTIBLE
 } TypeCase;
 
 typedef struct ConstructionData {
@@ -151,6 +153,7 @@ typedef struct MapData {
   RGBcolor pathCol;
   RGBcolor nodeCol;
   RGBcolor buildingCol;
+  RGBcolor inconstructibleCol;
   RGBcolor inCol;
   RGBcolor outCol;
   unsigned int contentState; 

@@ -631,6 +631,9 @@ void display_mapList(GLuint id)
       case SORTIE:
         sprite_displayFixedTexture(REINE_TEX);
         break;
+      case INCONSTRUCTIBLE:
+        sprite_displayFixedTexture(REMOVE_TEX);
+        break;
       default:
         sprite_displayFixedTexture(TERRAIN_1_TEX + rand()%5);
         break;

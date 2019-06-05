@@ -9,6 +9,7 @@ noeud 255 0 0
 in 0 255 0
 out 0 0 255
 construct 0 0 0
+inconstructible 255 0 234
 # Construction Data
 laser 1 1 2 2 0 200 100
 missile 2 1 1 1 0 300 150

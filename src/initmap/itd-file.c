@@ -461,6 +461,18 @@ int itd_checkForMapData(FILE* file)
         return CHK_ERROR_FILE;
       }
     }
+    if (strcmp("inconstructible", label) == 0) {
+      if (itd_getColor(file, color) == CHK_SUCCESS) {
+        mapData->inconstructibleCol = *color;
+        mapData->contentState |= MDATA_INCONSTRUCTIBLE;
+        return CHK_SUCCESS;
+      }
+
+      else {
+        fseek(file, originalPosition, SEEK_SET);
+        return CHK_ERROR_FILE;
+      }
+    }
 
     if (strcmp("in", label) == 0) {
       if (itd_getColor(file, color) == CHK_SUCCESS) {
@@ -647,7 +659,7 @@ void idt_load(char* itd_path)
     }
 
 
-    int allFlags = (MDATA_IMG | MDATA_ENERGY | MDATA_IN | MDATA_OUT | MDATA_PATH | MDATA_NODE | MDATA_CONSTRUCT | MDATA_INFOSNODE | MDATA_WAVES);
+    int allFlags = (MDATA_IMG | MDATA_ENERGY | MDATA_IN | MDATA_OUT | MDATA_PATH | MDATA_NODE | MDATA_CONSTRUCT | MDATA_INFOSNODE | MDATA_WAVES | MDATA_INCONSTRUCTIBLE);
     if (mapData->contentState == allFlags) {
       printf("file is valid\n");
       mapData->cases = case_loadFromPPM();

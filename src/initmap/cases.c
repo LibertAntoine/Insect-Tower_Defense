@@ -30,6 +30,8 @@ TypeCase* case_loadFromPPM()
     } else if (case_RGBCompare(*pixel_ppm, mapData->outCol)) {
       cases[i] = SORTIE;
       nbSortie++;
+    } else if (case_RGBCompare(*pixel_ppm, mapData->inconstructibleCol)) {
+      cases[i] = INCONSTRUCTIBLE;
     } else {
       cases[i] = CHEMIN;
     }
@@ -59,6 +61,7 @@ void case_initPlateau()
     printf("ERROR ALLOC : mapData");
     exit(EXIT_FAILURE);
   }
+
   int argent = 2000;
 
   plateau->idListInfos = GL_INVALID_VALUE;
