@@ -66,6 +66,7 @@ void display_window();
 void display_left();
 void display_top();
 void display_drawZoneBasedOnGUI(GUI *section);
+void display_drawButtonsBasedOnGUI(GUI *section);
 void display_setDrawingZone(GUI *section);
 void display_drawSingleButton(Button *button);
 #endif //DRAW_MONSTER_H_

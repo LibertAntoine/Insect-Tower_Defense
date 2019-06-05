@@ -49,8 +49,8 @@ int main(int argc, char *argv[])
   SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 0);
 
   case_gameData_init();
-  gui_init();
   sprite_init();
+  gui_init();
   sound_init();
 
   // Position X, Y en pixel ET en indice de case de la souris

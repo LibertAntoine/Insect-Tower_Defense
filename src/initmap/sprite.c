@@ -40,6 +40,14 @@ TextureName sprite_getTextureNameFromButtonName(ButtonName button_name)
 
 Texture* sprite_importTexture(char image_path[], int totalX, int totalY)
 {
+  GLint internalFormat = GL_RGB;
+  GLenum format = GL_RGB;
+
+  if (strstr(image_path, ".png") != NULL) {
+    internalFormat = GL_RGBA;
+    format = GL_RGBA;
+  }
+
   Texture* new_texture = malloc(sizeof(Texture));
   if (!new_texture) {
     printf("ERROR ALLOC : new_texture");
@@ -61,7 +69,8 @@ if(!texture_surface) {
 
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-  glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, texture_surface->w, texture_surface->h, 0, GL_RGBA, GL_UNSIGNED_BYTE, texture_surface->pixels);
+  glTexImage2D(GL_TEXTURE_2D, 0, internalFormat, texture_surface->w, texture_surface->h, 0, format, GL_UNSIGNED_BYTE, texture_surface->pixels);
+
   // NOTE: Unbinding
   glBindTexture(GL_TEXTURE_2D, 0);
 
@@ -70,7 +79,7 @@ if(!texture_surface) {
 
 void sprite_init()
 {
-  gameData->textures = calloc(37, sizeof(Texture*));
+  gameData->textures = calloc(40, sizeof(Texture*));
 
   gameData->textures[SOLDER_TEX] = sprite_importTexture("images/sprite-entities/cafard.png", 2, 1); 
   gameData->textures[HUGE_SOLDER_TEX] = sprite_importTexture("images/sprite-entities/punaise.png", 2, 1); 
@@ -116,6 +125,10 @@ void sprite_init()
   gameData->textures[CHEMIN_3_TEX] = sprite_importTexture("images/sprite-world/chemin3.png", 1, 1); 
 
   gameData->textures[REINE_TEX] = sprite_importTexture("images/sprite-world/arrivee-reine.png", 1, 1); 
+
+  gameData->textures[MAINMENU_TEX] = sprite_importTexture("images/sprite-gui/MainMenu.jpg", 1, 1); 
+  gameData->textures[LOSEMENU_TEX] = sprite_importTexture("images/sprite-gui/LoseMenu.jpg", 1, 1); 
+  gameData->textures[WINMENU_TEX] = sprite_importTexture("images/sprite-gui/WinMenu.jpg", 1, 1); 
 }
 
 SpriteTexture* sprite_loadSprite(TextureName texture_name, int loop_duration, Bool loop)

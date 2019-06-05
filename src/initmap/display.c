@@ -454,16 +454,13 @@ void display_printInfos()
 
 void display_drawCircle(int fillMode)
 {
-  float angleStep = 2 * M_PI / 360;
-  float angleCurrent = 0;
-
   glPolygonMode(GL_FRONT_AND_BACK, fillMode);
 
-  glBegin(GL_POLYGON);
+  glBegin(GL_LINES);
 
-  while(angleCurrent < 2 * M_PI) {
-    glVertex2f(0.5 * cos(angleCurrent), 0.5 * sin(angleCurrent));
-    angleCurrent += angleStep;
+  for (int i = 0; i< 180; i++) {
+    glVertex2f(0.5 * cos(i), 0.5 * sin(i));
+    glVertex2f(0.5 * cos(i+0.5), 0.5 * sin(i+0.5));
   }
   glEnd();
   glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
@@ -704,7 +701,8 @@ void display_drawSingleTower(int caseX, int caseY, TypeCase type)
         break;
       case TOUR:
         tour = case_getTourPointer(caseX, caseY);
-        glRotatef(tour->angle+45, 0, 0, 1);
+        // TODO: check angle
+        glRotatef(tour->angle, 0, 0, 1);
         break;
     }
     switch (type) {
@@ -809,19 +807,29 @@ void display_setDrawingZone(GUI *section)
 
 void display_drawZoneBasedOnGUI(GUI *section)
 {
-  display_setDrawingZone(section);
-
   if (gameData->default_list == NULL && gameData->gameState == LEVELPLAY) {
     display_initDefaultList();
   }
 
-  glBegin(GL_QUADS);
-  glVertex2f(0, 0);
-  glVertex2f(0, section->dimensions->height);
-  glVertex2f(section->dimensions->width, section->dimensions->height);
-  glVertex2f(section->dimensions->width, 0);
-  glEnd();
+  if (section->display_texture == TRUE) {
+    glPushMatrix();
+    glTranslatef(section->dimensions->width/2., section->dimensions->height/2., 0);
+    glScalef(section->dimensions->width, section->dimensions->height, 1);
+    sprite_displayFixedTexture(section->texture_name);
+    glPopMatrix();
+  }
+  else {
+    glBegin(GL_QUADS);
+    glVertex2f(0, 0);
+    glVertex2f(0, section->dimensions->height);
+    glVertex2f(section->dimensions->width, section->dimensions->height);
+    glVertex2f(section->dimensions->width, 0);
+    glEnd();
+  }
+}
 
+void display_drawButtonsBasedOnGUI(GUI *section)
+{
   Button *button = section->buttons;
   while (button != NULL) {
     display_drawSingleButton(button);
@@ -834,8 +842,6 @@ void display_drawZoneBasedOnGUI(GUI *section)
   else if (section == gameData->topGUI) {
     display_printMoney();
   }
-
-  display_setDrawingZone(gameData->bodyGUI);
 }
 
 void display_buttonBackground(Display display)
@@ -981,17 +987,28 @@ void display_printMoney()
 void display_top()
 {
   glColor3f(1,1,0);
+  display_setDrawingZone(gameData->topGUI);
   display_drawZoneBasedOnGUI(gameData->topGUI);
+  display_drawButtonsBasedOnGUI(gameData->topGUI);
+  display_setDrawingZone(gameData->bodyGUI);
+
 }
 
 void display_bottom()
 {
   glColor3f(1,0,1);
+  display_setDrawingZone(gameData->bottomGUI);
   display_drawZoneBasedOnGUI(gameData->bottomGUI);
+  display_drawButtonsBasedOnGUI(gameData->bottomGUI);
   glColor3f(1,1,1);
+  display_setDrawingZone(gameData->buttonGUI);
   display_drawZoneBasedOnGUI(gameData->buttonGUI);
+  display_drawButtonsBasedOnGUI(gameData->buttonGUI);
   glColor3f(.50,0.7,1);
+  display_setDrawingZone(gameData->infoGUI);
   display_drawZoneBasedOnGUI(gameData->infoGUI);
+  display_drawButtonsBasedOnGUI(gameData->infoGUI);
+  display_setDrawingZone(gameData->bodyGUI);
 }
 
 void display_left()
@@ -1013,14 +1030,36 @@ void display_window()
 
 void display_mainMenu()
 {
-  glColor3f(1,0,1);
-  display_drawZoneBasedOnGUI(gameData->mainMenuGUI);
+  glColor3f(1,1,1);
+  display_setDrawingZone(gameData->mainMenuGUI);
+  glPushMatrix();
+  glTranslatef(gameData->bodyGUI->dimensions->width/2., gameData->bodyGUI->dimensions->height/2., 0);
+  glScalef(gameData->bodyGUI->dimensions->width, gameData->bodyGUI->dimensions->height, 1);
+  sprite_displayFixedTexture(MAINMENU_TEX);
+  glPopMatrix();
+  display_drawButtonsBasedOnGUI(gameData->mainMenuGUI);
+  display_setDrawingZone(gameData->bodyGUI);
 }
 
 void display_endMenu()
 {
-  glColor3f(1,0,1);
+  glColor3f(1,1,1);
+  display_setDrawingZone(gameData->endMenuGUI);
   display_drawZoneBasedOnGUI(gameData->endMenuGUI);
+
+  glPushMatrix();
+  glTranslatef(gameData->bodyGUI->dimensions->width/2., gameData->bodyGUI->dimensions->height/2., 0);
+  glScalef(gameData->bodyGUI->dimensions->width, gameData->bodyGUI->dimensions->height, 1);
+  if (gameData->gameState == WINMENU) {
+    sprite_displayFixedTexture(WINMENU_TEX);
+  }
+  else {
+    sprite_displayFixedTexture(LOSEMENU_TEX);
+  }
+  glPopMatrix();
+
+  display_drawButtonsBasedOnGUI(gameData->endMenuGUI);
+  display_setDrawingZone(gameData->bodyGUI);
 }
 
 void display_game(GUI *plateau_gui, GLuint idMap, GLuint idGrid)

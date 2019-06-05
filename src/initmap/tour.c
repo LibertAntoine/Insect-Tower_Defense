@@ -313,7 +313,7 @@ void tour_updateShootingAngle(Tour* tour)
   if (tour->targetMonster) {
     double hypo = sqrt(pow(tour->x - tour->targetMonster->x, 2) + pow(tour->y - tour->targetMonster->y, 2));
     double distance = tour->x - tour->targetMonster->x;
-    double angle = acos(distance/hypo)* 180.0 / M_PI;
+    double angle = asin(distance/hypo)* 180.0 / M_PI + 180;
     tour->angle = angle;
   }
 }

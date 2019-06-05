@@ -211,7 +211,7 @@ void case_removeConstruction(int caseX, int caseY)
   int index_case = case_getCaseIndex(caseX, caseY);
   TypeCase type = case_getType(caseX, caseY);
   GeneralType generalType = case_getGeneralConstructionType(type);
-  plateau->joueur->argent += tour_getPrixRevente(type);
+  player_gagneArgent(tour_getPrixRevente(type));
 
   mapData->cases[index_case] = TERRAIN;
   if (generalType == TOUR) {

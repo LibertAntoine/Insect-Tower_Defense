@@ -8,7 +8,6 @@
   #include <GL/glu.h>
 #endif
 
-#include <GL/glew.h>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_mixer.h>
 #include <SDL2/SDL_ttf.h>
@@ -215,7 +214,10 @@ typedef enum TextureName {
   CHEMIN_1_TEX,
   CHEMIN_2_TEX,
   CHEMIN_3_TEX,
-  REINE_TEX
+  REINE_TEX,
+  MAINMENU_TEX,
+  LOSEMENU_TEX,
+  WINMENU_TEX
 } TextureName;
 
 typedef struct Texture {
@@ -392,8 +394,9 @@ typedef enum Display {
 } Display;
 
 typedef struct Button {
-  SpriteTexture button;
-  SpriteTexture sprite;
+  TextureName texture_name_bg;
+  TextureName texture_name_fg;
+  Bool display_texture;
   TextureText* texture_texte;
   Div *dimensions;
   Display display;
@@ -413,6 +416,8 @@ typedef enum SectionName {
 } SectionName;
 
 typedef struct GUI {
+  TextureName texture_name;
+  Bool display_texture;
   SectionName name;
   Div *dimensions;
   struct GUI *parent;
