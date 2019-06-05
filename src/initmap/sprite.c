@@ -79,7 +79,7 @@ if(!texture_surface) {
 
 void sprite_init()
 {
-  gameData->textures = calloc(40, sizeof(Texture*));
+  gameData->textures = calloc(41, sizeof(Texture*));
 
   gameData->textures[SOLDER_TEX] = sprite_importTexture("images/sprite-entities/cafard.png", 2, 1); 
   gameData->textures[HUGE_SOLDER_TEX] = sprite_importTexture("images/sprite-entities/punaise.png", 2, 1); 
@@ -129,6 +129,8 @@ void sprite_init()
   gameData->textures[MAINMENU_TEX] = sprite_importTexture("images/sprite-gui/MainMenu.jpg", 1, 1); 
   gameData->textures[LOSEMENU_TEX] = sprite_importTexture("images/sprite-gui/LoseMenu.jpg", 1, 1); 
   gameData->textures[WINMENU_TEX] = sprite_importTexture("images/sprite-gui/WinMenu.jpg", 1, 1); 
+
+  gameData->textures[WOODPLANKS_TEX] = sprite_importTexture("images/sprite-gui/wood_planks.jpg", 1, 1); 
 }
 
 SpriteTexture* sprite_loadSprite(TextureName texture_name, int loop_duration, Bool loop)

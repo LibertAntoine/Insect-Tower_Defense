@@ -217,7 +217,8 @@ typedef enum TextureName {
   REINE_TEX,
   MAINMENU_TEX,
   LOSEMENU_TEX,
-  WINMENU_TEX
+  WINMENU_TEX,
+  WOODPLANKS_TEX
 } TextureName;
 
 typedef struct Texture {

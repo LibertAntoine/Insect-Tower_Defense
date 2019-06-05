@@ -121,7 +121,7 @@ void gui_init()
 
   gameData->bottomGUI = gui_addChildren(FOOTER, 0, 640, gameData->bodyGUI->dimensions->width, 160, gameData->bodyGUI, 0, FALSE);
 
-  gameData->infoGUI = gui_addChildren(INFO_SECTION, 0, 0, 600, gameData->bottomGUI->dimensions->height, gameData->bottomGUI, 0, FALSE);
+  gameData->infoGUI = gui_addChildren(INFO_SECTION, 0, 0, 600, gameData->bottomGUI->dimensions->height, gameData->bottomGUI, WOODPLANKS_TEX, TRUE);
 
   gameData->buttonGUI = gui_addChildren(TOWER_BUTTONS_SECTION, 600, 0, 200, gameData->bottomGUI->dimensions->height, gameData->bottomGUI, 0, FALSE);
 
