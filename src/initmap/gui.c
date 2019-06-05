@@ -115,7 +115,7 @@ void gui_init()
 
 
   gameData->topGUI = gui_addChildren(HEADER, 0, 0, gameData->bodyGUI->dimensions->width, 40, gameData->bodyGUI, 0, FALSE);
-  gui_addButton(gameData->topGUI, 600, 20, 45, 45, PAUSE_BTN, CLICKED);
+  gui_addButton(gameData->topGUI, 600, 20, 45, 45, PAUSE_BTN, CLICKED, 0, FALSE);
 
   gameData->plateauGUI = gui_addChildren(PLATEAU, 0, 40, gameData->bodyGUI->dimensions->width, 600, gameData->bodyGUI, 0, FALSE);
 
@@ -125,43 +125,27 @@ void gui_init()
 
   gameData->buttonGUI = gui_addChildren(TOWER_BUTTONS_SECTION, 600, 0, 200, gameData->bottomGUI->dimensions->height, gameData->bottomGUI, 0, FALSE);
 
-  gui_addButton(gameData->buttonGUI, 30, 30, 45, 45, LASER_BTN, CLICKED);
-  gui_addButton(gameData->buttonGUI, 90, 30, 45, 45, MISSILE_BTN, ACTIVE);
+  gui_addButton(gameData->buttonGUI, 30, 30, 45, 45, LASER_BTN, CLICKED, 0, FALSE);
+  gui_addButton(gameData->buttonGUI, 90, 30, 45, 45, MISSILE_BTN, ACTIVE, 0, FALSE);
 
-  gui_addButton(gameData->buttonGUI, 30, 80, 45, 45, ARMEMENT_BTN, ACTIVE);
-  gui_addButton(gameData->buttonGUI, 90, 80, 45, 45, MUNITION_BTN, ACTIVE);
-  gui_addButton(gameData->buttonGUI, 30, 130, 45, 45, RADAR_BTN, ACTIVE);
-  gui_addButton(gameData->buttonGUI, 90, 130, 45, 45, CENTRALE_BTN, ACTIVE);
+  gui_addButton(gameData->buttonGUI, 30, 80, 45, 45, ARMEMENT_BTN, ACTIVE, 0, FALSE);
+  gui_addButton(gameData->buttonGUI, 90, 80, 45, 45, MUNITION_BTN, ACTIVE, 0, FALSE);
+  gui_addButton(gameData->buttonGUI, 30, 130, 45, 45, RADAR_BTN, ACTIVE, 0, FALSE);
+  gui_addButton(gameData->buttonGUI, 90, 130, 45, 45, CENTRALE_BTN, ACTIVE, 0, FALSE);
 
-  gui_addButton(gameData->buttonGUI, 170, 30, 45, 45, ADD_BTN, CLICKED);
-  gui_addButton(gameData->buttonGUI, 170, 80, 45, 45, GETINFO_BTN, ACTIVE);
-  gui_addButton(gameData->buttonGUI, 170, 130, 45, 45, REMOVE_BTN, ACTIVE);
+  gui_addButton(gameData->buttonGUI, 170, 30, 45, 45, ADD_BTN, CLICKED, 0, FALSE);
+  gui_addButton(gameData->buttonGUI, 170, 80, 45, 45, GETINFO_BTN, ACTIVE, 0, FALSE);
+  gui_addButton(gameData->buttonGUI, 170, 130, 45, 45, REMOVE_BTN, ACTIVE, 0, FALSE);
 
 
   gameData->mainMenuGUI = gui_addChildren(MAIN, 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT, NULL, MAINMENU_TEX, FALSE);
-  /*
-  gameData->mainMenuGUI = calloc(1, sizeof(GUI));
-  gameData->mainMenuGUI->name = MAIN;
-  Div *dimensions_main = calloc(1, sizeof(Div));
-  dimensions_main->width = WINDOW_WIDTH;
-  dimensions_main->height = WINDOW_HEIGHT;
-  gameData->mainMenuGUI->dimensions = dimensions_main;
-  */
-  gui_addButton(gameData->mainMenuGUI, 400, 400, 250, 45, LEVEL1_BTN, ACTIVE);
-  gui_addButton(gameData->mainMenuGUI, 400, 470, 250, 45, LEVEL2_BTN, ACTIVE);
-  gui_addButton(gameData->mainMenuGUI, 400, 540, 250, 45, LEVEL3_BTN, ACTIVE);
+  gui_addButton(gameData->mainMenuGUI, 400, 400, 350, 60, LEVEL1_BTN, ACTIVE, PLANK_TEX, TRUE);
+  gui_addButton(gameData->mainMenuGUI, 400, 470, 350, 60, LEVEL2_BTN, ACTIVE, PLANK_TEX, TRUE);
+  gui_addButton(gameData->mainMenuGUI, 400, 540, 350, 60, LEVEL3_BTN, ACTIVE, PLANK_TEX, TRUE);
 
   gameData->endMenuGUI = gui_addChildren(LOSEMENU, 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT, NULL, 0, FALSE);
-  /*
-  gameData->endMenuGUI = calloc(1, sizeof(GUI));
-  gameData->endMenuGUI->name =LOSEMENU ;
-  Div *dimensions_end = calloc(1, sizeof(Div));
-  dimensions_end->width = WINDOW_WIDTH;
-  dimensions_end->height = WINDOW_HEIGHT;
-  gameData->endMenuGUI->dimensions = dimensions_main;
-  */
-  gui_addButton(gameData->endMenuGUI, 400, 400, 250, 45, MAINMENU_BTN, ACTIVE);
-  gui_addButton(gameData->endMenuGUI, 400, 470, 250, 45, REPLAY_BTN, ACTIVE);
+  gui_addButton(gameData->endMenuGUI, 400, 400, 350, 60, MAINMENU_BTN, ACTIVE, PLANK_TEX, TRUE);
+  gui_addButton(gameData->endMenuGUI, 400, 470, 350, 60, REPLAY_BTN, ACTIVE, PLANK_TEX, TRUE);
 }
 
 void gui_getAbsoluteDimensionsButton(GUI *section, Div *button)
@@ -187,7 +171,7 @@ void gui_getAbsoluteCoordinates(GUI *section, int *X, int *Y)
 }
 
 // TODO: ajout de sprite
-void gui_addButton(GUI *section, int x, int y, int width, int height, ButtonName name, Display display_mode)
+void gui_addButton(GUI *section, int x, int y, int width, int height, ButtonName name, Display display_mode, TextureName texture_name, Bool display_texture)
 {
   Button *new_button = calloc(1, sizeof(Button));
 
@@ -203,9 +187,8 @@ void gui_addButton(GUI *section, int x, int y, int width, int height, ButtonName
   new_button->display = display_mode;
   new_button->next = section->buttons;
 
-  new_button->texture_name_bg = 0;
-  new_button->texture_name_fg = 0;
-  new_button->display_texture = FALSE;
+  new_button->texture_name = texture_name;
+  new_button->display_texture = display_texture;
 
   section->buttons = new_button;
 }

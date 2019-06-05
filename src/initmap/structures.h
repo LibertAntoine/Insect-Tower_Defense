@@ -394,8 +394,7 @@ typedef enum Display {
 } Display;
 
 typedef struct Button {
-  TextureName texture_name_bg;
-  TextureName texture_name_fg;
+  TextureName texture_name;
   Bool display_texture;
   TextureText* texture_texte;
   Div *dimensions;

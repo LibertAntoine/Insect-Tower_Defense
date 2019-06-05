@@ -932,9 +932,13 @@ void display_menuButtonText(Button* button)
   glPushMatrix();
   glScalef(button->dimensions->height*button->texture_texte->ratio, button->dimensions->height, 0);
   glColor3f(1,1,1);
-  display_drawSquare(GL_FILL);
+  sprite_displayFixedTexture(button->texture_name);
+
+  glScalef(0.7, 0.7, 1);
   glTranslatef(-0.5, 0,0);
-  glColor3f(1,0,0);
+
+  //glTranslatef(0.5,0.5,0);
+  glColor3f(1,1,1);
   sprite_displayFixedTextureText(button->texture_texte);
   glPopMatrix();
 }
