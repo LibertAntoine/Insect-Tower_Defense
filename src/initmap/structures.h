@@ -404,6 +404,7 @@ typedef struct Plateau {
   GLuint idListMoney;
   Monster *monster_hover;
   int index_case_hover;
+  int index_tour_hover;
   ListTours* listTours;
   ListMonsters* listMonsters;
   ListProjectiles* listProjectiles;

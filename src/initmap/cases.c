@@ -88,6 +88,7 @@ void case_initPlateau()
 
   plateau->monster_hover = NULL;
   plateau->index_case_hover = -1;
+  plateau->index_tour_hover = -1;
   plateau->play = TRUE;
 }
 

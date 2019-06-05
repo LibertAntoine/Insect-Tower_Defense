@@ -30,22 +30,27 @@ void mouse_handlePosition()
     get_casesi(&caseX, &caseY, gameData->plateauGUI->dimensions);
 
     TypeCase currentCase_type = case_getType(caseX+1, caseY+1);
+    if (plateau->index_case_hover != case_getCaseIndex(caseX+1, caseY+1)) {
+      Mix_PlayChannel(-1, gameData->sound[SNAP], 0);
+    }
+
+    plateau->index_case_hover = case_getCaseIndex(caseX+1, caseY+1);
 
     if (currentCase_type == CHEMIN || currentCase_type == NOEUD || currentCase_type == ENTREE) {
       mouse_checkIfMonster();
-      plateau->index_case_hover = -1;
+      plateau->index_tour_hover = -1;
     }
     else if (case_getGeneralConstructionType(currentCase_type) == TOUR || case_getGeneralConstructionType(currentCase_type) == BATIMENT) {
-      int index_case_hover = case_getCaseIndex(caseX+1, caseY+1);
-      if (plateau->index_case_hover != index_case_hover) {
-        plateau->index_case_hover = index_case_hover;
+      int index_tour_hover = case_getCaseIndex(caseX+1, caseY+1);
+      if (plateau->index_tour_hover != index_tour_hover) {
+        plateau->index_tour_hover = index_tour_hover;
         glDeleteLists(plateau->idListInfos, 1);
         plateau->idListInfos = GL_INVALID_VALUE;
       }
       plateau->monster_hover = NULL;
     }
     else {
-      plateau->index_case_hover = -1;
+      plateau->index_tour_hover = -1;
       plateau->monster_hover = NULL;
     }
   }
@@ -55,6 +60,7 @@ void mouse_handlePosition()
       snap = TRUE;
     }
     plateau->index_case_hover = -1;
+    plateau->index_tour_hover = -1;
     plateau->monster_hover = NULL;
   }
 

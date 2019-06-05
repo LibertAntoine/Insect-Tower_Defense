@@ -428,24 +428,24 @@ void display_initDefaultList()
 
 void display_printInfos()
 {
-  if (plateau->index_case_hover == -1 && plateau->monster_hover == NULL) {
+  if (plateau->index_tour_hover == -1 && plateau->monster_hover == NULL) {
     glCallList(gameData->default_list[plateau->joueur->type]->idListInfos);
     glCallList(gameData->default_list[plateau->joueur->type]->idListIcon);
   }
   else if (plateau->monster_hover) {
     glCallList(gameData->default_list[plateau->monster_hover->type + 6]->idListInfos);
   }
-  else if (case_getGeneralConstructionType(mapData->cases[plateau->index_case_hover]) == TOUR) {
+  else if (case_getGeneralConstructionType(mapData->cases[plateau->index_tour_hover]) == TOUR) {
     if (plateau->idListInfos == GL_INVALID_VALUE) {
-      display_genTourList(plateau->tours[plateau->index_case_hover]);
+      display_genTourList(plateau->tours[plateau->index_tour_hover]);
     }
     else {
       glCallList(plateau->idListInfos);
     }
   }
-  else if (case_getGeneralConstructionType(mapData->cases[plateau->index_case_hover]) == BATIMENT) {
+  else if (case_getGeneralConstructionType(mapData->cases[plateau->index_tour_hover]) == BATIMENT) {
     if (plateau->idListInfos == GL_INVALID_VALUE) {
-      display_genBatimentList(mapData->cases[plateau->index_case_hover]);
+      display_genBatimentList(mapData->cases[plateau->index_tour_hover]);
     }
     else {
       glCallList(plateau->idListInfos);
@@ -592,33 +592,11 @@ int display_drawAllProjectiles()
 
 void display_drawSingleProjectile(Projectile* projectile)
 {
-
-  /*
-  glColor3d(255,0,255);
-  glBegin(GL_TRIANGLES);
-  glVertex2f(projectile->x, projectile->y-0.1);
-  glVertex2f(projectile->x+0.1, projectile->y+0.1);
-  glVertex2f(projectile->x-0.1, projectile->y+0.1); 
-  glEnd();
-  */
-
-
   glPushMatrix();
   glTranslatef(projectile->x, projectile->y, 0);
   glScalef(0.1, 0.1, 1);
-  int angles = 360;
-  double angleStep = 2*M_PI/angles;
-  double currentAngle = 0;
-
-  glBegin(GL_TRIANGLE_FAN);
-  glColor3ub(150,239,134);
-  glVertex2f(0,0);
   glColor3ub(45,247,9);
-  while (currentAngle < 2*M_PI) {
-    glVertex2f(0.5 * cos(currentAngle), 0.5 * sin(currentAngle));
-    currentAngle += angleStep;
-  }
-  glEnd();
+  display_drawCircle(GL_FILL);
   glPopMatrix();
 }
 
@@ -766,7 +744,7 @@ void display_drawAllTargetRanges()
     }
     int caseY, caseX;
     case_getCasePosition(index_case, &caseX, &caseY);
-    if (plateau->index_case_hover == index_case) {
+    if (plateau->index_tour_hover == index_case) {
       glPushMatrix();
       float range = 0;
       switch (generalType) {
@@ -783,6 +761,34 @@ void display_drawAllTargetRanges()
   }
 }
 
+void display_drawCaseHover(int index_case)
+{
+  int caseY, caseX;
+  case_getCasePosition(index_case, &caseX, &caseY);
+
+  if (plateau->joueur->action == ADD) {
+    if (case_isConstructible(caseX, caseY) == TRUE && plateau->joueur->argent >= tour_getPrixAchat(plateau->joueur->type)) {
+      glColor4ub(0, 255, 0, 50);
+    }
+    else {
+      glColor4ub(255, 0, 0, 50);
+    }
+  }
+
+  glEnable(GL_BLEND);
+  glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+  glPushMatrix();
+  glTranslatef(caseX, caseY, 0);
+  glTranslatef(0.5, 0.5, 0);
+  glScalef(0.95,0.95,1);
+
+  display_drawSquare(GL_FILL);
+
+  glPopMatrix();
+  glDisable(GL_BLEND);
+
+}
+
 void display_drawBoard()
 {
   int total_cases = mapData->Xsplit * mapData->Ysplit;
@@ -791,6 +797,11 @@ void display_drawBoard()
     int caseY, caseX;
     case_getCasePosition(index_case, &caseX, &caseY);
     TypeCase type = mapData->cases[index_case];
+
+    if (index_case == plateau->index_case_hover) {
+      display_drawCaseHover(index_case);
+    }
+    glColor3f(1,1,1);
 
     display_drawSingleTower(caseX, caseY, type);
   }
