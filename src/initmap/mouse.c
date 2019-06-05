@@ -3,8 +3,28 @@
 void mouse_handlePosition()
 {
   GUI *current_section = mouse_getSection();
+  static Bool snap = FALSE;
 
-  if (current_section->name == PLATEAU && gameData->gameState == LEVELPLAY) {
+  if (gameData->gameState == MAINMENU) {
+    if (gameData->button_hover != mouse_GUIbutton(gameData->mainMenuGUI)) {
+      gameData->button_hover = mouse_GUIbutton(gameData->mainMenuGUI);
+      snap = TRUE;
+    }
+  }
+  else if (gameData->gameState == LOSEMENU || gameData->gameState == WINMENU) {
+    if (gameData->button_hover != mouse_GUIbutton(gameData->endMenuGUI)) {
+      gameData->button_hover = mouse_GUIbutton(gameData->endMenuGUI);
+      snap = TRUE;
+    }
+  }
+
+  if (gameData->button_hover != NULL && snap == TRUE) {
+    Mix_PlayChannel(-1, gameData->sound[SNAP], 0);
+    snap = FALSE;
+  }
+
+  else if (current_section->name == PLATEAU && gameData->gameState == LEVELPLAY) {
+    gameData->button_hover = NULL;
     int caseX;
     int caseY;
     get_casesi(&caseX, &caseY, gameData->plateauGUI->dimensions);
@@ -30,9 +50,14 @@ void mouse_handlePosition()
     }
   }
   else if (gameData->gameState == LEVELPLAY) {
+    if (gameData->button_hover != mouse_GUIbutton(current_section)) {
+      gameData->button_hover = mouse_GUIbutton(current_section);
+      snap = TRUE;
+    }
     plateau->index_case_hover = -1;
     plateau->monster_hover = NULL;
   }
+
 }
 
 
@@ -116,7 +141,10 @@ void mouse_handleButtonClick(ButtonName button_name)
 void mouse_handleClick()
 {
   GUI *current_section = mouse_getSection();
-
+  if (gameData->button_hover) {
+    Mix_PlayChannel(-1, gameData->sound[HITWOOD], 0);
+    mouse_handleButtonClick(gameData->button_hover->name);
+  }
   if(gameData->gameState == LEVELPLAY) {
     if (current_section->name == PLATEAU) {
       int casex, casey;
@@ -126,25 +154,6 @@ void mouse_handleClick()
       printf("%d %d\n", casex, casey);
       printf("%f %f\n", casex_f, casey_f);
       case_handleAction(casex +1, casey +1);
-    }
-    Button *buttonClicked = mouse_GUIbutton(current_section);
-    if (buttonClicked) {
-      mouse_handleButtonClick(buttonClicked->name);
-      printf("%d\n", buttonClicked->name +1);
-    }
-  }
-  else if (gameData->gameState == MAINMENU) {
-    Button *buttonClicked = mouse_GUIbutton(gameData->mainMenuGUI);
-    if (buttonClicked) {
-      mouse_handleButtonClick(buttonClicked->name);
-      printf("%d\n", buttonClicked->name +1);
-    }
-  }
-  else if (gameData->gameState == LOSEMENU || gameData->gameState == WINMENU) {
-    Button *buttonClicked = mouse_GUIbutton(gameData->endMenuGUI);
-    if (buttonClicked) {
-      mouse_handleButtonClick(buttonClicked->name);
-      printf("%d\n", buttonClicked->name +1);
     }
   }
 }

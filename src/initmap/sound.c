@@ -6,7 +6,7 @@ void sound_init()
     printf("%s", Mix_GetError());
   }
 
-  gameData->sound = malloc(sizeof(Mix_Music*)*10);
+  gameData->sound = malloc(sizeof(Mix_Music*)*13);
   if (!gameData->sound) {
     printf("ERROR ALLOC : sound");
     exit(CHK_ERROR_ALLOC);
@@ -48,5 +48,14 @@ void sound_init()
 
   son = Mix_LoadWAV("sound/levelWin.wav");
   gameData->sound[WINLEVEL] = son;
+
+  son = Mix_LoadWAV("sound/snap.wav");
+  gameData->sound[SNAP] = son;
+
+  son = Mix_LoadWAV("sound/hit-wood.wav");
+  gameData->sound[HITWOOD] = son;
+
+  son = Mix_LoadWAV("sound/bleep.wav");
+  gameData->sound[BLEEP] = son;
 
 }

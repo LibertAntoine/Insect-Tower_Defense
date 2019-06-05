@@ -161,6 +161,7 @@ void tour_remove(Tour* tour)
     }
     tour_list->next = tour_list->next->next;
   }
+  Mix_PlayChannel(-1, gameData->sound[BLEEP], 0);
   free(tour);
 }
 

@@ -57,7 +57,10 @@ typedef enum Sound {
   GENE,
   BOS,
   LOSELEVEL,
-  WINLEVEL
+  WINLEVEL,
+  SNAP,
+  HITWOOD,
+  BLEEP
 } Sound;
 
 typedef struct Wave {
@@ -350,21 +353,6 @@ typedef struct ListMonsters {
    Monster* firstMonster;
 } ListMonsters;
 
-typedef struct Plateau {
-  Bool play;
-  Etat* joueur;
-  GLuint idListInfos;
-  GLuint idListIcon;
-  GLuint idListMoney;
-  Monster *monster_hover;
-  int index_case_hover;
-  ListTours* listTours;
-  ListMonsters* listMonsters;
-  ListProjectiles* listProjectiles;
-  Wave currentWave;
-  Tour **tours;
-} Plateau;
-
 typedef struct Div {
   int x;
   int y;
@@ -407,6 +395,21 @@ typedef struct Button {
   struct Button *next;
   ButtonName name;
 } Button;
+
+typedef struct Plateau {
+  Bool play;
+  Etat* joueur;
+  GLuint idListInfos;
+  GLuint idListIcon;
+  GLuint idListMoney;
+  Monster *monster_hover;
+  int index_case_hover;
+  ListTours* listTours;
+  ListMonsters* listMonsters;
+  ListProjectiles* listProjectiles;
+  Wave currentWave;
+  Tour **tours;
+} Plateau;
 
 typedef enum SectionName {
   BODY,
@@ -454,6 +457,7 @@ typedef struct GameData {
   Texture** textures;
   Mix_Chunk** sound;
   DefaultList **default_list;
+  Button *button_hover;
   GUI *bodyGUI;
   GUI *plateauGUI;
   GUI *bottomGUI;

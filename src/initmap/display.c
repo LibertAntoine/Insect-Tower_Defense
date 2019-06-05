@@ -404,7 +404,8 @@ void display_initDefaultList()
 
     glPushMatrix();
     glTranslatef(15, position*35+15, 0);
-    sprintf(str, "%f", 0.01/mapData->dataMonsters[type].mass);
+    float speed = (0.01/mapData->dataMonsters[type].mass) * 1000;
+    sprintf(str, "%d", (int) speed);
     display_drawSingleStat(generalType, str, SPEED_TEX, NULL);
     position++;
     glPopMatrix();
@@ -591,14 +592,34 @@ int display_drawAllProjectiles()
 
 void display_drawSingleProjectile(Projectile* projectile)
 {
-  glColor3d(255,0,255);
 
+  /*
+  glColor3d(255,0,255);
   glBegin(GL_TRIANGLES);
   glVertex2f(projectile->x, projectile->y-0.1);
   glVertex2f(projectile->x+0.1, projectile->y+0.1);
   glVertex2f(projectile->x-0.1, projectile->y+0.1); 
   glEnd();
+  */
 
+
+  glPushMatrix();
+  glTranslatef(projectile->x, projectile->y, 0);
+  glScalef(0.1, 0.1, 1);
+  int angles = 360;
+  double angleStep = 2*M_PI/angles;
+  double currentAngle = 0;
+
+  glBegin(GL_TRIANGLE_FAN);
+  glColor3ub(150,239,134);
+  glVertex2f(0,0);
+  glColor3ub(45,247,9);
+  while (currentAngle < 2*M_PI) {
+    glVertex2f(0.5 * cos(currentAngle), 0.5 * sin(currentAngle));
+    currentAngle += angleStep;
+  }
+  glEnd();
+  glPopMatrix();
 }
 
 void display_mapList(GLuint id)

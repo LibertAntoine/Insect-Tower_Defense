@@ -51,6 +51,7 @@ void case_gameData_init() {
     exit(EXIT_FAILURE);
   }
   gameData->gameState = MAINMENU;
+  gameData->button_hover = NULL;
   gameData->default_list = NULL;
 };
 
@@ -65,6 +66,7 @@ void case_initPlateau()
   plateau->idListInfos = GL_INVALID_VALUE;
   plateau->idListIcon = GL_INVALID_VALUE;
   plateau->idListMoney = GL_INVALID_VALUE;
+
 
   plateau->joueur = player_init(mapData->argent);
   plateau->listMonsters = monster_initListMonster();
@@ -188,6 +190,7 @@ void case_addConstruction(int caseX, int caseY)
     tour_add(type, index_case);
   }
   else if (generalType == BATIMENT) {
+    Mix_PlayChannel(-1, gameData->sound[CENTRAL], 0);
     updateAllTower();
     printf("adding building\n");
     // Fonction de placement de batiment
