@@ -376,6 +376,17 @@ int itd_getImageFilePath(FILE* file)
     return CHK_SUCCESS;
   }
 }
+int itd_getMoney(FILE* file)
+{
+  int money;
+  if(fscanf(file, "%d", &money)) {
+    mapData->argent = money;
+    return CHK_SUCCESS;
+  }
+  else {
+    return CHK_ERROR_FILE;
+  }
+}
 
 int itd_getEnergyValue(FILE* file)
 {
@@ -503,6 +514,16 @@ int itd_checkForMapData(FILE* file)
     if (strcmp("infosNodes", label) == 0) {
       if (itd_getInfosNodes(file) == CHK_SUCCESS) {
         mapData->contentState |= MDATA_INFOSNODE;
+        return CHK_SUCCESS;
+      }
+      else {
+        fseek(file, originalPosition, SEEK_SET);
+        return CHK_ERROR_FILE;
+      }
+    }
+
+    if (strcmp("argent", label) == 0) {
+      if (itd_getMoney(file) == CHK_SUCCESS) {
         return CHK_SUCCESS;
       }
       else {

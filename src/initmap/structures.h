@@ -150,6 +150,7 @@ typedef struct MapData {
   int Ysplit;
   char* mapFile;
   int energy;
+  int argent;
   RGBcolor pathCol;
   RGBcolor nodeCol;
   RGBcolor buildingCol;

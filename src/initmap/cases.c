@@ -62,13 +62,11 @@ void case_initPlateau()
     exit(EXIT_FAILURE);
   }
 
-  int argent = 2000;
-
   plateau->idListInfos = GL_INVALID_VALUE;
   plateau->idListIcon = GL_INVALID_VALUE;
   plateau->idListMoney = GL_INVALID_VALUE;
 
-  plateau->joueur = player_init(argent);
+  plateau->joueur = player_init(mapData->argent);
   plateau->listMonsters = monster_initListMonster();
   plateau->listTours = tour_initListTours();
   plateau->listProjectiles = projectile_initListProjectiles();
