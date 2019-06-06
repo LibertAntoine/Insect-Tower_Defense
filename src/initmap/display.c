@@ -22,7 +22,7 @@ TextureText*  display_loadTextureText(char text[])
   TTF_CloseFont(font);
   TTF_Quit();
 
-  TextureText* texture_texte = malloc(sizeof(TextureText));
+  TextureText* texture_texte = calloc(1, sizeof(TextureText));
   if (!texture_texte) {
     printf("ERROR ALLOC : mapData");
     exit(EXIT_FAILURE);
@@ -256,33 +256,33 @@ void display_initDefaultList()
 
     GLuint idListInfos = glGenLists(1);
     glNewList(idListInfos, GL_COMPILE);
-    glPushMatrix();
+      glPushMatrix();
 
-    glPushMatrix();
-    glTranslatef(15, position*35+15, 0);
-    sprintf(str, "%d", mapData->constructionData[i].degats);
-    display_drawSingleStat(generalType, str, DAMAGE_TEX, NULL);
-    position++;
-    glPopMatrix();
+      glPushMatrix();
+      glTranslatef(15, position*35+15, 0);
+      sprintf(str, "%d", mapData->constructionData[i].degats);
+      display_drawSingleStat(generalType, str, DAMAGE_TEX, NULL);
+      position++;
+      glPopMatrix();
 
-    glPushMatrix();
-    glTranslatef(15, position*35+15, 0);
-    sprintf(str, "%d", mapData->constructionData[i].cadence);
-    display_drawSingleStat(generalType, str, CADENCE_TEX, NULL);
-    position++;
-    glPopMatrix();
+      glPushMatrix();
+      glTranslatef(15, position*35+15, 0);
+      sprintf(str, "%d", mapData->constructionData[i].cadence);
+      display_drawSingleStat(generalType, str, CADENCE_TEX, NULL);
+      position++;
+      glPopMatrix();
 
-    glPushMatrix();
-    glTranslatef(15, position*35+15, 0);
-    sprintf(str, "%d", mapData->constructionData[i].portee);
-    display_drawSingleStat(generalType, str, TARGET_TEX, NULL);
-    position++;
-    glPopMatrix();
+      glPushMatrix();
+      glTranslatef(15, position*35+15, 0);
+      sprintf(str, "%d", mapData->constructionData[i].portee);
+      display_drawSingleStat(generalType, str, TARGET_TEX, NULL);
+      position++;
+      glPopMatrix();
 
-    glPushMatrix();
-    glTranslatef(15, position*35+15, 0);
-    sprintf(str, "%d", mapData->constructionData[i].alimentation);
-    display_drawSingleStat(generalType, str, FOOD_TEX, NULL);
+      glPushMatrix();
+      glTranslatef(15, position*35+15, 0);
+      sprintf(str, "%d", mapData->constructionData[i].alimentation);
+      display_drawSingleStat(generalType, str, FOOD_TEX, NULL);
     position++;
     glPopMatrix();
 
@@ -631,7 +631,7 @@ void display_mapList(GLuint id)
         sprite_displayFixedTexture(REINE_TEX);
         break;
       case INCONSTRUCTIBLE:
-        sprite_displayFixedTexture(REMOVE_TEX);
+        sprite_displayFixedTexture(CAILLOU_TEX);
         break;
       default:
         sprite_displayFixedTexture(TERRAIN_1_TEX + rand()%5);
@@ -801,6 +801,14 @@ void display_drawCaseHover(int index_case)
   if (plateau->joueur->action == ADD) {
     if (case_isConstructible(caseX, caseY) == TRUE && plateau->joueur->argent >= tour_getPrixAchat(plateau->joueur->type)) {
       glColor4ub(0, 255, 0, 50);
+    }
+    else {
+      glColor4ub(255, 0, 0, 50);
+    }
+  }
+  if (plateau->joueur->action == REMOVE) {
+    if (case_getGeneralConstructionType(case_getType(caseX, caseY)) != OTHER) {
+      glColor4ub(255, 255, 255, 150);
     }
     else {
       glColor4ub(255, 0, 0, 50);

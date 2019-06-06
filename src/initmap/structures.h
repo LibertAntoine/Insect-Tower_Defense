@@ -60,6 +60,7 @@ typedef enum Sound {
   WINLEVEL,
   SNAP,
   HITWOOD,
+  ERROR,
   BLEEP
 } Sound;
 
@@ -231,6 +232,7 @@ typedef enum TextureName {
   FOOD_VERYLOW_TEX,
   FOOD_MEDIUM_TEX,
   FOOD_HIGH_TEX,
+  CAILLOU_TEX,
 } TextureName;
 
 typedef struct Texture {

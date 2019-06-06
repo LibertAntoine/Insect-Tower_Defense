@@ -79,14 +79,13 @@ Texture* sprite_importTexture(char image_path[], int totalX, int totalY)
 
 void sprite_init()
 {
-  gameData->textures = calloc(45, sizeof(Texture*));
+  gameData->textures = calloc(50, sizeof(Texture*));
 
   gameData->textures[SOLDER_TEX] = sprite_importTexture("images/sprite-entities/cafard.png", 2, 1); 
   gameData->textures[HUGE_SOLDER_TEX] = sprite_importTexture("images/sprite-entities/punaise.png", 2, 1); 
   gameData->textures[BOSS_TEX] = sprite_importTexture("images/sprite-entities/gendarme.png", 2, 1); 
   gameData->textures[GERERAL_TEX] = sprite_importTexture("images/sprite-entities/larve.png", 2, 1); 
 
-  gameData->textures[CENTRALE_TEX] = sprite_importTexture("images/tests/food.png", 1, 1); 
   gameData->textures[RADAR_TEX] = sprite_importTexture("images/tests/gem1.png", 1, 1); 
   gameData->textures[ARMEMENT_TEX] = sprite_importTexture("images/tests/gem2.png", 1, 1); 
   gameData->textures[MUNITION_TEX] = sprite_importTexture("images/tests/gem3.png", 1, 1); 
@@ -124,6 +123,8 @@ void sprite_init()
   gameData->textures[CHEMIN_2_TEX] = sprite_importTexture("images/sprite-world/chemin2.png", 1, 1); 
   gameData->textures[CHEMIN_3_TEX] = sprite_importTexture("images/sprite-world/chemin3.png", 1, 1); 
 
+  gameData->textures[CAILLOU_TEX] = sprite_importTexture("images/sprite-world/caillou.png", 1, 1); 
+
   gameData->textures[REINE_TEX] = sprite_importTexture("images/sprite-world/arrivee-reine.png", 1, 1); 
 
   gameData->textures[MAINMENU_TEX] = sprite_importTexture("images/sprite-gui/MainMenu.jpg", 1, 1); 
@@ -136,6 +137,7 @@ void sprite_init()
   gameData->textures[FOOD_LOW_TEX] = sprite_importTexture("images/sprite-world/nourriture_low.png", 1, 1); 
   gameData->textures[FOOD_MEDIUM_TEX] = sprite_importTexture("images/sprite-world/nourriture_medium.png", 1, 1); 
   gameData->textures[FOOD_HIGH_TEX] = sprite_importTexture("images/sprite-world/nourriture_high.png", 1, 1); 
+  gameData->textures[CENTRALE_TEX] =gameData->textures[FOOD_HIGH_TEX]; 
 }
 
 SpriteTexture* sprite_loadSprite(TextureName texture_name, int loop_duration, Bool loop)

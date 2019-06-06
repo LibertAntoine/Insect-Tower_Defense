@@ -6,7 +6,7 @@ void sound_init()
     printf("%s", Mix_GetError());
   }
 
-  gameData->sound = malloc(sizeof(Mix_Music*)*13);
+  gameData->sound = malloc(sizeof(Mix_Chunk*)*16);
   if (!gameData->sound) {
     printf("ERROR ALLOC : sound");
     exit(CHK_ERROR_ALLOC);
@@ -16,7 +16,7 @@ void sound_init()
   musique = Mix_LoadMUS("sound/musique.wav");
   Mix_PlayMusic(musique, -1);
 
-  Mix_AllocateChannels(10);
+  Mix_AllocateChannels(16);
   Mix_Chunk *son;
 
   son = Mix_LoadWAV("sound/addTower.wav");
@@ -57,5 +57,8 @@ void sound_init()
 
   son = Mix_LoadWAV("sound/bleep.wav");
   gameData->sound[BLEEP] = son;
+
+  son = Mix_LoadWAV("sound/error.wav");
+  gameData->sound[ERROR] = son;
 
 }

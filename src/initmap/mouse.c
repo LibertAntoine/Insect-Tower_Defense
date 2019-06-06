@@ -152,7 +152,7 @@ void mouse_handleClick()
     Mix_PlayChannel(-1, gameData->sound[HITWOOD], 0);
     mouse_handleButtonClick(gameData->button_hover);
   }
-  else if (current_section->name == PLATEAU) {
+  else if (current_section->name == PLATEAU && gameData->gameState == LEVELPLAY) {
     int casex, casey;
     float casex_f, casey_f;
     get_casesi(&casex, &casey, gameData->plateauGUI->dimensions);

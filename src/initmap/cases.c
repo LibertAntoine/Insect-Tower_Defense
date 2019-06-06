@@ -6,7 +6,7 @@ TypeCase* case_loadFromPPM()
   unsigned char* pixel_data;
   pixel_data = ppm_load();
 
-  TypeCase* cases = calloc(mapData->Xsplit*mapData->Ysplit, sizeof(int));
+  TypeCase* cases = calloc(mapData->Xsplit*mapData->Ysplit, sizeof(TypeCase));
   RGBcolor* pixel_ppm = malloc(sizeof(RGBcolor));
   if (!pixel_ppm) {
     printf("ERROR ALLOC : mapData");
@@ -393,10 +393,12 @@ void case_actionAdd(int caseX, int caseY)
       printf("Porte monaie : %d \n", plateau->joueur->argent);
     }
     else {
+    Mix_PlayChannel(-1, gameData->sound[ERROR], 0);
       printf("Vous n'avez pas assez\n");
     }
   }
   else {
+    Mix_PlayChannel(-1, gameData->sound[ERROR], 0);
     printf("This place is not available\n");
   }
 }
@@ -411,6 +413,7 @@ void case_actionRemove(int caseX, int caseY)
     printf("Porte monaie : %d \n", plateau->joueur->argent);
   }
   else {
+    Mix_PlayChannel(-1, gameData->sound[ERROR], 0);
     printf("You can only remove your buildings\n");
   }
 }

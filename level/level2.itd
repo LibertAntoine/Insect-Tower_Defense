@@ -11,8 +11,8 @@ out 0 0 255
 construct 0 0 0
 inconstructible 255 0 234
 # Player info
-argent 2120
-# Construction Data (DEGAT ALIM CAD PORTEE RANGE VAL VAL)
+argent 3120
+# Construction Data (DEGAT ALIM CAD PORTEE RANGE VAL VAL ENERGY)
 laser 1 1 5 2 0 200 100 1
 missile 2 1 2 1 0 300 150 2
 radar 0 0 0 1 2 200 100
