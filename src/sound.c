@@ -56,7 +56,7 @@ void sound_init()
   son = Mix_LoadWAV("sound/hit-wood.wav");
   gameData->sound[HITWOOD] = son;
 
-  son = Mix_LoadWAV("sound/bleep.wav");
+  son = Mix_LoadWAV("sound/bleep.ogg");
   gameData->sound[BLEEP] = son;
 
   son = Mix_LoadWAV("sound/error.wav");
