@@ -1038,24 +1038,24 @@ void display_printMoney()
     glPushMatrix();
 
     glColor3f(1,1,1);
-    glTranslatef(20, 15, 0);
+    glTranslatef(20, 17, 0);
 
     glPushMatrix();
     glTranslatef(5, 0, 0);
-    glScalef(25, 25, 1);
+    glScalef(28, 28, 1);
     sprite_displayFixedTexture(MONEY_TEX);
     glPopMatrix();
 
     glColor3f(0,1,0);
     glPushMatrix();
     glTranslatef(15, 5, 0);
-    glScalef(15, 15, 1);
+    glScalef(17, 17, 1);
     sprite_displayFixedTexture(PLUS_TEX);
     glPopMatrix();
 
     glPushMatrix();
     glTranslatef(30, 0, 0);
-    glScalef(14*texture_texte->ratio, 14, 1);
+    glScalef(17*texture_texte->ratio, 17, 1);
     glColor3f(1,1,1);
     sprite_displayFixedTextureText(texture_texte);
     glPopMatrix();
