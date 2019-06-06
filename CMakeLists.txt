@@ -2,18 +2,18 @@
 cmake_minimum_required(VERSION 2.8)
 
 # Project configuration
-project(opengl2)
+project(insect_tower)
 file(
   GLOB_RECURSE
   MY_SOURCES
-  src/initmap/*.c
+  src/*.c
 ) # To update depending on the ex wanted
 
 # Linker
 find_package(OpenGL REQUIRED)
 
 include_directories( # Search directories for .h files
-  src/initmap
+  src
   ${OPENGL_INCLUDE_DIR}
 )
 
