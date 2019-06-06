@@ -7,7 +7,7 @@
   #include <GL/gl.h>
   #include <GL/glu.h>
 #endif
-#include <SDL2/SDL.h>
+#include <SDL/SDL.h>
 
 #include "structures.h"
 #include "cases.h"

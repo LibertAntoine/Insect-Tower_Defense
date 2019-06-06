@@ -51,10 +51,10 @@ else()
     target_link_libraries(
         ${PROJECT_NAME}
         m
-        SDL2
-        SDL2_image
-        SDL2_mixer
-        SDL2_ttf
+        SDL
+        SDL_image
+        SDL_mixer
+        SDL_ttf
         GL
         GLU
     )

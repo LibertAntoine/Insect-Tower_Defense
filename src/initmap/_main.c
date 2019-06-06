@@ -1,7 +1,7 @@
-#include <SDL2/SDL.h>
-#include <SDL2/SDL_mixer.h>
-#include <SDL2/SDL_image.h>
-#include <SDL2/SDL_ttf.h>
+#include <SDL/SDL.h>
+#include <SDL/SDL_mixer.h>
+#include <SDL/SDL_image.h>
+#include <SDL/SDL_ttf.h>
 
 #ifdef _WIN32
   #include <GL/glew.h>
@@ -42,9 +42,8 @@ int main(int argc, char *argv[])
 
   /* Définition de l'environnement SDL*/
   sdlConfig_initSDL();
-  SDL_Window* surface;
-  SDL_GLContext GLcontext = NULL;
-  sdlConfig_reshape(&surface, &GLcontext, WINDOW_WIDTH, WINDOW_HEIGHT);
+  SDL_Surface* surface;
+  sdlConfig_reshape(&surface, WINDOW_WIDTH, WINDOW_HEIGHT);
 
   SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 0);
 
@@ -95,7 +94,7 @@ int main(int argc, char *argv[])
     display_showCursor();
 
     /* Echange du front et du back buffer : mise a jour de la fenetre */
-    SDL_GL_SwapWindow(surface);
+    SDL_GL_SwapBuffers();
 
     SDL_Event e;
     while(SDL_PollEvent(&e)) {
@@ -122,12 +121,6 @@ int main(int argc, char *argv[])
 
         case SDL_MOUSEBUTTONDOWN:
           mouse_handleClick();
-          break;
-
-        case SDL_WINDOWEVENT:
-          if (e.window.event == SDL_WINDOWEVENT_RESIZED) {
-            sdlConfig_reshape(&surface, &GLcontext, e.window.data1, e.window.data2);
-          }
           break;
 
         case SDL_KEYDOWN:
@@ -157,6 +150,7 @@ int main(int argc, char *argv[])
   }
 
   /* Liberation des ressources associees a la SDL */ 
+  SDL_FreeSurface(surface);
   Mix_CloseAudio();
   SDL_Quit();
   return EXIT_SUCCESS;

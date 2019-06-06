@@ -1,7 +1,7 @@
 #ifndef PROJECTILE_H_
 #define PROJECTILE_H_
 
-#include <SDL2/SDL_mixer.h>
+#include <SDL/SDL_mixer.h>
 #include "structures.h"
 
 #include "monster.h"

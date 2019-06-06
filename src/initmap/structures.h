@@ -8,9 +8,9 @@
   #include <GL/glu.h>
 #endif
 
-#include <SDL2/SDL.h>
-#include <SDL2/SDL_mixer.h>
-#include <SDL2/SDL_ttf.h>
+#include <SDL/SDL.h>
+#include <SDL/SDL_mixer.h>
+#include <SDL/SDL_ttf.h>
 
 typedef enum MapDataContent {
   MDATA_IMG = 1,

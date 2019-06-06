@@ -14,8 +14,8 @@
 #include <string.h>
 #include <stdlib.h>
 #include <math.h>
-#include <SDL2/SDL_ttf.h>
-#include <SDL2/SDL.h>
+#include <SDL/SDL_ttf.h>
+#include <SDL/SDL.h>
 
 #include "gui.h"
 #include "structures.h"

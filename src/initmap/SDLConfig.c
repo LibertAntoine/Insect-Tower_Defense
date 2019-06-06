@@ -8,11 +8,12 @@ void sdlConfig_initSDL() {
   }
 }
 
-void sdlConfig_reshape(SDL_Window** surface, SDL_GLContext *GLcontext, unsigned int width, unsigned int height)
+void sdlConfig_reshape(SDL_Surface** surface, unsigned int width, unsigned int height)
 {
 
-  SDL_Window* surface_temp = SDL_CreateWindow(WINDOW_TITLE, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, width, height, SDL_WINDOW_SHOWN | SDL_WINDOW_OPENGL);
+  SDL_Surface* surface_temp = SDL_SetVideoMode(width, height, 8, SDL_OPENGL);
   SDL_ShowCursor(SDL_DISABLE);
+
 
   if(NULL == surface_temp) 
   {
@@ -21,12 +22,13 @@ void sdlConfig_reshape(SDL_Window** surface, SDL_GLContext *GLcontext, unsigned 
   }
   *surface = surface_temp;
 
-  int window_width, window_height;
-  SDL_GetWindowSize(*surface, &window_width, &window_height);
-
+  /*
   if (*GLcontext == NULL) {
     *GLcontext = SDL_GL_CreateContext(*surface);
   }
+  */
+
+  SDL_WM_SetCaption(WINDOW_TITLE, NULL);
 
   #ifdef _WIN32 
   if(glewInit() != 0)
@@ -36,8 +38,8 @@ void sdlConfig_reshape(SDL_Window** surface, SDL_GLContext *GLcontext, unsigned 
   }
   #endif
 
-  glViewport(0, 0, window_width, window_height);
+  glViewport(0, 0, width, height);
   glMatrixMode(GL_PROJECTION);
   glLoadIdentity();
-  gluOrtho2D(1, window_width, window_height, 1);
+  gluOrtho2D(1, width, height, 1);
 }

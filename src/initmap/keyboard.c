@@ -2,7 +2,7 @@
 
 void keyboard_handleKeypress(SDL_Event *event)
 {
-  SDL_Keycode key = event->key.keysym.sym; 
+  SDLKey key = event->key.keysym.sym; 
 
   if(gameData->gameState == LEVELPLAY) {
     Etat *joueur = plateau->joueur;

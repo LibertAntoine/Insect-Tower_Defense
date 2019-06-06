@@ -2,11 +2,11 @@
 #define TOUR_H_
 #pragma once
 
-#include <SDL2/SDL_mixer.h>
+#include <SDL/SDL_mixer.h>
 #include <math.h>
 #include <stdlib.h>
 #include <time.h>
-#include <SDL2/SDL.h>
+#include <SDL/SDL.h>
 
 #include "structures.h"
 

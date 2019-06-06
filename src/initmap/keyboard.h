@@ -1,7 +1,7 @@
 #ifndef KEYBAORD_H_
 #define KEYBAORD_H_
 
-#include <SDL2/SDL.h>
+#include <SDL/SDL.h>
 
 #include "structures.h"
 #include "player.h"
