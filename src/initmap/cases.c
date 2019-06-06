@@ -33,7 +33,7 @@ TypeCase* case_loadFromPPM()
     } else if (case_RGBCompare(*pixel_ppm, mapData->inconstructibleCol)) {
       cases[i] = INCONSTRUCTIBLE;
     } else {
-      cases[i] = CHEMIN;
+      cases[i] = TERRAIN;
     }
   }
 
