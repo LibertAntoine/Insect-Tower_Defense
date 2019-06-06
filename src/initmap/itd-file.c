@@ -1,5 +1,45 @@
 #include "itd-file.h"
 
+void itd_loadPaths()
+{
+  struct dirent *de;  // Pointer for directory entry 
+
+  // opendir() returns a pointer of DIR type.  
+  DIR *dr = opendir("level"); 
+
+  if (dr == NULL)  // opendir returns NULL if couldn't open directory 
+  { 
+    printf("Could not open current directory" ); 
+    return 0; 
+  } 
+
+  // Refer http://pubs.opengroup.org/onlinepubs/7990989775/xsh/readdir.html 
+  // for readdir() 
+  while ((de = readdir(dr)) != NULL) 
+    if (strstr(de->d_name, ".itd")) {
+      Path *newPath = malloc(sizeof(Path));
+      newPath->next = gameData->path;
+      newPath->path = malloc(sizeof(char)*(strlen(de->d_name)+1));
+      strcpy(newPath->path, de->d_name);
+      gameData->path = newPath;
+      //printf("%s\n", de->d_name); 
+    }
+
+  closedir(dr);
+
+  printf("ITD files found:\n");
+  if (gameData->path == NULL) {
+    printf("NONE\n");
+  }
+  else {
+    Path *currentPath = gameData->path;
+    while (currentPath) {
+      printf("%s\n", currentPath->path);
+      currentPath = currentPath->next;
+    }
+  }
+}
+
 void itd_initMapData()
 {
   mapData = malloc(sizeof(MapData));
@@ -690,24 +730,25 @@ void idt_load(char* itd_path)
 }
 
 
-void itd_actionMenu(ButtonName button) {
+void itd_actionMenu(Button* button)
+{
   if(gameData->gameState == MAINMENU) {
-    if (button == LEVEL1_BTN) {
-      idt_load("level/level1.itd");
-    } else if (button == LEVEL2_BTN) {
-      idt_load("level/level2.itd");
-    } else if (button == LEVEL3_BTN) {
-      idt_load("level/level3.itd");
+    if (button->name == LEVEL_BTN) {
+      char pathToITD[20] = "level/";
+      char ITDfile[20];
+      display_levelTextCopy(ITDfile, button->button_id);
+      strcat(pathToITD, ITDfile);
+      idt_load(pathToITD);
     } else {
       return EXIT_FAILURE;
     }
   itd_initLevel();
   gameData->gameState = LEVELPLAY;
   } else if (gameData->gameState == LOSEMENU || gameData->gameState == WINMENU) {
-    if(button == MAINMENU_BTN) {
+    if(button->name == MAINMENU_BTN) {
       itd_freeMapData();
       gameData->gameState = MAINMENU;
-    } else if (button == REPLAY_BTN) {
+    } else if (button->name == REPLAY_BTN) {
       itd_initLevel();
       gameData->gameState = LEVELPLAY;
     }

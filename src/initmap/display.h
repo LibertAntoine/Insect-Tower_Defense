@@ -26,6 +26,7 @@
 #include "sprite.h"
 #include <time.h>
 
+void display_levelTextCopy(char texte[], int button_id);
 GLuint display_initDefaultListIcon(TextureName texture_name);
 void display_printMoney();
 void display_menuButtonText(Button* button);

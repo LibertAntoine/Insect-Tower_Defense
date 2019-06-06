@@ -761,6 +761,18 @@ void display_drawAllTargetRanges()
   }
 }
 
+void display_drawFPS()
+{
+  if (gameData->FPS != NULL) {
+    glPushMatrix();
+    glTranslatef(700, 20, 0);
+    glColor3f(1, 0, 1);
+    glScalef(20*gameData->FPS->ratio,20,1);
+    sprite_displayFixedTextureText(gameData->FPS);
+    glPopMatrix();
+  }
+}
+
 void display_drawCaseHover(int index_case)
 {
   int caseY, caseX;
@@ -941,19 +953,25 @@ void display_drawSingleButton(Button *button)
   glPopMatrix();
 }
 
+void display_levelTextCopy(char texte[], int button_id)
+{
+  int counter = 0;
+  Path *currentPath = gameData->path;
+  while (counter != button_id) {
+    currentPath = currentPath->next;
+    counter++;
+  }
+
+  strcpy(texte, currentPath->path);
+}
+
 void display_menuButtonText(Button* button)
 {
   if (button->texture_texte == NULL) {
     char texte[20];
     switch (button->name) {
-      case LEVEL1_BTN:
-        strcpy(texte, "level 1");
-        break;
-      case LEVEL2_BTN:
-        strcpy(texte, "level 2");
-        break;
-      case LEVEL3_BTN:
-        strcpy(texte, "level 3");
+      case LEVEL_BTN:
+        display_levelTextCopy(texte, button->button_id);
         break;
       case REPLAY_BTN:
         strcpy(texte, "replay this level");
@@ -1029,6 +1047,7 @@ void display_top()
   display_setDrawingZone(gameData->topGUI);
   display_drawZoneBasedOnGUI(gameData->topGUI);
   display_drawButtonsBasedOnGUI(gameData->topGUI);
+  display_drawFPS();
   display_setDrawingZone(gameData->bodyGUI);
 
 }

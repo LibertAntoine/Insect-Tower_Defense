@@ -1,19 +1,20 @@
 #ifndef ITD_FILE_H_
 #define ITD_FILE_H_
 
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <cases.h>
-#include <itineraire.h>
-#include <display.h>
-#include <waves.h>
+#include <dirent.h> 
 
 #include "structures.h"
+#include "waves.h"
+#include "cases.h"
+#include "itineraire.h"
+#include "display.h"
 
 #define FIRST_PARAMETER_ARG 1
 
+void itd_loadPaths();
 
 /**
  * Create a MapData of an empty state
@@ -107,7 +108,7 @@ void idt_load(char* itd_path);
  * Active an action of one menu of the game
  * param[in] button name on click
  */
-void itd_actionMenu(ButtonName button);
+void itd_actionMenu(Button *button);
 
 /**
  * init the gameData in plateau after the idt/ppm load

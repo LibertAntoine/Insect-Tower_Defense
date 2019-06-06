@@ -177,6 +177,19 @@ void sprite_displayFixedTextureText(TextureText* texture_texte)
   glDisable(GL_TEXTURE_2D);
 }
 
+void sprite_updateFPS(float FPS)
+{
+  char counter[20];
+  int FPS_i = (int) FPS;
+  sprintf(counter, "%d", FPS_i);
+  int length = strlen(counter);
+  counter[length] = ' ';
+  counter[length+1] = 'F';
+  counter[length+2] = 'P';
+  counter[length+3] = 'S';
+  gameData->FPS = display_loadTextureText(counter);
+}
+
 void sprite_displayFixedTexture(TextureName texture_name)
 {
   Texture* texture = gameData->textures[texture_name];

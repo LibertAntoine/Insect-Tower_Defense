@@ -89,8 +89,9 @@ void mouse_checkIfMonster()
   plateau->monster_hover = currentMonster;
 }
 
-void mouse_handleButtonClick(ButtonName button_name)
+void mouse_handleButtonClick(Button *button)
 {
+  ButtonName button_name = button->name;
   if(gameData->gameState == LEVELPLAY) {
     Etat *joueur = plateau->joueur;
     TypeCase type = joueur->type;
@@ -140,7 +141,7 @@ void mouse_handleButtonClick(ButtonName button_name)
     }
   }
   else if (gameData->gameState == MAINMENU || gameData->gameState == LOSEMENU || gameData->gameState == WINMENU) {
-    itd_actionMenu(button_name);
+    itd_actionMenu(button);
   }
 }
 
@@ -149,7 +150,7 @@ void mouse_handleClick()
   GUI *current_section = mouse_getSection();
   if (gameData->button_hover) {
     Mix_PlayChannel(-1, gameData->sound[HITWOOD], 0);
-    mouse_handleButtonClick(gameData->button_hover->name);
+    mouse_handleButtonClick(gameData->button_hover);
   }
   if(gameData->gameState == LEVELPLAY) {
     if (current_section->name == PLATEAU) {

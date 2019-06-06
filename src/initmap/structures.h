@@ -371,6 +371,7 @@ typedef enum ButtonName {
   ADD_BTN,
   REMOVE_BTN,
   GETINFO_BTN,
+  LEVEL_BTN,
   LEVEL1_BTN,
   LEVEL2_BTN,
   LEVEL3_BTN,
@@ -387,6 +388,7 @@ typedef enum Display {
 } Display;
 
 typedef struct Button {
+  int button_id;
   TextureName texture_name;
   Bool display_texture;
   TextureText* texture_texte;
@@ -452,7 +454,13 @@ typedef struct DefaultList {
   GLuint idListIcon;
 } DefaultList;
 
+typedef struct Path {
+  struct Path *next;
+  char *path;
+} Path;
+
 typedef struct GameData {
+  TextureText* FPS;
   GameState gameState;
   Uint32 beginMomentLevel;
   Texture** textures;
@@ -467,6 +475,7 @@ typedef struct GameData {
   GUI *buttonGUI;
   GUI *mainMenuGUI; 
   GUI *endMenuGUI; 
+  Path *path;
 } GameData;
 
 

@@ -20,7 +20,7 @@ int mouse_isWithinSection(GUI *section);
 Button *mouse_GUIbutton(GUI *section);
 int mouse_isWithinButton(Button *button, GUI *section);
 
-void mouse_handleButtonClick(ButtonName button_name);
+void mouse_handleButtonClick(Button *button);
 void mouse_handleMotion();
 
 void mouse_checkIfMonster();

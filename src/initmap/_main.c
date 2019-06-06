@@ -146,15 +146,14 @@ int main(int argc, char *argv[])
       SDL_Delay(FRAMERATE_MILLISECONDS - elapsedTime);
     }
 
-    /* NOTE: Display FPS counter
     frameFPS++;
     Uint32 elapsedTimeFPS = SDL_GetTicks() - lastCheckFPS;
     if (elapsedTimeFPS >= 1000) {
-      printf("FPS : %f\n", frameFPS / (elapsedTimeFPS / 1000.));
+      //printf("FPS : %f\n", frameFPS / (elapsedTimeFPS / 1000.));
+      sprite_updateFPS(frameFPS / (elapsedTimeFPS / 1000.));
       frameFPS = 0;
       lastCheckFPS = SDL_GetTicks();
     }
-    */
   }
 
   /* Liberation des ressources associees a la SDL */ 

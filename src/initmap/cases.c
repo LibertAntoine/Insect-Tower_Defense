@@ -53,7 +53,10 @@ void case_gameData_init() {
   gameData->gameState = MAINMENU;
   gameData->button_hover = NULL;
   gameData->default_list = NULL;
-};
+  gameData->path = NULL;
+
+  itd_loadPaths();
+}
 
 void case_initPlateau()
 {

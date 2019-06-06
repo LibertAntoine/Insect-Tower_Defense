@@ -9,12 +9,16 @@
 #endif
 
 #include <stdlib.h>
+#include <stdio.h>
 #include <SDL2/SDL_image.h>
 #include <string.h>
 
+
 #include "structures.h"
+#include "display.h"
 
 // NOTE: Un peu à part
+void sprite_updateFPS(float FPS);
 void sprite_displayFixedTextureText(TextureText* texture_texte);
 TextureName sprite_getTextureNameFromButtonName(ButtonName button_name);
 Texture* sprite_importTexture(char image_path[], int totalX, int totalY);
