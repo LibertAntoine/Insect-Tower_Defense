@@ -6,14 +6,14 @@ void sound_init()
     printf("%s", Mix_GetError());
   }
 
-  gameData->sound = malloc(sizeof(Mix_Chunk*)*16);
+  gameData->sound = malloc(sizeof(Mix_Chunk*)*20);
   if (!gameData->sound) {
     printf("ERROR ALLOC : sound");
     exit(CHK_ERROR_ALLOC);
   }
 
   Mix_Music *musique;
-  musique = Mix_LoadMUS("sound/musique.wav");
+  musique = Mix_LoadMUS("sound/musique.mp3");
   Mix_PlayMusic(musique, -1);
 
   Mix_AllocateChannels(16);
@@ -60,5 +60,4 @@ void sound_init()
 
   son = Mix_LoadWAV("sound/error.wav");
   gameData->sound[ERROR] = son;
-
 }

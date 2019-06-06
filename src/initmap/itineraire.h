@@ -33,4 +33,5 @@ void itineraire_freeItiniraire(Itineraire* itineraire);
 Chemin* itineraire_getChemin(Node* node_in, Node* node_out);
 void itineraire_freeListChemins();
 void itineraire_cleanListChemins();
+int itineraire_checkValidChemin(Node* node_in, Node* node_out);
 #endif //ITINERAIRE_H_

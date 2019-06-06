@@ -42,7 +42,7 @@ void keyboard_handleKeypress(SDL_Event *event)
       case 'x':
         action = REMOVE;
         break;
-      }
+    }
     if (action != joueur->action) {
       player_switchAction(action);
     }
@@ -50,30 +50,6 @@ void keyboard_handleKeypress(SDL_Event *event)
     if (type != joueur->type) {
       player_switchTowerType(type);
     }
-    } 
-  else if (gameData->gameState == MAINMENU) {
-      switch(key) {
-      case 'a':
-        itd_actionMenu(LEVEL1_BTN);
-        break;
-      case 'z':
-        itd_actionMenu(LEVEL2_BTN);
-        break;
-      case 'e':
-        itd_actionMenu(LEVEL3_BTN);
-        break;
-      }
-    } else if (gameData->gameState == LOSEMENU || gameData->gameState == WINMENU) {
-      switch(key) {
-      case 'a':
-        itd_actionMenu(MAINMENU_BTN);
-        break;
-      case 'z':
-        itd_actionMenu(REPLAY_BTN);
-        break;
-      }
-    }
-
-
+  } 
 }
 

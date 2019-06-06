@@ -40,14 +40,13 @@ TextureName sprite_getTextureNameFromButtonName(ButtonName button_name)
 
 Texture* sprite_importTexture(char image_path[], int totalX, int totalY)
 {
-  GLint internalFormat = GL_RGB;
+  GLint internalFormat = GL_RGBA;
   GLenum format = GL_RGB;
 
   if (strstr(image_path, ".png") != NULL) {
-    internalFormat = GL_RGBA;
+    //internalFormat = GL_BGRA;
     format = GL_RGBA;
   }
-
   Texture* new_texture = malloc(sizeof(Texture));
   if (!new_texture) {
     printf("ERROR ALLOC : new_texture");
@@ -58,6 +57,20 @@ Texture* sprite_importTexture(char image_path[], int totalX, int totalY)
     printf("IMG_Load: %s\n", IMG_GetError());
     // handle error
   }
+
+  GLenum texture_format;
+  GLint nOfColors = texture_surface->format->BytesPerPixel;
+  if( nOfColors == 4) {
+    if(texture_surface->format->Rmask == 0x000000ff)
+      texture_format = GL_RGBA;
+    else texture_format = GL_BGRA;
+  }
+  else if( nOfColors == 3 ) {
+    if(texture_surface->format->Rmask == 0x000000ff)
+      texture_format = GL_RGB;
+    else texture_format = GL_BGR;
+  }
+
   new_texture->sprite_totalX = totalX;
   new_texture->sprite_totalY = totalY;
 
@@ -69,7 +82,8 @@ Texture* sprite_importTexture(char image_path[], int totalX, int totalY)
 
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-  glTexImage2D(GL_TEXTURE_2D, 0, internalFormat, texture_surface->w, texture_surface->h, 0, format, GL_UNSIGNED_BYTE, texture_surface->pixels);
+
+  glTexImage2D(GL_TEXTURE_2D, 0, nOfColors, texture_surface->w, texture_surface->h, 0, texture_format, GL_UNSIGNED_BYTE, texture_surface->pixels);
 
   // NOTE: Unbinding
   glBindTexture(GL_TEXTURE_2D, 0);
@@ -79,7 +93,7 @@ Texture* sprite_importTexture(char image_path[], int totalX, int totalY)
 
 void sprite_init()
 {
-  gameData->textures = calloc(50, sizeof(Texture*));
+  gameData->textures = calloc(46, sizeof(Texture*));
 
   gameData->textures[SOLDER_TEX] = sprite_importTexture("images/sprite-entities/cafard.png", 2, 1); 
   gameData->textures[HUGE_SOLDER_TEX] = sprite_importTexture("images/sprite-entities/punaise.png", 2, 1); 
@@ -137,7 +151,7 @@ void sprite_init()
   gameData->textures[FOOD_LOW_TEX] = sprite_importTexture("images/sprite-world/nourriture_low.png", 1, 1); 
   gameData->textures[FOOD_MEDIUM_TEX] = sprite_importTexture("images/sprite-world/nourriture_medium.png", 1, 1); 
   gameData->textures[FOOD_HIGH_TEX] = sprite_importTexture("images/sprite-world/nourriture_high.png", 1, 1); 
-  gameData->textures[CENTRALE_TEX] =gameData->textures[FOOD_HIGH_TEX]; 
+  gameData->textures[CENTRALE_TEX] = gameData->textures[FOOD_HIGH_TEX]; 
 }
 
 SpriteTexture* sprite_loadSprite(TextureName texture_name, int loop_duration, Bool loop)

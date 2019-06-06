@@ -52,9 +52,6 @@ int main(int argc, char *argv[])
   gui_init();
   sound_init();
 
-  // Position X, Y en pixel ET en indice de case de la souris
-  int pixelMouseX, pixelMouseY, caseMouseX, caseMouseY;
-
   /* Boucle principale */
   int loop = 1;
   int frameFPS = 0;
@@ -150,7 +147,7 @@ int main(int argc, char *argv[])
   }
 
   /* Liberation des ressources associees a la SDL */ 
-  SDL_FreeSurface(surface);
+  //SDL_FreeSurface(surface);
   Mix_CloseAudio();
   SDL_Quit();
   return EXIT_SUCCESS;

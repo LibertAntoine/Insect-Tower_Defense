@@ -14,7 +14,6 @@ void sdlConfig_reshape(SDL_Surface** surface, unsigned int width, unsigned int h
   SDL_Surface* surface_temp = SDL_SetVideoMode(width, height, 8, SDL_OPENGL);
   SDL_ShowCursor(SDL_DISABLE);
 
-
   if(NULL == surface_temp) 
   {
     fprintf( stderr, "Erreur lors du redimensionnement de la fenetre.\n");
