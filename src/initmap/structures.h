@@ -122,6 +122,7 @@ typedef struct ConstructionData {
   TypeCase type;
   int degats;
   int alimentation;
+  int energy;
   int cadence;
   int portee;
   int range;
@@ -254,6 +255,7 @@ typedef struct TextureText {
 typedef struct Tour {
   TypeCase type;
   int armement;
+  int index_case;
   int centrale;
   int munition;
   float rechargement;
@@ -411,6 +413,7 @@ typedef struct Plateau {
   ListMonsters* listMonsters;
   ListProjectiles* listProjectiles;
   Wave currentWave;
+  int *energies;
   Tour **tours;
 } Plateau;
 

@@ -84,6 +84,7 @@ void case_initPlateau()
   memcpy(tmp , mapData->listWaves->next->monsters, sizeof(TypeMonster)*mapData->listWaves->next->monster_total);
   plateau->currentWave.monsters = tmp;
 
+  plateau->energies = calloc(mapData->Xsplit*mapData->Ysplit, sizeof(int));
   plateau->tours = calloc(mapData->Xsplit*mapData->Ysplit, sizeof(Tour*));
   if (!plateau->tours) {
     return EXIT_FAILURE;
@@ -179,6 +180,18 @@ GeneralType case_getGeneralConstructionType(TypeCase type)
   }
 }
 
+double case_distanceBetweenIndexes(int index_case_1, int index_case_2)
+{
+  int caseX_1, caseY_1;
+  int caseX_2, caseY_2;
+  case_getCasePosition(index_case_1, &caseX_1, &caseY_1);
+  case_getCasePosition(index_case_2, &caseX_2, &caseY_2);
+
+  double hypo = sqrt(pow(caseX_1 - caseX_2, 2) + pow(caseY_1 - caseY_2, 2));
+
+  return hypo;
+}
+
 void case_addConstruction(int caseX, int caseY)
 {
   int index_case = case_getCaseIndex(caseX, caseY);
@@ -188,6 +201,10 @@ void case_addConstruction(int caseX, int caseY)
   GeneralType generalType = case_getGeneralConstructionType(type);
 
   case_update(caseX, caseY, type);
+
+  if (type == CENTRALE) {
+    plateau->energies[index_case] = mapData->constructionData[CENTRALE].energy;
+  }
 
   if (generalType == TOUR) {
     printf("adding tower\n");
@@ -434,7 +451,3 @@ void case_freePlateau() {
   case_cleanCases();
   free(plateau);
 }
-
-
-
-

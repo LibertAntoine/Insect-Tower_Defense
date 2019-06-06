@@ -52,6 +52,7 @@ Tour *tour_create(TypeCase type, int index_case)
   case_getCasePosition(index_case, &caseX, &caseY);
 
   new->type = type;
+  new->index_case = index_case;
   new->armement = 0;
   new->centrale = 0;
   new->radar = 0;
@@ -117,6 +118,45 @@ int tour_countBatiments(TypeCase type, int index_case)
   }
 
   return counter;
+}
+
+int tour_closestCentrale(int index_case)
+{
+  TypeCase type = mapData->cases[index_case];
+
+  int closest = -1;
+  double closestDistance = 0;
+
+  int Xsplit = mapData->Xsplit;
+  int Ysplit = mapData->Ysplit;
+  int total_cases = Xsplit * Ysplit;
+  int range = mapData->constructionData[CENTRALE].range;
+  int counter = 0;
+
+  for (int i = index_case - range*Xsplit; i <= index_case + range*Xsplit; i+=Xsplit) {
+    if (i < 0 || i >= total_cases) {
+      continue;
+    }
+    for (int j = i-range; j <= i+range; j++) {
+      if (i/Xsplit != j/Xsplit || j < 0 || j >= total_cases) {
+        continue;
+      }
+
+      if (mapData->cases[j] == CENTRALE) {
+        if (plateau->energies[j] >= mapData->constructionData[type].energy) {
+          if (closest == -1) {
+            closestDistance = case_distanceBetweenIndexes(j, index_case);
+            closest = j;
+          }
+          else if (closestDistance > case_distanceBetweenIndexes(j, index_case)){
+            closestDistance = case_distanceBetweenIndexes(j, index_case);
+            closest = j;
+          }
+        }
+      }
+    }
+  }
+  return closest;
 }
 
 void tour_completeInfo(TypeCase type, int index_case)
@@ -205,6 +245,17 @@ void tour_tire(Tour* tour)
 
   tour->rechargement = tour_getCadence(tour->type);
   tour->time_tir = SDL_GetTicks();
+  int index_closest_centrale = tour_closestCentrale(tour->index_case);
+
+  tour_reduceEnergyCentrale(index_closest_centrale, mapData->constructionData[tour->type].energy);
+}
+
+void tour_reduceEnergyCentrale(int index_case, int energy)
+{
+  plateau->energies[index_case] -= energy;
+  if (plateau->energies[index_case] <= 0) {
+    mapData->cases[index_case] = TERRAIN;
+  }
 }
 
 float tour_calculCadence(Tour* tour)
@@ -217,8 +268,11 @@ float tour_calculCadence(Tour* tour)
 
 Bool tour_checkAlimentation(Tour* tour)
 {
-  if (tour->centrale > 0) {
-    return TRUE;
+  int index_closest_centrale = tour_closestCentrale(tour->index_case);
+  if (index_closest_centrale != -1) {
+    if (plateau->energies[index_closest_centrale] >= mapData->constructionData[tour->type].energy) {
+      return TRUE;
+    }
   }
   else return FALSE;
 }

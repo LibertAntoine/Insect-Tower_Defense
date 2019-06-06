@@ -245,6 +245,12 @@ int itd_getConstructionData(FILE* file, TypeCase type)
     mapData->constructionData[type].range = range;
     mapData->constructionData[type].valeur_achat = valeur_achat;
     mapData->constructionData[type].valeur_revente = valeur_revente;
+
+    if (type == CENTRALE || type == LASER || type == MISSILE) {
+      int energy;
+      int noOfColors = fscanf(file, "%d", &energy);
+    mapData->constructionData[type].energy = energy;
+    }
     return CHK_SUCCESS;
   }
 }

@@ -14,6 +14,8 @@
 #include "projectile.h"
 
 // Functions
+void tour_reduceEnergyCentrale(int index_case, int energy);
+int tour_closestCentrale(int index_case);
 void tour_updateShootingAngle(Tour* tour);
 ListTours* tour_initListTours();
 int tour_getDegats(TypeCase type);
