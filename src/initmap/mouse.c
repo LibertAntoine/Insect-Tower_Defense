@@ -152,16 +152,14 @@ void mouse_handleClick()
     Mix_PlayChannel(-1, gameData->sound[HITWOOD], 0);
     mouse_handleButtonClick(gameData->button_hover);
   }
-  if(gameData->gameState == LEVELPLAY) {
-    if (current_section->name == PLATEAU) {
-      int casex, casey;
-      float casex_f, casey_f;
-      get_casesi(&casex, &casey, gameData->plateauGUI->dimensions);
-      get_casesf(&casex_f, &casey_f, gameData->plateauGUI->dimensions);
-      printf("%d %d\n", casex, casey);
-      printf("%f %f\n", casex_f, casey_f);
-      case_handleAction(casex +1, casey +1);
-    }
+  else if (current_section->name == PLATEAU) {
+    int casex, casey;
+    float casex_f, casey_f;
+    get_casesi(&casex, &casey, gameData->plateauGUI->dimensions);
+    get_casesf(&casex_f, &casey_f, gameData->plateauGUI->dimensions);
+    printf("%d %d\n", casex, casey);
+    printf("%f %f\n", casex_f, casey_f);
+    case_handleAction(casex +1, casey +1);
   }
 }
 

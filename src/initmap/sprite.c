@@ -54,10 +54,10 @@ Texture* sprite_importTexture(char image_path[], int totalX, int totalY)
     exit(CHK_ERROR_ALLOC);
   }
   SDL_Surface* texture_surface = IMG_Load(image_path);
-if(!texture_surface) {
+  if(!texture_surface) {
     printf("IMG_Load: %s\n", IMG_GetError());
     // handle error
-}
+  }
   new_texture->sprite_totalX = totalX;
   new_texture->sprite_totalY = totalY;
 
@@ -79,7 +79,7 @@ if(!texture_surface) {
 
 void sprite_init()
 {
-  gameData->textures = calloc(41, sizeof(Texture*));
+  gameData->textures = calloc(45, sizeof(Texture*));
 
   gameData->textures[SOLDER_TEX] = sprite_importTexture("images/sprite-entities/cafard.png", 2, 1); 
   gameData->textures[HUGE_SOLDER_TEX] = sprite_importTexture("images/sprite-entities/punaise.png", 2, 1); 
@@ -131,6 +131,11 @@ void sprite_init()
   gameData->textures[WINMENU_TEX] = sprite_importTexture("images/sprite-gui/WinMenu.jpg", 1, 1); 
 
   gameData->textures[WOODPLANKS_TEX] = sprite_importTexture("images/sprite-gui/wood_planks.jpg", 1, 1); 
+
+  gameData->textures[FOOD_VERYLOW_TEX] = sprite_importTexture("images/sprite-world/nourriture_verylow.png", 1, 1); 
+  gameData->textures[FOOD_LOW_TEX] = sprite_importTexture("images/sprite-world/nourriture_low.png", 1, 1); 
+  gameData->textures[FOOD_MEDIUM_TEX] = sprite_importTexture("images/sprite-world/nourriture_medium.png", 1, 1); 
+  gameData->textures[FOOD_HIGH_TEX] = sprite_importTexture("images/sprite-world/nourriture_high.png", 1, 1); 
 }
 
 SpriteTexture* sprite_loadSprite(TextureName texture_name, int loop_duration, Bool loop)

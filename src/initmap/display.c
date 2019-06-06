@@ -724,12 +724,32 @@ void display_drawSingleTower(int caseX, int caseY, TypeCase type)
         sprite_displayFixedTexture(RADAR_TEX);
         break;
       case CENTRALE:
-        sprite_displayFixedTexture(CENTRALE_TEX);
+        display_drawCentrale(index_case);
         break;
     }
   }
 
   glPopMatrix();
+}
+
+void display_drawCentrale(int index_case)
+{
+  float energy_status = (float) plateau->energies[index_case] / mapData->constructionData[CENTRALE].energy;
+  TextureName texture_name;
+  if (energy_status >= 0.75) {
+    texture_name = FOOD_HIGH_TEX;
+  }
+  else if (energy_status >= 0.5) {
+    texture_name = FOOD_MEDIUM_TEX;
+  }
+  else if (energy_status >= 0.25) {
+    texture_name = FOOD_LOW_TEX;
+  }
+  else {
+    texture_name = FOOD_VERYLOW_TEX;
+  }
+
+  sprite_displayFixedTexture(texture_name);
 }
 
 void display_drawAllTargetRanges()

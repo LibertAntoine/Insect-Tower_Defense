@@ -226,7 +226,11 @@ typedef enum TextureName {
   MAINMENU_TEX,
   LOSEMENU_TEX,
   WINMENU_TEX,
-  WOODPLANKS_TEX
+  WOODPLANKS_TEX,
+  FOOD_LOW_TEX,
+  FOOD_VERYLOW_TEX,
+  FOOD_MEDIUM_TEX,
+  FOOD_HIGH_TEX,
 } TextureName;
 
 typedef struct Texture {
