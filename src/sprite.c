@@ -34,6 +34,9 @@ TextureName sprite_getTextureNameFromButtonName(ButtonName button_name)
     case PAUSE_BTN:
       texture_name = PAUSE_TEX;
       break;
+    case QUIT_BTN:
+      texture_name = REMOVE_TEX;
+      break;
   }
   return texture_name;
 }

@@ -370,6 +370,7 @@ typedef struct Div {
 
 typedef enum ButtonName {
   PAUSE_BTN,
+  QUIT_BTN,
   LASER_BTN,
   MISSILE_BTN,
   CENTRALE_BTN,

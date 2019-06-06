@@ -738,7 +738,14 @@ void idt_load(char* itd_path)
 
 void itd_actionMenu(Button* button)
 {
-  if(gameData->gameState == MAINMENU) {
+  if (gameData->gameState == LEVELPLAY) {
+    if (button->name == QUIT_BTN) {
+      case_freePlateau();
+      Mix_PlayChannel(-1, gameData->sound[LOSELEVEL], 0);
+      gameData->gameState = LOSEMENU;
+    }
+  }
+  else if(gameData->gameState == MAINMENU) {
     if (button->name == LEVEL_BTN) {
       char pathToITD[20] = "level/";
       char ITDfile[20];

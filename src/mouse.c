@@ -101,6 +101,9 @@ void mouse_handleButtonClick(Button *button)
       case PAUSE_BTN:
         plateau->play = (plateau->play == TRUE) ? FALSE : TRUE;
         break;
+      case QUIT_BTN:
+        itd_actionMenu(button);
+        break;
       case RADAR_BTN:
         type = RADAR;
         break;
@@ -132,11 +135,11 @@ void mouse_handleButtonClick(Button *button)
         break;
     }
 
-    if (action != joueur->action) {
+    if (gameData->gameState == LEVELPLAY && action != joueur->action) {
       player_switchAction(action);
     }
 
-    if (type != joueur->type && mapData->constructionData[type].valeur_achat <= plateau->joueur->argent) {
+    if (gameData->gameState == LEVELPLAY && type != joueur->type && mapData->constructionData[type].valeur_achat <= plateau->joueur->argent) {
       player_switchTowerType(type);
     }
   }

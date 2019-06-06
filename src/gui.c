@@ -116,6 +116,7 @@ void gui_init()
 
   gameData->topGUI = gui_addChildren(HEADER, 0, 0, gameData->bodyGUI->dimensions->width, 40, gameData->bodyGUI, WOODPLANKS_TEX, TRUE);
   gui_addButton(gameData->topGUI, 600, 20, 45, 45, PAUSE_BTN, CLICKED, 0, FALSE, 0);
+  gui_addButton(gameData->topGUI, 500, 20, 45, 45, QUIT_BTN, INACTIVE, 0, FALSE, 0);
 
   gameData->plateauGUI = gui_addChildren(PLATEAU, 0, 40, gameData->bodyGUI->dimensions->width, 600, gameData->bodyGUI, 0, FALSE);
 
