@@ -8,6 +8,7 @@
     #include <GL/glu.h>
 #endif
 
+#include <SDL/SDL_mixer.h>
 #include <stdio.h>
 
 #include "structures.h"

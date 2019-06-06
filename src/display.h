@@ -26,6 +26,7 @@
 #include "sprite.h"
 #include <time.h>
 
+void display_drawBatimentRange(int caseX, int caseY, float range);
 void display_drawCentrale(int index_case);
 void display_levelTextCopy(char texte[], int button_id);
 GLuint display_initDefaultListIcon(TextureName texture_name);

@@ -471,12 +471,14 @@ void display_drawSquare(int fillMode)
 {
   glPolygonMode(GL_FRONT_AND_BACK, fillMode);
 
-  glBegin(GL_QUADS);
+  glBegin(GL_POLYGON);
   glVertex2f(-0.5,0.5);
   glVertex2f(0.5,0.5);
   glVertex2f(0.5,-0.5);
   glVertex2f(-0.5,-0.5);
   glEnd();
+
+  glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 }
 
 void display_drawTriangle(int fillMode)
@@ -488,6 +490,18 @@ void display_drawTriangle(int fillMode)
   glVertex2f(0.3, 0.3);
   glVertex2f(-0.3, 0.3); 
   glEnd();
+}
+
+void display_drawBatimentRange(int caseX, int caseY, float range)
+{
+  glPushMatrix();
+  glTranslatef(caseX, caseY, 0);
+  glTranslatef(0.5,0.5,0);
+  glScalef(1.5,1.5,1);
+  glScalef(range, range, 1);
+  glColor3f(1,1,1);
+  display_drawSquare(GL_LINE);
+  glPopMatrix();
 }
 
 void display_drawTargetRange(int caseX, int caseY, float range)
@@ -770,12 +784,13 @@ void display_drawAllTargetRanges()
       switch (generalType) {
         case BATIMENT:
           range = tour_getRange(type);
+          display_drawBatimentRange(caseX, caseY, range);
           break;
         case TOUR:
           range = tour_calculPortee(plateau->tours[index_case]);
+          display_drawTargetRange(caseX, caseY, range);
           break;
       }
-      display_drawTargetRange(caseX, caseY, range);
       glPopMatrix();
     }
   }

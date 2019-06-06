@@ -408,6 +408,7 @@ void case_actionRemove(int caseX, int caseY)
   printf("invoking remove\n");
 
   if (case_isUserPlaced(caseX, caseY)) {
+    Mix_PlayChannel(-1, gameData->sound[BLEEP], 0);
     printf("Suppression de tour avec succes, +%d\n", tour_getPrixRevente(case_getType(caseX, caseY)));
     case_removeConstruction(caseX, caseY);
     printf("Porte monaie : %d \n", plateau->joueur->argent);

@@ -23,42 +23,42 @@ void sound_init()
   son = Mix_LoadWAV("sound/addTower.ogg");
   gameData->sound[TOWER] = son;
 
-  son = Mix_LoadWAV("sound/addCentrale.wav");
+  son = Mix_LoadWAV("sound/addCentrale.ogg");
   gameData->sound[CENTRAL] = son;
   
-  son = Mix_LoadWAV("sound/projectile.wav");
+  son = Mix_LoadWAV("sound/projectile.ogg");
   gameData->sound[PROJECTILE] = son;
 
-  son = Mix_LoadWAV("sound/monsterSolder.wav");
+  son = Mix_LoadWAV("sound/monsterSolder.ogg");
   gameData->sound[SOLD] = son;
 
-  son = Mix_LoadWAV("sound/monsterGeneral.wav");
+  son = Mix_LoadWAV("sound/monsterGeneral.ogg");
   gameData->sound[GENE] = son;
 
-  son = Mix_LoadWAV("sound/monsterHuge_Solder.wav");
+  son = Mix_LoadWAV("sound/monsterHuge_Solder.ogg");
   gameData->sound[HSOLD] = son;
 
-  son = Mix_LoadWAV("sound/monsterBoss.wav");
+  son = Mix_LoadWAV("sound/monsterBoss.ogg");
   gameData->sound[BOS] = son;
 
-  son = Mix_LoadWAV("sound/beginLevel.wav");
+  son = Mix_LoadWAV("sound/beginLevel.ogg");
   gameData->sound[BEGINLEVEL] = son;
 
   son = Mix_LoadWAV("sound/levelLose.ogg");
   gameData->sound[LOSELEVEL] = son;
 
-  son = Mix_LoadWAV("sound/levelWin.wav");
+  son = Mix_LoadWAV("sound/levelWin.ogg");
   gameData->sound[WINLEVEL] = son;
 
-  son = Mix_LoadWAV("sound/snap.wav");
+  son = Mix_LoadWAV("sound/snap.ogg");
   gameData->sound[SNAP] = son;
 
-  son = Mix_LoadWAV("sound/hit-wood.wav");
+  son = Mix_LoadWAV("sound/hit-wood.ogg");
   gameData->sound[HITWOOD] = son;
 
   son = Mix_LoadWAV("sound/bleep.ogg");
   gameData->sound[BLEEP] = son;
 
-  son = Mix_LoadWAV("sound/error.wav");
+  son = Mix_LoadWAV("sound/error.ogg");
   gameData->sound[ERROR] = son;
 }
