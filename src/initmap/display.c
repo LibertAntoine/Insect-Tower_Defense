@@ -786,7 +786,7 @@ void display_drawFPS()
   if (gameData->FPS != NULL) {
     glPushMatrix();
     glTranslatef(700, 20, 0);
-    glColor3f(1, 0, 1);
+    glColor3f(1, 1, 1);
     glScalef(20*gameData->FPS->ratio,20,1);
     sprite_displayFixedTextureText(gameData->FPS);
     glPopMatrix();
@@ -1046,7 +1046,7 @@ void display_printMoney()
     sprite_displayFixedTexture(MONEY_TEX);
     glPopMatrix();
 
-    glColor3f(1,0,0);
+    glColor3f(0,1,0);
     glPushMatrix();
     glTranslatef(15, 5, 0);
     glScalef(15, 15, 1);
@@ -1056,6 +1056,7 @@ void display_printMoney()
     glPushMatrix();
     glTranslatef(30, 0, 0);
     glScalef(14*texture_texte->ratio, 14, 1);
+    glColor3f(1,1,1);
     sprite_displayFixedTextureText(texture_texte);
     glPopMatrix();
 
@@ -1071,7 +1072,7 @@ void display_printMoney()
 
 void display_top()
 {
-  glColor3f(1,1,0);
+  glColor3f(.50,0.7,1);
   display_setDrawingZone(gameData->topGUI);
   display_drawZoneBasedOnGUI(gameData->topGUI);
   display_drawButtonsBasedOnGUI(gameData->topGUI);

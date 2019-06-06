@@ -449,7 +449,7 @@ int itd_getEnergyValue(FILE* file)
 int itd_checkForMapData(FILE* file)
 {
   int originalPosition = ftell(file);
-  char label[15];
+  char label[25];
 
   if (fscanf(file, "%s", label)) {
     RGBcolor* color = malloc(sizeof(RGBcolor));

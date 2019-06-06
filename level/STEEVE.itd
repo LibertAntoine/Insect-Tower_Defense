@@ -1,7 +1,7 @@
 @ITD 3
 # This is a sample ITD file
 # Comments can be placed on any line using '#" sign as the first char
-carte level2.ppm
+carte STEEVE.ppm
 energie 180
 # A random comment
 chemin 255 255 255

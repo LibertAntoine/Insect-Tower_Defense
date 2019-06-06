@@ -44,7 +44,7 @@ void sound_init()
   son = Mix_LoadWAV("sound/beginLevel.wav");
   gameData->sound[BEGINLEVEL] = son;
 
-  son = Mix_LoadWAV("sound/levelLose.wav");
+  son = Mix_LoadWAV("sound/levelLose.ogg");
   gameData->sound[LOSELEVEL] = son;
 
   son = Mix_LoadWAV("sound/levelWin.wav");
