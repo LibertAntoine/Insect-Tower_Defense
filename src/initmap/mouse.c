@@ -149,7 +149,7 @@ void mouse_handleClick()
 {
   GUI *current_section = mouse_getSection();
   if (gameData->button_hover) {
-    Mix_PlayChannel(-1, gameData->sound[HITWOOD], 0);
+    Mix_PlayChannel(-2, gameData->sound[HITWOOD], 0);
     mouse_handleButtonClick(gameData->button_hover);
   }
   else if (current_section->name == PLATEAU && gameData->gameState == LEVELPLAY) {

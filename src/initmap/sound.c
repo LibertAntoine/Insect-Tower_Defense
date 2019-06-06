@@ -2,6 +2,7 @@
 
 void sound_init()
 {
+  Mix_Init(MIX_INIT_MOD | MIX_INIT_MP3 | MIX_INIT_OGG);
   if(Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, MIX_DEFAULT_CHANNELS, 1024) == -1) {
     printf("%s", Mix_GetError());
   }
@@ -19,10 +20,10 @@ void sound_init()
   Mix_AllocateChannels(16);
   Mix_Chunk *son;
 
-  son = Mix_LoadWAV("sound/addTower.wav");
+  son = Mix_LoadWAV("sound/addTower.ogg");
   gameData->sound[TOWER] = son;
 
-    son = Mix_LoadWAV("sound/addCentrale.wav");
+  son = Mix_LoadWAV("sound/addCentrale.wav");
   gameData->sound[CENTRAL] = son;
   
   son = Mix_LoadWAV("sound/projectile.wav");

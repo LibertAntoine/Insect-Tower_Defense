@@ -120,7 +120,7 @@ void display_genBatimentList(TypeCase type)
     glPushMatrix();
     glTranslatef(15, position*35+15, 0);
     sprintf(str, "%d", tour_getAlimentation(type));
-    display_drawSingleStat(generalType, str, FOOD_TEX, NULL);
+    display_drawSingleStat(generalType, str, FOOD_HIGH_TEX, NULL);
     position++;
     glPopMatrix();
 
@@ -169,7 +169,7 @@ void display_genTourList(Tour* tour)
     glTranslatef(15, position*35+15, 0);
     sprintf(str, "%d", tour_getAlimentation(tour->type));
     sprintf(str2, "%d",tour->centrale);
-    display_drawSingleStat(generalType, str, FOOD_TEX, str2);
+    display_drawSingleStat(generalType, str, FOOD_HIGH_TEX, str2);
     position++;
     glPopMatrix();
 
@@ -282,7 +282,7 @@ void display_initDefaultList()
       glPushMatrix();
       glTranslatef(15, position*35+15, 0);
       sprintf(str, "%d", mapData->constructionData[i].alimentation);
-      display_drawSingleStat(generalType, str, FOOD_TEX, NULL);
+      display_drawSingleStat(generalType, str, FOOD_HIGH_TEX, NULL);
     position++;
     glPopMatrix();
 
@@ -343,7 +343,7 @@ void display_initDefaultList()
     glPushMatrix();
     glTranslatef(15, position*35+15, 0);
     sprintf(str, "%d", mapData->constructionData[i].alimentation);
-    display_drawSingleStat(generalType, str, FOOD_TEX, NULL);
+    display_drawSingleStat(generalType, str, FOOD_HIGH_TEX, NULL);
     position++;
     glPopMatrix();
 
@@ -1015,7 +1015,7 @@ void display_menuButtonText(Button* button)
   glColor3f(1,1,1);
   sprite_displayFixedTexture(button->texture_name);
 
-  glScalef(0.7, 0.7, 1);
+  glScalef(0.5, 0.5, 1);
   glTranslatef(-0.5, 0,0);
 
   //glTranslatef(0.5,0.5,0);
