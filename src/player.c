@@ -110,6 +110,7 @@ void player_gagneArgent(int valeur)
 
 void player_switchAction(Action action)
 {
+  Mix_PlayChannel(-1, gameData->sound[HITWOOD], 0);
   Etat *joueur = plateau->joueur;
   printf("Changing action ");
   player_afficherAction();
@@ -123,6 +124,7 @@ void player_switchAction(Action action)
 
 void player_switchTowerType(TypeCase type)
 {
+  Mix_PlayChannel(-1, gameData->sound[HITWOOD], 0);
   Etat *joueur = plateau->joueur;
   printf("Changing tower type ");
   player_afficherEtat();
