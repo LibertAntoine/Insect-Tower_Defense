@@ -14,7 +14,7 @@ inconstructible 255 0 234
 argent 3000
 # Construction Data
 laser 1 1 2 2 0 200 100 1
-missile 2 1 1 1 0 300 150 2
+missile 2 1 2 2 0 300 150 2
 radar 0 0 0 1 2 200 100
 armement 1 0 0 0 2 400 200
 centrale 0 1 0 2 2 200 200 10
