@@ -26,10 +26,10 @@ void keyboard_handleKeypress(SDL_Event *event)
         type = MUNITION;
         break;
 
-      case '1':
+      case 'v':
         type = LASER;
         break;
-      case '2':
+      case 'b':
         type = MISSILE;
         break;
 

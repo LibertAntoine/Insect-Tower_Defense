@@ -20,9 +20,9 @@ armement 1 0 0 0 2 400 200
 centrale 0 1 0 2 2 400 200 10
 munition 0 0 1 0 2 400 200
 # Monster Data (PDV ATTACK MASS VALUE)
-solder 1.0 1.0 0.6 10.0
-huge_solder 4.0 2.0 0.7 20.0
-gereral 30.0 1.0 0.8 100.0
+solder 1.0 1.0 0.6 100.0
+huge_solder 4.0 2.0 0.7 222.0
+gereral 30.0 1.0 0.8 290.0
 boss 100.0 1.0 2 500.0
 # Data characterized by a keyword can be placed in any order
 infosNodes 26
