@@ -287,7 +287,7 @@ int itineraire_checkValidChemin(Node* node_in, Node* node_out) {
     }
     if(x1 != x2 || y1 != y2) {
       int cas = case_getCaseIndex(x1, y1);
-      if(mapData->cases[cas] != CHEMIN) {
+      if(mapData->cases[cas] != CHEMIN && mapData->cases[cas] != NOEUD) {
         return 1;
       }
     }

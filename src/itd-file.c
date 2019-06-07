@@ -417,6 +417,10 @@ int itd_getImageFilePath(FILE* file)
       currentChar = fgetc(file);
       filePath[i] = currentChar; 
     }
+    printf("%c\n", i-3);
+    printf("%c\n", i-2);
+    printf("%c\n", i-1);
+    printf("%c\n", i);
     filePath[i] = '\0';
     mapData->mapFile = filePath;
     return CHK_SUCCESS;
