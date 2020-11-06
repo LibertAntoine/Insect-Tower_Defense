@@ -63,8 +63,8 @@ Realized in May 2019.
 [**More details... (FR)**](doc/Rapport_InsectTower.pdf)
 
 <p align="center">
-<img src="doc/readme-img/InsecTower2.png?raw=true" width="50%" alt="Screenshot">
-<img src="doc/readme-img/InsecTower3.png?raw=true" width="50%" alt="Screenshot">
+<img src="doc/readme-img/InsecTower2.png?raw=true" width="45%" alt="Screenshot">
+<img src="doc/readme-img/InsecTower3.png?raw=true" width="45%" alt="Screenshot">
 </p>
 
 
